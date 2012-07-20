@@ -56,7 +56,7 @@ public class StartSearchFilter extends CompareFileFilter
     public StartSearchFilter(BaseField fldToCompare)
     {
         this();
-        this.init(null, -1, null, null, null, true, null, fldToCompare);
+        this.init(null, null, null, null, true, null, fldToCompare);
     }
     /**
      * Constructor.
@@ -65,7 +65,7 @@ public class StartSearchFilter extends CompareFileFilter
     public StartSearchFilter(BaseField fldToCompare, String strCompareOperation)
     {
         this();
-        this.init(null, -1, null, strCompareOperation, null, true, null, fldToCompare);
+        this.init(null, null, strCompareOperation, null, true, null, fldToCompare);
     }
     /**
      * Constructor.
@@ -73,10 +73,10 @@ public class StartSearchFilter extends CompareFileFilter
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      * @param pfldToCompare The field to compare.
      */
-    public void init(Record record, int fsToCheck, String strToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare, BaseField fldToCheck, BaseField fldToCompare)
+    public void init(Record record, String strToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare, BaseField fldToCheck, BaseField fldToCompare)
     {
         m_fldFakeDate = null;
-        super.init(record, fsToCheck, null, strToCompare, null, pconvFlag, bDontFilterIfNullCompare, fldToCheck, fldToCompare);
+        super.init(record, null, strToCompare, null, pconvFlag, bDontFilterIfNullCompare, fldToCheck, fldToCompare);
         if (strSeekSign == null)
             m_strSeekSign = DBConstants.BLANK;    // I Must do this here because I don't want the default value
     }

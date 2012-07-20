@@ -681,7 +681,7 @@ System.exit(0);
         FileListener listener = new CompareFileFilter(TestTable.TEST_KEY, fieldKey, "=", null, false);
         testTable.addListener(listener);
 //      FileListener behavior2 = new CompareFileFilter(TestTable.kID, "2", ">", null, false);
-        FileListener behavior2 = new CompareFileFilter(TestTable.kID, fieldID, ">", null, false);
+        FileListener behavior2 = new CompareFileFilter(TestTable.ID, fieldID, ">", null, false);
         testTable.addListener(behavior2);
         testTable.open(); // Manually open it!
         testTable.close();

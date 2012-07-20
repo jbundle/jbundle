@@ -33,14 +33,6 @@ import org.jbundle.thin.base.remote.proxy.ProxyConstants;
 public class ExtractRangeFilter extends FileFilter
 {
     /**
-     * Start field in this file.
-     */
-    protected int m_iStartFieldSeq = -1;
-    /**
-     * End field in this file.
-     */
-    protected int m_iEndFieldSeq = -1;
-    /**
      * Start of range is in this field.
      */
     protected String startFieldName = null;
@@ -80,23 +72,10 @@ public class ExtractRangeFilter extends FileFilter
      * @param fldEnd The range ends at this field's value.
      * @param iPadfldEnd Should I pad the end string field with high characters?
      */
-    public ExtractRangeFilter(int iStartFieldSeq, BaseField fldStart, int iEndFieldSeq, BaseField fldEnd, int iPadfldEnd)
-    {
-        this();
-        this.init(null, iStartFieldSeq, null, fldStart, iEndFieldSeq, null, fldEnd, iPadfldEnd);
-    }
-    /**
-     * Constructor.
-     * @param iStartFieldSeq The field in this record to start the range.
-     * @param fldStart The range starts at this field's value.
-     * @param iEndFieldSeq The field in this record to end the range (ie., and end date of a record date range).
-     * @param fldEnd The range ends at this field's value.
-     * @param iPadfldEnd Should I pad the end string field with high characters?
-     */
     public ExtractRangeFilter(String startFieldName, BaseField fldStart, String endFieldName, BaseField fldEnd, int iPadfldEnd)
     {
         this();
-        this.init(null, -1, startFieldName, fldStart, -1, endFieldName, fldEnd, iPadfldEnd);
+        this.init(null, startFieldName, fldStart, endFieldName, fldEnd, iPadfldEnd);
     }
     /**
      * Constructor.
@@ -108,30 +87,7 @@ public class ExtractRangeFilter extends FileFilter
     public ExtractRangeFilter(String startFieldName, BaseField fldStart, BaseField fldEnd, int iPadfldEnd)
     {
         this();
-        this.init(null, -1, startFieldName, fldStart, -1, null, fldEnd, iPadfldEnd);
-    }
-    /**
-     * Constructor.
-     * @param iFieldSeq The field in this record to compare to the range.
-     * @param fldStart The range starts at this field's value.
-     * @param fldEnd The range ends at this field's value.
-     * @param iPadfldEnd Should I pad the end string field with high characters?
-     */
-    public ExtractRangeFilter(int iFieldSeq, BaseField fldStart, BaseField fldEnd, int iPadfldEnd)
-    {
-        this();
-        this.init(null, iFieldSeq, null, fldStart, -1, null, fldEnd, iPadfldEnd);
-    }
-    /**
-     * Constructor.
-     * @param iFieldSeq The field in this record to compare to the range.
-     * @param fldStart The range starts at this field's value.
-     * @param iPadfldEnd Should I pad the end string field with high characters?
-     */
-    public ExtractRangeFilter(int iFieldSeq, BaseField fldStart, int iPadfldEnd)
-    {
-        this();
-        this.init(null, iFieldSeq, null, fldStart, -1, null, null, iPadfldEnd);
+        this.init(null, startFieldName, fldStart, null, fldEnd, iPadfldEnd);
     }
     /**
      * Constructor.
@@ -142,7 +98,7 @@ public class ExtractRangeFilter extends FileFilter
     public ExtractRangeFilter(String startFieldName, BaseField fldStart, int iPadfldEnd)
     {
         this();
-        this.init(null, -1, startFieldName, fldStart, -1, null, null, iPadfldEnd);
+        this.init(null, startFieldName, fldStart, null, null, iPadfldEnd);
     }
     /**
      * Constructor (using the default pad).
@@ -152,17 +108,7 @@ public class ExtractRangeFilter extends FileFilter
     public ExtractRangeFilter(String startFieldName, BaseField fldStart)
     {
         this();
-        this.init(null, -1, startFieldName, fldStart, -1, null, null, PAD_DEFAULT);
-    }
-    /**
-     * Constructor (using the default pad).
-     * @param iFieldSeq The field in this record to compare to the range.
-     * @param fldStart The range starts at this field's value.
-     */
-    public ExtractRangeFilter(int iFieldSeq, BaseField fldStart)
-    {
-        this();
-        this.init(null, iFieldSeq, null, fldStart, -1, null, null, PAD_DEFAULT);
+        this.init(null, startFieldName, fldStart, null, null, PAD_DEFAULT);
     }
     /**
      * Constructor.
@@ -173,13 +119,10 @@ public class ExtractRangeFilter extends FileFilter
      * @param fldEnd The range ends at this field's value.
      * @param iPadfldEnd Should I pad the end string field with high characters?
      */
-    public void init(Record record, int iStartFieldSeq, String startFieldName, BaseField fldStart, int iEndFieldSeq, String endFieldName, BaseField fldEnd, int iPadfldEnd)
+    public void init(Record record, String startFieldName, BaseField fldStart, String endFieldName, BaseField fldEnd, int iPadfldEnd)
     {
         super.init(record);
         this.setMasterSlaveFlag(FileListener.RUN_IN_SLAVE);   // This runs on the slave (if there is a slave)
-
-        m_iStartFieldSeq = iStartFieldSeq;
-        m_iEndFieldSeq = iEndFieldSeq;
 
         m_fldStart = fldStart;
         m_fldEnd = fldEnd;
@@ -187,8 +130,6 @@ public class ExtractRangeFilter extends FileFilter
         this.startFieldName = startFieldName;
         this.endFieldName = endFieldName;
 
-        if (m_iEndFieldSeq == -1)
-            m_iEndFieldSeq = m_iStartFieldSeq;
         if (this.endFieldName == null)
             this.endFieldName = this.startFieldName;
         if (m_fldEnd == null)
@@ -212,7 +153,7 @@ public class ExtractRangeFilter extends FileFilter
     public Object clone() throws CloneNotSupportedException
     {
         ExtractRangeFilter listener = new ExtractRangeFilter();
-        listener.init(null, m_iStartFieldSeq, startFieldName, m_fldStart, m_iEndFieldSeq, endFieldName, m_fldEnd, m_iPadfldEnd);
+        listener.init(null, startFieldName, m_fldStart, endFieldName, m_fldEnd, m_iPadfldEnd);
         return listener;
     }
     /**
@@ -228,7 +169,7 @@ public class ExtractRangeFilter extends FileFilter
         boolean bDontSkip2 = true;
         if (!m_fldStart.isNull())
         {
-            BaseField endField = (endFieldName != null) ? this.getOwner().getField(endFieldName) : this.getOwner().getField(m_iEndFieldSeq);
+            BaseField endField = this.getOwner().getField(endFieldName);
             bDontSkip2 = this.fieldCompare(endField, m_fldStart, GREATER_THAN_EQUAL, strbFilter, bIncludeFileName, vParamList);
         }
         BaseField pfldHigh = m_fldEnd;
@@ -248,7 +189,7 @@ public class ExtractRangeFilter extends FileFilter
         boolean bDontSkip = true;
         if (!m_fldEnd.isNull())
         {
-            BaseField startField = (startFieldName != null) ? this.getOwner().getField(startFieldName) : this.getOwner().getField(m_iStartFieldSeq); 
+            BaseField startField = this.getOwner().getField(startFieldName);
             bDontSkip = this.fieldCompare(startField, pfldHigh, LESS_THAN_EQUAL, strbFilter, bIncludeFileName, vParamList);
         }
         if (m_iPadfldEnd != DONT_PAD_END_FIELD)
@@ -274,8 +215,6 @@ public class ExtractRangeFilter extends FileFilter
     public void initRemoteStub(ObjectOutputStream daOut)
     {
         try   {
-            daOut.writeInt(m_iStartFieldSeq);
-            daOut.writeInt(m_iEndFieldSeq);
             daOut.writeUTF(startFieldName != null ? startFieldName : ProxyConstants.NULL);
             daOut.writeUTF(endFieldName != null ? endFieldName : ProxyConstants.NULL);
             this.writeField(daOut, m_fldStart);
@@ -293,8 +232,6 @@ public class ExtractRangeFilter extends FileFilter
     public void initRemoteSkel(ObjectInputStream daIn)
     {
         try   {
-            int iStartFieldSeq = daIn.readInt();
-            int iEndFieldSeq = daIn.readInt();
             String startFieldName = daIn.readUTF();
             if (ProxyConstants.NULL.equals(startFieldName))
                 startFieldName = null;
@@ -305,7 +242,7 @@ public class ExtractRangeFilter extends FileFilter
             BaseField fldEnd = this.readField(daIn, (BaseField)m_fldEnd);
             int iPadfldEnd = daIn.readInt();
 
-            this.init(null, iStartFieldSeq, startFieldName, fldStart, iEndFieldSeq, endFieldName, fldEnd, iPadfldEnd);
+            this.init(null, startFieldName, fldStart, endFieldName, fldEnd, iPadfldEnd);
         } catch (IOException ex)    {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex)   {

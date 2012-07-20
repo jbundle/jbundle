@@ -81,7 +81,7 @@ public class LogicFileScreen extends Screen
             SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), LogicFile.METHOD_CLASS_NAME, null, null, null, null, true);
             record.addListener(listener);
         }
-        MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
+        MainFieldHandler fieldBeh = new MainFieldHandler(null);
         this.getMainRecord().getField(LogicFile.METHOD_NAME).addListener(fieldBeh);
 
     }

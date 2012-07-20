@@ -45,17 +45,7 @@ public class ReComputeEndDateHandler extends ReComputeFieldHandler
     public ReComputeEndDateHandler(String targetFieldName, NumberField fldTimeField)
     {
         this();
-        this.init(null, -1, targetFieldName, fldTimeField);
-    }
-    /**
-     * Constructor.
-     * @param iTargetFieldSeq The date field sequence in this owner to use to calc the difference.
-     * @param fldOtherDate The other date field to use in calculating the date difference. If null, uses the current time.
-     */
-    public ReComputeEndDateHandler(int iTargetFieldSeq, NumberField fldTimeField)
-    {
-        this();
-        this.init(null, iTargetFieldSeq, null, fldTimeField);
+        this.init(null, targetFieldName, fldTimeField);
     }
     /**
      * Constructor.
@@ -63,10 +53,10 @@ public class ReComputeEndDateHandler extends ReComputeFieldHandler
      * @param iTargetFieldSeq The date field sequence in this owner to use to calc the difference.
      * @param fldOtherDate The other date field to use in calculating the date difference. If null, uses the current time.
      */
-    public void init(BaseField field, int iTargetFieldSeq, String targetFieldName, NumberField fldTimeField)
+    public void init(BaseField field, String targetFieldName, NumberField fldTimeField)
     {
         m_fldTimeField = fldTimeField;
-        super.init(field, iTargetFieldSeq, targetFieldName, null);
+        super.init(field, targetFieldName, null);
     }
     /**
      * Compute the target value.

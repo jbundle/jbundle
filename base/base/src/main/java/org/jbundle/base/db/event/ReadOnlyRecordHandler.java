@@ -29,10 +29,6 @@ import org.jbundle.thin.base.db.buff.VectorBuffer;
 public class ReadOnlyRecordHandler extends FileListener
 {
     /**
-     * The sequence of the date changed field in this record.
-     */
-    protected int m_iMainFilesFieldSeq = -1;
-    /**
      * The date changed field in this record.
      */
     protected BaseField m_field = null;
@@ -54,30 +50,12 @@ public class ReadOnlyRecordHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param iMainFilesField The sequence of the date changed field in this record.
-     */
-    public ReadOnlyRecordHandler(int iMainFilesField)
-    {
-        this();
-        this.init(null, null,  iMainFilesField, false);
-    }
-    /**
-     * Constructor.
-     * @param iMainFilesField The sequence of the date changed field in this record.
-     */
-    public ReadOnlyRecordHandler(int iMainFilesField, boolean bNewOnChange)
-    {
-        this();
-        this.init(null, null,  iMainFilesField, bNewOnChange);
-    }
-    /**
-     * Constructor.
      * @param field The date changed field in this record.
      */
     public ReadOnlyRecordHandler(BaseField field)
     {
         this();
-        this.init(null, field,  -1, false);
+        this.init(null, field,  false);
     }
     /**
      * Constructor.
@@ -86,7 +64,7 @@ public class ReadOnlyRecordHandler extends FileListener
     public ReadOnlyRecordHandler(BaseField field, boolean bNewOnChange)
     {
         this();
-        this.init(null, field,  -1, bNewOnChange);
+        this.init(null, field,  bNewOnChange);
     }
     /**
      * Constructor.
@@ -95,10 +73,9 @@ public class ReadOnlyRecordHandler extends FileListener
      * @param field The date changed field in this record.
      * @param bNewOnChange If true, create a new record on change.
      */
-    public void init(Record record, BaseField field, int iMainFilesField, boolean bNewOnChange)
+    public void init(Record record, BaseField field, boolean bNewOnChange)
     {
         super.init(record);
-        m_iMainFilesFieldSeq = iMainFilesField;
         m_field = field;
         m_bNewOnChange = bNewOnChange;
     }
@@ -111,12 +88,6 @@ public class ReadOnlyRecordHandler extends FileListener
     public void setOwner(ListenerOwner owner)
     {
         super.setOwner(owner);
-        if (this.getOwner() != null)
-        {
-            if (m_field == null)
-                if (m_iMainFilesFieldSeq != -1)
-                    m_field = this.getOwner().getField(m_iMainFilesFieldSeq);
-        }
     }
     /**
      * Called when a valid record is read from the table/query.

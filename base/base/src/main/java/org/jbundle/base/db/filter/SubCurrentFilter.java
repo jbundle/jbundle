@@ -69,7 +69,7 @@ public class SubCurrentFilter extends DependentFileFilter
      */
     public void init(Record record, int iLastModifiedToSet, boolean bStart, boolean bEnd)
     {
-        super.init(record, -1, null, null, -1, null, null, -1, null, null);
+        super.init(record, null, null, null, null, null, null);
         this.setInitialKey(bStart);
         this.setEndKey(bEnd);
         m_iLastModifiedToSet = iLastModifiedToSet;

@@ -16,7 +16,7 @@
   <properties>
     <jbundlePackageExport>
         ${jbundlePackageFilter};version=${project.version},
-        org.jbundle.app.program.issue;version=${project.version},
+        org.jbundle.app.program.issue.*;version=${project.version},
     </jbundlePackageExport> <!-- Bundle package to export -->
   </properties>
 

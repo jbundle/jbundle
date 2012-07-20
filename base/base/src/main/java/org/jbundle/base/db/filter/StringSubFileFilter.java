@@ -51,24 +51,10 @@ public class StringSubFileFilter extends DependentFileFilter
      * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
      * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
      */
-    public StringSubFileFilter(String mainString, int iFieldSeq, String strSecond, int fieldSeq2, String strThird, int fieldSeq3)
-    {
-        this();
-        this.init(null, mainString, iFieldSeq, null, null, strSecond, fieldSeq2, null, null, strThird, fieldSeq3, null, null);
-    }
-    /**
-     * Constructor.
-     * @param strFirst First string in the key fields.
-     * @param strSecond Second string in the key fields.
-     * @param strThird Third string in the key fields.
-     * @param iFieldSeq The First field sequence of the key.
-     * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
-     * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
-     */
     public StringSubFileFilter(String mainString, String fieldName, String strSecond, String fieldName2, String strThird, String fieldName3)
     {
         this();
-        this.init(null, mainString, -1, fieldName, null, strSecond, -1, fieldName2, null, strThird, -1, fieldName3, null);
+        this.init(null, mainString, fieldName, null, strSecond, fieldName2, null, strThird, fieldName3, null);
     }
     /**
      * Constructor.
@@ -82,7 +68,7 @@ public class StringSubFileFilter extends DependentFileFilter
     public StringSubFileFilter(String mainString, BaseField fldThisFile, String strSecond, BaseField fldThisFile2, String strThird, BaseField fldThisFile3)
     {
         this();
-        this.init(null, mainString, -1, null, fldThisFile, strSecond, -1, null, fldThisFile2, strThird, -1, null, fldThisFile3);
+        this.init(null, mainString, null, fldThisFile, strSecond, null, fldThisFile2, strThird, null, fldThisFile3);
     }
     /**
      * Constructor.
@@ -96,9 +82,9 @@ public class StringSubFileFilter extends DependentFileFilter
      * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
      * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
      */
-    public void init(Record record, String mainString, int iFieldSeq, String fieldName, BaseField fldThisFile, String strSecond, int fieldSeq2, String fieldName2, BaseField fldThisFile2, String strThird, int fieldSeq3, String fieldName3, BaseField fldThisFile3)
+    public void init(Record record, String mainString, String fieldName, BaseField fldThisFile, String strSecond, String fieldName2, BaseField fldThisFile2, String strThird, String fieldName3, BaseField fldThisFile3)
     {
-        super.init(record, iFieldSeq, fieldName, fldThisFile, fieldSeq2, fieldName2, fldThisFile2, fieldSeq3, fieldName3, fldThisFile3);
+        super.init(record, fieldName, fldThisFile, fieldName2, fldThisFile2, fieldName3, fldThisFile3);
         m_strFirst = mainString;
         m_strSecond = strSecond;
         m_strThird = strThird;
@@ -111,7 +97,8 @@ public class StringSubFileFilter extends DependentFileFilter
      */
     public Object clone() throws CloneNotSupportedException
     {
-        StringSubFileFilter newBehavior = new StringSubFileFilter(m_strFirst, m_iThisFileFieldSeq, m_strSecond, m_iThisFileFieldSeq2, m_strThird, m_iThisFileFieldSeq3);
+        StringSubFileFilter newBehavior = null;
+        newBehavior = new StringSubFileFilter(m_strFirst, thisFileFieldName, m_strSecond, thisFileFieldName2, m_strThird, thisFileFieldName3);
         return newBehavior;
     }
     /**

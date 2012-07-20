@@ -81,7 +81,7 @@ public class FieldDataScreen extends Screen
             SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), FieldData.FIELD_FILE_NAME, null, null, null, null, true);
             record.addListener(listener);
         }
-        MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
+        MainFieldHandler fieldBeh = new MainFieldHandler(null);
         this.getMainRecord().getField(FieldData.FIELD_NAME).addListener(fieldBeh);
         this.getMainRecord().setKeyArea(FieldData.FIELD_FILE_NAME_KEY);
     }

@@ -178,7 +178,7 @@ public class ConvertClass extends ConvertDB
         if (recDetail.getListener(SubFileFilter.class.getName()) == null)
         {
             recDetail.setKeyArea(iKeyArea);
-            recDetail.addListener(filter = new StringSubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME).toString(), iSeq, null, -1, null, -1));
+            recDetail.addListener(filter = new StringSubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME).toString(), recDetail.getKeyArea().getField(0).getFieldName(), null, null, null, null));
         }
         try   {
             recDetail.close();

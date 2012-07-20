@@ -32,30 +32,21 @@ public class MainReadOnlyHandler extends MainFieldHandler
     }
     /**
      * Constructor.
-     * @param iKeySeq The key area to read.
-     */
-    public MainReadOnlyHandler(int iKeySeq)
-    {
-        this();
-        this.init(null, null, iKeySeq);
-    }
-    /**
-     * Constructor.
      * @param iKeySeq The key area this field accesses.
      */
     public MainReadOnlyHandler(String keyName)
     {
         this();
-        this.init(null, keyName, -1);
+        this.init(null, keyName);
     }
     /**
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      * @param iKeySeq The key area to read.
      */
-    public void init(BaseField field, String keyName, int iKeySeq)
+    public void init(BaseField field, String keyName)
     {
-        super.init(field, keyName, iKeySeq);
+        super.init(field, keyName);
         
         m_bReadOnly = true;
     }

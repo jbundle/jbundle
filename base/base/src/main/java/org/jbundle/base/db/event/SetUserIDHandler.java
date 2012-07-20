@@ -7,7 +7,6 @@
 package org.jbundle.base.db.event;
 
 import org.jbundle.base.db.Record;
-import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.util.BaseApplication;
@@ -22,10 +21,6 @@ import org.jbundle.thin.base.db.FieldInfo;
  */
 public class SetUserIDHandler extends FileListener
 {
-    /**
-     * Sequence of the user id field.
-     */
-    protected int fieldSeq = -1;
     /**
      * Sequence of the user id field.
      */
@@ -47,20 +42,10 @@ public class SetUserIDHandler extends FileListener
      * @param iFieldSeq Sequence of the user id field.
      * @param iFirstTimeOnly Set it on the an add (not on update) only?
      */
-    public SetUserIDHandler(int iFieldSeq, boolean bFirstTimeOnly)
-    {
-        this();
-        this.init(null, null, iFieldSeq, bFirstTimeOnly);
-    }
-    /**
-     * Constructor.
-     * @param iFieldSeq Sequence of the user id field.
-     * @param iFirstTimeOnly Set it on the an add (not on update) only?
-     */
     public SetUserIDHandler(String userIdFieldName, boolean bFirstTimeOnly)
     {
         this();
-        this.init(null, userIdFieldName, -1, bFirstTimeOnly);
+        this.init(null, userIdFieldName, bFirstTimeOnly);
     }
     /**
      * Constructor.
@@ -68,10 +53,9 @@ public class SetUserIDHandler extends FileListener
      * @param iFieldSeq Sequence of the user id field.
      * @param iFirstTimeOnly Set it on the first time only?
      */
-    public void init(Record thisFile, String userIdFieldName, int iFieldSeq, boolean bFirstTimeOnly)
+    public void init(Record thisFile, String userIdFieldName, boolean bFirstTimeOnly)
     {
         super.init(thisFile);
-        this.fieldSeq = iFieldSeq;
         this.userIdFieldName = userIdFieldName;
         m_bFirstTimeOnly = bFirstTimeOnly;
     }
@@ -84,9 +68,6 @@ public class SetUserIDHandler extends FileListener
     public void setOwner(ListenerOwner owner)
     {
         super.setOwner(owner);
-        if (this.getOwner() != null)
-            if (userIdFieldName == null)
-                userIdFieldName = this.getOwner().getField(fieldSeq).getFieldName();
     }
     /**
      * Called when a new blank record is required for the table/query.

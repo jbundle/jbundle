@@ -11,7 +11,6 @@ package org.jbundle.base.db.event;
  */
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.ListenerOwner;
-import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.Freeable;
 import org.jbundle.thin.base.db.FieldInfo;
 

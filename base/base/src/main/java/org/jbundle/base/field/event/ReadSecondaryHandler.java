@@ -40,7 +40,6 @@ public class ReadSecondaryHandler extends FieldListener
     /**
      * The key area in the secondary record to read from.
      */
-    protected int m_iQueryKeyArea = -1;
     protected String keyAreaName = null;
     /**
      * The main key field in the secondary record.
@@ -76,17 +75,7 @@ public class ReadSecondaryHandler extends FieldListener
     public ReadSecondaryHandler(Record record)
     {
         this();
-        this.init(null, record, DBConstants.MAIN_KEY_AREA, null, true, false, true);
-    }
-    /**
-     * Constructor.
-     * @param record The secondary record to read.
-     * @param iQueryKeyArea The key area to read from.
-     */
-    public ReadSecondaryHandler(Record record, int iQueryKeyArea)
-    {
-        this();
-        this.init(null, record, iQueryKeyArea, null, true, false, true);
+        this.init(null, record, null, true, false, true);
     }
     /**
      * Constructor.
@@ -96,7 +85,7 @@ public class ReadSecondaryHandler extends FieldListener
     public ReadSecondaryHandler(Record record, String keyAreaName)
     {
         this();
-        this.init(null, record, -1, keyAreaName, true, false, true);
+        this.init(null, record, keyAreaName, true, false, true);
     }
     /**
      * Constructor.
@@ -109,20 +98,7 @@ public class ReadSecondaryHandler extends FieldListener
     public ReadSecondaryHandler(Record record, String keyAreaName, boolean bCloseOnFree, boolean bUpdateRecord, boolean bAllowNull)
     {
         this();
-        this.init(null, record, -1, keyAreaName, bCloseOnFree, bUpdateRecord, bAllowNull);
-    }
-    /**
-     * Constructor.
-     * @param record The secondary record to read.
-     * @param iQueryKeyArea The key area to read from.
-     * @param bCloseOnFree Close the record when this behavior is removed?
-     * @param bUpdateRecord Update the secondary record before reading (if it has changed)?
-     * @param bAllowNull If true, a null field value will trigger a new record; if false a key not found error.
-     */
-    public ReadSecondaryHandler(Record record, int iQueryKeyArea, boolean bCloseOnFree, boolean bUpdateRecord, boolean bAllowNull)
-    {
-        this();
-        this.init(null, record, iQueryKeyArea, null, bCloseOnFree, bUpdateRecord, bAllowNull);
+        this.init(null, record, keyAreaName, bCloseOnFree, bUpdateRecord, bAllowNull);
     }
     /**
      * Initialize this listener.
@@ -133,11 +109,10 @@ public class ReadSecondaryHandler extends FieldListener
      * @param bUpdateRecord Update the secondary record before reading (if it has changed)?
      * @param bAllowNull If true, a null field value will trigger a new record; if false a key not found error.
      */
-    public void init(BaseField field, Record record, int iQueryKeyArea, String keyAreaName, boolean bCloseOnFree, boolean bUpdateRecord, boolean bAllowNull)
+    public void init(BaseField field, Record record, String keyAreaName, boolean bCloseOnFree, boolean bUpdateRecord, boolean bAllowNull)
     {
         super.init(field);
         m_record = record;
-        m_iQueryKeyArea = iQueryKeyArea;
         this.keyAreaName = keyAreaName;
         m_KeyField = null;
         m_bCloseOnFree = bCloseOnFree;
@@ -200,24 +175,13 @@ public class ReadSecondaryHandler extends FieldListener
             {
                 if (keyAreaName != null)
                     m_KeyField = m_record.getKeyArea(keyAreaName).getField(DBConstants.MAIN_KEY_FIELD);   // Handle field
-                else
-                    m_KeyField = m_record.getKeyArea(m_iQueryKeyArea).getField(DBConstants.MAIN_KEY_FIELD);   // Handle field
                 moveBehavior = new MoveOnValidHandler(((BaseField)owner), m_KeyField, null, true, true);        // Its okay to sync the key with references
                 m_KeyField = null;
             } 
             else
             {
-                MainReadOnlyHandler listener = null;
-                if (keyAreaName != null)
-                {
-                    listener = new MainReadOnlyHandler(keyAreaName);
-                    m_KeyField = m_record.getKeyArea(keyAreaName).getField(DBConstants.MAIN_KEY_FIELD);
-                }
-                else
-                {
-                    listener = new MainReadOnlyHandler(m_iQueryKeyArea);
-                    m_KeyField = m_record.getKeyArea(m_iQueryKeyArea).getField(DBConstants.MAIN_KEY_FIELD);
-                }
+                MainReadOnlyHandler listener = new MainReadOnlyHandler(keyAreaName);
+                m_KeyField = m_record.getKeyArea(keyAreaName).getField(DBConstants.MAIN_KEY_FIELD);
                 m_KeyField.addListener(listener); //    Make sure this field has the BaseListener to read it's file
                     // Make sure you move the key field to this field!!
                 moveBehavior = new MoveOnValidHandler(((BaseField)owner), m_KeyField, null, false, true);
@@ -426,8 +390,6 @@ public class ReadSecondaryHandler extends FieldListener
     {
         if (keyAreaName != null)
             return keyAreaName;
-        if (m_iQueryKeyArea != -1)
-            return m_record.getKeyArea(m_iQueryKeyArea).getKeyName();
         return Record.ID_KEY;    // Main key area
     }
 }

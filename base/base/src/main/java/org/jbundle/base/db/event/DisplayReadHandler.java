@@ -23,7 +23,6 @@ import org.jbundle.model.DBException;
 public class DisplayReadHandler extends FileListener
 {
     protected Record m_FileToRead = null;
-    protected int m_iMainField = -1;
     String mainFieldName = null;
     protected BaseField m_fldMain = null;
     protected int m_iFileKeyField = -1;
@@ -46,18 +45,7 @@ public class DisplayReadHandler extends FileListener
     public DisplayReadHandler(String mainFieldName, Record fileToRead, String fileKeyAreaName)
     {
         this();
-        this.init(null, -1, mainFieldName, fileToRead, -1, fileKeyAreaName);
-    }
-    /**
-     * Constructor.
-     * @param iMainField The field to use as a key in the file to read.
-     * @param fileToRead The secondary file to read when I read a record from the owner (onvalidrecord).
-     * @param iFileKeyField The key field in the secondary file.
-     */
-    public DisplayReadHandler(int iMainField, Record fileToRead, int iFileKeyField)
-    {
-        this();
-        this.init(null, iMainField, null, fileToRead, iFileKeyField, null);
+        this.init(null, mainFieldName, fileToRead, -1, fileKeyAreaName);
     }
     /**
      * Constructor.
@@ -68,7 +56,7 @@ public class DisplayReadHandler extends FileListener
     public DisplayReadHandler(Record fileToRead)
     {
         this();
-        this.init(null, -1, null, fileToRead, DBConstants.MAIN_FIELD, null);
+        this.init(null, null, fileToRead, DBConstants.MAIN_FIELD, null);
     }
     /**
      * Constructor.
@@ -77,10 +65,9 @@ public class DisplayReadHandler extends FileListener
      * @param fileToRead The secondary file to read when I read a record from the owner (onvalidrecord).
      * @param iFileKeyField The key field in the secondary file.
      */
-    public void init(Record record, int iMainField, String mainFieldName, Record fileToRead, int iFileKeyField, String fileKeyAreaName)
+    public void init(Record record, String mainFieldName, Record fileToRead, int iFileKeyField, String fileKeyAreaName)
     {
         m_FileToRead = fileToRead;
-        m_iMainField = iMainField;
         this.mainFieldName = mainFieldName;
         m_iFileKeyField = iFileKeyField;
         this.fileKeyFieldName = fileKeyAreaName;
@@ -98,7 +85,7 @@ public class DisplayReadHandler extends FileListener
         super.setOwner(owner);
         if (owner != null)
         {
-            if ((m_iMainField == -1) && (mainFieldName == null))
+            if (mainFieldName == null)
                 m_fldMain = this.getOwner().getReferenceField(m_FileToRead);
             if (fileKeyFieldName != null)
                 m_FileToRead.setKeyArea(m_FileToRead.getField(fileKeyFieldName));
@@ -115,7 +102,7 @@ public class DisplayReadHandler extends FileListener
     public Object clone() throws CloneNotSupportedException
     {
         DisplayReadHandler listener = new DisplayReadHandler();
-        listener.init(null, m_iMainField, mainFieldName, m_FileToRead, m_iFileKeyField, fileKeyFieldName);
+        listener.init(null, mainFieldName, m_FileToRead, m_iFileKeyField, fileKeyFieldName);
         return listener;
     }
     /**
@@ -127,8 +114,6 @@ public class DisplayReadHandler extends FileListener
     {
         if (m_fldMain == null)
             m_fldMain = this.getOwner().getField(mainFieldName);
-        if (m_fldMain == null)
-            m_fldMain = this.getOwner().getField(m_iMainField);
         if (m_fldMain == null)
             return;     // Error - Field not found?
         if (fileKeyFieldName != null)

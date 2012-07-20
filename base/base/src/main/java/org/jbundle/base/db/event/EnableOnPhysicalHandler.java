@@ -47,7 +47,7 @@ public class EnableOnPhysicalHandler extends EnableOnValidHandler
      */
     public void init(Record record)
     {
-        super.init(record, null, -1, null, true, true, null);
+        super.init(record, null, null, true, true, null);
     }
     /**
      * Called when a valid record is read from the table/query.

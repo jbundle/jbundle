@@ -23,7 +23,7 @@ import org.jbundle.base.model.DBConstants;
  */
 public class CopySoundexHandler extends FieldListener
 {
-    protected int m_iFieldSeq = 0;
+    protected String m_iFieldSeq = null;
 
     /**
      * Constructor.
@@ -36,7 +36,7 @@ public class CopySoundexHandler extends FieldListener
      * Constructor.
      * @param iFieldSeq The field to move the destination soundex to.
      */
-    public CopySoundexHandler(int iFieldSeq)
+    public CopySoundexHandler(String iFieldSeq)
     {
         this();
         this.init(null, iFieldSeq);
@@ -46,7 +46,7 @@ public class CopySoundexHandler extends FieldListener
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      * @param iFieldSeq The field to move the destination soundex to.
      */
-    public void init(BaseField field, int iFieldSeq)
+    public void init(BaseField field, String iFieldSeq)
     {
         super.init(field);
         m_iFieldSeq = iFieldSeq;

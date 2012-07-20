@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -97,6 +98,8 @@ public class Util extends Object
     {
         if (args == null)
             return properties;
+        if (properties == null)
+        	properties = new HashMap<String,Object>();
         for (int i = 0; i < args.length; i++)
             Util.addParam(properties, args[i], false);
         return properties;

@@ -82,7 +82,7 @@ public class BaseStatus extends VirtualRecord
      */
     public int getDatabaseType()
     {
-        return DBConstants.TABLE;
+        return DBConstants.REMOTE | DBConstants.SHARED_DATA | DBConstants.HIERARCHICAL | DBConstants.LOCALIZABLE;
     }
     /**
      * Add this field in the Record's field sequence.

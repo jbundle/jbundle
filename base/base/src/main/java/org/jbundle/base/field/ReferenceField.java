@@ -238,7 +238,7 @@ public class ReferenceField extends RecordReferenceField
                 record.addListener(new MoveOnValidHandler(this, recordKeyField));
         MainReadOnlyHandler listener3 = (MainReadOnlyHandler)recordKeyField.getListener(MainReadOnlyHandler.class.getName());
         if (listener3 == null)
-            recordKeyField.addListener(new MainReadOnlyHandler(DBConstants.MAIN_KEY_AREA));
+            recordKeyField.addListener(new MainReadOnlyHandler(null));
     }
     /**
      * Get the referenced record's ID given the code.

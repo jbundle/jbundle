@@ -81,7 +81,7 @@ public class ClassFieldsScreen extends Screen
             SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), ClassFields.CLASS_INFO_CLASS_NAME, null, null, null, null, true);
             record.addListener(listener);
         }
-        MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
+        MainFieldHandler fieldBeh = new MainFieldHandler(null);
         this.getMainRecord().getField(ClassFields.CLASS_FIELD_NAME).addListener(fieldBeh);
     }
     /**

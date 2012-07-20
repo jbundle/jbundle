@@ -35,7 +35,6 @@ public class MainFieldHandler extends FieldListener
     /**
      * The key area to check.
      */
-    protected int keySeq = -1;
     protected String keyName = null;
     /**
      * Read only?
@@ -53,29 +52,19 @@ public class MainFieldHandler extends FieldListener
      * Constructor.
      * @param iKeySeq The key area this field accesses.
      */
-    public MainFieldHandler(int iKeySeq)
-    {
-        this();
-        this.init(null, null, iKeySeq);
-    }
-    /**
-     * Constructor.
-     * @param iKeySeq The key area this field accesses.
-     */
     public MainFieldHandler(String keyName)
     {
         this();
-        this.init(null, keyName, -1);
+        this.init(null, keyName);
     }
     /**
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      * @param iKeySeq The key area this field accesses.
      */
-    public void init(BaseField field, String keyName, int iKeySeq)
+    public void init(BaseField field, String keyName)
     {
         super.init(field);
-        this.keySeq = iKeySeq;
         this.keyName = keyName;
         m_bInitMove = false;        // DONT respond to these moves!
         m_bReadMove = false;
@@ -91,8 +80,6 @@ public class MainFieldHandler extends FieldListener
         super.setOwner(owner);
         if (this.getOwner() != null)
         {
-            if (keyName == null)
-                keyName = this.getOwner().getRecord().getKeyArea(keySeq).getKeyName();
             if (this.getOwner().getListener(this.getClass()) != this)
                 if (((MainFieldHandler)this.getOwner().getListener(this.getClass())).getActualKeyArea() == this.getActualKeyArea())
                     this.getOwner().removeListener(this.getOwner().getListener(this.getClass()), true); // Make sure there is only one of these
@@ -108,7 +95,7 @@ public class MainFieldHandler extends FieldListener
     public boolean syncClonedListener(BaseField field, FieldListener listener, boolean bInitCalled)
     {
         if (!bInitCalled)
-            ((MainFieldHandler)listener).init(null, keyName, keySeq);
+            ((MainFieldHandler)listener).init(null, keyName);
         return super.syncClonedListener(field, listener, true);
     }
     /**

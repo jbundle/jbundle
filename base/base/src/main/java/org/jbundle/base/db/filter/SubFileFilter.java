@@ -74,38 +74,10 @@ public class SubFileFilter extends DependentFileFilter
      * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
      * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
      */
-    public SubFileFilter(BaseField fldMainFile, int iFieldSeq, BaseField fldMainFile2, int iFieldSeq2, BaseField fldMainFile3, int iFieldSeq3)
-    {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
-        this();
-        this.init(null, null, null, fldMainFile, iFieldSeq, null, fldMainFile2, iFieldSeq2, null, fldMainFile3, iFieldSeq3, null, false, false, true);
-    }
-    /**
-     * Constructor.
-     * @param fldMainFile First field in the key fields.
-     * @param fldMainFile2 Second field in the key fields.
-     * @param fldMainFile3 Third field in the key fields.
-     * @param iFieldSeq The First field sequence of the key.
-     * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
-     * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
-     */
     public SubFileFilter(BaseField fldMainFile, String fieldName, BaseField fldMainFile2, String fieldName2, BaseField fldMainFile3, String fieldName3)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, null, null, fldMainFile, -1, fieldName, fldMainFile2, -1, fieldName2, fldMainFile3, -1, fieldName3, false, false, true);
-    }
-    /**
-     * Constructor.
-     * @param fldMainFile First field in the key fields.
-     * @param fldMainFile2 Second field in the key fields.
-     * @param fldMainFile3 Third field in the key fields.
-     * @param iFieldSeq The First field sequence of the key.
-     * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
-     * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
-     */
-    public SubFileFilter(BaseField fldMainFile, int iFieldSeq, BaseField fldMainFile2, int iFieldSeq2, BaseField fldMainFile3, int iFieldSeq3, boolean bSetFilterIfNull)
-    {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
-        this();
-        this.init(null, null, null, fldMainFile, iFieldSeq, null, fldMainFile2, iFieldSeq2, null, fldMainFile3, iFieldSeq3, null, bSetFilterIfNull, false, true);
+        this.init(null, null, null, fldMainFile, fieldName, fldMainFile2, fieldName2, fldMainFile3, fieldName3, false, false, true);
     }
     /**
      * Constructor.
@@ -119,7 +91,7 @@ public class SubFileFilter extends DependentFileFilter
     public SubFileFilter(BaseField fldMainFile, String fieldName, BaseField fldMainFile2, String fieldName2, BaseField fldMainFile3, String fieldName3, boolean bSetFilterIfNull)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, null, null, fldMainFile, -1, fieldName, fldMainFile2, -1, fieldName2, fldMainFile3, -1, fieldName3, bSetFilterIfNull, false, true);
+        this.init(null, null, null, fldMainFile, fieldName, fldMainFile2, fieldName2, fldMainFile3, fieldName3, bSetFilterIfNull, false, true);
     }
     /**
      * Constructor for Records with properly set-up reference fields.
@@ -130,7 +102,7 @@ public class SubFileFilter extends DependentFileFilter
     public SubFileFilter(Record recordMain)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, recordMain, null, null, -1, null, null, -1, null, null, -1, null, false, false, true);
+        this.init(null, recordMain, null, null, null, null, null, null, null, false, false, true);
     }
     /**
      * Constructor for Records with properly set-up reference fields.
@@ -143,7 +115,7 @@ public class SubFileFilter extends DependentFileFilter
     public SubFileFilter(Record recordMain, boolean bSetFilterIfNull, boolean bAddNewHeaderOnAdd)
     {   // For this to work right, the key field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, recordMain, null, null, -1, null, null, -1, null, null, -1, null, bSetFilterIfNull, false, bAddNewHeaderOnAdd);
+        this.init(null, recordMain, null, null, null, null, null, null, null, bSetFilterIfNull, false, bAddNewHeaderOnAdd);
     }
     /**
      * Constructor for Records with properly set-up reference fields.
@@ -156,7 +128,7 @@ public class SubFileFilter extends DependentFileFilter
     public SubFileFilter(Record recordMain, boolean bSetFilterIfNull)
     {   // For this to work right, the key field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, recordMain, null, null, -1, null, null, -1, null, null, -1, null, bSetFilterIfNull, false, true);
+        this.init(null, recordMain, null, null, null, null, null, null, null, bSetFilterIfNull, false, true);
     }
     /**
      * Constructor for Records with properly set-up reference fields.
@@ -169,7 +141,7 @@ public class SubFileFilter extends DependentFileFilter
     public SubFileFilter(String keyOrder, BaseField fldMainFile)
     {   // For this to work right, the key field needs a listener to re-select this file whenever it changes
         this();
-        this.init(null, null, keyOrder, fldMainFile, -1, null, null, -1, null, null, -1, null, false, false, true);
+        this.init(null, null, keyOrder, fldMainFile, null, null, null, null, null, false, false, true);
     }
     /**
      * Constructor.
@@ -185,9 +157,9 @@ public class SubFileFilter extends DependentFileFilter
      * @param bRefreshLastIfNotCurrent If true, this class will refresh the last record if the record is not current.
      * @param bRefreshLastIfNotCurrent (Typically used for remote sessions where the remote method does an add before the detail can add).
      */
-    public void init(Record record, Record recordMain, String keyName, BaseField fldMainFile, int iFieldSeq, String fldMainFileName, BaseField fldMainFile2, int iFieldSeq2, String fldMainFileName2, BaseField fldMainFile3, int iFieldSeq3, String fldMainFileName3, boolean bSetFilterIfNull, boolean bRefreshLastIfNotCurrent, boolean bAddNewHeaderOnAdd)
+    public void init(Record record, Record recordMain, String keyName, BaseField fldMainFile, String fldMainFileName, BaseField fldMainFile2, String fldMainFileName2, BaseField fldMainFile3, String fldMainFileName3, boolean bSetFilterIfNull, boolean bRefreshLastIfNotCurrent, boolean bAddNewHeaderOnAdd)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
-        super.init(record, iFieldSeq, fldMainFileName, null, iFieldSeq2, fldMainFileName2, null, iFieldSeq3, fldMainFileName3, null);
+        super.init(record, fldMainFileName, null, fldMainFileName2, null, fldMainFileName3, null);
 
         m_recordMain = recordMain;
         
@@ -258,12 +230,7 @@ public class SubFileFilter extends DependentFileFilter
     {
         SubFileFilter newBehavior = null;
         if (m_fldMainFile != null)
-        {
-            if (thisFileFieldName != null)
-                newBehavior = new SubFileFilter(m_fldMainFile, thisFileFieldName, m_fldMainFile2, thisFileFieldName2, m_fldMainFile3, thisFileFieldName3);
-            else
-                newBehavior = new SubFileFilter(m_fldMainFile, m_iThisFileFieldSeq, m_fldMainFile2, m_iThisFileFieldSeq2, m_fldMainFile3, m_iThisFileFieldSeq3);            
-        }
+            newBehavior = new SubFileFilter(m_fldMainFile, thisFileFieldName, m_fldMainFile2, thisFileFieldName2, m_fldMainFile3, thisFileFieldName3);
         else if (m_recordMain != null)
             newBehavior = new SubFileFilter(m_recordMain);
         return newBehavior;

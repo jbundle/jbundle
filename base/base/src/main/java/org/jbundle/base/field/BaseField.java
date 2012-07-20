@@ -1389,7 +1389,7 @@ public class BaseField extends FieldInfo
         if ((record.getDatabaseType() & (DBConstants.REMOTE | DBConstants.USER_DATA)) == (DBConstants.REMOTE | DBConstants.USER_DATA))
             bUpdateRecord = true;
         //  Set up the listener to read the current record on a valid main record
-        ReadSecondaryHandler behavior = new ReadSecondaryHandler((Record)record, DBConstants.MAIN_FIELD, DBConstants.CLOSE_ON_FREE, bUpdateRecord, bIncludeBlankOption);
+        ReadSecondaryHandler behavior = new ReadSecondaryHandler((Record)record, null, DBConstants.CLOSE_ON_FREE, bUpdateRecord, bIncludeBlankOption);
         this.addListener(behavior);
         if (((Record)record).getRecordOwner() != targetScreen)
             if (this.getRecord().getRecordOwner() != targetScreen)

@@ -131,7 +131,7 @@ public class Screen extends BaseScreen
                 & (keyAreaInfo.getKeyFields() == 1))
             {
                 BaseField mainField = keyAreaInfo.getField(DBConstants.MAIN_KEY_FIELD);
-                MainFieldHandler readKeyed = new MainFieldHandler(keyNumber);
+                MainFieldHandler readKeyed = new MainFieldHandler(record.getKeyArea(keyNumber).getKeyName());
                 mainField.addListener(readKeyed);
             }
         }
