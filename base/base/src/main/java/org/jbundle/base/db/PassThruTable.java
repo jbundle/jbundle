@@ -578,5 +578,6 @@ public class PassThruTable extends BaseTable
             recBase.handleValidRecord(); // Do listeners, Display Fields
         else if (recBase.getEditMode() == DBConstants.EDIT_ADD)
             recBase.handleNewRecord(); // Do listeners, Display Fields
+        //?recBase.setKeyArea(recAlt.getDefaultOrder());
     }
 }

@@ -233,6 +233,8 @@ public class SubFileFilter extends DependentFileFilter
             newBehavior = new SubFileFilter(m_fldMainFile, thisFileFieldName, m_fldMainFile2, thisFileFieldName2, m_fldMainFile3, thisFileFieldName3);
         else if (m_recordMain != null)
             newBehavior = new SubFileFilter(m_recordMain);
+        if (m_strKeyName != null)
+        	newBehavior.setKeyArea(m_strKeyName);
         return newBehavior;
     }
     /**
@@ -419,5 +421,13 @@ public class SubFileFilter extends DependentFileFilter
         if (iIndex == 2)
             return m_fldMainFile3;
         return null;
+    }
+    /**
+     * Set the key order.
+     * @param keyName
+     */
+    public void setKeyArea(String keyName)
+    {
+    	m_strKeyName = keyName;
     }
 }
