@@ -612,7 +612,7 @@ if (recClassInfo != null)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778021">
-		<LastChanged>2012-01-29T08:30:01</LastChanged>
+		<LastChanged>2012-07-19T16:56:57</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -629,7 +629,7 @@ if (recClassInfo != null)
     SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), ClassFields.CLASS_INFO_CLASS_NAME, null, null, null, null, true);
     record.addListener(listener);
 }
-MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
+MainFieldHandler fieldBeh = new MainFieldHandler(null);
 this.getMainRecord().getField(ClassFields.CLASS_FIELD_NAME).addListener(fieldBeh);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -909,7 +909,7 @@ listener.setOnlyIfDestNull(true);]]></LogicSource>
 	<LogicFile ID="16778040">
 		<LastChanged>2009-02-12T14:49:28</LastChanged>
 		<Deleted>N</Deleted>
-		<Sequence>1,000</Sequence>
+		<Sequence>10</Sequence>
 		<MethodName>CompareFileFilter</MethodName>
 		<LogicDescription/>
 		<MethodReturns/>
@@ -1255,7 +1255,7 @@ if (recClassInfo != null)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778272">
-		<LastChanged>2012-01-29T08:25:03</LastChanged>
+		<LastChanged>2012-07-19T16:57:29</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -1272,7 +1272,7 @@ if (recClassInfo != null)
 	SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), FieldData.FIELD_FILE_NAME, null, null, null, null, true);
 	record.addListener(listener);
 }
-MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
+MainFieldHandler fieldBeh = new MainFieldHandler(null);
 this.getMainRecord().getField(FieldData.FIELD_NAME).addListener(fieldBeh);
 this.getMainRecord().setKeyArea(FieldData.FIELD_FILE_NAME_KEY);]]></LogicSource>
 		<LogicThrows/>
@@ -1888,7 +1888,7 @@ if (recClassInfo != null)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778515">
-		<LastChanged>2012-01-29T09:02:57</LastChanged>
+		<LastChanged>2012-07-19T16:57:50</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -1905,7 +1905,7 @@ if (recClassInfo != null)
 	SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), KeyInfo.KEY_FILENAME, null, null, null, null, true);
 	record.addListener(listener);
 }
-MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
+MainFieldHandler fieldBeh = new MainFieldHandler(null);
 this.getMainRecord().getField(KeyInfo.KEY_NUMBER).addListener(fieldBeh);
 ]]></LogicSource>
 		<LogicThrows/>
@@ -2131,7 +2131,7 @@ if (bNewRecord)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778593">
-		<LastChanged>2009-02-12T14:49:28</LastChanged>
+		<LastChanged>2009-02-12T14:41:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>10</Sequence>
 		<MethodName>LayoutPrint</MethodName>
@@ -2323,7 +2323,7 @@ if (recClassInfo != null)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778604">
-		<LastChanged>2012-01-29T09:04:18</LastChanged>
+		<LastChanged>2012-07-19T16:58:14</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -2340,7 +2340,7 @@ if (recClassInfo != null)
 	SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), LogicFile.METHOD_CLASS_NAME, null, null, null, null, true);
 	record.addListener(listener);
 }
-MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
+MainFieldHandler fieldBeh = new MainFieldHandler(null);
 this.getMainRecord().getField(LogicFile.METHOD_NAME).addListener(fieldBeh);
 ]]></LogicSource>
 		<LogicThrows/>
@@ -2640,13 +2640,13 @@ this.getField(Person.POSTAL_CODE).addListener(new CopyFieldHandler(this.getField
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778947">
-		<LastChanged>2012-02-01T11:48:01</LastChanged>
+		<LastChanged>2012-07-19T16:50:50</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>10</Sequence>
 		<MethodName>ReComputeFieldHandler</MethodName>
 		<LogicDescription><![CDATA[Constructor.
 @param iTargetFieldSeq The target field sequence to recompute on field change.]]></LogicDescription>
-		<MethodReturns>null, -1, iTargetFieldSeq, null</MethodReturns>
+		<MethodReturns>null, iTargetFieldSeq, null</MethodReturns>
 		<MethodInterface>String iTargetFieldSeq</MethodInterface>
 		<MethodClassName>ReComputeFieldHandler</MethodClassName>
 		<LogicSource/>
@@ -3165,7 +3165,7 @@ if (recClassInfo != null)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16779039">
-		<LastChanged>2012-01-29T08:55:38</LastChanged>
+		<LastChanged>2012-07-19T16:58:39</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -3182,7 +3182,7 @@ if (recClassInfo != null)
 	SubFileFilter listener = new SubFileFilter(recClassInfo.getField(ClassInfo.CLASS_NAME), ScreenIn.SCREEN_IN_PROG_NAME, null, null, null, null, true);
 	record.addListener(listener);
 }
-MainFieldHandler fieldBeh = new MainFieldHandler(DBConstants.MAIN_KEY_AREA);
+MainFieldHandler fieldBeh = new MainFieldHandler(null);
 this.getMainRecord().getField(ScreenIn.SCREEN_ITEM_NUMBER).addListener(fieldBeh);
 ]]></LogicSource>
 		<LogicThrows/>
@@ -27523,7 +27523,7 @@ super;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784960">
-		<LastChanged>2012-01-19T18:05:04</LastChanged>
+		<LastChanged>2012-07-19T00:05:42</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>40</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -27533,19 +27533,19 @@ super;]]></LogicSource>
 		<MethodClassName>ClassProject</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ClassProject.CLASS_DETAIL_MODE) == ClassProject.CLASS_DETAIL_MODE)
-    screen = new ClassInfoGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(ClassInfo.CLASS_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ClassProject.RESOURCE_DETAIL_MODE) == ClassProject.RESOURCE_DETAIL_MODE)
-    screen = new ResourceGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(Resource.RESOURCE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
-    screen = new ClassProjectGridScreen(this, null, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(CLASS_PROJECT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MAINT_MODE) == ScreenConstants.MAINT_MODE)
-    screen = new ClassProjectScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(CLASS_PROJECT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
-    screen = new ClassProjectGridScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(CLASS_PROJECT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.MENU_MODE) != 0)
-    screen = new ClassProjectScreen(this, (ScreenLocation)itsLocation, (BasePanel)parentScreen, null, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+    screen = Record.makeNewScreen(CLASS_PROJECT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else
-    screen = super.makeScreen((ScreenLocation)itsLocation, (BasePanel)parentScreen, iDocMode, properties);
+    screen = super;
 return screen;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -29149,7 +29149,7 @@ try   {
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785024">
-		<LastChanged>2012-01-26T23:22:50</LastChanged>
+		<LastChanged>2012-07-18T22:15:42</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>150</Sequence>
 		<MethodName>writeDetailLine</MethodName>
@@ -29159,11 +29159,11 @@ try   {
 		<MethodClassName>WriteResources</MethodClassName>
 		<LogicSource><![CDATA[String strKey = registration.getField(Registration.KEY_VALUE).toString();
 String strValue = registration.getField(Registration.OBJECT_VALUE).toString();
-strValue = WriteResources.fixPropertyValue(strValue, bResourceListBundle);
+strValue = ResourcesUtilities.fixPropertyValue(strValue, bResourceListBundle);
 if (bResourceListBundle)
     out.writeit("\t{\"" + strKey + "\", " + strValue + "}");
 else
-    out.writeit(WriteResources.fixPropertyKey(strKey) + "=" + strValue);]]></LogicSource>
+    out.writeit(ResourcesUtilities.fixPropertyKey(strKey) + "=" + strValue);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -29299,105 +29299,6 @@ else
 return string;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
-		<CopyFrom/>
-		<IncludeScope>1</IncludeScope>
-	</LogicFile>
-	<LogicFile ID="16785028">
-		<LastChanged>2010-02-19T06:58:24</LastChanged>
-		<Deleted>N</Deleted>
-		<Sequence>1,100</Sequence>
-		<MethodName>fixPropertyKey</MethodName>
-		<LogicDescription>Fix the property key.</LogicDescription>
-		<MethodReturns>String</MethodReturns>
-		<MethodInterface>String strKey</MethodInterface>
-		<MethodClassName>WriteResources</MethodClassName>
-		<LogicSource><![CDATA[strKey = strKey.replace(" ", "\\ ");
-return strKey;]]></LogicSource>
-		<LogicThrows/>
-		<Protection>public static</Protection>
-		<CopyFrom/>
-		<IncludeScope>1</IncludeScope>
-	</LogicFile>
-	<LogicFile ID="16785029">
-		<LastChanged>2010-02-19T06:58:18</LastChanged>
-		<Deleted>N</Deleted>
-		<Sequence>1,200</Sequence>
-		<MethodName>fixPropertyValue</MethodName>
-		<LogicDescription>Clean up this long string and convert it to a java quoted string.</LogicDescription>
-		<MethodReturns>String</MethodReturns>
-		<MethodInterface>String string, boolean bResourceListBundle</MethodInterface>
-		<MethodClassName>WriteResources</MethodClassName>
-		<LogicSource><![CDATA[if (string == null)
-    string = Constants.BLANK;
-StringBuffer strBuff = new StringBuffer();
-StringReader stringReader = new StringReader(string);
-LineNumberReader lineReader = new LineNumberReader(stringReader);
-boolean bFirstTime = true;
-String strLine;
-try   {
-    while ((strLine = lineReader.readLine()) != null)
-    {
-        if (!bFirstTime)
-        {
-            if (bResourceListBundle)
-                strBuff.append(" + \"\\n\" +" + "\n\t\t");
-            else
-                strBuff.append("\\n\\\n");
-        }
-        if (bResourceListBundle)
-            strBuff.append('\"');
-        if (!bFirstTime)
-        	if (!bResourceListBundle)
-        		if (strLine.startsWith(" "))
-        			strBuff.append("\\");	// Escape out the first space for properties files
-        strBuff.append(WriteResources.encodeLine(strLine, bResourceListBundle));
-        if (bResourceListBundle)
-            strBuff.append("\"");
-        bFirstTime = false;
-    }
-} catch (IOException ex)    {
-    ex.printStackTrace(); // Never
-}
-return strBuff.toString();]]></LogicSource>
-		<LogicThrows/>
-		<Protection>public static</Protection>
-		<CopyFrom/>
-		<IncludeScope>1</IncludeScope>
-	</LogicFile>
-	<LogicFile ID="16785030">
-		<LastChanged>2010-02-19T06:58:10</LastChanged>
-		<Deleted>N</Deleted>
-		<Sequence>1,400</Sequence>
-		<MethodName>encodeLine</MethodName>
-		<LogicDescription>Encode the utf-16 characters in this line to escaped java strings</LogicDescription>
-		<MethodReturns>String</MethodReturns>
-		<MethodInterface>String string, boolean bResourceListBundle</MethodInterface>
-		<MethodClassName>WriteResources</MethodClassName>
-		<LogicSource><![CDATA[if (string == null)
-    return string;
-for (int i = 0; i < string.length(); i++)
-{
-    if (((string.charAt(i) == '\"') || (string.charAt(i) == '\\'))
-     || ((!bResourceListBundle) && (string.charAt(i) == ':')))
-    {   // must preceed these special characters with a "\"
-        string = string.substring(0, i) + "\\" + string.substring(i);
-        i++;
-    }
-    else if (string.charAt(i) > 127)
-    {
-        String strHex = "0123456789ABCDEF";
-        String strOut = "\\u";
-        strOut += strHex.charAt((string.charAt(i) & 0xF000) >> 12);
-        strOut += strHex.charAt((string.charAt(i) & 0xF00) >> 8);
-        strOut += strHex.charAt((string.charAt(i) & 0xF0) >> 4);
-        strOut += strHex.charAt(string.charAt(i) & 0xF);
-        string = string.substring(0, i) + strOut + string.substring(i + 1);
-        i = i + strOut.length() - 1;
-    }
-}
-return string;]]></LogicSource>
-		<LogicThrows/>
-		<Protection>public static</Protection>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
@@ -32605,6 +32506,246 @@ super;	// Never used
     record = null;
 }
 super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785174">
+		<LastChanged>2012-07-18T22:02:40</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,100</Sequence>
+		<MethodName>fixPropertyKey</MethodName>
+		<LogicDescription>Fix the property key.</LogicDescription>
+		<MethodReturns>String</MethodReturns>
+		<MethodInterface>String strKey</MethodInterface>
+		<MethodClassName>ResourcesUtilities</MethodClassName>
+		<LogicSource><![CDATA[strKey = strKey.replace(" ", "\\ ");
+return strKey;]]></LogicSource>
+		<LogicThrows/>
+		<Protection>public static</Protection>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785175">
+		<LastChanged>2012-07-18T22:32:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,200</Sequence>
+		<MethodName>fixPropertyValue</MethodName>
+		<LogicDescription>Clean up this long string and convert it to a java quoted string.</LogicDescription>
+		<MethodReturns>String</MethodReturns>
+		<MethodInterface>String string, boolean bResourceListBundle</MethodInterface>
+		<MethodClassName>ResourcesUtilities</MethodClassName>
+		<LogicSource><![CDATA[if (string == null)
+    string = Constants.BLANK;
+StringBuffer strBuff = new StringBuffer();
+StringReader stringReader = new StringReader(string);
+LineNumberReader lineReader = new LineNumberReader(stringReader);
+boolean bFirstTime = true;
+String strLine;
+try   {
+    while ((strLine = lineReader.readLine()) != null)
+    {
+        if (!bFirstTime)
+        {
+            if (bResourceListBundle)
+                strBuff.append(" + \"\\n\" +" + "\n\t\t");
+            else
+                strBuff.append("\\n\\\n");
+        }
+        if (bResourceListBundle)
+            strBuff.append('\"');
+        if (!bFirstTime)
+        	if (!bResourceListBundle)
+        		if (strLine.startsWith(" "))
+        			strBuff.append("\\");	// Escape out the first space for properties files
+        strBuff.append(ResourcesUtilities.encodeLine(strLine, bResourceListBundle));
+        if (bResourceListBundle)
+            strBuff.append("\"");
+        bFirstTime = false;
+    }
+} catch (IOException ex)    {
+    ex.printStackTrace(); // Never
+}
+return strBuff.toString();]]></LogicSource>
+		<LogicThrows/>
+		<Protection>public static</Protection>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785176">
+		<LastChanged>2012-07-18T22:03:42</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,400</Sequence>
+		<MethodName>encodeLine</MethodName>
+		<LogicDescription>Encode the utf-16 characters in this line to escaped java strings</LogicDescription>
+		<MethodReturns>String</MethodReturns>
+		<MethodInterface>String string, boolean bResourceListBundle</MethodInterface>
+		<MethodClassName>ResourcesUtilities</MethodClassName>
+		<LogicSource><![CDATA[if (string == null)
+    return string;
+for (int i = 0; i < string.length(); i++)
+{
+    if (((string.charAt(i) == '\"') || (string.charAt(i) == '\\'))
+     || ((!bResourceListBundle) && (string.charAt(i) == ':')))
+    {   // must preceed these special characters with a "\"
+        string = string.substring(0, i) + "\\" + string.substring(i);
+        i++;
+    }
+    else if (string.charAt(i) > 127)
+    {
+        String strHex = "0123456789ABCDEF";
+        String strOut = "\\u";
+        strOut += strHex.charAt((string.charAt(i) & 0xF000) >> 12);
+        strOut += strHex.charAt((string.charAt(i) & 0xF00) >> 8);
+        strOut += strHex.charAt((string.charAt(i) & 0xF0) >> 4);
+        strOut += strHex.charAt(string.charAt(i) & 0xF);
+        string = string.substring(0, i) + strOut + string.substring(i + 1);
+        i = i + strOut.length() - 1;
+    }
+}
+return string;]]></LogicSource>
+		<LogicThrows/>
+		<Protection>public static</Protection>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785177">
+		<LastChanged>2012-07-18T22:34:38</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>StreamOut</MethodName>
+		<LogicDescription/>
+		<MethodReturns>void</MethodReturns>
+		<MethodInterface>String fileName</MethodInterface>
+		<MethodClassName>StreamOut</MethodClassName>
+		<LogicSource><![CDATA[super(new FileWriter(fileName));
+m_iTabs = 0;
+m_bTabOnNextLine = false;
+//      ASSERT(this->Open(fileName, CFile::modeCreate | CFile::modeWrite)); // | CFile::typeText));]]></LogicSource>
+		<LogicThrows>IOException</LogicThrows>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785178">
+		<LastChanged>2012-07-18T22:07:52</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>free</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>StreamOut</MethodClassName>
+		<LogicSource>this.close();</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785179">
+		<LastChanged>2012-07-18T22:08:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setTabs</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface>int iRelTabs</MethodInterface>
+		<MethodClassName>StreamOut</MethodClassName>
+		<LogicSource>m_iTabs += iRelTabs;</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785180">
+		<LastChanged>2012-07-18T22:08:47</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>writeit</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface>String strTemp</MethodInterface>
+		<MethodClassName>StreamOut</MethodClassName>
+		<LogicSource><![CDATA[String strTabs = "";
+int i = 0;
+for (i = 0; i < m_iTabs; i++)
+{
+    strTabs += "\t";
+}
+if (m_bTabOnNextLine) if ((strTemp.length() > 0) && (strTemp.charAt(0) != '\n'))
+    strTemp = strTabs + strTemp;
+m_bTabOnNextLine = false;
+int iIndex = 0;
+int iIndex2;
+while (iIndex != -1)
+{
+    iIndex = strTemp.indexOf('\n', iIndex);
+    if ((iIndex != -1) && (iIndex < strTemp.length() - 1))
+    {
+        iIndex2 = iIndex + 1;
+        if (iIndex > 1) if (strTemp.charAt(iIndex) == '\r')
+            iIndex--;
+        strTemp = strTemp.substring(0, iIndex+1) + strTabs + strTemp.substring(iIndex2, strTemp.length());
+        iIndex = iIndex + 2;
+    }
+    else
+        iIndex = -1;
+}
+iIndex = 0;
+while (iIndex != -1)
+{
+    iIndex = strTemp.indexOf('\r', iIndex);
+    if (iIndex != -1)
+        strTemp = strTemp.substring(0, iIndex) + strTemp.substring(iIndex + 1, strTemp.length());
+}
+strTemp = this.tabsToSpaces(strTemp);
+this.print(strTemp);
+if (strTemp.length() > 0) if (strTemp.charAt(strTemp.length() - 1) == '\n');
+    m_bTabOnNextLine = true;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785181">
+		<LastChanged>2012-07-18T22:09:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>120</Sequence>
+		<MethodName>tabsToSpaces</MethodName>
+		<LogicDescription>Convert the tabs to spaces.</LogicDescription>
+		<MethodReturns>String</MethodReturns>
+		<MethodInterface>String string</MethodInterface>
+		<MethodClassName>StreamOut</MethodClassName>
+		<LogicSource><![CDATA[int iOffset = 0;
+for (int i = 0; i < string.length(); i++)
+{
+    if (string.charAt(i) == '\n')
+        iOffset = i + 1;
+    if (string.charAt(i) == '\t')
+    {
+        int iSpaces = (i - iOffset) % 4;
+        if (iSpaces == 0)
+            iSpaces = 4;
+        string = string.substring(0, i) + FOUR_SPACES.substring(0, iSpaces) + string.substring(i + 1);
+    }
+}
+return string;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785182">
+		<LastChanged>2012-07-18T22:32:41</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>ResourcesUtilities</MethodName>
+		<LogicDescription/>
+		<MethodReturns>void</MethodReturns>
+		<MethodInterface>void</MethodInterface>
+		<MethodClassName>ResourcesUtilities</MethodClassName>
+		<LogicSource/>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>

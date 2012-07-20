@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<ClassInfo ID="16777217">
-		<LastChanged>2012-01-13T08:30:49</LastChanged>
+		<LastChanged>2012-07-18T23:50:03</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassInfo</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Class information</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ClassInfo</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -170,12 +170,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777473">
-		<LastChanged>2010-02-05T11:19:47</LastChanged>
+		<LastChanged>2012-07-18T23:44:01</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassFields</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Class Field Detail</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ClassFields</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -272,12 +272,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777480">
-		<LastChanged>2010-02-05T11:19:47</LastChanged>
+		<LastChanged>2012-07-18T23:43:11</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassVars</ClassName>
 		<BaseClassName>ScreenRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ClassVars</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -323,12 +323,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777487">
-		<LastChanged>2010-02-05T11:19:47</LastChanged>
+		<LastChanged>2012-07-18T23:43:02</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ControlTypeField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc>Control type</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ControlTypeField</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -578,12 +578,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777574">
-		<LastChanged>2010-02-05T11:19:48</LastChanged>
+		<LastChanged>2012-07-18T23:42:52</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>FieldData</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Field Information File Class</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>FieldData</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -646,12 +646,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777578">
-		<LastChanged>2010-02-05T11:19:48</LastChanged>
+		<LastChanged>2012-07-18T23:42:41</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>FieldDescField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>FieldDescField</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -714,12 +714,12 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777583">
-		<LastChanged>2010-02-05T11:19:48</LastChanged>
+		<LastChanged>2012-07-18T23:41:02</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>FileHdr</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>File Information Record</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>FileHdr</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -812,7 +812,7 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777618">
-		<LastChanged>2010-02-05T11:17:59</LastChanged>
+		<LastChanged>2010-02-05T11:17:22</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>HeaderScreen</ClassName>
 		<BaseClassName>ToolScreen</BaseClassName>
@@ -914,12 +914,12 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777670">
-		<LastChanged>2010-02-05T11:19:48</LastChanged>
+		<LastChanged>2012-07-18T23:42:17</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>KeyInfo</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Record Key Information</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>KeyInfo</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -958,23 +958,6 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<ClassSourceFile>KeyInfoScreen</ClassSourceFile>
 		<ClassType>Screen</ClassType>
 		<ClassExplain/>
-		<ClassHelp/>
-		<ClassImplements/>
-		<SeeAlso/>
-		<TechnicalInfo/>
-		<CopyDescFrom/>
-	</ClassInfo>
-	<ClassInfo ID="16777692">
-		<LastChanged>2010-02-05T11:19:48</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassName>Layout</ClassName>
-		<BaseClassName>Folder</BaseClassName>
-		<ClassDesc>Record layouts</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
-		<ClassPackage>.db</ClassPackage>
-		<ClassSourceFile>Layout</ClassSourceFile>
-		<ClassType>Record</ClassType>
-		<ClassExplain>Record layouts (usually for Corba/EDI/XML)</ClassExplain>
 		<ClassHelp/>
 		<ClassImplements/>
 		<SeeAlso/>
@@ -1050,12 +1033,12 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777697">
-		<LastChanged>2010-02-05T11:19:49</LastChanged>
+		<LastChanged>2012-07-18T23:42:00</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>LogicFile</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Method Descriptions</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>LogicFile</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -1503,7 +1486,7 @@ Just override the compute value method to re-calculate the target field's value.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777853">
-		<LastChanged>2010-09-24T23:56:36</LastChanged>
+		<LastChanged>2010-09-24T23:56:31</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>RecordChangedField</ClassName>
 		<BaseClassName>DateTimeField</BaseClassName>
@@ -1554,12 +1537,12 @@ Just override the compute value method to re-calculate the target field's value.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777868">
-		<LastChanged>2010-02-05T11:19:49</LastChanged>
+		<LastChanged>2012-07-19T00:17:42</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Registration</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Temporary database to emulate a system key registry</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.resource.db</ClassPackage>
 		<ClassSourceFile>Registration</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -1691,12 +1674,12 @@ Just override the compute value method to re-calculate the target field's value.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777895">
-		<LastChanged>2010-02-05T11:19:49</LastChanged>
+		<LastChanged>2012-07-18T23:41:49</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ScreenAnchorField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc>Screen anchor (in ScreenIn file)</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ScreenAnchorField</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -1742,12 +1725,12 @@ Just override the compute value method to re-calculate the target field's value.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777898">
-		<LastChanged>2010-02-05T11:19:49</LastChanged>
+		<LastChanged>2012-07-19T07:33:25</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ScreenIn</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Screen In File</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ScreenIn</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -1793,12 +1776,12 @@ Just override the compute value method to re-calculate the target field's value.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777901">
-		<LastChanged>2010-02-05T11:19:49</LastChanged>
+		<LastChanged>2012-07-18T23:41:38</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ScreenLocField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc>Screen location</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ScreenLocField</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -1878,12 +1861,12 @@ Just override the compute value method to re-calculate the target field's value.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777915">
-		<LastChanged>2010-02-05T11:19:49</LastChanged>
+		<LastChanged>2012-07-18T23:41:26</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>SetDataClass</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc>Set the physical data class</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>FieldData</ClassSourceFile>
 		<ClassType>Behavior</ClassType>
@@ -1997,7 +1980,7 @@ Just override the compute value method to re-calculate the target field's value.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777932">
-		<LastChanged>2010-02-05T11:18:03</LastChanged>
+		<LastChanged>2009-02-12T14:49:23</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>SRadioButton</ClassName>
 		<BaseClassName>SCheckBox</BaseClassName>
@@ -2873,7 +2856,7 @@ This screen displays all the system users and their preferences.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778068">
-		<LastChanged>2010-02-04T20:26:37</LastChanged>
+		<LastChanged>2010-02-04T20:26:00</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Vector</ClassName>
 		<BaseClassName>Object</BaseClassName>
@@ -3047,12 +3030,12 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778144">
-		<LastChanged>2010-02-05T11:19:50</LastChanged>
+		<LastChanged>2012-07-18T23:43:24</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassResource</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Resource detail for "Resource" class types.</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ClassResource</ClassSourceFile>
 		<ClassType>Record</ClassType>
@@ -3591,7 +3574,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778215">
-		<LastChanged>2012-01-18T10:41:32</LastChanged>
+		<LastChanged>2012-07-19T09:22:19</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseStatus</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
@@ -3602,8 +3585,7 @@ The possible status values are:
 2 - LOOKUP_REQUIRED
 3 - LOOKUP_SCHEDULED
 4 - VALID - Info valid
-5 - NOT_VALID
-The t]]></ClassDesc>
+5 - NOT_VALID]]></ClassDesc>
 		<ClassProjectID>16,777,317</ClassProjectID>
 		<ClassPackage>.db.base</ClassPackage>
 		<ClassSourceFile>BaseStatus</ClassSourceFile>
@@ -5364,7 +5346,7 @@ The class maintains the converter chain.]]></ClassDesc>
 		<ClassName>Script</ClassName>
 		<BaseClassName>Folder</BaseClassName>
 		<ClassDesc>Script maintenance</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.db</ClassPackage>
 		<ClassSourceFile>Script</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -5381,7 +5363,7 @@ The class maintains the converter chain.]]></ClassDesc>
 		<ClassName>ScriptScreen</ClassName>
 		<BaseClassName>FolderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.screen</ClassPackage>
 		<ClassSourceFile>ScriptScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -5398,7 +5380,7 @@ The class maintains the converter chain.]]></ClassDesc>
 		<ClassName>ScriptGridScreen</ClassName>
 		<BaseClassName>FolderGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.screen</ClassPackage>
 		<ClassSourceFile>ScriptScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -5500,7 +5482,7 @@ The class maintains the converter chain.]]></ClassDesc>
 		<ClassName>PurgeRecordsProcess</ClassName>
 		<BaseClassName>BaseProcessRecords</BaseClassName>
 		<ClassDesc>Delete all the records in the supplied record</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.process</ClassPackage>
 		<ClassSourceFile>PurgeRecordsProcess</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -5546,12 +5528,12 @@ The class maintains the converter chain.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778805">
-		<LastChanged>2010-02-05T11:19:51</LastChanged>
+		<LastChanged>2012-07-18T23:43:39</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassIncludes</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>program.db</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -5801,7 +5783,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>Packages</ClassName>
 		<BaseClassName>Folder</BaseClassName>
 		<ClassDesc>Packages</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.db</ClassPackage>
 		<ClassSourceFile>Packages</ClassSourceFile>
 		<ClassType>folder</ClassType>
@@ -5818,7 +5800,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>PackagesScreen</ClassName>
 		<BaseClassName>FolderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>PackagesScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -5835,7 +5817,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>PackagesGridScreen</ClassName>
 		<BaseClassName>FolderGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>PackagesScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -5852,7 +5834,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>Part</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Parts</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.db</ClassPackage>
 		<ClassSourceFile>Part</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -5869,7 +5851,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>PartField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc>Part field</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.db</ClassPackage>
 		<ClassSourceFile>Part</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -5886,7 +5868,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>PackagesScanListener</ClassName>
 		<BaseClassName>BaseScanListener</BaseClassName>
 		<ClassDesc>Scan directories and update the packages file</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>PackagesScanListener</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -5903,7 +5885,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>BaseScanListener</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>BaseScanListener</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -5920,7 +5902,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>JnlpFile</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Jnlp header</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.db</ClassPackage>
 		<ClassSourceFile>JnlpFile</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -5937,7 +5919,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>JnlpFileField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.db</ClassPackage>
 		<ClassSourceFile>JnlpFile</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -5954,7 +5936,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>JnlpFileScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>JnlpFileScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -5971,7 +5953,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>JnlpFileGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>JnlpFileScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -5988,7 +5970,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>PackagesReport</ClassName>
 		<BaseClassName>ReportScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>PackagesReport</ClassSourceFile>
 		<ClassType>report</ClassType>
@@ -6005,7 +5987,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>PackagesReportScreenRecord</ClassName>
 		<BaseClassName>ReportScreenRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>PackagesReportScreenRecord</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -6022,7 +6004,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>PackagesReportToolbar</ClassName>
 		<BaseClassName>ReportToolbar</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>PackagesReportToolbar</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6039,7 +6021,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>PackagesReportDetail</ClassName>
 		<BaseClassName>ReportScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>PackagesReport</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6056,7 +6038,7 @@ If a message has a input screen associated with it, you may press the
 		<ClassName>SetupPackagesTree</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>PackagesReport</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -6806,7 +6788,7 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<ClassName>PackagesReportHeading</ClassName>
 		<BaseClassName>HeadingScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>PackagesReport</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6818,12 +6800,12 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779110">
-		<LastChanged>2010-02-05T11:19:54</LastChanged>
+		<LastChanged>2012-07-18T23:46:13</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Resource</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.resource.db</ClassPackage>
 		<ClassSourceFile>Resource</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -6835,12 +6817,12 @@ The message type specifies the direction the message is traveling: Inbound or Ou
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779111">
-		<LastChanged>2010-02-05T11:19:54</LastChanged>
+		<LastChanged>2012-07-18T23:46:59</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ResourceField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.resource.db</ClassPackage>
 		<ClassSourceFile>Resource</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -6963,7 +6945,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>Issue</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Bug or Issue record</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.db</ClassPackage>
 		<ClassSourceFile>Issue</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -6980,7 +6962,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.screen</ClassPackage>
 		<ClassSourceFile>IssueScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -6997,7 +6979,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.screen</ClassPackage>
 		<ClassSourceFile>IssueScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7014,7 +6996,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>Project</ClassName>
 		<BaseClassName>Folder</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>Project</ClassSourceFile>
 		<ClassType/>
@@ -7031,7 +7013,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectField</ClassName>
 		<BaseClassName>FolderField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>Project</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7048,7 +7030,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueStatus</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.db</ClassPackage>
 		<ClassSourceFile>IssueStatus</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7065,7 +7047,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueStatusField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.db</ClassPackage>
 		<ClassSourceFile>IssueStatus</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7082,7 +7064,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueScreenRecord</ClassName>
 		<BaseClassName>ScreenRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.screen</ClassPackage>
 		<ClassSourceFile>IssueScreen</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7099,7 +7081,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueType</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.db</ClassPackage>
 		<ClassSourceFile>IssueType</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7116,7 +7098,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueTypeField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.db</ClassPackage>
 		<ClassSourceFile>IssueType</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7133,7 +7115,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectFilter</ClassName>
 		<BaseClassName>ProjectField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>Project</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7150,7 +7132,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectGridScreen</ClassName>
 		<BaseClassName>FolderGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.screen</ClassPackage>
 		<ClassSourceFile>ProjectScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7167,7 +7149,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectScreen</ClassName>
 		<BaseClassName>FolderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.screen</ClassPackage>
 		<ClassSourceFile>ProjectScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7184,7 +7166,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.db</ClassPackage>
 		<ClassSourceFile>Issue</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7201,7 +7183,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueHistory</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.db</ClassPackage>
 		<ClassSourceFile>IssueHistory</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7218,7 +7200,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectVersionField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>ProjectVersion</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7235,7 +7217,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectVersion</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>ProjectVersion</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7252,7 +7234,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueControl</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.db</ClassPackage>
 		<ClassSourceFile>IssueControl</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7269,7 +7251,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssuePriorityField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.db</ClassPackage>
 		<ClassSourceFile>IssuePriority</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7286,7 +7268,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssuePriority</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.db</ClassPackage>
 		<ClassSourceFile>IssuePriority</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7303,7 +7285,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueHistoryGridScreen</ClassName>
 		<BaseClassName>DetailGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.screen</ClassPackage>
 		<ClassSourceFile>IssueHistoryScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7320,7 +7302,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueHistoryScreen</ClassName>
 		<BaseClassName>DetailScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.screen</ClassPackage>
 		<ClassSourceFile>IssueHistoryScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7337,7 +7319,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>IssueHeaderScreen</ClassName>
 		<BaseClassName>HeaderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.issue.screen</ClassPackage>
 		<ClassSourceFile>IssueHistoryScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7366,12 +7348,12 @@ depending on the contact type.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779173">
-		<LastChanged>2010-02-05T11:19:56</LastChanged>
+		<LastChanged>2012-07-18T23:39:11</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ResourceTypeField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.resource.db</ClassPackage>
 		<ClassSourceFile>Resource</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7388,7 +7370,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectTask</ClassName>
 		<BaseClassName>Folder</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>ProjectTask</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7405,7 +7387,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectTaskField</ClassName>
 		<BaseClassName>FolderField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>ProjectTask</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7422,7 +7404,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectTaskPredecessor</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>ProjectTaskPredecessor</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7439,7 +7421,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>PredecessorTypeField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>PredecessorTypeField</ClassSourceFile>
 		<ClassType/>
@@ -7456,7 +7438,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectTaskGridScreen</ClassName>
 		<BaseClassName>FolderGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.screen</ClassPackage>
 		<ClassSourceFile>ProjectTaskScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7473,7 +7455,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectTaskScreen</ClassName>
 		<BaseClassName>FolderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.screen</ClassPackage>
 		<ClassSourceFile>ProjectTaskScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7490,7 +7472,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectTaskCalendar</ClassName>
 		<BaseClassName>CalendarScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.screen</ClassPackage>
 		<ClassSourceFile>ProjectTaskCalendar</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7507,7 +7489,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectControl</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>ProjectControl</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7524,7 +7506,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ColorField</ClassName>
 		<BaseClassName>IntegerField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>ColorField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7541,7 +7523,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>SurveyDatesHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>ProjectTask</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -7558,7 +7540,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>UpdateChildrenHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>ProjectTask</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -7575,7 +7557,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>UpdateDependenciesHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>ProjectTask</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -7592,7 +7574,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectTaskPredecessorGridScreen</ClassName>
 		<BaseClassName>DetailGridScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.screen</ClassPackage>
 		<ClassSourceFile>ProjectTaskPredecessorScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7609,7 +7591,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectTaskPredecessorScreen</ClassName>
 		<BaseClassName>DetailScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.screen</ClassPackage>
 		<ClassSourceFile>ProjectTaskPredecessorScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7626,7 +7608,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectTaskHeaderScreen</ClassName>
 		<BaseClassName>HeaderScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.screen</ClassPackage>
 		<ClassSourceFile>ProjectTaskPredecessorScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7643,7 +7625,7 @@ depending on the contact type.]]></ClassDesc>
 		<ClassName>ProjectTaskParentFilter</ClassName>
 		<BaseClassName>FileFilter</BaseClassName>
 		<ClassDesc>This filter only allows records that are this record or ancestors of this record</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.db</ClassPackage>
 		<ClassSourceFile>ProjectTaskParentFilter</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -7693,12 +7675,12 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779196">
-		<LastChanged>2010-02-05T11:19:58</LastChanged>
+		<LastChanged>2012-07-18T23:40:53</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ProgramControl</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>
 		<ClassDesc>Program control</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ProgramControl</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7710,12 +7692,12 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779199">
-		<LastChanged>2010-02-05T11:19:58</LastChanged>
+		<LastChanged>2012-07-18T23:49:51</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassInfoField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ClassInfo</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -7800,7 +7782,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<ClassName>ProjectReportScreen</ClassName>
 		<BaseClassName>ReportScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.report</ClassPackage>
 		<ClassSourceFile>ProjectReportScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7817,7 +7799,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<ClassName>ProjectTaskScreenRecord</ClassName>
 		<BaseClassName>ScreenRecord</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.report</ClassPackage>
 		<ClassSourceFile>ProjectTaskScreenRecord</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -7834,7 +7816,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<ClassName>ProjectReportToolbar</ClassName>
 		<BaseClassName>ReportToolbar</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.report</ClassPackage>
 		<ClassSourceFile>ProjectReportScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -7851,7 +7833,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<ClassName>NameIndentConverter</ClassName>
 		<BaseClassName>FieldConverter</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,332</ClassProjectID>
 		<ClassPackage>.project.report</ClassPackage>
 		<ClassSourceFile>NameIndentConverter</ClassSourceFile>
 		<ClassType>converter</ClassType>
@@ -8303,7 +8285,7 @@ will be handled using the correct databases.]]></ClassDesc>
 		<ClassName>RunScriptProcess</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc>Transfer data from one table to another</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.data.importfix.base</ClassPackage>
 		<ClassSourceFile>RunScriptProcess</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -8320,7 +8302,7 @@ will be handled using the correct databases.]]></ClassDesc>
 		<ClassName>ScriptCommandField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.db</ClassPackage>
 		<ClassSourceFile>Script</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -8400,12 +8382,12 @@ will be handled using the correct databases.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779344">
-		<LastChanged>2010-02-05T11:19:59</LastChanged>
+		<LastChanged>2012-07-18T23:43:51</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassFieldsTypeField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ClassFieldsTypeField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -8456,7 +8438,7 @@ will be handled using the correct databases.]]></ClassDesc>
 		<ClassName>PackagesField</ClassName>
 		<BaseClassName>FolderField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.db</ClassPackage>
 		<ClassSourceFile>PackagesField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -9305,12 +9287,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779456">
-		<LastChanged>2012-01-13T08:30:32</LastChanged>
+		<LastChanged>2012-07-18T23:44:13</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>AnalysisLog</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
 		<ClassDesc>Analyze class create/delete</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>AnalysisLog</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -10007,7 +9989,7 @@ There are several possible source transactions in the system:
 		<ClassName>BaseFixData</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc>Base process to import or fix data</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.data.importfix.base</ClassPackage>
 		<ClassSourceFile>BaseFixData</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -10024,7 +10006,7 @@ There are several possible source transactions in the system:
 		<ClassName>MergeData</ClassName>
 		<BaseClassName>BaseFixData</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.data.importfix.base</ClassPackage>
 		<ClassSourceFile>MergeData</ClassSourceFile>
 		<ClassType/>
@@ -10041,7 +10023,7 @@ There are several possible source transactions in the system:
 		<ClassName>ScanData</ClassName>
 		<BaseClassName>BaseFixData</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.data.importfix.base</ClassPackage>
 		<ClassSourceFile>ScanData</ClassSourceFile>
 		<ClassType/>
@@ -10058,7 +10040,7 @@ There are several possible source transactions in the system:
 		<ClassName>BaseSource</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.data.importfix.base</ClassPackage>
 		<ClassSourceFile>BaseSource</ClassSourceFile>
 		<ClassType/>
@@ -10075,7 +10057,7 @@ There are several possible source transactions in the system:
 		<ClassName>HtmlSource</ClassName>
 		<BaseClassName>BaseSource</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.data.importfix.base</ClassPackage>
 		<ClassSourceFile>HtmlSource</ClassSourceFile>
 		<ClassType/>
@@ -10092,7 +10074,7 @@ There are several possible source transactions in the system:
 		<ClassName>MergeHtml</ClassName>
 		<BaseClassName>MergeData</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.data.importfix.base</ClassPackage>
 		<ClassSourceFile>MergeHtml</ClassSourceFile>
 		<ClassType/>
@@ -10109,7 +10091,7 @@ There are several possible source transactions in the system:
 		<ClassName>EmptyMemoryRecord</ClassName>
 		<BaseClassName>Record</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.data.importfix.db</ClassPackage>
 		<ClassSourceFile>EmptyMemoryRecord</ClassSourceFile>
 		<ClassType/>
@@ -10126,7 +10108,7 @@ There are several possible source transactions in the system:
 		<ClassName>SaxHtmlHandler</ClassName>
 		<BaseClassName>DefaultHandler</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.data.importfix.base</ClassPackage>
 		<ClassSourceFile>SaxHtmlHandler</ClassSourceFile>
 		<ClassType/>
@@ -10160,7 +10142,7 @@ There are several possible source transactions in the system:
 		<ClassName>FixCapitalization</ClassName>
 		<BaseClassName>ScanData</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.data.importfix.base</ClassPackage>
 		<ClassSourceFile>FixCapitalization</ClassSourceFile>
 		<ClassType/>
@@ -10177,7 +10159,7 @@ There are several possible source transactions in the system:
 		<ClassName>RecordSource</ClassName>
 		<BaseClassName>Object</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.data.importfix.base</ClassPackage>
 		<ClassSourceFile>RecordSource</ClassSourceFile>
 		<ClassType/>
@@ -10194,7 +10176,7 @@ There are several possible source transactions in the system:
 		<ClassName>SetupExcludePackagesHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>SetupExcludePackagesHandler</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -10206,12 +10188,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779617">
-		<LastChanged>2010-02-05T11:20:00</LastChanged>
+		<LastChanged>2012-07-18T23:50:52</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassProject</ClassName>
 		<BaseClassName>Folder</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ClassProject</ClassSourceFile>
 		<ClassType>record</ClassType>
@@ -10223,12 +10205,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779618">
-		<LastChanged>2010-02-05T11:20:00</LastChanged>
+		<LastChanged>2012-07-18T23:51:02</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassProjectField</ClassName>
 		<BaseClassName>FolderField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>ClassProject</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -10381,7 +10363,7 @@ There are several possible source transactions in the system:
 		<ClassName>XslImportScanListener</ClassName>
 		<BaseClassName>BaseScanListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>XslImportScanListener</ClassSourceFile>
 		<ClassType/>
@@ -10398,7 +10380,7 @@ There are several possible source transactions in the system:
 		<ClassName>XMLScanListener</ClassName>
 		<BaseClassName>BaseScanListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>XMLScanListener</ClassSourceFile>
 		<ClassType/>
@@ -10415,7 +10397,7 @@ There are several possible source transactions in the system:
 		<ClassName>CalendarScanListener</ClassName>
 		<BaseClassName>BaseScanListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>CalendarScanListener</ClassSourceFile>
 		<ClassType/>
@@ -10466,7 +10448,7 @@ There are several possible source transactions in the system:
 		<ClassName>BaseProcessRecords</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.process</ClassPackage>
 		<ClassSourceFile>BaseProcessRecords</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -10483,7 +10465,7 @@ There are several possible source transactions in the system:
 		<ClassName>ExportRecordsToXmlProcess</ClassName>
 		<BaseClassName>BaseProcessRecords</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.process</ClassPackage>
 		<ClassSourceFile>ExportRecordsToXmlProcess</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -10500,7 +10482,7 @@ There are several possible source transactions in the system:
 		<ClassName>ExportRecordsToXmlScreen</ClassName>
 		<BaseClassName>Screen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.process</ClassPackage>
 		<ClassSourceFile>ExportRecordsToXmlScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
@@ -10517,7 +10499,7 @@ There are several possible source transactions in the system:
 		<ClassName>DeleteScanListener</ClassName>
 		<BaseClassName>BaseScanListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>DeleteScanListener</ClassSourceFile>
 		<ClassType>listener</ClassType>
@@ -10534,7 +10516,7 @@ There are several possible source transactions in the system:
 		<ClassName>UpdateRecordProcess</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.process</ClassPackage>
 		<ClassSourceFile>UpdateRecordProcess</ClassSourceFile>
 		<ClassType/>
@@ -10551,7 +10533,7 @@ There are several possible source transactions in the system:
 		<ClassName>RemoteRecordProcess</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.process</ClassPackage>
 		<ClassSourceFile>RemoteRecordProcess</ClassSourceFile>
 		<ClassType/>
@@ -10670,7 +10652,7 @@ There are several possible source transactions in the system:
 		<ClassName>ScanPackagesProcess</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>ScanPackagesProcess</ClassSourceFile>
 		<ClassType>process</ClassType>
@@ -10682,12 +10664,12 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779654">
-		<LastChanged>2012-01-10T22:17:45</LastChanged>
+		<LastChanged>2012-07-18T23:41:12</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>CodeTypeField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>CodeTypeField</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -10704,7 +10686,7 @@ There are several possible source transactions in the system:
 		<ClassName>PackagesReportFooting</ClassName>
 		<BaseClassName>ReportScreen</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.screen</ClassPackage>
 		<ClassSourceFile>PackagesReportFooting</ClassSourceFile>
 		<ClassType>report</ClassType>
@@ -10721,7 +10703,7 @@ There are several possible source transactions in the system:
 		<ClassName>PartTypeField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,331</ClassProjectID>
 		<ClassPackage>.packages.db</ClassPackage>
 		<ClassSourceFile>Part</ClassSourceFile>
 		<ClassType>field</ClassType>
@@ -10750,13 +10732,13 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779658">
-		<LastChanged>2010-06-09T21:19:22</LastChanged>
+		<LastChanged>2012-07-19T07:35:00</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>StreamOut</ClassName>
 		<BaseClassName>PrintWriter</BaseClassName>
 		<ClassDesc>Need to add this to the program gen</ClassDesc>
-		<ClassProjectID>16,777,240</ClassProjectID>
-		<ClassPackage>org.jbundle.app.program.manual.util.stream</ClassPackage>
+		<ClassProjectID>16,777,328</ClassProjectID>
+		<ClassPackage>.db.util</ClassPackage>
 		<ClassSourceFile>StreamOut</ClassSourceFile>
 		<ClassType>process</ClassType>
 		<ClassExplain/>
@@ -10943,7 +10925,7 @@ then display the menu.</ClassExplain>
 		<ClassName>ScanListener</ClassName>
 		<BaseClassName>RecordOwnerParent, Freeable</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>ScanListener</ClassSourceFile>
 		<ClassType>interface</ClassType>
@@ -10960,7 +10942,7 @@ then display the menu.</ClassExplain>
 		<ClassName>ImportXMLScanListener</ClassName>
 		<BaseClassName>BaseScanListener</BaseClassName>
 		<ClassDesc>ImportXMLScanListener - Import XML from directories to new tables.</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>ImportXMLScanListener</ClassSourceFile>
 		<ClassType/>
@@ -10982,7 +10964,7 @@ monthOffset =
 yearOffset = 
 endOfMonthFields = comma delimited fields to set to end of month if
 previous date was oem]]></ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>DateOffsetScanListener</ClassSourceFile>
 		<ClassType/>
@@ -11261,7 +11243,7 @@ previous date was oem]]></ClassDesc>
 		<ClassName>SourceHeaderScanListener</ClassName>
 		<BaseClassName>BaseScanListener</BaseClassName>
 		<ClassDesc>Add source header to all java files</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>SourceHeaderScanListener</ClassSourceFile>
 		<ClassType/>
@@ -11290,12 +11272,12 @@ previous date was oem]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779691">
-		<LastChanged>2012-01-08T00:24:43</LastChanged>
+		<LastChanged>2012-07-18T23:42:28</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>IncludeScopeField</ClassName>
 		<BaseClassName>IntegerField</BaseClassName>
 		<ClassDesc>Include scope</ClassDesc>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>IncludeScopeField</ClassSourceFile>
 		<ClassType>Field</ClassType>
@@ -11516,7 +11498,7 @@ previous date was oem]]></ClassDesc>
 		<ClassName>XslRepositoryScanListener</ClassName>
 		<BaseClassName>BaseScanListener</BaseClassName>
 		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassProjectID>16,777,329</ClassProjectID>
 		<ClassPackage>.script.scan</ClassPackage>
 		<ClassSourceFile>XslRepositoryScanListener</ClassSourceFile>
 		<ClassType/>
@@ -11588,6 +11570,40 @@ previous date was oem]]></ClassDesc>
 		<ClassPackage/>
 		<ClassSourceFile>SyncPage</ClassSourceFile>
 		<ClassType>interface</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779710">
+		<LastChanged>2012-07-19T07:34:49</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>ResourcesUtilities</ClassName>
+		<BaseClassName>Object</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,328</ClassProjectID>
+		<ClassPackage>.db.util</ClassPackage>
+		<ClassSourceFile>ResourcesUtilities</ClassSourceFile>
+		<ClassType/>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779711">
+		<LastChanged>2012-07-18T23:42:08</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>Layout</ClassName>
+		<BaseClassName>Folder</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,328</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>Layout</ClassSourceFile>
+		<ClassType>Record</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>

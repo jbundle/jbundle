@@ -210,7 +210,7 @@ JAXBPackage=org.opentravel.ota2007b
 ]]></Properties>
 	</MessageVersion>
 	<MessageVersion ID="16">
-		<LastChanged>2008-10-08T00:19:50</LastChanged>
+		<LastChanged>2008-10-08T00:29:48</LastChanged>
 		<Deleted>N</Deleted>
 		<Description>2008A</Description>
 		<Code>2008A</Code>

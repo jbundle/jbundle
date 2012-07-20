@@ -350,7 +350,7 @@ email.XSLTDocument=docs/styles/xsl/tour/message/getbooking.xsl
 		<InitialMessageStatusID/>
 	</MessageProcessInfo>
 	<MessageProcessInfo ID="22">
-		<LastChanged>2011-09-09T15:49:04</LastChanged>
+		<LastChanged>2010-10-17T07:30:27</LastChanged>
 		<Deleted>N</Deleted>
 		<Code>OTA_LandAvailRSRSUpdate</Code>
 		<Description>Land Availability Inbound Update Response</Description>
@@ -1314,7 +1314,7 @@ screen.screen=com.tourapp.tour.booking.message.hotel.screen.HotelAvailResponseSc
 		<InitialMessageStatusID/>
 	</MessageProcessInfo>
 	<MessageProcessInfo ID="85">
-		<LastChanged>2011-09-09T15:49:04</LastChanged>
+		<LastChanged>2011-09-09T15:49:26</LastChanged>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Description>Cruise Availability Inbound Response</Description>
@@ -2656,7 +2656,7 @@ ota.safe=false
 		<InitialMessageStatusID/>
 	</MessageProcessInfo>
 	<MessageProcessInfo ID="168">
-		<LastChanged>2008-02-12T15:49:05</LastChanged>
+		<LastChanged>2008-02-12T15:25:38</LastChanged>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Description>Item Booking Change Inbound Request</Description>
@@ -2928,7 +2928,7 @@ ota.safe=false
 		<InitialMessageStatusID/>
 	</MessageProcessInfo>
 	<MessageProcessInfo ID="185">
-		<LastChanged>2011-08-05T15:49:05</LastChanged>
+		<LastChanged>2011-07-16T15:49:05</LastChanged>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Description>Product Request In Error Processor</Description>
@@ -3216,7 +3216,7 @@ ota.safe=false
 		<InitialMessageStatusID/>
 	</MessageProcessInfo>
 	<MessageProcessInfo ID="203">
-		<LastChanged>2011-09-09T15:49:05</LastChanged>
+		<LastChanged>2010-11-28T21:53:12</LastChanged>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Description>Air Information Outbound Update Request</Description>
@@ -3344,7 +3344,7 @@ ota.safe=false
 		<InitialMessageStatusID/>
 	</MessageProcessInfo>
 	<MessageProcessInfo ID="211">
-		<LastChanged>2011-08-05T15:59:48</LastChanged>
+		<LastChanged>2011-08-05T15:01:00</LastChanged>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Description>Cruise Information Inbound Update Response</Description>
@@ -3792,7 +3792,7 @@ ota.safe=false
 		<InitialMessageStatusID/>
 	</MessageProcessInfo>
 	<MessageProcessInfo ID="239">
-		<LastChanged>2011-09-09T15:49:05</LastChanged>
+		<LastChanged>2012-07-09T15:49:05</LastChanged>
 		<Deleted>N</Deleted>
 		<Code/>
 		<Description>Cruise Information Outbound Update Request</Description>

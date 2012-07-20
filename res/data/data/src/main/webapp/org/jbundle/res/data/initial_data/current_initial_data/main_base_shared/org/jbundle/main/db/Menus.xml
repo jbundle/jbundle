@@ -2998,8 +2998,7 @@
 <entry key="table">Jdbc</entry>
 <entry key="remote">Jdbc</entry>
 <entry key="menu">app</entry>
-</properties>
-</Params>
+</properties></Params>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>

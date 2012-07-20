@@ -22,17 +22,17 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777221">
-		<LastChanged>2012-01-11T06:00:57</LastChanged>
+		<LastChanged>2012-07-19T03:12:38</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>program</Name>
+		<Name>screen</Name>
 		<ParentFolderID>16,777,296</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
-		<Description>Program Generator Project</Description>
+		<Description>Program Generator screens</Description>
 		<SystemClasses/>
 		<PackageName/>
-		<ProjectPath>program</ProjectPath>
+		<ProjectPath/>
 		<InterfacePackage/>
 		<InterfaceProjectPath>../../model/app/program</InterfaceProjectPath>
 		<ThinPackage/>
@@ -1755,6 +1755,116 @@
 		<ThinProjectPath/>
 		<ResourcePackage/>
 		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777328">
+		<LastChanged>2012-07-18T23:39:36</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>db</Name>
+		<ParentFolderID>16,777,296</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Program generator databases</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath>../../model/app/program</InterfaceProjectPath>
+		<ThinPackage/>
+		<ThinProjectPath>../../thin/app/program</ThinProjectPath>
+		<ResourcePackage/>
+		<ResProjectPath>../../res/app/program</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777329">
+		<LastChanged>2012-07-19T03:10:41</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>script</Name>
+		<ParentFolderID>16,777,296</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Program generator scripts</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath>../../model/app/program</InterfaceProjectPath>
+		<ThinPackage/>
+		<ThinProjectPath>../../thin/app/program</ThinProjectPath>
+		<ResourcePackage/>
+		<ResProjectPath>../../res/app/program</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777330">
+		<LastChanged>2012-07-19T03:09:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>util</Name>
+		<ParentFolderID>16,777,296</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Program generator utilities</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath>../../model/app/program</InterfaceProjectPath>
+		<ThinPackage/>
+		<ThinProjectPath>../../thin/app/program</ThinProjectPath>
+		<ResourcePackage/>
+		<ResProjectPath>../../res/app/program</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777331">
+		<LastChanged>2012-07-19T03:10:46</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>packages</Name>
+		<ParentFolderID>16,777,296</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Program generator packages</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath>../../model/app/program</InterfaceProjectPath>
+		<ThinPackage/>
+		<ThinProjectPath>../../thin/app/program</ThinProjectPath>
+		<ResourcePackage/>
+		<ResProjectPath>../../res/app/program</ResProjectPath>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
+	<ClassProject ID="16777332">
+		<LastChanged>2012-07-19T03:10:52</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>project</Name>
+		<ParentFolderID>16,777,296</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Program generator projects and issues</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath>../../model/app/program</InterfaceProjectPath>
+		<ThinPackage/>
+		<ThinProjectPath>../../thin/app/program</ThinProjectPath>
+		<ResourcePackage/>
+		<ResProjectPath>../../res/app/program</ResProjectPath>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>

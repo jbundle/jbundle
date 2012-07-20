@@ -179,21 +179,6 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="16778002">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>ClassFields</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ClassFieldsScreen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="16778003">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
@@ -224,42 +209,12 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="16778006">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>FieldData</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>FieldDataScreen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="16778007">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>FieldDataScreen</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>FieldData</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="16778008">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Layout</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>LayoutScreen</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -290,21 +245,6 @@
 		<ClassInfoClassName>LogicFileScreen</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>LogicFile</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="16778014">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>KeyInfo</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>KeyInfoScreen</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -395,21 +335,6 @@
 		<ClassInfoClassName>ClassResourceScreen</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>ClassResource</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="16778049">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>ClassResource</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ClassResourceScreen</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -515,21 +440,6 @@
 		<ClassInfoClassName>MenusSession</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>Menus</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="16778092">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Registration</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>RegistrationScreen</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -770,21 +680,6 @@
 		<ClassInfoClassName>ClassInfoScreen</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>JavaButton</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="16778402">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>ScreenIn</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ScreenInScreen</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -1581,21 +1476,6 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="16779782">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>ClassIncludes</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ClassIncludesScreen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="16779803">
 		<LastChanged>2012-01-12T12:33:22</LastChanged>
 		<Deleted>N</Deleted>
@@ -2002,7 +1882,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16779934">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2009-02-12T14:49:23</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>JnlpFile</ClassInfoClassName>
 		<ClassInfoID/>
@@ -2623,21 +2503,6 @@
 		<ClassInfoID/>
 		<ClassFieldClass>Resource</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="16780639">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Resource</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ResourceScreen</ClassFieldClass>
-		<ClassFieldSequence>10</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
 		<ClassFieldProtect/>
@@ -8699,7 +8564,7 @@
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782291">
-		<LastChanged>2012-01-12T11:24:09</LastChanged>
+		<LastChanged>2012-07-19T00:07:52</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>ClassProject</ClassInfoClassName>
 		<ClassInfoID/>
@@ -8709,23 +8574,8 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue>ScreenConstants.LAST_MODE * 4</ClassFieldInitialValue>
+		<ClassFieldInitialValue>ScreenConstants.DETAIL_MODE | ScreenConstants.LAST_MODE * 4</ClassFieldInitialValue>
 		<ClassFieldsType>N</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="16782292">
-		<LastChanged>2010-02-03T11:04:12</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>ClassProject</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ClassProjectScreen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782293">
@@ -8789,7 +8639,7 @@
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782297">
-		<LastChanged>2012-01-12T11:24:15</LastChanged>
+		<LastChanged>2012-07-19T00:07:59</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>ClassProject</ClassInfoClassName>
 		<ClassInfoID/>
@@ -8799,23 +8649,8 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect>public static final</ClassFieldProtect>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue>ScreenConstants.LAST_MODE * 8</ClassFieldInitialValue>
+		<ClassFieldInitialValue>ScreenConstants.DETAIL_MODE | ScreenConstants.LAST_MODE * 8</ClassFieldInitialValue>
 		<ClassFieldsType>N</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="16782298">
-		<LastChanged>2010-02-04T04:55:05</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>ClassProject</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ResourceGridScreen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782301">
@@ -10670,21 +10505,6 @@
 		<ClassFieldsType>N</ClassFieldsType>
 		<IncludeScope>5</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="16782460">
-		<LastChanged>2012-01-07T23:59:18</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>LogicFile</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>LogicFileGridScreen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>C</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="16782461">
 		<LastChanged>2012-01-08T00:06:07</LastChanged>
 		<Deleted>N</Deleted>
@@ -10866,7 +10686,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782473">
-		<LastChanged>2012-04-07T19:01:46</LastChanged>
+		<LastChanged>2010-02-16T11:23:15</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>UserInfo</ClassInfoClassName>
 		<ClassInfoID/>
@@ -12935,21 +12755,6 @@
 		<ClassFieldsType>S</ClassFieldsType>
 		<IncludeScope>4</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="16782617">
-		<LastChanged>2012-03-25T13:43:56</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>ClassProject</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>Screen</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="16782618">
 		<LastChanged>2012-03-25T13:46:18</LastChanged>
 		<Deleted>N</Deleted>
@@ -12984,21 +12789,6 @@
 		<LastChanged>2012-03-25T22:00:36</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>SwitchClassSub</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ScreenLocation</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="16782621">
-		<LastChanged>2012-03-25T22:03:48</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>ClassProject</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>ScreenLocation</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
@@ -13159,5 +12949,140 @@
 		<ClassFieldInitialValue>"Service"</ClassFieldInitialValue>
 		<ClassFieldsType>N</ClassFieldsType>
 		<IncludeScope>5</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782632">
+		<LastChanged>2012-07-18T22:06:40</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>StreamOut</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>int</ClassFieldClass>
+		<ClassFieldSequence>10</ClassFieldSequence>
+		<ClassFieldName>m_iTabs</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782633">
+		<LastChanged>2012-07-18T22:07:28</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>StreamOut</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>boolean</ClassFieldClass>
+		<ClassFieldSequence>20</ClassFieldSequence>
+		<ClassFieldName>m_bTabOnNextLine</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>false</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782634">
+		<LastChanged>2012-07-18T22:10:02</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>StreamOut</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>30</ClassFieldSequence>
+		<ClassFieldName>FOUR_SPACES</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"    "</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782635">
+		<LastChanged>2012-07-18T22:15:07</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>WriteResources</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>StreamOut</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782636">
+		<LastChanged>2012-07-18T22:27:31</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>StreamOut</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>java.io</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>P</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782637">
+		<LastChanged>2012-07-18T22:27:55</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ResourcesUtilities</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>java.io</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>P</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782638">
+		<LastChanged>2012-07-19T00:00:41</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassProject</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ClassProjectScreen</ClassFieldClass>
+		<ClassFieldSequence>1,000</ClassFieldSequence>
+		<ClassFieldName>CLASS_PROJECT_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>MAINT_MODE</ClassFieldInitialValue>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782639">
+		<LastChanged>2012-07-19T00:01:21</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassProject</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ClassProjectGridScreen</ClassFieldClass>
+		<ClassFieldSequence>1,010</ClassFieldSequence>
+		<ClassFieldName>CLASS_PROJECT_GRID_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>DISPLAY_MODE</ClassFieldInitialValue>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782640">
+		<LastChanged>2012-07-19T00:11:16</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassProject</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>Resource</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>C</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 </file>
