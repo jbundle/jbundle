@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Dictionary;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -43,6 +44,7 @@ import org.jbundle.model.db.Field;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.Params;
+import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.util.ThinUtil;
 import org.w3c.dom.Node;
 
@@ -579,12 +581,36 @@ public class Utility extends ThinUtil
     {
     	if (dest == null)
     		return source;
+    	if (source == null)
+    	    return dest;
     	for (String key : source.keySet())
     	{
     		if (dest.get(key) == null)
     			dest.put(key, source.get(key));
     	}
     	return dest;
+    }
+    /**
+     * Copy the application properties to this map.
+     * @param properties
+     * @param appProperties
+     * @return
+     */
+    public static Map<String, Object> copyAppProperties(Map<String, Object> properties, Map<String, Object> appProperties)
+    {
+        if (appProperties != null)
+        {
+            appProperties = Utility.putAllIfNew(new HashMap<String, Object>(), appProperties);
+            if (appProperties.get(Params.APP_NAME) != null)
+                appProperties.remove(Params.APP_NAME);
+            if (appProperties.get(Params.JMSSERVER) != null)
+                appProperties.remove(Params.JMSSERVER);
+            if (appProperties.get(DBParams.FREEIFDONE) != null)
+                appProperties.remove(DBParams.FREEIFDONE);
+            if (appProperties.get(MessageConstants.MESSAGE_FILTER) != null)
+                appProperties.remove(MessageConstants.MESSAGE_FILTER);
+        }
+        return Utility.putAllIfNew(properties, appProperties);
     }
     /**
      * Get the domain name from this URL.

@@ -154,6 +154,11 @@ public class RemoteSessionServer extends RemoteObject
     public RemoteTask getNewRemoteTask(Map<String,Object> properties)
     {
         try   {
+            if (m_app != null)
+            {   // Make sure remote server has same db properties, etc.
+                Map<String,Object> appProperties = m_app.getProperties();
+                properties = Utility.copyAppProperties(properties, appProperties);
+            }
             Application app = new MainApplication(((BaseApplication)m_app).getEnvironment(), properties, null);
             RemoteTask remoteServer = new TaskSession(app);
             ((TaskSession)remoteServer).setProperties(properties);
@@ -172,7 +177,8 @@ public class RemoteSessionServer extends RemoteObject
         if (m_app != null)
         	m_app.free();
         m_app = null;
-        ClassServiceUtility.getClassService().shutdownService(null, this);
+        if (ClassServiceUtility.getClassService().getClassFinder(null) != null)
+            ClassServiceUtility.getClassService().getClassFinder(null).shutdownService(null, this);
         if (env != null)
         	env.freeIfDone();
 //x        System.exit(0);

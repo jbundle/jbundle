@@ -10,7 +10,6 @@ package org.jbundle.base.screen.control.swing.activator;
 import java.util.Map;
 
 import org.jbundle.base.model.Utility;
-import org.jbundle.base.screen.control.swing.SApplet;
 import org.jbundle.base.util.BaseThickActivator;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.util.Application;
@@ -30,7 +29,7 @@ public class AppletActivator extends BaseThickActivator
 	        Map<String,Object> propertiesTemp = this.getServiceProperties();
 
 	        //?server = new SApplet(args);
-	        SApplet.main(Utility.propertiesToArgs(propertiesTemp));
+	        Main.main(Utility.propertiesToArgs(propertiesTemp));	// Note that I start Main instead of SApplet so SApplet can shutdown this bundle
 	        return Application.getRootApplet();
 
 //?    	        Environment env = new Environment(propertiesTemp);

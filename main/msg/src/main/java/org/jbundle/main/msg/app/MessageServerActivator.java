@@ -5,26 +5,16 @@
  */
 package org.jbundle.main.msg.app;
 
-import java.awt.*;
-import java.util.*;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.model.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.model.db.*;
-import org.jbundle.model.screen.*;
-import org.jbundle.base.remote.server.*;
-import org.osgi.framework.*;
-import org.jbundle.util.osgi.finder.*;
-import org.jbundle.thin.base.remote.*;
+import org.jbundle.base.model.DBParams;
+import org.jbundle.base.remote.server.BaseRemoteSessionActivator;
+import org.jbundle.base.remote.server.RemoteSessionServer;
+import org.jbundle.base.util.Environment;
+import org.jbundle.model.App;
+import org.jbundle.model.Env;
+import org.jbundle.thin.base.remote.RemoteException;
+import org.osgi.framework.BundleContext;
 
 /**
  *  MessageServerActivator - .

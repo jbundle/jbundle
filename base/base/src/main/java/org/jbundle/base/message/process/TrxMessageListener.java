@@ -17,6 +17,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.message.app.MessageApplication;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.MessageApp;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.BaseApplication;
@@ -156,6 +157,7 @@ public class TrxMessageListener extends BaseMessageListener
      * @param message
      * @return
      */
+    @SuppressWarnings("unchecked")
     public int handleOtherMessage(BaseMessage message)
     {
         // Special case - This class can also be used to start an application
@@ -176,6 +178,12 @@ public class TrxMessageListener extends BaseMessageListener
                 if (app != null)
                 {
                     Environment env = ((BaseApplication)m_application).getEnvironment();
+                    MessageApp messageApp = env.getMessageApplication(false, null);
+                    if (messageApp != null)
+                    {   // Move the correct application properties (such as database table type)
+                        Map<String, Object> properties = messageApp.getProperties();
+                        m_properties = Utility.copyAppProperties(m_properties, properties);
+                    }
                     if (m_properties.get(MessageConstants.QUEUE_NAME) == null)
                         m_properties.put(MessageConstants.QUEUE_NAME, message.getMessageHeader().getQueueName());
                     if (m_properties.get(MessageConstants.QUEUE_TYPE) == null)
@@ -196,7 +204,7 @@ public class TrxMessageListener extends BaseMessageListener
                         Map<String,Object> properties = new HashMap<String,Object>();
                         if (message instanceof MapMessage)  // Always
                         {
-                            Map<String,Object> propMessage = (Map)message.getData();
+                            Map<String,Object> propMessage = (Map<String,Object>)message.getData();
                             if (propMessage != null)
                                 properties.putAll(propMessage);
                         }

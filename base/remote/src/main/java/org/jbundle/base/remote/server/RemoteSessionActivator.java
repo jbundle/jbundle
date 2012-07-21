@@ -9,7 +9,6 @@ package org.jbundle.base.remote.server;
 
 import java.util.Map;
 
-import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.App;
 import org.jbundle.model.Env;
@@ -29,10 +28,11 @@ public class RemoteSessionActivator extends BaseRemoteSessionActivator
         try {
             Environment env = (Environment)this.getService(Env.class);
             // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
-            App app = env.getMessageApplication(true, getServiceProperties());
+            Map<String, Object> properties = getServiceProperties();
+            App app = env.getMessageApplication(true, properties);
 //            app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
 //            app.getMessageManager(true);
-            return new RemoteSessionServer(app, null, getServiceProperties());	// Doesn't create environment
+            return new RemoteSessionServer(app, null, properties);	// Doesn't create environment
         } catch (RemoteException e) {
             e.printStackTrace();
         }

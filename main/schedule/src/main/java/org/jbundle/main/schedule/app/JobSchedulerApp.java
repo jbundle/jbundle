@@ -5,28 +5,19 @@
  */
 package org.jbundle.main.schedule.app;
 
-import java.awt.*;
-import java.util.*;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.model.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.model.db.*;
-import org.jbundle.model.screen.*;
-import javax.swing.*;
-import org.jbundle.thin.base.thread.*;
-import org.jbundle.base.thread.*;
-import org.jbundle.thin.base.message.*;
-import org.jbundle.thin.base.util.message.*;
-import org.jbundle.model.message.*;
+import org.jbundle.base.thread.ProcessRunnerTask;
+import org.jbundle.base.util.BaseApplication;
+import org.jbundle.model.message.MessageManager;
+import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.message.BaseMessage;
+import org.jbundle.thin.base.message.BaseMessageListener;
+import org.jbundle.thin.base.message.BaseMessageReceiver;
+import org.jbundle.thin.base.message.MapMessage;
+import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.thread.PrivateTaskScheduler;
+import org.jbundle.thin.base.util.message.RemoteMessageManager;
 
 /**
  *  JobSchedulerApp - This application schedules jobs on the calendar queue for execution
@@ -74,11 +65,12 @@ public class JobSchedulerApp extends BaseApplication
         BaseMessageReceiver receiver = (BaseMessageReceiver)messageManager.getMessageQueue(strQueueName, strQueueType).getMessageReceiver();
         new BaseMessageListener(receiver)    // Listener added to filter.
         {
+            @SuppressWarnings("unchecked")
             public int handleMessage(BaseMessage message)
             {   // Whenever I'm pinged, restart the JobScanner which rescans the current job list
                 Map<String,Object> properties = null;
                 if (message instanceof MapMessage)  // Always
-                    properties = (Map)message.getData();
+                    properties = (Map<String,Object>)message.getData();
                 ProcessRunnerTask task = new ProcessRunnerTask(JobSchedulerApp.this, null, properties);
                 getTaskScheduler().addTask(task);
                 return super.handleMessage(message);

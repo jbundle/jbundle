@@ -32,6 +32,7 @@ import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.comp.JTiledImage;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
+import org.jbundle.util.osgi.BundleConstants;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 
@@ -182,14 +183,19 @@ public class SApplet extends BaseApplet
      */
     public void free()
     {
-        if (m_screenField != null) if (m_screenField.getScreenFieldView().getControl() == this)
+        String servicePid = this.getProperty(BundleConstants.SERVICE_PID);
+        if (m_screenField != null)
+            if (m_screenField.getScreenFieldView() != null)
+                if (m_screenField.getScreenFieldView().getControl() == this)
         {
             m_screenField.getScreenFieldView().setControl(null);    // keep ~ScreenField from deleteing me!
             m_screenField.free();
             m_screenField = null;
         }
         super.free();
-        ClassServiceUtility.getClassService().shutdownService(null, this);	// Careful of circular calls
+        if (ClassServiceUtility.getClassService().getClassFinder(null) != null)
+            if (!ClassServiceUtility.getClassService().getClassFinder(null).shutdownService(this.getClass().getName(), servicePid))   // Try again using my pid           
+                ClassServiceUtility.getClassService().getClassFinder(null).shutdownService(null, this);    // Careful of circular calls
     }
     /**
      * This application is done, stop the application.
