@@ -6,6 +6,7 @@ package org.jbundle.thin.base.screen.splash;
 /*
  * @(#)Splash.java  2.2  2005-04-03
  *
+ * Thanks to:
  * Copyright © 2012-2005 Werner Randelshofer
  * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
  * All rights reserved.
@@ -13,33 +14,37 @@ package org.jbundle.thin.base.screen.splash;
  * This software is in the public domain.
  */
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.Window;
+import java.lang.reflect.Method;
 import java.net.URL;
 
+import javax.swing.JApplet;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JWindow;
+
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**
  * A Splash program.
  * This program displays a 
- * NOTE: Be careful not to reference or import any other class from here.
- *
+ * NOTE: Be careful not to reference or import any other classes from here.
  */
-public class Splash extends JWindow 
+public class Splash extends JPanel 
 {
 	private static final long serialVersionUID = 1L;
 
-    public static final String DEFAULT_SPLASH = "/com/tourapp/thin/base/screen/splash.jpg";   // In same package as this
+    public static final String DEFAULT_SPLASH = "org/jbundle/thin/base/screen/splash/Splash.gif";   // In same package as this
     public static final String ROOT_PACKAGE = "org.jbundle.";  // Package prefix
     public static final String SPLASH = "splash";
-    public static final String MAIN = "applet";
+    public static final String MAIN = "splash.main";
 
     /**
      * The current instance of the splash window.
@@ -65,7 +70,13 @@ public class Splash extends JWindow
         String splashImage = Splash.getParam(args, SPLASH);
         if ((splashImage == null) || (splashImage.length() == 0))
             splashImage = DEFAULT_SPLASH;
-        Splash.splash(Splash.class.getResource(splashImage));
+        URL url = Splash.class.getResource(splashImage);
+        if (url == null)
+            if (ClassServiceUtility.getClassService().getClassFinder(null) != null)
+                url = ClassServiceUtility.getClassService().getClassFinder(null).findResourceURL(splashImage, null);
+        
+        Container container = null;
+        Splash.splash(container, url);
         String main = Splash.getParam(args, MAIN);
         if ((main == null) || (main.length() == 0))
             main = ROOT_PACKAGE + "Thin";
@@ -102,16 +113,24 @@ public class Splash extends JWindow
 
     public Splash()
     {
-        super((JFrame)null);
+        super();
     }
     /**
      * Creates a new instance.
      * @param parent the parent of the window.
      * @param image the splash image.
      */
-    private Splash(JFrame parent, Image image) 
+    private Splash(Container container, Image image) 
     {
-        super(parent);
+        super();
+        
+        if (container instanceof JApplet)
+            ((JApplet)container).getContentPane().add(this);
+        else if (container instanceof JWindow)
+            ((JWindow)container).getContentPane().add(this);
+        else
+            container.add(this);
+        
         this.image = image;
 
         // Load the image
@@ -124,29 +143,9 @@ public class Splash extends JWindow
         // Center the window on the screen
         int imgWidth = image.getWidth(this);
         int imgHeight = image.getHeight(this);
-        setSize(imgWidth, imgHeight);
-        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation(
-        (screenDim.width - imgWidth) / 2,
-        (screenDim.height - imgHeight) / 2
-        );
-        
-        // This mouse listener listens for mouse clicks and disposes the splash window.
-        MouseAdapter disposeOnClick = new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                // Note: To avoid that method splash hangs, we
-                // must set paintCalled to true and call notifyAll.
-                // This is necessary because the mouse click may
-                // occur before the contents of the window
-                // has been painted.
-                synchronized(Splash.this) {
-                    Splash.this.paintCalled = true;
-                    Splash.this.notifyAll();
-                }
-                dispose();
-            }
-        };
-        addMouseListener(disposeOnClick);
+
+        container.setSize(imgWidth, imgHeight);
+        this.setSize(imgWidth, imgHeight);
     }
     
     /**
@@ -177,16 +176,38 @@ public class Splash extends JWindow
      * Open's a splash window using the specified image.
      * @param image The splash image.
      */
-    public static void splash(Image image)
+    public static Container splash(Container container, Image image)
     {
         if (instance == null && image != null) {
-            JFrame f = new JFrame();
+            Window frame = null;
+            int heading = 0;
+            if (container == null)
+            {
+                frame = new JWindow();
+                container = new JApplet();  // Just to be consistent
+                ((JWindow)frame).getContentPane().add(container);
+            }
+            else
+            {
+                frame = new JFrame();
+                ((JFrame)frame).getContentPane().add(container);
+                if (container instanceof JApplet)
+                    heading = 50;   // TODO There must be a way to get this
+            }                
 
             // Create the splash image
-            instance = new Splash(f, image);
+            instance = new Splash(container, image);
             
+            Dimension dimension = container.getSize();
+            frame.setSize(dimension.width, dimension.height + heading);
+            Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+            frame.setLocation(
+            (screenDim.width - dimension.width) / 2,
+            (screenDim.height - dimension.height) / 2
+            );
+
             // Show the window.
-            instance.setVisible(true);
+            frame.setVisible(true);
             
             // Wait until its paint method has been called at least once.
             if (! EventQueue.isDispatchThread() 
@@ -198,15 +219,17 @@ public class Splash extends JWindow
                 }
             }
         }
+        return container;
     }
     /**
      * Open's a splash window using the specified image.
      * @param imageURL The url of the splash image.
      */
-    public static void splash(URL imageURL) {
+    public static Container splash(Container container, URL imageURL) {
         if (imageURL != null) {
-            splash(Toolkit.getDefaultToolkit().createImage(imageURL));
+            return splash(container, Toolkit.getDefaultToolkit().createImage(imageURL));
         }
+        return null;
     }
     
     /**
@@ -214,7 +237,12 @@ public class Splash extends JWindow
      */
     public static void disposeSplash() {
         if (instance != null) {
-            instance.getOwner().dispose();
+            Container container = instance;
+            while ((container = container.getParent()) != null)
+            {
+                if (container instanceof Window)
+                    ((Window)container).dispose();
+            }
             instance = null;
         }
     }
@@ -225,9 +253,18 @@ public class Splash extends JWindow
      */
     public static void invokeMain(String className, String[] args) {
         try {
-            Class.forName(className).getMethod("main", new Class[] {String[].class}).invoke(null, new Object[] {args});
+            Class<?> clazz = null;
+            if (ClassServiceUtility.getClassService().getClassFinder(null) != null)
+                clazz = ClassServiceUtility.getClassService().getClassFinder(null).findClass(className, null);
+            if (clazz == null)
+                clazz = Class.forName(className);
+
+            Method method = clazz.getMethod("main", PARAMS);
+            Object[] objArgs = new Object[] {args};
+            method.invoke(null, objArgs);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    private static final Class<?>[] PARAMS = new Class[] {String[].class};
 }

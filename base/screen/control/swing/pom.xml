@@ -80,6 +80,11 @@
       <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
+      <groupId>org.jbundle.thin.base.screen</groupId>
+      <version>0.8.0-SNAPSHOT</version>
+      <artifactId>org.jbundle.thin.base.screen.splash</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <version>0.8.0-SNAPSHOT</version>
       <artifactId>jbundle-config-dep-all</artifactId>
