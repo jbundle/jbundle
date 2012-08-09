@@ -20,7 +20,7 @@
 		<ReverseQueueNameID/>
 	</QueueName>
 	<QueueName ID="3">
-		<LastChanged>2012-07-16T10:40:59</LastChanged>
+		<LastChanged>2006-09-03T13:33:00</LastChanged>
 		<Deleted>N</Deleted>
 		<Code>trxSend</Code>
 		<Name>Transaction send queue</Name>

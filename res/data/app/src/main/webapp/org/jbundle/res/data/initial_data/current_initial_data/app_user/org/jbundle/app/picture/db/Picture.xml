@@ -104960,4 +104960,3604 @@ was filled with shops!]]></Comment>
 		<ShortDesc/>
 		<PictureProperties/>
 	</Picture>
+	<Picture ID="13651">
+		<LastChanged>2012-08-08T23:43:05</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>mancillas</Name>
+		<ParentFolderID>443</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>ann/mancillas</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13652">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>CousinDora</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>ann/mancillas/CousinDora</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13653">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>SalSallyProm</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>ann/mancillas/SalSallyProm</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13654">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>CarmenHelen</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>ann/mancillas/CarmenHelen</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13655">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Carmen</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>ann/mancillas/Carmen</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13656">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mickey</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>ann/mancillas/Mickey</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13657">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Helen</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>60</Sequence>
+		<Comment/>
+		<Code>ann/mancillas/Helen</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13658">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>AuntLupe</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>70</Sequence>
+		<Comment/>
+		<Code>ann/mancillas/AuntLupe</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13659">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Margie</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>80</Sequence>
+		<Comment/>
+		<Code>ann/mancillas/Margie</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13660">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>carlos-margie-johnny-eddie</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>90</Sequence>
+		<Comment/>
+		<Code>las/carlos-margie-johnny-eddie</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13661">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Lupe</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>100</Sequence>
+		<Comment/>
+		<Code>ann/mancillas/Lupe</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13662">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Sal</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>110</Sequence>
+		<Comment/>
+		<Code>ann/mancillas/Sal</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13663">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>JohnnyCarlosEddie</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>120</Sequence>
+		<Comment/>
+		<Code>nn/mancillas/JohnnyCarlosEddie</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13664">
+		<LastChanged>2012-08-08T23:43:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>GrandpaSal</Name>
+		<ParentFolderID>13,651</ParentFolderID>
+		<Sequence>130</Sequence>
+		<Comment/>
+		<Code>ann/mancillas/GrandpaSal</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13665">
+		<LastChanged>2012-08-08T23:43:07</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>misc</Name>
+		<ParentFolderID>447</ParentFolderID>
+		<Sequence>70</Sequence>
+		<Comment/>
+		<Code>don/misc</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13666">
+		<LastChanged>2012-08-08T23:43:07</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>IMG_4415</Name>
+		<ParentFolderID>13,665</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>don/misc/IMG_4415</Code>
+		<Type>1</Type>
+		<Path>IMG_4415.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13667">
+		<LastChanged>2012-08-08T23:43:07</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood</Name>
+		<ParentFolderID>447</ParentFolderID>
+		<Sequence>190</Sequence>
+		<Comment/>
+		<Code>don/dogfood</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13668">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 022</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 022</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13669">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 013</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 013</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13670">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 018</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 018</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13671">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 025</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 025</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13672">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 083</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 083</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13673">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 028</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>60</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 028</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13674">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 006</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>70</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 006</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13675">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 007</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>80</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 007</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13676">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 078</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>90</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 078</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13677">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>don 004</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>100</Sequence>
+		<Comment/>
+		<Code>don/dogfood/don 004</Code>
+		<Type>1</Type>
+		<Path>don 004.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13678">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 001</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>110</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 001</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13679">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>don 003</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>120</Sequence>
+		<Comment/>
+		<Code>don/dogfood/don 003</Code>
+		<Type>1</Type>
+		<Path>don 003.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13680">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 079</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>130</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 079</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13681">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>don 005</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>140</Sequence>
+		<Comment/>
+		<Code>don/dogfood/don 005</Code>
+		<Type>1</Type>
+		<Path>don 005.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13682">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 009</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>150</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 009</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13683">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>don 001</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>160</Sequence>
+		<Comment/>
+		<Code>don/dogfood/don 001</Code>
+		<Type>1</Type>
+		<Path>don 001.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13684">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 016</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>170</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 016</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13685">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 052</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>180</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 052</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13686">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 026</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>190</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 026</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13687">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 010</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>200</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 010</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13688">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>don 002</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>210</Sequence>
+		<Comment/>
+		<Code>don/dogfood/don 002</Code>
+		<Type>1</Type>
+		<Path>don 002.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13689">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 012</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>220</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 012</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13690">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 014</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>230</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 014</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13691">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 024</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>240</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 024</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13692">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 008</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>250</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 008</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13693">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 011</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>260</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 011</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13694">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 015</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>270</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 015</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13695">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 005</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>280</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 005</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13696">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 027</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>290</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 027</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13697">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 050</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>300</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 050</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13698">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 023</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>310</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 023</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13699">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>dogfood 082</Name>
+		<ParentFolderID>13,667</ParentFolderID>
+		<Sequence>320</Sequence>
+		<Comment/>
+		<Code>don/dogfood/dogfood 082</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13700">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Halloween2011</Name>
+		<ParentFolderID>458</ParentFolderID>
+		<Sequence>60</Sequence>
+		<Comment/>
+		<Code>donandannie/Halloween2011</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13701">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 065</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 065</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 065.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13702">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 083</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 083</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 083.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13703">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 081</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 081</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 081.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13704">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 073</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 073</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 073.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13705">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 060</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 060</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 060.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13706">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 063</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>60</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 063</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 063.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13707">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 055</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>70</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 055</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 055.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13708">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 075</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>80</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 075</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 075.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13709">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 067</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>90</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 067</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 067.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13710">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 064</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>100</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 064</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 064.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13711">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 082</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>110</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 082</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 082.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13712">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 069</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>120</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 069</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 069.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13713">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 072</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>130</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 072</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 072.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13714">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 046</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>140</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 046</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 046.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13715">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 049</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>150</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 049</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 049.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13716">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 048</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>160</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 048</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 048.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13717">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 086</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>170</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 086</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 086.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13718">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 051</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>180</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 051</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 051.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13719">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 043</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>190</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 043</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 043.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13720">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 054</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>200</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 054</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 054.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13721">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 047</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>210</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 047</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 047.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13722">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 062</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>220</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 062</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 062.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13723">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 074</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>230</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 074</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 074.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13724">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 056</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>240</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 056</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 056.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13725">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 050</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>250</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 050</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 050.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13726">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 070</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>260</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 070</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 070.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13727">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 080</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>270</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 080</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 080.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13728">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 078</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>280</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 078</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 078.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13729">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 066</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>290</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 066</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 066.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13730">
+		<LastChanged>2012-08-08T23:43:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 061</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>300</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 061</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 061.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13731">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 077</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>310</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 077</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 077.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13732">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 079</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>320</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 079</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 079.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13733">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 088</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>330</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 088</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 088.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13734">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 045</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>340</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 045</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 045.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13735">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 071</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>350</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 071</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 071.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13736">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 076</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>360</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 076</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 076.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13737">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 058</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>370</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 058</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 058.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13738">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 087</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>380</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 087</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 087.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13739">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 053</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>390</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 053</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 053.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13740">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 057</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>400</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 057</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 057.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13741">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 085</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>410</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 085</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 085.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13742">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 042</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>420</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 042</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 042.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13743">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 059</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>430</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 059</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 059.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13744">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 052</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>440</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 052</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 052.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13745">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 044</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>450</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 044</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 044.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13746">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 068</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>460</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 068</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 068.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13747">
+		<LastChanged>2012-08-08T23:43:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class Pictures Jan 2012 084</Name>
+		<ParentFolderID>13,700</ParentFolderID>
+		<Sequence>470</Sequence>
+		<Comment/>
+		<Code>11/Class Pictures Jan 2012 084</Code>
+		<Type>1</Type>
+		<Path>Class Pictures Jan 2012 084.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13748">
+		<LastChanged>2012-08-08T23:43:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>ecuador2012</Name>
+		<ParentFolderID>1,144</ParentFolderID>
+		<Sequence>70</Sequence>
+		<Comment/>
+		<Code>donandannie/trips/ecuador2012</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc>Ecuador 2012</ShortDesc>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13749">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>day07</Name>
+		<ParentFolderID>13,748</ParentFolderID>
+		<Sequence>70</Sequence>
+		<Comment/>
+		<Code>dannie/trips/ecuador2012/day07</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13750">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>TungurahuaVolcano</Name>
+		<ParentFolderID>13,749</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>or2012/day07/TungurahuaVolcano</Code>
+		<Type>1</Type>
+		<Path>TungurahuaVolcano.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13751">
+		<LastChanged>2012-08-09T07:41:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>AnniesNewPet</Name>
+		<ParentFolderID>13,749</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>ecuador2012/day07/AnniesNewPet</Code>
+		<Type>1</Type>
+		<Path>AnniesNewPet.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13752">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>FeedingBreakfast</Name>
+		<ParentFolderID>13,749</ParentFolderID>
+		<Sequence>80</Sequence>
+		<Comment/>
+		<Code>dor2012/day07/FeedingBreakfast</Code>
+		<Type>1</Type>
+		<Path>FeedingBreakfast.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13753">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>YummyGuineaPigs</Name>
+		<ParentFolderID>13,749</ParentFolderID>
+		<Sequence>60</Sequence>
+		<Comment/>
+		<Code>ador2012/day07/YummyGuineaPigs</Code>
+		<Type>1</Type>
+		<Path>YummyGuineaPigs.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13754">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>CableCarRide</Name>
+		<ParentFolderID>13,749</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>ecuador2012/day07/CableCarRide</Code>
+		<Type>1</Type>
+		<Path>CableCarRide.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13755">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>BeautifulMorning</Name>
+		<ParentFolderID>13,749</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>dor2012/day07/BeautifulMorning</Code>
+		<Type>1</Type>
+		<Path>BeautifulMorning.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13756">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>ViewFromOurRoom</Name>
+		<ParentFolderID>13,749</ParentFolderID>
+		<Sequence>70</Sequence>
+		<Comment/>
+		<Code>ador2012/day07/ViewFromOurRoom</Code>
+		<Type>1</Type>
+		<Path>ViewFromOurRoom.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13757">
+		<LastChanged>2012-08-09T07:39:33</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>DiabloWaterfall</Name>
+		<ParentFolderID>13,749</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>ador2012/day07/DiabloWaterfall</Code>
+		<Type>1</Type>
+		<Path>DiabloWaterfall.JPG</Path>
+		<Rotate>90</Rotate>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13758">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>day03</Name>
+		<ParentFolderID>13,748</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>dannie/trips/ecuador2012/day03</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13759">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>TypicalLunch</Name>
+		<ParentFolderID>13,758</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>ecuador2012/day03/TypicalLunch</Code>
+		<Type>1</Type>
+		<Path>TypicalLunch.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13760">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>ReptileGargoyles</Name>
+		<ParentFolderID>13,758</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>dor2012/day03/ReptileGargoyles</Code>
+		<Type>1</Type>
+		<Path>ReptileGargoyles.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13761">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>BeautifulEvening</Name>
+		<ParentFolderID>13,758</ParentFolderID>
+		<Sequence>70</Sequence>
+		<Comment/>
+		<Code>dor2012/day03/BeautifulEvening</Code>
+		<Type>1</Type>
+		<Path>BeautifulEvening.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13762">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>PresidentialGuard</Name>
+		<ParentFolderID>13,758</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>or2012/day03/PresidentialGuard</Code>
+		<Type>1</Type>
+		<Path>PresidentialGuard.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13763">
+		<LastChanged>2012-08-09T07:30:05</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>MiddleOfTheWorld</Name>
+		<ParentFolderID>13,758</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>dor2012/day03/MiddleOfTheWorld</Code>
+		<Type>1</Type>
+		<Path>MiddleOfTheWorld.JPG</Path>
+		<Rotate>90</Rotate>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13764">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>LaBaslilca</Name>
+		<ParentFolderID>13,758</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>s/ecuador2012/day03/LaBaslilca</Code>
+		<Type>1</Type>
+		<Path>LaBaslilca.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13765">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>LagoSanPablo</Name>
+		<ParentFolderID>13,758</ParentFolderID>
+		<Sequence>60</Sequence>
+		<Comment/>
+		<Code>ecuador2012/day03/LagoSanPablo</Code>
+		<Type>1</Type>
+		<Path>LagoSanPablo.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13766">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>RusticRoom</Name>
+		<ParentFolderID>13,758</ParentFolderID>
+		<Sequence>80</Sequence>
+		<Comment/>
+		<Code>s/ecuador2012/day03/RusticRoom</Code>
+		<Type>1</Type>
+		<Path>RusticRoom.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13767">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>day04</Name>
+		<ParentFolderID>13,748</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>dannie/trips/ecuador2012/day04</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13768">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>MusicDemonstration</Name>
+		<ParentFolderID>13,767</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>r2012/day04/MusicDemonstration</Code>
+		<Type>1</Type>
+		<Path>MusicDemonstration.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13769">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>MountainWaterfall</Name>
+		<ParentFolderID>13,767</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>or2012/day04/MountainWaterfall</Code>
+		<Type>1</Type>
+		<Path>MountainWaterfall.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13770">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>OtovaloMarket</Name>
+		<ParentFolderID>13,767</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>cuador2012/day04/OtovaloMarket</Code>
+		<Type>1</Type>
+		<Path>OtovaloMarket.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13771">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>day02</Name>
+		<ParentFolderID>13,748</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>dannie/trips/ecuador2012/day02</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13772">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>GalapagosTurtle</Name>
+		<ParentFolderID>13,771</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>ador2012/day02/GalapagosTurtle</Code>
+		<Type>1</Type>
+		<Path>GalapagosTurtle.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13773">
+		<LastChanged>2012-08-09T07:27:56</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>TortiseShell</Name>
+		<ParentFolderID>13,771</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>ecuador2012/day02/TortiseShell</Code>
+		<Type>1</Type>
+		<Path>TortiseShell.JPG</Path>
+		<Rotate>90</Rotate>
+		<Status>2</Status>
+		<ShortDesc>Tortoise Shell</ShortDesc>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13774">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>YummyDinner</Name>
+		<ParentFolderID>13,771</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>/ecuador2012/day02/YummyDinner</Code>
+		<Type>1</Type>
+		<Path>YummyDinner.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13775">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>QuitoZoo</Name>
+		<ParentFolderID>13,771</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>ips/ecuador2012/day02/QuitoZoo</Code>
+		<Type>1</Type>
+		<Path>QuitoZoo.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13776">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>EyeglassBear</Name>
+		<ParentFolderID>13,771</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>ecuador2012/day02/EyeglassBear</Code>
+		<Type>1</Type>
+		<Path>EyeglassBear.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13777">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>day06</Name>
+		<ParentFolderID>13,748</ParentFolderID>
+		<Sequence>60</Sequence>
+		<Comment/>
+		<Code>dannie/trips/ecuador2012/day06</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13778">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>RescuedMonkey</Name>
+		<ParentFolderID>13,777</ParentFolderID>
+		<Sequence>70</Sequence>
+		<Comment/>
+		<Code>cuador2012/day06/RescuedMonkey</Code>
+		<Type>1</Type>
+		<Path>RescuedMonkey.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13779">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Taiper</Name>
+		<ParentFolderID>13,777</ParentFolderID>
+		<Sequence>60</Sequence>
+		<Comment/>
+		<Code>trips/ecuador2012/day06/Taiper</Code>
+		<Type>1</Type>
+		<Path>Taiper.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13780">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>RidingTheRiver</Name>
+		<ParentFolderID>13,777</ParentFolderID>
+		<Sequence>80</Sequence>
+		<Comment/>
+		<Code>uador2012/day06/RidingTheRiver</Code>
+		<Type>1</Type>
+		<Path>RidingTheRiver.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13781">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>JungleCat</Name>
+		<ParentFolderID>13,777</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>ps/ecuador2012/day06/JungleCat</Code>
+		<Type>1</Type>
+		<Path>JungleCat.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13782">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>HugeTree</Name>
+		<ParentFolderID>13,777</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>ips/ecuador2012/day06/HugeTree</Code>
+		<Type>1</Type>
+		<Path>HugeTree.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13783">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Frog</Name>
+		<ParentFolderID>13,777</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>e/trips/ecuador2012/day06/Frog</Code>
+		<Type>1</Type>
+		<Path>Frog.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13784">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>JungleGirl</Name>
+		<ParentFolderID>13,777</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>s/ecuador2012/day06/JungleGirl</Code>
+		<Type>1</Type>
+		<Path>JungleGirl.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13785">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Monkey</Name>
+		<ParentFolderID>13,777</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>trips/ecuador2012/day06/Monkey</Code>
+		<Type>1</Type>
+		<Path>Monkey.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13786">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>day08</Name>
+		<ParentFolderID>13,748</ParentFolderID>
+		<Sequence>80</Sequence>
+		<Comment/>
+		<Code>dannie/trips/ecuador2012/day08</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13787">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>NativeGuidePaulina</Name>
+		<ParentFolderID>13,786</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>r2012/day08/NativeGuidePaulina</Code>
+		<Type>1</Type>
+		<Path>NativeGuidePaulina.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13788">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>LimgiopungoLake</Name>
+		<ParentFolderID>13,786</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>ador2012/day08/LimgiopungoLake</Code>
+		<Type>1</Type>
+		<Path>LimgiopungoLake.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13789">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>CotopaxiVolcano</Name>
+		<ParentFolderID>13,786</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>ador2012/day08/CotopaxiVolcano</Code>
+		<Type>1</Type>
+		<Path>CotopaxiVolcano.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13790">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Volcano</Name>
+		<ParentFolderID>13,786</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>rips/ecuador2012/day08/Volcano</Code>
+		<Type>1</Type>
+		<Path>Volcano.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13791">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>day01</Name>
+		<ParentFolderID>13,748</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>dannie/trips/ecuador2012/day01</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13792">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>QuitoSky</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>ips/ecuador2012/day01/QuitoSky</Code>
+		<Type>1</Type>
+		<Path>QuitoSky.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13793">
+		<LastChanged>2012-08-09T07:22:20</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>LaBasilicaSideView</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>r2012/day01/LaBasilicaSideView</Code>
+		<Type>1</Type>
+		<Path>LaBasilicaSideView.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13794">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>QuitoFromElPanecillo</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>80</Sequence>
+		<Comment/>
+		<Code>012/day01/QuitoFromElPanecillo</Code>
+		<Type>1</Type>
+		<Path>QuitoFromElPanecillo.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13795">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>LaCompaniaChurch</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>dor2012/day01/LaCompaniaChurch</Code>
+		<Type>1</Type>
+		<Path>LaCompaniaChurch.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13796">
+		<LastChanged>2012-08-09T07:22:56</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>QuitoSunset</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>220</Sequence>
+		<Comment/>
+		<Code>/ecuador2012/day01/QuitoSunset</Code>
+		<Type>1</Type>
+		<Path>QuitoSunset.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13798">
+		<LastChanged>2012-08-09T07:23:29</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>LaBasilica</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>60</Sequence>
+		<Comment/>
+		<Code>s/ecuador2012/day01/LaBasilica</Code>
+		<Type>1</Type>
+		<Path>LaBasilica.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13799">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>FriedPorkWithPlantains</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>180</Sequence>
+		<Comment/>
+		<Code>2/day01/FriedPorkWithPlantains</Code>
+		<Type>1</Type>
+		<Path>FriedPorkWithPlantains.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13800">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>PotatoSoup</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>140</Sequence>
+		<Comment/>
+		<Code>s/ecuador2012/day01/PotatoSoup</Code>
+		<Type>1</Type>
+		<Path>PotatoSoup.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13801">
+		<LastChanged>2012-08-09T07:23:23</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>InsideLaCompania</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>dor2012/day01/InsideLaCompania</Code>
+		<Type>1</Type>
+		<Path>InsideLaCompania.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13802">
+		<LastChanged>2012-08-09T07:23:47</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>ElPanecillo</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>90</Sequence>
+		<Comment/>
+		<Code>/ecuador2012/day01/ElPanecillo</Code>
+		<Type>1</Type>
+		<Path>ElPanecillo.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13803">
+		<LastChanged>2012-08-09T07:23:50</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>HikingDownFromElPanecillo</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>100</Sequence>
+		<Comment/>
+		<Code>ay01/HikingDownFromElPanecillo</Code>
+		<Type>1</Type>
+		<Path>HikingDownFromElPanecillo.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13804">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>QuitoTree</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>ps/ecuador2012/day01/QuitoTree</Code>
+		<Type>1</Type>
+		<Path>QuitoTree.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13805">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>day05</Name>
+		<ParentFolderID>13,748</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>dannie/trips/ecuador2012/day05</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13806">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Hummingbird</Name>
+		<ParentFolderID>13,805</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>/ecuador2012/day05/Hummingbird</Code>
+		<Type>1</Type>
+		<Path>Hummingbird.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13807">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>WelcomeToTheRainforest</Name>
+		<ParentFolderID>13,805</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>2/day05/WelcomeToTheRainforest</Code>
+		<Type>1</Type>
+		<Path>WelcomeToTheRainforest.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13808">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>ViewFromOurRoom</Name>
+		<ParentFolderID>13,805</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>ador2012/day05/ViewFromOurRoom</Code>
+		<Type>1</Type>
+		<Path>ViewFromOurRoom.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13809">
+		<LastChanged>2012-08-08T23:43:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>NicePorch</Name>
+		<ParentFolderID>13,805</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>ps/ecuador2012/day05/NicePorch</Code>
+		<Type>1</Type>
+		<Path>NicePorch.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13810">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>BillysBirthday2012</Name>
+		<ParentFolderID>458</ParentFolderID>
+		<Sequence>170</Sequence>
+		<Comment/>
+		<Code>donandannie/BillysBirthday2012</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13811">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Kids</Name>
+		<ParentFolderID>13,810</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>dannie/BillysBirthday2012/Kids</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13812">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Girls</Name>
+		<ParentFolderID>13,810</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>annie/BillysBirthday2012/Girls</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13813">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>BillyAndFrank</Name>
+		<ParentFolderID>13,810</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>llysBirthday2012/BillyAndFrank</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13814">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>100_5621</Name>
+		<ParentFolderID>13,810</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>ie/BillysBirthday2012/100_5621</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13815">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>100_5622</Name>
+		<ParentFolderID>13,810</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>ie/BillysBirthday2012/100_5622</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13816">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>MomsBirthday2012</Name>
+		<ParentFolderID>458</ParentFolderID>
+		<Sequence>250</Sequence>
+		<Comment/>
+		<Code>donandannie/MomsBirthday2012</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13817">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 002</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 002</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 002.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13818">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 011</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 011</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 011.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13819">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 010</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 010</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 010.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13820">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>everyone</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>nnie/MomsBirthday2012/everyone</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13821">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 003</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 003</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 003.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13822">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 015</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>60</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 015</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 015.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13823">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 005</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>70</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 005</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 005.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13824">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>2012-06-25 14.07.53</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>80</Sequence>
+		<Comment/>
+		<Code>rthday2012/2012-06-25 14.07.53</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13825">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 001</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>90</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 001</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 001.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13826">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>everyone2</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>100</Sequence>
+		<Comment/>
+		<Code>nie/MomsBirthday2012/everyone2</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13827">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>ScottAndBonsey</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>110</Sequence>
+		<Comment/>
+		<Code>omsBirthday2012/ScottAndBonsey</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13828">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 007</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>120</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 007</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 007.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13829">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 012</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>130</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 012</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 012.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13830">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 006</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>140</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 006</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 006.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13831">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>MomAndKids</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>150</Sequence>
+		<Comment/>
+		<Code>ie/MomsBirthday2012/MomAndKids</Code>
+		<Type>1</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13832">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 004</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>160</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 004</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 004.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13833">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Mom's Birthday 008</Name>
+		<ParentFolderID>13,816</ParentFolderID>
+		<Sequence>170</Sequence>
+		<Comment/>
+		<Code>irthday2012/Mom's Birthday 008</Code>
+		<Type>1</Type>
+		<Path>Mom's Birthday 008.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13834">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>2012-05-03 Stacey 21</Name>
+		<ParentFolderID>458</ParentFolderID>
+		<Sequence>360</Sequence>
+		<Comment/>
+		<Code>nandannie/2012-05-03 Stacey 21</Code>
+		<Type>2</Type>
+		<Path/>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13835">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 005</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 005</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 005.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13836">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 052</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 052</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 052.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13837">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 046</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 046</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 046.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13838">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 042</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 042</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 042.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13839">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 015</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>50</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 015</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 015.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13840">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 004</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>60</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 004</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 004.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13841">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 034</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>70</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 034</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 034.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13842">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 058</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>80</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 058</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 058.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13843">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 037</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>90</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 037</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 037.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13844">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 063</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>100</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 063</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 063.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13845">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 011</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>110</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 011</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 011.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13846">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 002</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>120</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 002</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 002.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13847">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 010</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>150</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 010</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 010.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13848">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 043</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>160</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 043</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 043.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13849">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 050</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>170</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 050</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 050.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13850">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 027</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>180</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 027</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 027.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13851">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 059</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>190</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 059</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 059.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13852">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 019</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>200</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 019</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 019.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13853">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 048</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>220</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 048</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 048.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13854">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 036</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>230</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 036</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 036.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13855">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 008</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>250</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 008</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 008.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13856">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 045</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>270</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 045</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 045.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13857">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 054</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>280</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 054</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 054.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13858">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 017</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>290</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 017</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 017.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13859">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 038</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>300</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 038</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 038.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13860">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 044</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>310</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 044</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 044.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13861">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 035</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>320</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 035</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 035.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13862">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 003</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>330</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 003</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 003.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13863">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 016</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>340</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 016</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 016.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13864">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 041</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>350</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 041</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 041.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13865">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 039</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>360</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 039</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 039.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13866">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 030</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>380</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 030</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 030.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13867">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 029</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>390</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 029</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 029.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13868">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 001</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>400</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 001</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 001.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13869">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 014</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>410</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 014</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 014.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13870">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 047</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>420</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 047</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 047.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13871">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 049</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>430</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 049</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 049.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13872">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 012</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>440</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 012</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 012.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13873">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 051</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>450</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 051</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 051.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13874">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 009</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>470</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 009</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 009.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13875">
+		<LastChanged>2012-08-08T23:43:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 057</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>480</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 057</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 057.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13876">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 007</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>490</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 007</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 007.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13877">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 018</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>500</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 018</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 018.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13878">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 020</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>510</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 020</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 020.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13879">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 025</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>520</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 025</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 025.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13880">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 032</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>530</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 032</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 032.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13881">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 060</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>540</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 060</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 060.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13882">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 033</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>550</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 033</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 033.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13883">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 040</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>560</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 040</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 040.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13884">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 055</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>580</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 055</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 055.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13885">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 026</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>590</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 026</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 026.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13886">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 013</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>600</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 013</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 013.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13887">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 053</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>620</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 053</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 053.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13888">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 006</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>630</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 006</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 006.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13889">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 062</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>640</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 062</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 062.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13890">
+		<LastChanged>2012-08-08T23:43:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Stacey 21 022</Name>
+		<ParentFolderID>13,834</ParentFolderID>
+		<Sequence>660</Sequence>
+		<Comment/>
+		<Code>-05-03 Stacey 21/Stacey 21 022</Code>
+		<Type>1</Type>
+		<Path>Stacey 21 022.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
+	<Picture ID="13891">
+		<LastChanged>2012-08-09T07:23:35</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>QuitoFromCruzLoma</Name>
+		<ParentFolderID>13,791</ParentFolderID>
+		<Sequence>210</Sequence>
+		<Comment/>
+		<Code>or2012/day01/QuitoFromCruzLoma</Code>
+		<Type>1</Type>
+		<Path>QuitoFromCruzLoma.JPG</Path>
+		<Rotate/>
+		<Status>2</Status>
+		<ShortDesc/>
+		<PictureProperties/>
+	</Picture>
 </file>

@@ -1882,7 +1882,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16779934">
-		<LastChanged>2009-02-12T14:49:23</LastChanged>
+		<LastChanged>2009-02-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>JnlpFile</ClassInfoClassName>
 		<ClassInfoID/>
@@ -10686,7 +10686,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782473">
-		<LastChanged>2010-02-16T11:23:15</LastChanged>
+		<LastChanged>2012-04-07T19:01:46</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>UserInfo</ClassInfoClassName>
 		<ClassInfoID/>

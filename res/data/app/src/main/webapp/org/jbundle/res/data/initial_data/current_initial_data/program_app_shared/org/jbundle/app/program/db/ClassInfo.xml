@@ -493,7 +493,7 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="1869">
-		<LastChanged>2010-04-09T22:19:42</LastChanged>
+		<LastChanged>2010-04-09T22:19:09</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MoveClassField</ClassName>
 		<BaseClassName>ReferenceField</BaseClassName>
@@ -629,7 +629,7 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="2148">
-		<LastChanged>2010-04-09T22:09:31</LastChanged>
+		<LastChanged>2010-04-09T22:19:09</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>DanceTeacher</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
