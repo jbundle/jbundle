@@ -189,13 +189,17 @@ public class Application extends Object
             PortableImageUtil portableImageUtil = null;
             try   {
                 Class.forName("javax.swing.ImageIcon"); // Test if swing exists
-                portableImageUtil = (PortableImageUtil)ClassServiceUtility.getClassService().makeObjectFromClassName("org.jbundle.thin.base.screen.util.SwingPortableImageUtil");
+                portableImageUtil = (PortableImageUtil)ClassServiceUtility.getClassService().makeObjectFromClassName(SWING_IMAGE_UTIL);
             } catch (Exception ex)  { // Android
-                portableImageUtil = (PortableImageUtil)ClassServiceUtility.getClassService().makeObjectFromClassName("org.jbundle.android.thin.base.screen.util.AndroidPortableImageUtil");
+                portableImageUtil = (PortableImageUtil)ClassServiceUtility.getClassService().makeObjectFromClassName(ANDROID_IMAGE_UTIL);
             }
+            if (portableImageUtil == null)  // Sometime OSGi has a hard time finding javax
+                portableImageUtil = (PortableImageUtil)ClassServiceUtility.getClassService().makeObjectFromClassName(SWING_IMAGE_UTIL);
             Util.setPortableImageUtil(portableImageUtil);
         }
     }
+    public static final String SWING_IMAGE_UTIL = "org.jbundle.thin.base.screen.util.SwingPortableImageUtil";
+    public static final String ANDROID_IMAGE_UTIL = "org.jbundle.android.thin.base.screen.util.AndroidPortableImageUtil";
     /**
      * Free all the resources belonging to this application.
      */
