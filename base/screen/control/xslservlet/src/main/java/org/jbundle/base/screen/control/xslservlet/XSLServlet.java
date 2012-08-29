@@ -13,9 +13,10 @@ package org.jbundle.base.screen.control.xslservlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PipedReader;
+import java.io.PipedWriter;
 import java.io.PrintWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.util.Collections;
 import java.util.Map;
@@ -83,6 +84,43 @@ public class XSLServlet extends XMLServlet
         super.destroy();
     }
     /**
+     * This thread feeds data to the pipe.
+     * @author don
+     */
+    class PrintThread extends Thread
+    {
+        Writer outWriter = null;
+        ServletTask servletTask = null;
+        HttpServletRequest req = null;
+        ScreenModel screen = null;
+        BasicServlet servlet = null;
+        public PrintThread(BasicServlet servlet, Writer outWriter, ServletTask servletTask, HttpServletRequest req, ScreenModel screen)
+        {
+            super();
+            this.outWriter = outWriter;
+            this.servletTask = servletTask;
+            this.req = req;
+            this.screen = screen;
+            this.servlet = servlet;
+        }
+        public void run()
+        {
+            PrintWriter writer = new PrintWriter(outWriter);
+            try {
+                servletTask.doProcessOutput(servlet, req, null, writer, screen);
+            } catch (ServletException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                writer.flush();
+                writer.close();                
+            }
+            
+        }        
+    }
+    
+    /**
      *  process an HTML get or post.
      * @exception ServletException From inherited class.
      * @exception IOException From inherited class.
@@ -91,50 +129,32 @@ public class XSLServlet extends XMLServlet
     public void service(HttpServletRequest req, HttpServletResponse res) 
         throws ServletException, IOException
     {
-    	//String sourceFileName = req.getParameter("source");
+        ServletTask servletTask = new ServletTask(this, BasicServlet.SERVLET_TYPE.COCOON);
+        this.addBrowserProperties(req, servletTask);
+		ScreenModel screen = servletTask.doProcessInput(this, req, null);
+		
+        Transformer transformer = getTransformer(req, servletTask, screen); // Screen can't be freed when I call this.
 
-    	String stylesheet = null;
-    	ServletTask servletTask = null;
-    	
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter writer = new PrintWriter(stringWriter);
-            servletTask = new ServletTask(this, BasicServlet.SERVLET_TYPE.COCOON);
-            this.addBrowserProperties(req, servletTask);
-			ScreenModel screen = servletTask.doProcessInput(this, req, null);
-			
-			if (stylesheet == null)
-				stylesheet = req.getParameter(DBParams.TEMPLATE);
-			if (stylesheet == null)
-				if (screen != null)
-					if (screen.getScreenFieldView() != null)
-						stylesheet = screen.getScreenFieldView().getStylesheetPath();
-			if (stylesheet == null)
-				stylesheet = req.getParameter("stylesheet");
-			if (stylesheet == null)
-				stylesheet = "docs/styles/xsl/flat/base/menus";
-			
-            Transformer transformer = getTransformer(stylesheet, servletTask, screen);
-            // TODO - Create a task to feed the writer to the (transformer) input stream.
-			servletTask.doProcessOutput(this, req, null, writer, screen);
+        PipedReader in = new PipedReader();
+        PipedWriter out = new PipedWriter(in);
+        
+        new PrintThread(this, out, servletTask, req, screen).start();
 
-			writer.flush();
-	        String string = stringWriter.toString();
-	        StringReader sourceFileReader = new StringReader(string);
-            StreamSource source = new StreamSource(sourceFileReader);
+        StreamSource source = new StreamSource(in);
 
-            ServletOutputStream outStream = res.getOutputStream();
-            Result result = new StreamResult(outStream);
+        ServletOutputStream outStream = res.getOutputStream();
+        Result result = new StreamResult(outStream);
 
-            try {
-                synchronized (transformer)
-                {
-                    transformer.transform(source, result);
-                }
-            } catch (TransformerException ex) {
-                ex.printStackTrace();
-                servletTask.free();
-            } // Never
-    	
+        try {
+            synchronized (transformer)
+            {
+                transformer.transform(source, result);  // Get the data from the pipe (thread) and transform it to http
+            }
+        } catch (TransformerException ex) {
+            ex.printStackTrace();
+            servletTask.free();
+        } // Never
+	
     	//x Don't call super.service(req, res);
     }
 
@@ -143,9 +163,30 @@ public class XSLServlet extends XMLServlet
     @SuppressWarnings({ "deprecation", "unchecked" })
     Map<String, Transformer> hmTransformers = Collections.synchronizedMap(new org.apache.commons.collections.LRUMap(MAX_CACHED));
     
-    public Transformer getTransformer(String stylesheet, ServletTask servletTask, ScreenModel screen)
+    /**
+     * Get or Create a transformer for the specified stylesheet.
+     * @param req
+     * @param servletTask
+     * @param screen
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    public Transformer getTransformer(HttpServletRequest req, ServletTask servletTask, ScreenModel screen)
             throws ServletException, IOException
     {
+        String stylesheet = null;
+        if (stylesheet == null)
+            stylesheet = req.getParameter(DBParams.TEMPLATE);
+        if (stylesheet == null)
+            if (screen != null)
+                if (screen.getScreenFieldView() != null)
+                    stylesheet = screen.getScreenFieldView().getStylesheetPath();
+        if (stylesheet == null)
+            stylesheet = req.getParameter("stylesheet");
+        if (stylesheet == null)
+            stylesheet = "docs/styles/xsl/flat/base/menus";
+        
         try {
             if (hmTransformers.get(stylesheet) != null)
                 return hmTransformers.get(stylesheet);
@@ -161,7 +202,6 @@ public class XSLServlet extends XMLServlet
                 Utility.getLogger().warning("XmlFile not found " + stylesheetFixed);   // TODO - Display an error here
             StreamSource stylesheetSource = new StreamSource(stylesheetStream);
             
-            // TODO - Cache transformers
             if (tFact == null)
                 tFact = TransformerFactory.newInstance();
             URIResolver resolver = new MyURIResolver(servletTask, stylesheetFixed);
@@ -178,7 +218,6 @@ public class XSLServlet extends XMLServlet
     /**
      * Class to return base path of imports and includes.
      * @author don
-     *
      */
     public class MyURIResolver
     	implements URIResolver
