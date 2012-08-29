@@ -44,7 +44,7 @@ public class ReadSecondaryHandler extends FieldListener
     /**
      * The main key field in the secondary record.
      */
-    protected BaseField m_KeyField = null;
+    protected BaseField m_keyField = null;
     /**
      * Close the record when this behavior is removed?
      */
@@ -114,7 +114,7 @@ public class ReadSecondaryHandler extends FieldListener
         super.init(field);
         m_record = record;
         this.keyAreaName = keyAreaName;
-        m_KeyField = null;
+        m_keyField = null;
         m_bCloseOnFree = bCloseOnFree;
         m_bUpdateRecord = bUpdateRecord;
         m_bAllowNull = bAllowNull;
@@ -173,18 +173,17 @@ public class ReadSecondaryHandler extends FieldListener
 
             if (owner instanceof ReferenceField)
             {
-                if (keyAreaName != null)
-                    m_KeyField = m_record.getKeyArea(keyAreaName).getField(DBConstants.MAIN_KEY_FIELD);   // Handle field
-                moveBehavior = new MoveOnValidHandler(((BaseField)owner), m_KeyField, null, true, true);        // Its okay to sync the key with references
-                m_KeyField = null;
+                m_keyField = m_record.getKeyArea(keyAreaName).getField(DBConstants.MAIN_KEY_FIELD);   // Handle field (note - null keyAreaName -> counter field)
+                moveBehavior = new MoveOnValidHandler(((BaseField)owner), m_keyField, null, true, true);        // Its okay to sync the key with references
+                m_keyField = null;
             } 
             else
             {
                 MainReadOnlyHandler listener = new MainReadOnlyHandler(keyAreaName);
-                m_KeyField = m_record.getKeyArea(keyAreaName).getField(DBConstants.MAIN_KEY_FIELD);
-                m_KeyField.addListener(listener); //    Make sure this field has the BaseListener to read it's file
+                m_keyField = m_record.getKeyArea(keyAreaName).getField(DBConstants.MAIN_KEY_FIELD);
+                m_keyField.addListener(listener); //    Make sure this field has the BaseListener to read it's file
                     // Make sure you move the key field to this field!!
-                moveBehavior = new MoveOnValidHandler(((BaseField)owner), m_KeyField, null, false, true);
+                moveBehavior = new MoveOnValidHandler(((BaseField)owner), m_keyField, null, false, true);
             } 
             m_record.addListener(moveBehavior);
         }
@@ -197,7 +196,7 @@ public class ReadSecondaryHandler extends FieldListener
                     m_record.free();  // File is still open, and my listener is still there, close it!
             }
             m_record = null;
-            m_KeyField = null;
+            m_keyField = null;
         }
     }
     /**
@@ -330,10 +329,10 @@ public class ReadSecondaryHandler extends FieldListener
                 return ex.getErrorCode();
             }
         }
-        if (m_bMoveBehavior) if (m_KeyField != null)
+        if (m_bMoveBehavior) if (m_keyField != null)
             if ((iMoveMode == DBConstants.INIT_MOVE) || (iMoveMode == DBConstants.READ_MOVE))
-                m_KeyField.setModified(true);   // Force re-read and GetValid/GetNew listener to run
-        if (m_KeyField == null)
+                m_keyField.setModified(true);   // Force re-read and GetValid/GetNew listener to run
+        if (m_keyField == null)
         {
             int iHandleType = DBConstants.BOOKMARK_HANDLE;
             iErrorCode = DBConstants.NORMAL_RETURN;
@@ -365,7 +364,7 @@ public class ReadSecondaryHandler extends FieldListener
             }
         }
         else
-            iErrorCode = m_KeyField.moveFieldToThis(this.getOwner(), DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);   // SCREEN_MOVE says this is coming from here
+            iErrorCode = m_keyField.moveFieldToThis(this.getOwner(), DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);   // SCREEN_MOVE says this is coming from here
         return iErrorCode;
     }
     /**
