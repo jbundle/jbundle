@@ -17,13 +17,14 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
+import java.util.Collections;
+import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -97,7 +98,6 @@ public class XSLServlet extends XMLServlet
     	
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
-        try   {
             servletTask = new ServletTask(this, BasicServlet.SERVLET_TYPE.COCOON);
             this.addBrowserProperties(req, servletTask);
 			ScreenModel screen = servletTask.doProcessInput(this, req, null);
@@ -112,28 +112,8 @@ public class XSLServlet extends XMLServlet
 				stylesheet = req.getParameter("stylesheet");
 			if (stylesheet == null)
 				stylesheet = "docs/styles/xsl/flat/base/menus";
-
-			String stylesheetFixed = BaseServlet.fixStylesheetPath(stylesheet, screen, true);
 			
-			InputStream stylesheetStream = this.getFileStream(servletTask, stylesheetFixed, null);
-            if (stylesheetStream == null)
-            {
-                stylesheetFixed = BaseServlet.fixStylesheetPath(stylesheet, screen, false);  // Try it without browser mod
-                stylesheetStream = this.getFileStream(servletTask, stylesheetFixed, null);
-            }
-            if (stylesheetStream == null)
-            	Utility.getLogger().warning("XmlFile not found " + stylesheetFixed);   // TODO - Display an error here
-			StreamSource stylesheetSource = new StreamSource(stylesheetStream);
-			
-	    	ServletOutputStream outStream = res.getOutputStream();
-            Result result = new StreamResult(outStream);
-
-            // TODO - Cache transformers
-            TransformerFactory tFact = TransformerFactory.newInstance();
-            URIResolver resolver = new MyURIResolver(servletTask, stylesheetFixed);
-            tFact.setURIResolver(resolver);
-            Transformer transformer = tFact.newTransformer(stylesheetSource);
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            Transformer transformer = getTransformer(stylesheet, servletTask, screen);
             // TODO - Create a task to feed the writer to the (transformer) input stream.
 			servletTask.doProcessOutput(this, req, null, writer, screen);
 
@@ -142,18 +122,59 @@ public class XSLServlet extends XMLServlet
 	        StringReader sourceFileReader = new StringReader(string);
             StreamSource source = new StreamSource(sourceFileReader);
 
-            transformer.transform(source, result);
-        } catch (TransformerConfigurationException ex)    {
-            ex.printStackTrace();
-        } catch (TransformerException ex) {
-            ex.printStackTrace();
-            servletTask.free();
-        } catch (ServletException ex) {
-        } // Never
+            ServletOutputStream outStream = res.getOutputStream();
+            Result result = new StreamResult(outStream);
+
+            try {
+                synchronized (transformer)
+                {
+                    transformer.transform(source, result);
+                }
+            } catch (TransformerException ex) {
+                ex.printStackTrace();
+                servletTask.free();
+            } // Never
     	
     	//x Don't call super.service(req, res);
     }
 
+    private int MAX_CACHED = 20;
+    TransformerFactory tFact = null;
+    @SuppressWarnings({ "deprecation", "unchecked" })
+    Map<String, Transformer> hmTransformers = Collections.synchronizedMap(new org.apache.commons.collections.LRUMap(MAX_CACHED));
+    
+    public Transformer getTransformer(String stylesheet, ServletTask servletTask, ScreenModel screen)
+            throws ServletException, IOException
+    {
+        try {
+            if (hmTransformers.get(stylesheet) != null)
+                return hmTransformers.get(stylesheet);
+            String stylesheetFixed = BaseServlet.fixStylesheetPath(stylesheet, screen, true);
+            
+            InputStream stylesheetStream = this.getFileStream(servletTask, stylesheetFixed, null);
+            if (stylesheetStream == null)
+            {
+                stylesheetFixed = BaseServlet.fixStylesheetPath(stylesheet, screen, false);  // Try it without browser mod
+                stylesheetStream = this.getFileStream(servletTask, stylesheetFixed, null);
+            }
+            if (stylesheetStream == null)
+                Utility.getLogger().warning("XmlFile not found " + stylesheetFixed);   // TODO - Display an error here
+            StreamSource stylesheetSource = new StreamSource(stylesheetStream);
+            
+            // TODO - Cache transformers
+            if (tFact == null)
+                tFact = TransformerFactory.newInstance();
+            URIResolver resolver = new MyURIResolver(servletTask, stylesheetFixed);
+            tFact.setURIResolver(resolver);
+            Transformer transformer = tFact.newTransformer(stylesheetSource);
+            hmTransformers.put(stylesheet, transformer);
+            // debug transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            return transformer;
+        } catch (TransformerConfigurationException ex)    {
+            ex.printStackTrace();
+        }
+        return null;
+    }
     /**
      * Class to return base path of imports and includes.
      * @author don
