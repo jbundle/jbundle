@@ -1663,7 +1663,7 @@ public abstract class BaseTable extends FieldTable
                 this.getRecord().setOpenMode(oldOpenMode | DBConstants.OPEN_DONT_CREATE);
                 int oldKeyArea = this.getRecord().getDefaultOrder();
                 int i = 0;
-                for (; i < 20; i++)    // 10 Seconds max.
+                for (; i < 120; i++)    // 120 Seconds max.
                 {
                     try {
                         this.getRecord().setKeyArea(0);
@@ -1677,7 +1677,7 @@ public abstract class BaseTable extends FieldTable
                     synchronized(this)
                     {
                         try {
-                            this.wait(500);
+                            this.wait(1000);
                         } catch (InterruptedException e1) {
                             e1.printStackTrace();
                         }
