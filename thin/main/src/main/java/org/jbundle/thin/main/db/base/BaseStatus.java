@@ -47,7 +47,7 @@ public class BaseStatus extends FieldList
      */
     public int getDatabaseType()
     {
-        return Constants.TABLE;
+        return Constants.REMOTE | Constants.SHARED_DATA | Constants.HIERARCHICAL | Constants.LOCALIZABLE;
     }
     /**
     * Set up the screen input fields.

@@ -33,8 +33,7 @@ The possible status values are:
 2 - LOOKUP_REQUIRED
 3 - LOOKUP_SCHEDULED
 4 - VALID - Info valid
-5 - NOT_VALID
-The t.
+5 - NOT_VALID.
  */
 public class BaseStatus extends VirtualRecord
      implements BaseStatusModel
