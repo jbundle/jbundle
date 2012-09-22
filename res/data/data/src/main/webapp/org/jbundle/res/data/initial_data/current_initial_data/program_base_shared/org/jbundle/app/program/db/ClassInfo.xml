@@ -5880,7 +5880,7 @@ If a message has a input screen associated with it, you may press the
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778848">
-		<LastChanged>2010-05-25T14:59:47</LastChanged>
+		<LastChanged>2010-05-25T14:47:50</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseScanListener</ClassName>
 		<BaseClassName>Object</BaseClassName>

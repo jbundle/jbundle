@@ -6062,7 +6062,7 @@ new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST_BUTTON_WITH_GA
 		<ScreenControlType/>
 	</ScreenIn>
 	<ScreenIn ID="16781403">
-		<LastChanged>2011-08-05T15:59:50</LastChanged>
+		<LastChanged>2010-02-03T11:48:26</LastChanged>
 		<Deleted>N</Deleted>
 		<ScreenInProgName>ClassProjectScreen</ScreenInProgName>
 		<ScreenOutNumber/>
