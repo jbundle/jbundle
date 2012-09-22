@@ -60,32 +60,6 @@
     </dependency>
     
     <dependency>
-      <groupId>org.jbundle.app.program</groupId>
-      <artifactId>org.jbundle.app.program.screen</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.app.program</groupId>
-      <artifactId>org.jbundle.app.program.demo</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.app.program</groupId>
-      <artifactId>org.jbundle.app.program.manual.util</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jbundle.app.program</groupId>
-      <artifactId>org.jbundle.app.program.manual.importexport</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
-    </dependency>
-
-    <!-- dependency>
-      <groupId>org.jbundle.base.screen</groupId>
-      <artifactId>org.jbundle.base.screen.control.cocoon</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
-    </dependency -->
-    <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.view.xml</artifactId>
       <version>0.8.0-SNAPSHOT</version>
@@ -121,6 +95,38 @@
       <artifactId>org.jbundle.res.images.misc</artifactId>
       <version>0.8.0-SNAPSHOT</version>
     </dependency>
-  </dependencies>
+
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program.screen</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program.packages</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program.demo</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program.manual.util</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.app.program</groupId>
+      <artifactId>org.jbundle.app.program.manual.importexport</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.app.test</groupId>
+      <artifactId>org.jbundle.app.test.db</artifactId>
+      <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+
+</dependencies>
 
 </project>
