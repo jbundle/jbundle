@@ -8132,7 +8132,7 @@
 		<ClassName>ContactType</ClassName>
 		<DatabaseName>main</DatabaseName>
 		<InitTime>2008-02-12T05:00:43</InitTime>
-		<FreeTime>2009-02-12T14:49:26</FreeTime>
+		<FreeTime>2008-02-12T05:00:44</FreeTime>
 		<RecordOwner>BaseProcess</RecordOwner>
 		<StackTrace><![CDATA[java.lang.Exception
 	at com.tourstudio.base.util.Debug.getStackTrace(Debug.java:236)
@@ -24479,7 +24479,7 @@
 ]]></StackTrace>
 	</AnalysisLog>
 	<AnalysisLog ID="16777940">
-		<LastChanged>2009-02-12T14:49:26</LastChanged>
+		<LastChanged>2011-08-05T15:59:48</LastChanged>
 		<Deleted>N</Deleted>
 		<SystemID>2,062,514,756</SystemID>
 		<ObjectID>310</ObjectID>
@@ -27559,7 +27559,7 @@
 ]]></StackTrace>
 	</AnalysisLog>
 	<AnalysisLog ID="16778016">
-		<LastChanged>2009-02-11T12:07:11</LastChanged>
+		<LastChanged>2009-02-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
 		<SystemID>2,062,514,756</SystemID>
 		<ObjectID>344</ObjectID>

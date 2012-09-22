@@ -1064,7 +1064,7 @@
 		<UserLogTypeID>1</UserLogTypeID>
 	</UserLog>
 	<UserLog ID="134">
-		<LastChanged>2012-08-05T11:32:36</LastChanged>
+		<LastChanged>2012-01-15T11:32:36</LastChanged>
 		<Deleted>N</Deleted>
 		<UserID>11</UserID>
 		<LogTime>2012-01-15T11:32:36</LogTime>
@@ -3811,7 +3811,7 @@
 		<LastChanged>2012-01-15T11:32:41</LastChanged>
 		<Deleted>N</Deleted>
 		<UserID>11</UserID>
-		<LogTime>2011-08-05T15:59:49</LogTime>
+		<LogTime>2012-01-15T11:32:41</LogTime>
 		<Message>Login</Message>
 		<UserLogTypeID>1</UserLogTypeID>
 	</UserLog>
@@ -7180,6 +7180,102 @@
 		<Deleted>N</Deleted>
 		<UserID>11</UserID>
 		<LogTime>2012-08-09T14:27:59</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="899">
+		<LastChanged>2012-09-21T16:23:34</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T16:23:34</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="900">
+		<LastChanged>2012-09-21T16:23:34</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T16:23:34</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="901">
+		<LastChanged>2012-09-21T16:23:34</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T16:23:34</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="902">
+		<LastChanged>2012-09-21T16:23:34</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T16:23:34</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="903">
+		<LastChanged>2012-09-21T16:23:34</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T16:23:34</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="904">
+		<LastChanged>2012-09-21T16:23:35</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T16:23:35</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="905">
+		<LastChanged>2012-09-21T21:19:40</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T21:19:40</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="906">
+		<LastChanged>2012-09-21T21:19:40</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T21:19:40</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="907">
+		<LastChanged>2012-09-21T21:19:40</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T21:19:40</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="908">
+		<LastChanged>2012-09-21T21:19:40</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T21:19:40</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="909">
+		<LastChanged>2012-09-21T21:19:40</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T21:19:40</LogTime>
+		<Message>Login</Message>
+		<UserLogTypeID>1</UserLogTypeID>
+	</UserLog>
+	<UserLog ID="910">
+		<LastChanged>2012-09-21T21:19:40</LastChanged>
+		<Deleted>N</Deleted>
+		<UserID>11</UserID>
+		<LogTime>2012-09-21T21:19:40</LogTime>
 		<Message>Login</Message>
 		<UserLogTypeID>1</UserLogTypeID>
 	</UserLog>

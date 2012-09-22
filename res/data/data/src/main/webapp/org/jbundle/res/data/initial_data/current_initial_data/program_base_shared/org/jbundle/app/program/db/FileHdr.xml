@@ -858,12 +858,12 @@
 		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777573">
-		<LastChanged>2009-02-12T14:49:30</LastChanged>
+		<LastChanged>2012-08-29T14:10:59</LastChanged>
 		<Deleted>N</Deleted>
 		<FileName>BaseStatus</FileName>
 		<FileDesc/>
 		<FileMainFilename/>
-		<Type>TABLE</Type>
+		<Type>REMOTE | SHARED_DATA | HIERARCHICAL | LOCALIZABLE</Type>
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>

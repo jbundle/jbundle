@@ -12636,7 +12636,7 @@ return screen;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783112">
-		<LastChanged>2009-05-23T03:33:24</LastChanged>
+		<LastChanged>2009-05-23T03:53:46</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>10</Sequence>
 		<MethodName>makeReferenceRecord</MethodName>
@@ -16449,7 +16449,7 @@ return objDefault;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783586">
-		<LastChanged>2012-01-25T18:11:06</LastChanged>
+		<LastChanged>2012-08-29T14:06:41</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>10</Sequence>
 		<MethodName>init</MethodName>
@@ -16477,11 +16477,12 @@ if (strQueueType == null)
 BaseMessageReceiver receiver = (BaseMessageReceiver)messageManager.getMessageQueue(strQueueName, strQueueType).getMessageReceiver();
 new BaseMessageListener(receiver)    // Listener added to filter.
 {
+    @SuppressWarnings("unchecked")
     public int handleMessage(BaseMessage message)
     {   // Whenever I'm pinged, restart the JobScanner which rescans the current job list
         Map<String,Object> properties = null;
         if (message instanceof MapMessage)  // Always
-            properties = (Map)message.getData();
+            properties = (Map<String,Object>)message.getData();
         ProcessRunnerTask task = new ProcessRunnerTask(JobSchedulerApp.this, null, properties);
         getTaskScheduler().addTask(task);
         return super.handleMessage(message);
