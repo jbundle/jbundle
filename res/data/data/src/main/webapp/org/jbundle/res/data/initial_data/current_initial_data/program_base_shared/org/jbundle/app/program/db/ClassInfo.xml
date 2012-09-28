@@ -5258,7 +5258,7 @@ The class maintains the converter chain.]]></ClassDesc>
 	<ClassInfo ID="16778743">
 		<LastChanged>2010-02-05T11:18:09</LastChanged>
 		<Deleted>N</Deleted>
-		<ClassName>SOAPTrxMessageIn</ClassName>
+		<ClassName>SoapTrxMessageIn</ClassName>
 		<BaseClassName>BaseXmlTrxMessageIn</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,240</ClassProjectID>
