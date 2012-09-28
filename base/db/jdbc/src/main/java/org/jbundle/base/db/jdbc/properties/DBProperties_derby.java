@@ -48,6 +48,7 @@ public class DBProperties_derby extends ListResourceBundle
 //      {SQLParams.ALT_SECONDARY_INDEX, "INDEX_BLIST"}, // Alt method supported (This will speed things up a little).
       {SQLParams.CREATE_DATABASE_SUPPORTED, DBConstants.TRUE},  // Can create databases.
       {SQLParams.RENAME_TABLE_SUPPORT, DBConstants.TRUE},  // Can rename tables.
+      {SQLParams.AUTO_COMMIT_PARAM, DBConstants.FALSE},    // Get some kind of concurrency problem.
       {DBConstants.LOAD_INITIAL_DATA, DBConstants.TRUE},  // Load the initial data
 
       {SQLParams.INTERNAL_DB_NAME, "derby"},
