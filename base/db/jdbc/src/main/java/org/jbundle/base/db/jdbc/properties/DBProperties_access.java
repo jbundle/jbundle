@@ -45,7 +45,7 @@ public class DBProperties_access extends ListResourceBundle
 
       {SQLParams.INTERNAL_DB_NAME, "access"},
       {SQLParams.JDBC_DRIVER_PARAM, "sun.jdbc.odbc.JdbcOdbcDriver"},    // JDBC-ODBC
-      {SQLParams.DEFAULT_JDBC_URL_PARAM, "JDBC:ODBC:{dbname}"},
+      {SQLParams.DEFAULT_JDBC_URL_PARAM, "JDBC:ODBC:${dbname}"},
       {SQLParams.DEFAULT_USERNAME_PARAM, ""},
       {SQLParams.DEFAULT_PASSWORD_PARAM, ""},
       // END OF MATERIAL TO LOCALIZE

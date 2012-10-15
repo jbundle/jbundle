@@ -41,7 +41,7 @@ public class DBProperties_postgresql extends ListResourceBundle
 
       {SQLParams.INTERNAL_DB_NAME, "postgresql"},
       {SQLParams.JDBC_DRIVER_PARAM, "postgresql.Driver"}, // JDBC-ODBC
-      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:postgresql://{dbserver}/{dbname}"},
+      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:postgresql://${dbserver}/${dbname}"},
       {SQLParams.DEFAULT_USERNAME_PARAM, "postgres"},
       {SQLParams.DEFAULT_PASSWORD_PARAM, "gi11igan"},
       // END OF MATERIAL TO LOCALIZE

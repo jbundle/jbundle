@@ -38,7 +38,7 @@ public class DBProperties_sybase extends ListResourceBundle
 
       {SQLParams.INTERNAL_DB_NAME, "sybase"},
       {SQLParams.JDBC_DRIVER_PARAM, "sun.jdbc.odbc.JdbcOdbcDriver"},    // JDBC-ODBC
-      {SQLParams.DEFAULT_JDBC_URL_PARAM, "JDBC:ODBC:{dbname}"},
+      {SQLParams.DEFAULT_JDBC_URL_PARAM, "JDBC:ODBC:${dbname}"},
       {SQLParams.DEFAULT_USERNAME_PARAM, "dba"},
       {SQLParams.DEFAULT_PASSWORD_PARAM, "sql"},
       // END OF MATERIAL TO LOCALIZE

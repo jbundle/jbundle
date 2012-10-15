@@ -43,7 +43,7 @@ public class DBProperties_mckoi extends ListResourceBundle
 //      {SQLParams.SQL_TIME_FORMAT, "HH:mm:ss"},
 //      {SQLParams.SQL_DATETIME_FORMAT, "yyyy-MM-dd HH:mm:ss"},
 //      {SQLParams.SQL_DATE_QUOTE, "\'"},
-      {SQLParams.CREATE_PRIMARY_INDEX, "alter table {table} add CONSTRAINT {table}_{keyname} PRIMARY KEY({fields})"},
+      {SQLParams.CREATE_PRIMARY_INDEX, "alter table ${table} add CONSTRAINT ${table}_${keyname} PRIMARY KEY(${fields})"},
       {SQLParams.CREATE_INDEX, ""}, // Blank = Not supported
       {SQLParams.ALT_SECONDARY_INDEX, "INDEX_BLIST"}, // Alt method supported (This will speed things up a little).
 
@@ -53,7 +53,7 @@ public class DBProperties_mckoi extends ListResourceBundle
 
       {SQLParams.INTERNAL_DB_NAME, "mckoi"},
       {SQLParams.JDBC_DRIVER_PARAM, "com.mckoi.JDBCDriver"},
-      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:mckoi://{dbserver}/{dbname}"},
+      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:mckoi://${dbserver}/${dbname}"},
       {SQLParams.DEFAULT_USERNAME_PARAM, "admin_user"},
       {SQLParams.DEFAULT_PASSWORD_PARAM, "gi11igan"}
       // END OF MATERIAL TO LOCALIZE

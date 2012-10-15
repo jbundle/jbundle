@@ -103,7 +103,7 @@ public class JdbcDatabase extends BaseDatabase
      * If a JDBC_DRIVER_PARAM (jdbcdriver) is not specified, this object will have
      * the driver name.
      */
-    public static String DEFAULT_DATABASE_PRODUCT = "mysql";    // My SQL
+    public static String DEFAULT_DATABASE_PRODUCT = "derby";    // Derby
     /**
      * Maximum pooled connections.
      */
@@ -294,7 +294,7 @@ public class JdbcDatabase extends BaseDatabase
                 if (m_initialContext == null)
                     m_initialContext = new InitialContext();
                 String strDatabaseName = this.getDatabaseName(true);
-                strDataSource = Utility.replace(strDataSource, "{dbname}", strDatabaseName);
+                strDataSource = Utility.replace(strDataSource, "${dbname}", strDatabaseName);
                 DataSource ds = (DataSource)m_initialContext.lookup(strDataSource);
                 if (ds == null)
                     return false;   // Failure
@@ -584,9 +584,17 @@ public class JdbcDatabase extends BaseDatabase
         if ((strServer == null) || (strServer.length() == 0))
             strServer = "localhost"; //this.getProperty(DBParams.SERVER);    // ??       
         String strDatabaseName = this.getDatabaseName(true);
-        strURL = Utility.replace(strURL, "{dbname}", strDatabaseName);
+        strURL = Utility.replace(strURL, "${dbname}", strDatabaseName);
         if (strServer != null)
-            strURL = Utility.replace(strURL, "{dbserver}", strServer);
+            strURL = Utility.replace(strURL, "${dbserver}", strServer);
+        if (strURL.contains("${user.home}"))
+        {
+            try {
+                strURL = Utility.replace(strURL, "${user.home}", System.getProperty("user.home"));
+            } catch (SecurityException e) {
+                strURL = Utility.replace(strURL, "${user.home}", "");
+            }
+        }
         String strUsername = this.getProperty(SQLParams.USERNAME_PARAM);
         if ((strUsername == null) || (strUsername.length() == 0))
             strUsername = this.getProperty(SQLParams.DEFAULT_USERNAME_PARAM); // Default

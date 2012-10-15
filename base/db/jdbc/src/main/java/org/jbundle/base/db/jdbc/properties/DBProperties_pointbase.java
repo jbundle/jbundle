@@ -44,7 +44,7 @@ public class DBProperties_pointbase extends ListResourceBundle
 //    {JDBC_URL_PARAM, "jdbc:pointbase://localhost/<dbname/>,new"},
       {SQLParams.INTERNAL_DB_NAME, "pointbase"},
       {SQLParams.JDBC_DRIVER_PARAM, "com.pointbase.jdbc.jdbcDriver"}, // Pointbase driver
-      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:pointbase:{dbname}"},
+      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:pointbase:${dbname}"},
       {SQLParams.DEFAULT_USERNAME_PARAM, "public"},
       {SQLParams.DEFAULT_PASSWORD_PARAM, "public"}
       // END OF MATERIAL TO LOCALIZE

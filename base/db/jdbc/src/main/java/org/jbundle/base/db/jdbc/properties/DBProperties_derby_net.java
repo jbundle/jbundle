@@ -48,12 +48,12 @@ public class DBProperties_derby_net extends ListResourceBundle
 //      {SQLParams.ALT_SECONDARY_INDEX, "INDEX_BLIST"}, // Alt method supported (This will speed things up a little).
       {SQLParams.CREATE_DATABASE_SUPPORTED, DBConstants.TRUE},  // Can create databases.
       {SQLParams.RENAME_TABLE_SUPPORT, DBConstants.TRUE},  // Can rename tables.
-      {SQLParams.AUTO_COMMIT_PARAM, DBConstants.FALSE},    // Get some kind of concurrency problem.
+      {SQLParams.AUTO_COMMIT_PARAM, DBConstants.TRUE},
       {DBConstants.LOAD_INITIAL_DATA, DBConstants.TRUE},  // Load the initial data
 
       {SQLParams.INTERNAL_DB_NAME, "derby"},
       {SQLParams.JDBC_DRIVER_PARAM, "org.apache.derby.jdbc.ClientDriver"},
-      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:derby://{dbserver}/{dbname};create=true;collation=TERRITORY_BASED:SECONDARY"},
+      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:derby://${dbserver}/${dbname};create=true;collation=TERRITORY_BASED:SECONDARY"},
       {SQLParams.DEFAULT_USERNAME_PARAM, "tourapp"},
       {SQLParams.DEFAULT_PASSWORD_PARAM, "sa1sa"}
 //      {SQLParams.DEFAULT_DATASOURCE_PARAM, "jdbc/{dbname}"},

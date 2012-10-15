@@ -41,7 +41,7 @@ public class DBProperties_instantdb extends ListResourceBundle
 
       {SQLParams.INTERNAL_DB_NAME, "instantdb"},
       {SQLParams.JDBC_DRIVER_PARAM, "jdbc.idbDriver"},
-      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:idb:E:\\data\\database\\idb\\{dbname}\\{dbname}.prp"},
+      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:idb:E:\\data\\database\\idb\\${dbname}\\${dbname}.prp"},
       {SQLParams.DEFAULT_USERNAME_PARAM, ""},
       {SQLParams.DEFAULT_PASSWORD_PARAM, ""},
       // END OF MATERIAL TO LOCALIZE

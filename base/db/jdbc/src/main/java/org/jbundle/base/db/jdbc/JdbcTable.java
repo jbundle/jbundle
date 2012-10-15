@@ -1206,7 +1206,7 @@ public class JdbcTable extends BaseTable
                 sql = new StringBuilder();
                 String strPrimaryKeySQL = (String)this.getDatabase().getProperties().get(SQLParams.CREATE_PRIMARY_INDEX);
                 if (strPrimaryKeySQL == null)   // null=use default, If empty string, not supported.
-                    strPrimaryKeySQL = "CREATE {unique} INDEX {keyname} ON {table} ({fieldsandorder})";    // Default
+                    strPrimaryKeySQL = "CREATE ${unique} INDEX ${keyname} ON ${table} (${fieldsandorder})";    // Default
                 String strCreateIndexSQL = (String)this.getDatabase().getProperties().get(SQLParams.CREATE_INDEX);
                 if (strCreateIndexSQL == null)   // null=use default, If empty string, not supported.
                     strCreateIndexSQL = strPrimaryKeySQL;    // Default
@@ -1238,9 +1238,9 @@ public class JdbcTable extends BaseTable
                     		indexCanBeUnique = false;
                     
                     if ((keyArea.getUniqueKeyCode() == DBConstants.UNIQUE) && (indexCanBeUnique))
-                        sql = Utility.replace(sql, "{unique}", "UNIQUE");
+                        sql = Utility.replace(sql, "${unique}", "UNIQUE");
                     else
-                        sql = Utility.replace(sql, "{unique}", DBConstants.BLANK);
+                        sql = Utility.replace(sql, "${unique}", DBConstants.BLANK);
                     String strKeyName = keyArea.getKeyName();
                     String strTableNames = record.makeTableNames(true);
                     if (DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_DUPLICATE_KEY_NAMES)))
@@ -1263,8 +1263,8 @@ public class JdbcTable extends BaseTable
                             }
                         }
                     }
-                    sql = Utility.replace(sql, "{keyname}", strKeyName);
-                    sql = Utility.replace(sql, "{table}", strTableNames);
+                    sql = Utility.replace(sql, "${keyname}", strKeyName);
+                    sql = Utility.replace(sql, "${table}", strTableNames);
                     String strFields = DBConstants.BLANK;
                     String strFieldAndOrder = DBConstants.BLANK;
                     for (int iFieldIndex = 0; iFieldIndex < keyArea.getKeyFields(); iFieldIndex++)
@@ -1281,8 +1281,8 @@ public class JdbcTable extends BaseTable
                         if (keyField.getKeyOrder() == DBConstants.DESCENDING)
                             strFieldAndOrder += "DESC ";
                     }
-                    sql = Utility.replace(sql, "{fields}", strFields);
-                    sql = Utility.replace(sql, "{fieldsandorder}", strFieldAndOrder);
+                    sql = Utility.replace(sql, "${fields}", strFields);
+                    sql = Utility.replace(sql, "${fieldsandorder}", strFieldAndOrder);
                     Utility.getLogger().info(sql.toString());
                     this.getStatement(DBConstants.SQL_CREATE_TYPE).execute(sql.toString());
                 }

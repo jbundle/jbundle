@@ -52,7 +52,7 @@ public class DBProperties_cloudscape extends ListResourceBundle
 
       {SQLParams.INTERNAL_DB_NAME, "cloudscape"},
       {SQLParams.JDBC_DRIVER_PARAM, "com.ibm.db2.jcc.DB2Driver"},
-      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:cloudscape:net://{dbserver}:1527/{dbname};create=true:retrieveMessagesFromServerOnGetMessage=true;deferPrepares=true;"},
+      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:cloudscape:net://${dbserver}:1527/${dbname};create=true:retrieveMessagesFromServerOnGetMessage=true;deferPrepares=true;"},
       {SQLParams.DEFAULT_USERNAME_PARAM, "cloudscape"},
       {SQLParams.DEFAULT_PASSWORD_PARAM, "gi11igan"}
   };

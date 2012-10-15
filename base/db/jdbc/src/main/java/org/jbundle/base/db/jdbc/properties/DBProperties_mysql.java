@@ -50,10 +50,10 @@ public class DBProperties_mysql extends ListResourceBundle
       {SQLParams.JDBC_DRIVER_PARAM, "com.mysql.jdbc.Driver"},
 //      {SQLParams.DEFAULT_DB_SERVER_PARAM, "db001.tourapp.com"},
       {SQLParams.DEFAULT_DB_SERVER_PARAM, "localhost"},
-      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:mysql://{dbserver}/{dbname}?characterEncoding=UTF8"},
+      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:mysql://${dbserver}/${dbname}?characterEncoding=UTF8"},
       {SQLParams.DEFAULT_USERNAME_PARAM, "tourapp"},
       {SQLParams.DEFAULT_PASSWORD_PARAM, "sa1sa"},
-      {SQLParams.DEFAULT_DATASOURCE_PARAM, "jdbc/{dbname}"},
+      {SQLParams.DEFAULT_DATASOURCE_PARAM, "jdbc/${dbname}"},
       {SQLParams.DATASOURCE_FACTORY, "org.jbundle.base.db.jdbc.datasource.MySQLDatasourceFactory"}
       // END OF MATERIAL TO LOCALIZE
   };
