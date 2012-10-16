@@ -583,13 +583,18 @@ public class JdbcTable extends BaseTable
                     this.setResultset(null, DBConstants.SQL_SELECT_TYPE);   // Have to start from the beginning
     // Do the move
         ResultSet resultset = (ResultSet)this.getResultset();
-        if (resultset == null)
-        {
-            Vector<BaseField> vParamList = new Vector<BaseField>();
-            String strRecordset = this.getRecord().getSQLQuery(SQLParams.USE_SELECT_LITERALS, vParamList);
-            resultset = this.executeQuery(strRecordset, DBConstants.SQL_SELECT_TYPE, vParamList);
-            this.setResultset(resultset, DBConstants.SQL_SELECT_TYPE);
-            vParamList.removeAllElements();
+        try {
+            if ((resultset == null) || (resultset.isClosed())) {
+                Vector<BaseField> vParamList = new Vector<BaseField>();
+                String strRecordset = this.getRecord().getSQLQuery(
+                        SQLParams.USE_SELECT_LITERALS, vParamList);
+                resultset = this.executeQuery(strRecordset,
+                        DBConstants.SQL_SELECT_TYPE, vParamList);
+                this.setResultset(resultset, DBConstants.SQL_SELECT_TYPE);
+                vParamList.removeAllElements();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();    // Never
         }
         if (iRelPosition == DBConstants.LAST_RECORD) if (m_iEOFRow == Integer.MAX_VALUE)
         {   // Haven't found EOF yet... find it.
