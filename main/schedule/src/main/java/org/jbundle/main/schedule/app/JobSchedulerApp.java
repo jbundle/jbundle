@@ -64,7 +64,12 @@ public class JobSchedulerApp extends BaseApplication
         final int MAX_TASKS = 1;    // For now, run them sequentially
         this.setTaskScheduler(new PrivateTaskScheduler(this, MAX_TASKS, true));
         
-        MessageManager messageManager = RemoteMessageManager.getMessageManager(this);
+        MessageManager messageManager = null;
+        if (this.getEnvironment() != null)
+            if (this.getEnvironment().getMessageApplication(true, properties) != null)
+                messageManager = this.getEnvironment().getMessageApplication(true, properties).getThickMessageManager();
+        if (messageManager == null) // Never
+            messageManager = RemoteMessageManager.getMessageManager(this);
         String strQueueName = this.getProperty(MessageConstants.QUEUE_NAME);
         if (strQueueName == null)
             strQueueName = MessageConstants.TRX_RECEIVE_QUEUE; // Never
