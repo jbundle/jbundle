@@ -74,6 +74,7 @@ public class MessageServerActivator extends BaseRemoteSessionActivator
         Map<String,Object> props = this.getServiceProperties();
         try {
             Environment env = (Environment)this.getService(Env.class);
+            props = Utility.putAllIfNew(props, env.getProperties());  // Use the same params as environment
             // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
             App app = env.getMessageApplication(false, props);
             RemoteSessionServer service = null;

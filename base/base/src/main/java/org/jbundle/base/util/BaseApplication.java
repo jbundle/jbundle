@@ -74,6 +74,7 @@ public class BaseApplication extends Application
                 m_env = (Environment)env;
             else
                 m_env = this.getEnvironment();
+            this.setProperties(Utility.putAllIfNew(this.getProperties(), m_env.getProperties()));   // Start with environment properties
         }
         m_env.addApplication(this);
         

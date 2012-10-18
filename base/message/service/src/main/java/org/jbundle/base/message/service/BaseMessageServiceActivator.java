@@ -12,6 +12,7 @@ import java.util.Map;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.BaseThickActivator;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.App;
@@ -84,6 +85,7 @@ public abstract class BaseMessageServiceActivator extends BaseThickActivator
     {
         Map<String,Object> props = this.getServiceProperties();
         Environment env = (Environment)this.getService(Env.class);
+        props = Utility.putAllIfNew(props, env.getProperties());  // Use the same params as environment
         // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
         App app = env.getMessageApplication(true, props);
         Task task = new AutoTask(app, null, props);
