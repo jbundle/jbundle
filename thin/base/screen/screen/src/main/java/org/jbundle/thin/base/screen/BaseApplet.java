@@ -269,13 +269,18 @@ public class BaseApplet extends JApplet
         	}
         }
         m_application = null;
+        if (bEmptyTaskList)
+            if (gbStandAlone)
+                if (ClassServiceUtility.getClassService().getClassFinder(null) == null)
+                    System.exit(0); // Hack - Can't figure out how to get this to applet to quit every time.
     }
     /**
      * This application is done, stop the application.
      */
     public void quit()
     {
-        m_application.free();   // No more frames -> Quit application!
+        if (m_application != null)
+            m_application.free();   // No more frames -> Quit application!
         //if (gbStandAlone)
         //	System.exit(0);
     }
