@@ -33,6 +33,7 @@ public class AppletActivator extends BaseThickActivator
 	        //?server = new SApplet(args);
 	        propertiesTemp.put(Splash.MAIN, SApplet.class.getName());
 	        Splash.main(Utility.propertiesToArgs(propertiesTemp));	// Note that I start Main instead of SApplet so SApplet can shutdown this bundle
+//	        Main.main(Utility.propertiesToArgs(propertiesTemp));
 	        return Application.getRootApplet();
 
 //?    	        Environment env = new Environment(propertiesTemp);
