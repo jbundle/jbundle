@@ -708,15 +708,17 @@ public class JdbcDatabase extends BaseDatabase
             int iDatabaseType = DBConstants.SYSTEM_DATABASE;
             DatabaseOwner env = this.getDatabaseOwner();
             JdbcDatabase db = (JdbcDatabase)env.getDatabase(strDBName, iDatabaseType, null);    // Do NOT pass properties when opening system database
-            Statement m_queryStatement = db.getJDBCConnection().createStatement();
+            Statement queryStatement = db.getJDBCConnection().createStatement();
 
             String strSQL = "create database " + strDatabaseName + ";";
-            m_queryStatement.execute(strSQL);
+            queryStatement.execute(strSQL);
+            queryStatement.close();
             db.free();
 
             String oldValue = this.getProperty(DBConstants.CREATE_DB_IF_NOT_FOUND);
             this.setProperty(DBConstants.CREATE_DB_IF_NOT_FOUND, DBConstants.FALSE);
             
+            this.close();   // Since I don't know what kind of connection this is.
             this.setupDBConnection();
 
             this.setProperty(DBConstants.CREATE_DB_IF_NOT_FOUND, oldValue);

@@ -75,7 +75,7 @@ public class MySQLDatasourceFactory extends BaseDatasourceFactory {
 
         dataSource.setDatabaseName(strDatabaseName);
         if (strServer != null)
-            dataSource.setServerName (strServer);
+            dataSource.setServerName(strServer);
         else
             dataSource.setURL(strURL);
         dataSource.setUser (strUsername);

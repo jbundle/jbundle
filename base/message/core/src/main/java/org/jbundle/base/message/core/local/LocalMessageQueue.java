@@ -61,6 +61,16 @@ public class LocalMessageQueue extends BaseMessageQueue
     }
     /**
      * Get the message sender.
+     * Or create it if it doesn't exist.
+     * @return The message sender.
+     */
+    public BaseMessageSender getMessageSender()
+    {
+        this.getMessageReceiver();  // This makes sure that a receiver exists to process messages
+        return super.getMessageSender();
+    }
+    /**
+     * Get the message sender.
      */
     public BaseMessageSender createMessageSender()
     {

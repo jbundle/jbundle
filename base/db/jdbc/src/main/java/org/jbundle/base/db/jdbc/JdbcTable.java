@@ -178,7 +178,7 @@ public class JdbcTable extends BaseTable
         }
 
         try   {
-            ResultSet resultset = (ResultSet)this.getResultset();
+            ResultSet resultset = (ResultSet)this.setResultset(null, 0);
             if (resultset != null)
                 resultset.close();
             if (m_queryStatement != null)
