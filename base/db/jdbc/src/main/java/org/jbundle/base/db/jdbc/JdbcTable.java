@@ -59,21 +59,13 @@ public class JdbcTable extends BaseTable
      */
     private Statement m_seekStatement = null;
     /**
-     * Used for open/queries.
-     */
-    private ResultSet m_queryResultset = null;
-    /**
      * Used for Updates, Inserts, and Deletes (prepared statement).
      */
-    private ResultSet m_updateResultset = null;
+    private ResultSet m_resultSet = null;
     /**
-     * Used for Auto sequence, and Seek (prepared statement).
+     * Current resultSet type.
      */
-    private ResultSet m_seekResultset = null;
-    /**
-     * Current resultset type.
-     */
-    private int m_iResultsetType = -1;
+    private int m_iResultSetType = -1;
     /**
      * Last SQL string.
      */
@@ -157,7 +149,7 @@ public class JdbcTable extends BaseTable
     public void init(BaseDatabase database, Record record)
     {
         super.init(database, record);
-        m_iRow = -1;        // resultset row 0 = First row.
+        m_iRow = -1;        // resultSet row 0 = First row.
         m_iEOFRow = Integer.MAX_VALUE;  // Last valid row.
         m_iLastOrder = -1;
     }
@@ -166,8 +158,8 @@ public class JdbcTable extends BaseTable
      */
     public void free()
     {
-        ResultSet resultset = (ResultSet)this.getResultset();
-        if (resultset != null)
+        ResultSet resultSet = (ResultSet)this.getResultSet();
+        if (resultSet != null)
             this.close();
         super.free();
     }
@@ -186,12 +178,9 @@ public class JdbcTable extends BaseTable
         }
 
         try   {
-            if (m_queryResultset != null)
-                m_queryResultset.close();
-            if (m_updateResultset != null)
-                m_updateResultset.close();
-            if (m_seekResultset != null)
-                m_seekResultset.close();
+            ResultSet resultSet = (ResultSet)this.setResultSet(null, 0);
+            if (resultSet != null)
+                resultSet.close();
             if (m_queryStatement != null)
                 m_queryStatement.close();
             if (m_updateStatement != null)
@@ -201,9 +190,7 @@ public class JdbcTable extends BaseTable
         } catch (SQLException e)    {
             // Ignore error on close
         }
-        m_queryResultset = null;
-        m_updateResultset = null;
-        m_seekResultset = null;
+        this.setResultSet(null, 0);
         m_queryStatement = null;
         m_updateStatement = null;
         m_seekStatement = null;
@@ -227,17 +214,17 @@ public class JdbcTable extends BaseTable
 
         KeyArea keyArea = this.getRecord().getKeyArea(0); // Primary index
         keyArea.setupKeyBuffer(null, DBConstants.TEMP_KEY_AREA);        // Save keys for possible update/delete
-        if (this.getResultsetType() != DBConstants.SQL_SELECT_TYPE)
+        if (this.getResultSetType() != DBConstants.SQL_SELECT_TYPE)
             if (CLEANUP_STATEMENTS)
-                this.setResultset(null, this.getResultsetType());  // Close this statement
+                this.setResultSet(null, this.getResultSetType());  // Close this statement
 
         return iErrorCode;
     }
     /**
      * Move the output buffer to this field.
      * <p />This is a little complicated:<br />
-     * The first time through, use resultset.findColumn(x) to lookup the column.<br />
-     * Then call field.moveSQLToField(resultset, column).<br />
+     * The first time through, use resultSet.findColumn(x) to lookup the column.<br />
+     * Then call field.moveSQLToField(resultSet, column).<br />
      * The bump the column number.
      * @param field The field to move the current data to.
      * @return The error code (From field.setData()).
@@ -252,7 +239,7 @@ public class JdbcTable extends BaseTable
         }
         // Get the fields in the recordset
         int iColumn = m_iColumn;    // By default
-        ResultSet resultset = (ResultSet)this.getResultset();
+        ResultSet resultSet = (ResultSet)this.getResultSet();
         if (m_bSelectAllFields)
         {   // Special case SELECT * (must find this field in the output column)
             if (m_rgiFieldColumns == null)
@@ -270,7 +257,7 @@ public class JdbcTable extends BaseTable
                 boolean bIsQueryRecord = false;     //this.getRecord().isQueryRecord(); // For some some reason, can't pass filefile.fieldname
                 String strFieldName = field.getFieldName(true, bIsQueryRecord);
                 try {
-                    iColumn = resultset.findColumn(strFieldName);
+                    iColumn = resultSet.findColumn(strFieldName);
                 } catch (Exception e)    {
                     Utility.getLogger().warning( e.getMessage() + "JDBC Table/dataToField Field = [" + field.getFieldName(false, true) + "]");
                     throw this.getDatabase().convertError(e);
@@ -291,13 +278,13 @@ public class JdbcTable extends BaseTable
             }
         }
         try   {
-            field.moveSQLToField(resultset, iColumn);
+            field.moveSQLToField(resultSet, iColumn);
         } catch (SQLException e)    {
             if ("No data found".equalsIgnoreCase(e.getMessage()))
                 if (this.getRecord().isQueryRecord())
             { // With query records, I probably looked up the first occurance of the same field name - find the next
                 try { // HACK - with the current JDBC, I can't retrieve the field by table.field, so If there is a dup, I just get the first and second.
-                    ResultSetMetaData md = resultset.getMetaData();
+                    ResultSetMetaData md = resultSet.getMetaData();
                     boolean bFirstFound = false;
                     int iColumnCount = md.getColumnCount();
                     String strFieldName = field.getFieldName(true, false);
@@ -309,7 +296,7 @@ public class JdbcTable extends BaseTable
                             if (bFirstFound)
                             {
                                 m_rgiFieldColumns[m_iColumn] = iColumn;
-                                field.moveSQLToField(resultset, iColumn);
+                                field.moveSQLToField(resultSet, iColumn);
                                 break;
                             }
                             bFirstFound = true;
@@ -356,8 +343,6 @@ public class JdbcTable extends BaseTable
     public void setStatement(Statement statement, int iType)
     {
         try {
-            if (this.getResultset(iType) != null)
-                this.setResultset(null, iType); // Close the resultset
             if (this.getStatement(iType) != null)
                 this.getStatement(iType).close();
             if (statement == null)
@@ -435,79 +420,43 @@ public class JdbcTable extends BaseTable
     /**
      * Get this statement type
      */
-    public ResultSet getResultset()
+    public ResultSet getResultSet()
     {
-        return getResultset(m_iResultsetType);
+        return m_resultSet;
     }
     /**
      * Get this statement type
      */
-    public ResultSet getResultset(int iType)
+    public int getResultSetType()
     {
-        switch (iType)
-        {
-            case DBConstants.SQL_UPDATE_TYPE:
-            case DBConstants.SQL_INSERT_TABLE_TYPE:
-            case DBConstants.SQL_DELETE_TYPE:
-                return m_updateResultset;
-            case DBConstants.SQL_AUTOSEQUENCE_TYPE:
-            case DBConstants.SQL_SEEK_TYPE:
-                if (!SHARE_STATEMENTS)
-                    return m_seekResultset;
-            case DBConstants.SQL_SELECT_TYPE:
-            case DBConstants.SQL_CREATE_TYPE:
-            default:
-                return m_queryResultset;
-        }
+        return m_iResultSetType;
     }
     /**
      * Get this statement type
+     * @param resultSet The resultSet to set.
+     * @return The old resultSet.
      */
-    public int getResultsetType()
+    public ResultSet setResultSet(ResultSet resultSet, int iType)
     {
-        return m_iResultsetType;
-    }
-    /**
-     * Set the resultset for this statement type
-     * @param resultset The resultset to set.
-     * @return The old resultset.
-     */
-    public void setResultset(ResultSet resultset, int iType)
-    {
-        if (this.getResultset(iType) != null)
-        {   // If this is a new resultset for my current statement, close the old resultset.
+        if (m_resultSet != null)
+            if (this.getStatement(iType) == this.getStatement(m_iResultSetType))
+        {   // If this is a new resultSet for my current statement, close the old resultSet.
             try   {
-                this.getResultset(iType).close();
+                m_resultSet.close();
+                m_resultSet = null;
             } catch (SQLException e)    {
                 e.printStackTrace();    // Never
             }            
         }
-        switch (iType)
-        {
-            case DBConstants.SQL_UPDATE_TYPE:
-            case DBConstants.SQL_INSERT_TABLE_TYPE:
-            case DBConstants.SQL_DELETE_TYPE:
-                m_updateResultset = resultset;
-                break;
-            case DBConstants.SQL_AUTOSEQUENCE_TYPE:
-            case DBConstants.SQL_SEEK_TYPE:
-                if (!SHARE_STATEMENTS)
-                {
-                    m_seekResultset = resultset;
-                    break;
-                }
-            case DBConstants.SQL_SELECT_TYPE:
-            case DBConstants.SQL_CREATE_TYPE:
-            default:
-                m_queryResultset = resultset;
-                break;
-        }
-        m_iResultsetType = iType;
+        ResultSet oldResultSet = m_resultSet;
+        m_resultSet = resultSet;
+        m_iResultSetType = iType;
         if (iType == DBConstants.SQL_SELECT_TYPE)
         {
             m_iRow = -1;        // Starting from a new query
             m_iEOFRow = Integer.MAX_VALUE;
         }
+        return oldResultSet;
     }
     /**
      * Move all the fields to the output buffer.
@@ -613,7 +562,7 @@ public class JdbcTable extends BaseTable
             int iCurrentRow = -1;
             if (m_iLastOrder == -1)
                 iCurrentRow = m_iRow;   // Special case... A seek was done between the last read, so I need to return to the current row instead of the first row
-            this.setResultset(null, DBConstants.SQL_SELECT_TYPE);
+            this.setResultSet(null, DBConstants.SQL_SELECT_TYPE);
             if (iCurrentRow != -1)
                 if (iRelPosition != DBConstants.FIRST_RECORD)
                     if (iRelPosition != DBConstants.LAST_RECORD)
@@ -631,15 +580,17 @@ public class JdbcTable extends BaseTable
         if (m_iRow != -1) 
             if (iTargetPosition != -1)
                 if (iTargetPosition <= m_iRow)
-                    this.setResultset(null, DBConstants.SQL_SELECT_TYPE);   // Have to start from the beginning
+                    this.setResultSet(null, DBConstants.SQL_SELECT_TYPE);   // Have to start from the beginning
     // Do the move
-        ResultSet resultset = (ResultSet)this.getResultset();
+        ResultSet resultSet = (ResultSet)this.getResultSet();
         try {
-            if ((resultset == null) || (resultset.isClosed())) {
+            if ((resultSet == null) || (resultSet.isClosed())) {
                 Vector<BaseField> vParamList = new Vector<BaseField>();
-                String strRecordset = this.getRecord().getSQLQuery(SQLParams.USE_SELECT_LITERALS, vParamList);
-                resultset = this.executeQuery(strRecordset, DBConstants.SQL_SELECT_TYPE, vParamList);
-                this.setResultset(resultset, DBConstants.SQL_SELECT_TYPE);
+                String strRecordset = this.getRecord().getSQLQuery(
+                        SQLParams.USE_SELECT_LITERALS, vParamList);
+                resultSet = this.executeQuery(strRecordset,
+                        DBConstants.SQL_SELECT_TYPE, vParamList);
+                this.setResultSet(resultSet, DBConstants.SQL_SELECT_TYPE);
                 vParamList.removeAllElements();
             }
         } catch (Exception e) {
@@ -652,8 +603,8 @@ public class JdbcTable extends BaseTable
             iTargetPosition = m_iEOFRow;    // Move to last row
             Vector<BaseField> vParamList = new Vector<BaseField>();
             String strRecordset = this.getRecord().getSQLQuery(SQLParams.USE_SELECT_LITERALS, vParamList);
-            resultset = this.executeQuery(strRecordset, DBConstants.SQL_SELECT_TYPE, vParamList);
-            this.setResultset(resultset, DBConstants.SQL_SELECT_TYPE);
+            resultSet = this.executeQuery(strRecordset, DBConstants.SQL_SELECT_TYPE, vParamList);
+            this.setResultSet(resultSet, DBConstants.SQL_SELECT_TYPE);
             vParamList.removeAllElements();
         }
         int iRecordStatus = this.readNextToTarget(iTargetPosition, iRelPosition);
@@ -663,7 +614,7 @@ public class JdbcTable extends BaseTable
             if (iTargetPosition < 0) if (m_iRow == -1)
                 iRecordStatus |= DBConstants.RECORD_AT_BOF;
             if (CLEANUP_STATEMENTS)
-                this.setResultset(null, DBConstants.SQL_SELECT_TYPE);  // Close this statement (at EOF)
+                this.setResultSet(null, DBConstants.SQL_SELECT_TYPE);  // Close this statement (at EOF)
         }
         return iRecordStatus;
     }
@@ -681,11 +632,11 @@ public class JdbcTable extends BaseTable
                 this.unlockIfLocked(this.getRecord(), null);    // Release any locks
 
             // Submit a query, creating a ResultSet object
-            this.setResultset(null, DBConstants.SQL_SEEK_TYPE);
+            this.setResultSet(null, DBConstants.SQL_SEEK_TYPE);
             String strRecordset = this.getRecord().getSQLSeek(strSeekSign, SQLParams.USE_SELECT_LITERALS, vParamList);
-            ResultSet resultset = this.executeQuery(strRecordset, DBConstants.SQL_SEEK_TYPE, vParamList);
-            this.setResultset(resultset, DBConstants.SQL_SEEK_TYPE);
-            boolean more = resultset.next();
+            ResultSet resultSet = this.executeQuery(strRecordset, DBConstants.SQL_SEEK_TYPE, vParamList);
+            this.setResultSet(resultSet, DBConstants.SQL_SEEK_TYPE);
+            boolean more = resultSet.next();
             if (SHARE_STATEMENTS)
                 m_iLastOrder = -1;      // This will force a requery next time if there is an active query
             return more;    // Success if at least one record
@@ -759,7 +710,7 @@ public class JdbcTable extends BaseTable
     {
         record = record.getBaseRecord();    // Must operate on the raw table
         
-        String strSQL = null;
+        String strRecordset = null;
         m_LastModifiedBookmark = null;
         CounterField fldID = (CounterField)record.getCounterField();
         // First step - get the largest current key
@@ -779,16 +730,17 @@ public class JdbcTable extends BaseTable
         record.getKeyArea(DBConstants.MAIN_KEY_AREA).getKeyField(DBConstants.MAIN_KEY_FIELD).setKeyOrder(DBConstants.DESCENDING);
         boolean[] rgbEnabled = record.setEnableListeners(false);    // Temporarily disable behaviors
 
-        strSQL = record.getSQLQuery(false, null);
-        ResultSet resultset = this.executeQuery(strSQL, DBConstants.SQL_AUTOSEQUENCE_TYPE, null);
-        this.setResultset(resultset, DBConstants.SQL_AUTOSEQUENCE_TYPE);
+        strRecordset = record.getSQLQuery(false, null);
+        ResultSet resultSet = this.executeQuery(strRecordset, DBConstants.SQL_AUTOSEQUENCE_TYPE, null);
+        int iOldResultSetType = this.getResultSetType();
+        ResultSet oldResultSet = this.setResultSet(resultSet, DBConstants.SQL_AUTOSEQUENCE_TYPE);
     // Set back, before I forget.
         record.setKeyArea(iOrigOrder);
         record.getKeyArea(DBConstants.MAIN_KEY_AREA).getKeyField(DBConstants.MAIN_KEY_FIELD).setKeyOrder(bOrigDirection);
 
         try   {
             m_iColumn = 1;
-            boolean bMore = resultset.next();
+            boolean bMore = resultSet.next();
             if (!bMore)
             {
                 int iStartingID = record.getStartingID();
@@ -806,8 +758,19 @@ public class JdbcTable extends BaseTable
                 record.getField(iFieldSeq).setSelected(brgSelected[iFieldSeq]);
             }
             fldID.setSelected(bCounterSelected);
-            if (CLEANUP_STATEMENTS)
-                this.setStatement(null, DBConstants.SQL_AUTOSEQUENCE_TYPE);
+            try {
+                if ((oldResultSet != null) && (resultSet.getStatement() == oldResultSet.getStatement()))
+                    this.setResultSet(null, DBConstants.SQL_AUTOSEQUENCE_TYPE);    // If I share statements with an active query, reset the active query (Ouch-serious performance hit)
+                else
+                {
+                    resultSet.close();
+                    if (CLEANUP_STATEMENTS)
+                        this.setStatement(null, DBConstants.SQL_AUTOSEQUENCE_TYPE);
+                    this.setResultSet(oldResultSet, iOldResultSetType);    // Restore the current result set
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();    // Never
+            }
         }
         if (!bCounterSelected)
             fldID.setSelected(true);    // Counter must be selected to write this record
@@ -817,11 +780,11 @@ public class JdbcTable extends BaseTable
         while (iCount++ < MAX_DUPLICATE_ATTEMPTS)
         {
             fldID.setValue(fldID.getValue() + 1, DBConstants.DONT_DISPLAY, DBConstants.READ_MOVE);  // Bump counter
-            strSQL = record.getSQLInsert(SQLParams.USE_INSERT_UPDATE_LITERALS);
+            strRecordset = record.getSQLInsert(SQLParams.USE_INSERT_UPDATE_LITERALS);
             int iType = DBConstants.SQL_INSERT_TABLE_TYPE;
             int iRowsUpdated = 0;
             try   {
-                iRowsUpdated = this.executeUpdate(strSQL, iType);
+                iRowsUpdated = this.executeUpdate(strRecordset, iType);
             } catch (DBException ex)    {
                 if (ex.getErrorCode() == DBConstants.DUPLICATE_COUNTER)   // Duplicate key
                 {
@@ -894,7 +857,7 @@ public class JdbcTable extends BaseTable
     public ResultSet executeQuery(String strSQL, int iType, Vector<BaseField> vParamList)
         throws DBException
     {
-        ResultSet resultset = null;
+        ResultSet resultSet = null;
         m_bSelectAllFields = false;
         m_rgiFieldColumns = null;
         try   {
@@ -905,7 +868,7 @@ public class JdbcTable extends BaseTable
                     this.setStatement(null, iType); // Close old prepared statement
                 if (this.getStatement(iType) == null)
                     this.setStatement(((JdbcDatabase)this.getDatabase()).getJDBCConnection().createStatement(), iType);
-                resultset = this.getStatement(iType).executeQuery(strSQL);
+                resultSet = this.getStatement(iType).executeQuery(strSQL);
             }
             else
             {
@@ -931,7 +894,7 @@ public class JdbcTable extends BaseTable
                         }
                     }
                 }
-                resultset = ((PreparedStatement)this.getStatement(iType)).executeQuery();
+                resultSet = ((PreparedStatement)this.getStatement(iType)).executeQuery();
             }
         } catch (SQLException e)    {
             DBException ex = this.getDatabase().convertError(e);
@@ -961,7 +924,7 @@ public class JdbcTable extends BaseTable
             m_bSelectAllFields = true;
             m_iColumn = 1;  // First column
         }
-        return resultset;
+        return resultSet;
     }
     /**
      * Get/create the JDBC statement object.
@@ -1127,11 +1090,11 @@ public class JdbcTable extends BaseTable
     {
         int iRecordStatus = DBConstants.RECORD_NORMAL;
         boolean bMore = true;
-        ResultSet resultset = (ResultSet)this.getResultset();
+        ResultSet resultSet = (ResultSet)this.getResultSet();
         while (m_iRow < iTargetPosition)
         {   // Spin until you get to the row or hit EOF
             try   {
-                bMore = resultset.next();
+                bMore = resultSet.next();
                 if (!bMore)
                 {
                     m_iEOFRow = m_iRow;   // Last physical row = this row - 1.
@@ -1153,7 +1116,7 @@ public class JdbcTable extends BaseTable
         {
             iRecordStatus |= DBConstants.RECORD_AT_EOF;
             int iEOFRow = m_iEOFRow;   // Save for a sec
-            this.setResultset(null, DBConstants.SQL_SELECT_TYPE);  // Can't use anymore
+            this.setResultSet(null, DBConstants.SQL_SELECT_TYPE);  // Can't use anymore
             m_iEOFRow = iEOFRow;       // I do know the EOF
         }
         return iRecordStatus;
@@ -1182,9 +1145,9 @@ public class JdbcTable extends BaseTable
     public boolean create() throws DBException
     {
         boolean bSuccess = true;
-        this.setResultset(null, DBConstants.SQL_CREATE_TYPE);
-        ResultSet resultset = (ResultSet)this.getResultset();
-        if (resultset == null)
+        this.setResultSet(null, DBConstants.SQL_CREATE_TYPE);
+        ResultSet resultSet = (ResultSet)this.getResultSet();
+        if (resultSet == null)
         {
             Map<String,Object> properties = this.getDatabase().getProperties();
             String strAltSecondaryIndex = (String)this.getDatabase().getProperties().get(SQLParams.ALT_SECONDARY_INDEX);
@@ -1335,7 +1298,7 @@ public class JdbcTable extends BaseTable
                     this.setStatement(null, DBConstants.SQL_CREATE_TYPE);
             }
         }
-        this.setResultset(null, DBConstants.SQL_CREATE_TYPE);
+        this.setResultSet(null, DBConstants.SQL_CREATE_TYPE);
         return bSuccess;    // Success!!!
     }
     /**
