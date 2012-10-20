@@ -21,7 +21,6 @@ import org.jbundle.base.util.MainApplication;
 import org.jbundle.model.DBException;
 import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
-import org.jbundle.test.manual.TestAll;
 import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.util.Application;
 
@@ -41,7 +40,6 @@ public class DbTest {
     }
 
     public void run(String[] args) {
-        args = TestAll.fixArgs(args);
         Map<String, Object> properties = new Hashtable<String, Object>();
         Util.parseArgs(properties, args);
         Environment env = new Environment(properties);
