@@ -178,22 +178,21 @@ public class JdbcTable extends BaseTable
         }
 
         try   {
-            ResultSet resultSet = (ResultSet)this.setResultSet(null, 0);
-            if (resultSet != null)
-                resultSet.close();
+            if (m_resultSet != null)
+                m_resultSet.close();
+            m_resultSet = null;
             if (m_queryStatement != null)
                 m_queryStatement.close();
+            m_queryStatement = null;
             if (m_updateStatement != null)
                 m_updateStatement.close();
+            m_updateStatement = null;
             if (m_seekStatement != null)
                 m_seekStatement.close();
+            m_seekStatement = null;
         } catch (SQLException e)    {
-            // Ignore error on close
+            e.printStackTrace();    // No error on close
         }
-        this.setResultSet(null, 0);
-        m_queryStatement = null;
-        m_updateStatement = null;
-        m_seekStatement = null;
         m_iRow = -1;
         m_iEOFRow = Integer.MAX_VALUE;  // Last valid row.
         m_strStmtLastSQL = null;    // Last SQL string.
@@ -432,7 +431,7 @@ public class JdbcTable extends BaseTable
         return m_iResultSetType;
     }
     /**
-     * Get this statement type
+     * Set the ResultSet for this select or seek statement type.
      * @param resultSet The resultSet to set.
      * @return The old resultSet.
      */
