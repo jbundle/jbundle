@@ -190,7 +190,7 @@ public class Reptile extends VirtualRecord
     /**
      * MakeSharedRecord Method.
      */
-    public Record makeSharedRecord(Object objKey, RecordOwner recordOwner)
+    public Record createSharedRecord(Object objKey, RecordOwner recordOwner)
     {
         if (objKey instanceof Integer)
         {

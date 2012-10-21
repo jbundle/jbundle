@@ -324,6 +324,7 @@ public class TreeMessage extends BaseMessage
     {
         String strOut = Util.convertDOMToXML(this.getNode(false));
         if (bIncludeHeader)
+            if (this.getMessageHeader() != null)
         {
             String strHeaderXML = this.getMessageHeader().addXML(null).toString();
             int iStartOfRootTag = strOut.lastIndexOf("</");
