@@ -61,7 +61,15 @@ public class JdbcTable extends BaseTable
     /**
      * Used for Updates, Inserts, and Deletes (prepared statement).
      */
-    private ResultSet m_resultSet = null;
+    private ResultSet m_seekResultSet = null;
+    /**
+     * Used for Updates, Inserts, and Deletes (prepared statement).
+     */
+    private ResultSet m_selectResultSet = null;
+    /**
+     * Used for Updates, Inserts, and Deletes (prepared statement).
+     */
+    private ResultSet m_autoSequenceResultSet = null;
     /**
      * Current resultSet type.
      */
@@ -158,9 +166,6 @@ public class JdbcTable extends BaseTable
      */
     public void free()
     {
-        ResultSet resultSet = (ResultSet)this.getResultSet();
-        if (resultSet != null)
-            this.close();
         super.free();
     }
     /**
@@ -178,9 +183,15 @@ public class JdbcTable extends BaseTable
         }
 
         try   {
-            if (m_resultSet != null)
-                m_resultSet.close();
-            m_resultSet = null;
+            if (m_seekResultSet != null)
+                m_seekResultSet.close();
+            m_seekResultSet = null;
+            if (m_selectResultSet != null)
+                m_selectResultSet.close();
+            m_selectResultSet = null;
+            if (m_autoSequenceResultSet != null)
+                m_autoSequenceResultSet.close();
+            m_autoSequenceResultSet = null;
             if (m_queryStatement != null)
                 m_queryStatement.close();
             m_queryStatement = null;
@@ -421,7 +432,30 @@ public class JdbcTable extends BaseTable
      */
     public ResultSet getResultSet()
     {
-        return m_resultSet;
+        return this.getResultSet(this.getResultSetType());
+    }
+    /**
+     * Get this statement type
+     */
+    public ResultSet getResultSet(int iType)
+    {
+        switch (iType)
+        {
+            case DBConstants.SQL_SEEK_TYPE:
+                if (!SHARE_STATEMENTS)
+                    return m_seekResultSet;
+            case DBConstants.SQL_SELECT_TYPE:
+            case DBConstants.SQL_CREATE_TYPE:
+                return m_selectResultSet;
+            case DBConstants.SQL_AUTOSEQUENCE_TYPE:
+                return m_autoSequenceResultSet;
+            case DBConstants.SQL_UPDATE_TYPE:
+            case DBConstants.SQL_INSERT_TABLE_TYPE:
+            case DBConstants.SQL_DELETE_TYPE:
+            default:  // Never
+                break;
+        }
+        return null;
     }
     /**
      * Get this statement type
@@ -435,27 +469,44 @@ public class JdbcTable extends BaseTable
      * @param resultSet The resultSet to set.
      * @return The old resultSet.
      */
-    public ResultSet setResultSet(ResultSet resultSet, int iType)
+    public void setResultSet(ResultSet resultSet, int iType)
     {
-        if (m_resultSet != null)
-            if (this.getStatement(iType) == this.getStatement(m_iResultSetType))
+        if (this.getResultSet(iType) != null)
         {   // If this is a new resultSet for my current statement, close the old resultSet.
             try   {
-                m_resultSet.close();
-                m_resultSet = null;
+                this.getResultSet(iType).close();
             } catch (SQLException e)    {
                 e.printStackTrace();    // Never
             }            
         }
-        ResultSet oldResultSet = m_resultSet;
-        m_resultSet = resultSet;
+        switch (iType)
+        {
+            case DBConstants.SQL_SEEK_TYPE:
+                if (!SHARE_STATEMENTS)
+                {
+                    m_seekResultSet = resultSet;
+                    break;
+                }
+            case DBConstants.SQL_SELECT_TYPE:
+            case DBConstants.SQL_CREATE_TYPE:
+                m_selectResultSet = resultSet;
+                break;
+            case DBConstants.SQL_AUTOSEQUENCE_TYPE:
+                m_autoSequenceResultSet = resultSet;
+                break;
+            case DBConstants.SQL_UPDATE_TYPE:
+            case DBConstants.SQL_INSERT_TABLE_TYPE:
+            case DBConstants.SQL_DELETE_TYPE:
+            default:
+                // Never
+                break;
+        }
         m_iResultSetType = iType;
         if (iType == DBConstants.SQL_SELECT_TYPE)
         {
             m_iRow = -1;        // Starting from a new query
             m_iEOFRow = Integer.MAX_VALUE;
         }
-        return oldResultSet;
     }
     /**
      * Move all the fields to the output buffer.
@@ -731,8 +782,7 @@ public class JdbcTable extends BaseTable
 
         strRecordset = record.getSQLQuery(false, null);
         ResultSet resultSet = this.executeQuery(strRecordset, DBConstants.SQL_AUTOSEQUENCE_TYPE, null);
-        int iOldResultSetType = this.getResultSetType();
-        ResultSet oldResultSet = this.setResultSet(resultSet, DBConstants.SQL_AUTOSEQUENCE_TYPE);
+        this.setResultSet(resultSet, DBConstants.SQL_AUTOSEQUENCE_TYPE);
     // Set back, before I forget.
         record.setKeyArea(iOrigOrder);
         record.getKeyArea(DBConstants.MAIN_KEY_AREA).getKeyField(DBConstants.MAIN_KEY_FIELD).setKeyOrder(bOrigDirection);
@@ -757,19 +807,7 @@ public class JdbcTable extends BaseTable
                 record.getField(iFieldSeq).setSelected(brgSelected[iFieldSeq]);
             }
             fldID.setSelected(bCounterSelected);
-            try {
-                if ((oldResultSet != null) && (resultSet.getStatement() == oldResultSet.getStatement()))
-                    this.setResultSet(null, DBConstants.SQL_AUTOSEQUENCE_TYPE);    // If I share statements with an active query, reset the active query (Ouch-serious performance hit)
-                else
-                {
-                    resultSet.close();
-                    if (CLEANUP_STATEMENTS)
-                        this.setStatement(null, DBConstants.SQL_AUTOSEQUENCE_TYPE);
-                    this.setResultSet(oldResultSet, iOldResultSetType);    // Restore the current result set
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();    // Never
-            }
+            this.setResultSet(null, DBConstants.SQL_AUTOSEQUENCE_TYPE);    // Close resultset. If I share statements with an active query, reset the active query (Ouch-serious performance hit)
         }
         if (!bCounterSelected)
             fldID.setSelected(true);    // Counter must be selected to write this record
