@@ -14,15 +14,21 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.jbundle.app.test.test.db.TestTableNoAuto;
 import org.jbundle.app.test.vet.db.Vet;
+import org.jbundle.base.model.RecordOwner;
+import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.thread.ProcessRunnerTask;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
+import org.jbundle.model.Task;
 import org.jbundle.model.util.Util;
-import org.jbundle.test.manual.test.db.thick.JdbcDatabaseTest;
+import org.jbundle.test.manual.TestAll;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.TreeMessage;
 import org.jbundle.thin.base.screen.BaseApplet;
+import org.jbundle.thin.base.thread.AutoTask;
+import org.jbundle.thin.base.util.Application;
 
 
 // SimpleForm is the data entry form for the sample
@@ -39,7 +45,17 @@ public class MessageTest extends TestCase
      */
     public void setUp()
     {
+        String[] args = {"remote=Jdbc", "local=Jdbc", "table=Jdbc"};
+        args = TestAll.fixArgs(args);
+        Map<String,Object> properties = new Hashtable<String,Object>();
+        Util.parseArgs(properties, args);
+        Environment env = new Environment(properties);
+        Application app = new MainApplication(env, properties, null);
+        Task task = new AutoTask(app, null, null);
+        RecordOwner recordOwner = new BaseProcess(task, null, null);
+        testTable = new TestTableNoAuto(recordOwner);
     }
+    TestTableNoAuto testTable = null;
     /**
      * Setup.
      */
@@ -143,11 +159,11 @@ public class MessageTest extends TestCase
         System.out.println("-------------------------------------");
         cat.add();
   */      
-        Vet vet = new Vet(null);
+        Vet vet = new Vet(testTable.getRecordOwner());
         vet.next();
         message = new TreeMessage(null, null);
         VetsMessageRecordDesc vetMessageDesc = new VetsMessageRecordDesc(message, "vet");
-        vetMessageDesc.handlePutRawRecordData(vet);
+        //?vetMessageDesc.handlePutRawRecordData(vet);
         this.printMessage(message);
 
         vet.addNew();

@@ -197,7 +197,7 @@ public class ObjectTest extends BaseAnimalTest
 
         Utility.getLogger().info("Now, let's test a ObjectTable.\n");
         Utility.getLogger().info("Open table.\n");
-        Reptile animal = new Reptile(null);
+        Reptile animal = new Reptile(snake.getRecordOwner());
         BaseTable animalTable = animal.getTable();
         try   {
             animal.open();              // Open the table

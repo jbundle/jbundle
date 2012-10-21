@@ -35,7 +35,7 @@ public class TestAll extends Object {
     {
     	// "dbSuffix=_test", 
     	// "remotehost=linux-laptop",
-    	String[] argsBase = {"mainUserDBName=main", "programSharedDBName=program_test", "connectionType=proxy", "codebase=localhost:8181"};
+    	String[] argsBase = {/*"databaseproduct=mysql", */ "mainUserDBName=main", "programSharedDBName=program_test", "connectionType=proxy", "codebase=localhost:8181", "remotehost=localhost"};
     	String[] argsNew = new String[args.length + argsBase.length];
     	for (int i= 0; i < argsBase.length; i++)
     	{

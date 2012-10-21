@@ -20,7 +20,6 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.DateTimeField;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
-import org.jbundle.test.manual.test.message.MessageTest;
 
 
 /**
