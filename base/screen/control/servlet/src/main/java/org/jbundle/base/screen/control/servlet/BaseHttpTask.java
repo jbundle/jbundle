@@ -894,6 +894,7 @@ public class BaseHttpTask extends Object
      * @param filename The filename or url to open as an Input Stream.
      * @return The imput stream (or null if there was an error).
      */
+    @SuppressWarnings("resource")
     public InputStream getInputStream(String filename)
     {
         InputStream streamIn = null;
