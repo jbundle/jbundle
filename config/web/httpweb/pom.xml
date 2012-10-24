@@ -10,7 +10,7 @@
 
 	<artifactId>org.jbundle.config.web.httpweb</artifactId>
 
-	<name>jbundle-web-httpweb - Hybrid osgi webapp</name>
+	<name>jbundle-config-web-httpweb - Hybrid osgi webapp</name>
 	<description>web osgi httpweb bundle</description>
 
 	<packaging>bundle</packaging>

@@ -203,7 +203,7 @@ public class ServletTask extends BaseHttpTask
         			out.close();
         }
             // I know this is called in destroy(), but I'm being careful (if server forgets to call)
-        if (m_application.getRemoteTask(this) != null)
+        if (m_application.getRemoteTask(this, null, false) != null)
             m_application.removeTask(this);
         m_application = null; // Do not free the application... the HttpSession will
         m_properties = null;    // Not needed anymore

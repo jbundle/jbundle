@@ -16,6 +16,7 @@
   <properties>
   <!-- Note: The tests won't run in maven because I can't figure out how to pass these arguments to the surefire plugin:
    -Dremotehost=localhost -Dcodebase=localhost:8181/ -->
+    <maven.test.skip>true</maven.test.skip>  <!-- TODO Need to add a profile that will run this on the build server (ie if jdbc.url exists) -->
   </properties>
   
   <build>

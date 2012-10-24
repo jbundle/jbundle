@@ -76,6 +76,6 @@ public class ServletApplication extends MainApplication
         if (this.getMainTask() == null)
             this.free();
         else
-            Utility.getLogger().info("Unbound error ServletApplication/77");
+            Utility.getLogger().warning("Unbound error ServletApplication/77");
     }
 }
