@@ -94,7 +94,8 @@ public class XSLServlet extends XMLServlet
         HttpServletRequest req = null;
         ScreenModel screen = null;
         BasicServlet servlet = null;
-        public PrintThread(BasicServlet servlet, Writer outWriter, ServletTask servletTask, HttpServletRequest req, ScreenModel screen)
+        boolean freeWhenDone = false;
+        public PrintThread(BasicServlet servlet, Writer outWriter, ServletTask servletTask, HttpServletRequest req, ScreenModel screen, boolean freeWhenDone)
         {
             super();
             this.outWriter = outWriter;
@@ -102,19 +103,20 @@ public class XSLServlet extends XMLServlet
             this.req = req;
             this.screen = screen;
             this.servlet = servlet;
+            this.freeWhenDone = freeWhenDone;
         }
         public void run()
         {
             PrintWriter writer = new PrintWriter(outWriter);
             try {
-                servletTask.doProcessOutput(servlet, req, null, writer, screen);
+                servletTask.doProcessOutput(servlet, req, null, writer, screen, freeWhenDone);
             } catch (ServletException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
                 writer.flush();
-                writer.close();                
+                writer.close();
             }
             
         }        
@@ -138,7 +140,7 @@ public class XSLServlet extends XMLServlet
         PipedReader in = new PipedReader();
         PipedWriter out = new PipedWriter(in);
         
-        new PrintThread(this, out, servletTask, req, screen).start();
+        new PrintThread(this, out, servletTask, req, screen, true).start();
 
         StreamSource source = new StreamSource(in);
 

@@ -25,21 +25,21 @@ public interface RemoteBaseSession
 {
     /**
      * Release the session and its resources.
-     * @throws RemoteException TODO
+     * @throws RemoteException 
      */
     public void freeRemoteSession() throws RemoteException;
     /**
      * Build a new remote session and initialize it.
      * @param parentSessionObject The parent session for this new session (if null, parent = me).
      * @param strSessionClassName The class name of the remote session to build.
-     * @throws RemoteException TODO
+     * @throws RemoteException 
      */
     public RemoteBaseSession makeRemoteSession(String strSessionClassName) throws RemoteException;
     /**
      * Do a remote action.
      * @param strCommand Command to perform remotely.
      * @return boolean success.
-     * @throws RemoteException TODO
+     * @throws RemoteException 
      */
     public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws DBException, RemoteException;
 }

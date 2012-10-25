@@ -1153,7 +1153,7 @@ public abstract class BaseTable extends FieldTable
         	table = this.getPhysicalTable((PassThruTable)record.getTable(), record);
         int iOpenMode = record.getOpenMode();
         record.setOpenMode(DBConstants.OPEN_NORMAL);	// Possible read-only
-        String strFilename = record.getArchiveFilename(false);
+        String strFilename = record.getArchiveFilename(true);
         InputStream inputStream = null;
         if (Record.findRecordOwner(record) != null)
             if (Record.findRecordOwner(record).getTask() != null)

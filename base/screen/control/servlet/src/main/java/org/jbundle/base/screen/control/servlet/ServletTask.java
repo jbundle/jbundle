@@ -21,10 +21,13 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.Debug;
 import org.jbundle.base.model.ScreenModel;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.model.screen.ComponentParent;
+import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.thread.RecordOwnerCollection;
 
 
@@ -94,9 +97,6 @@ public class ServletTask extends BaseHttpTask
      */
     public void free()
     {
-    	if (m_recordOwnerCollection != null)
-    		m_recordOwnerCollection.free();
-    	m_recordOwnerCollection = null;
         super.free();   // Remove this session from the list
     }
     /**
@@ -108,7 +108,7 @@ public class ServletTask extends BaseHttpTask
         throws ServletException, IOException
     {
     	ScreenModel screen = this.doProcessInput(servlet, req, res);
-    	this.doProcessOutput(servlet, req, res, outExt, screen);
+    	this.doProcessOutput(servlet, req, res, outExt, screen, true);
     }
     /**
      * Process an HTML get or post.
@@ -159,7 +159,7 @@ public class ServletTask extends BaseHttpTask
      * @exception ServletException From inherited class.
      * @exception IOException From inherited class.
      */
-    public void doProcessOutput(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res, PrintWriter outExt, ScreenModel screen) 
+    public void doProcessOutput(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res, PrintWriter outExt, ScreenModel screen, boolean freeWhenDone) 
         throws ServletException, IOException
     {
         PrintWriter out = outExt;
@@ -203,10 +203,9 @@ public class ServletTask extends BaseHttpTask
         			out.close();
         }
             // I know this is called in destroy(), but I'm being careful (if server forgets to call)
-        if (m_application.getRemoteTask(this, null, false) != null)
-            m_application.removeTask(this);
-        m_application = null; // Do not free the application... the HttpSession will
-        m_properties = null;    // Not needed anymore
+        if (freeWhenDone)
+            this.free();    // I'm done. Note: ServletApplication will not free since it has a main 'AutoTask'
+            // TODO(don) What if a remote task is still running?
     }
     /**
      *  Set the argument properties.

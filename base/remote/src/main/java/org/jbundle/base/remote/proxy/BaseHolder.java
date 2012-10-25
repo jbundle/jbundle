@@ -68,7 +68,7 @@ public class BaseHolder extends Object
     {
         if ((m_mapChildHolders != null) && (m_mapChildHolders.size() > 0))
         {
-            Utility.getLogger().warning("Not all child sessions freed");
+            Utility.getLogger().info("Not all sub-sessions freed by client - I will free them");
             synchronized (this)
             {
                 for (String strID : m_mapChildHolders.keySet())

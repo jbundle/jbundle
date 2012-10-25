@@ -599,6 +599,7 @@ public class BaseHttpTask extends Object
                 {
                     application = this.changeCookie(application, req, res);
                     application.addTask(this, null);      // Will be removed on exit
+                    this.setApplication(application);
 
                     return application;     // Return the current application
                 }
@@ -670,6 +671,7 @@ public class BaseHttpTask extends Object
         
         session.setAttribute(DBParams.APPLICATION, application);   // Cache the preferences, so I can save my session putValue(APPLICATION, application);//
         application.addTask(this, null);      // Will be removed on destroy
+        this.setApplication(application);
         return application;
     }
     /**

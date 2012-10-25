@@ -79,6 +79,7 @@ public class ProxyTask extends BaseHttpTask
         // First see if this is an active session
         if (m_application == null)
             m_application = this.getNonUserApplication();   // This task belongs to the servlet.
+        m_application.addTask(this, null);
     }
     /**
      * Free the resources for this holder.

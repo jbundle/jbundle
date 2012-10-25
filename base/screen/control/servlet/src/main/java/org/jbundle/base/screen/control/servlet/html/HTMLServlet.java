@@ -137,7 +137,7 @@ public class HTMLServlet extends BaseServlet
         ServletTask servletTask = new ServletTask(this, BasicServlet.SERVLET_TYPE.HTML);
         this.addBrowserProperties(req, servletTask);
         servletTask.doProcess(this, req, res, null);
-        servletTask.free();
+        // Note: The servletTask is freed when it is done.
     }
     /**
      * Add the browser properties to this servlet task.
