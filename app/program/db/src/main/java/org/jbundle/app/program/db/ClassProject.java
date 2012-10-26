@@ -212,7 +212,7 @@ public class ClassProject extends Folder
      */
     public String getFileName(String strFileName, String strPackage, CodeType codeType, boolean fullPath, boolean sourcePath)
     {
-        Record recProgramControl = (Record)this.getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE);
+        ProgramControl recProgramControl = (ProgramControl)this.getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE);
         if (recProgramControl == null)
             recProgramControl = new ProgramControl(this.findRecordOwner());
         
@@ -226,7 +226,7 @@ public class ClassProject extends Folder
         String strFileRoot = DBConstants.BLANK;
         if (fullPath)
         {
-            strFileRoot = recProgramControl.getField(ProgramControl.BASE_DIRECTORY).toString();
+            strFileRoot = recProgramControl.getBasePath();
             if (!strFileRoot.endsWith("/"))
                 strFileRoot += "/";
         }

@@ -25,6 +25,7 @@ import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.app.program.db.*;
 import org.jbundle.main.screen.*;
+import org.jbundle.app.program.manual.convert.ConvertCode;
 import org.jbundle.app.program.script.process.*;
 
 /**
@@ -118,7 +119,7 @@ public class ClassInfoScreen extends Screen
         strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
         strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ExportRecordsToXmlScreen.class.getName());    // Screen class
         strJob = Utility.addURLParam(strJob, "newwindow", DBConstants.TRUE);    // Screen class
-        strJob = Utility.addURLParam(strJob, "prefix", this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.BASE_DIRECTORY).toString()+ this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.PROJECT_NAME).toString() + "/");    // Screen class
+        strJob = Utility.addURLParam(strJob, ConvertCode.DIR_PREFIX, Utility.addToPath(((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath(), this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.ARCHIVE_DIRECTORY).toString()));    // Screen class
         new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Export");
         strJob = Utility.addURLParam(strJob, "mode", "import");
         new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Import");

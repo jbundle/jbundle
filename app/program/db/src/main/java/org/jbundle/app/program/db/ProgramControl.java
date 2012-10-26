@@ -17,6 +17,7 @@ import org.jbundle.base.field.*;
 import org.jbundle.base.field.convert.*;
 import org.jbundle.base.field.event.*;
 import org.jbundle.base.model.*;
+import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
@@ -100,7 +101,7 @@ public class ProgramControl extends ControlRecord
             field = new StringField(this, PROJECT_NAME, 30, null, null);
         if (iFieldSeq == 4)
         {
-            field = new StringField(this, BASE_DIRECTORY, 127, null, "/home/don/workspace/tour/");
+            field = new StringField(this, BASE_DIRECTORY, 127, null, "${user.dir}/");
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 5)
@@ -172,5 +173,18 @@ public class ProgramControl extends ControlRecord
         super.addMasterListeners();
         this.getField(ProgramControl.LAST_PACKAGE_UPDATE).setEnabled(false);
     }
-
+    public String getBasePath()
+    {
+        String basePath = DBConstants.BLANK;
+        basePath = this.getField(ProgramControl.BASE_DIRECTORY).toString();
+        PropertyOwner propertyOwner = null;
+        if (this.getOwner() instanceof PropertyOwner)
+            propertyOwner = (PropertyOwner)this.getOwner();
+        try {
+            basePath = Utility.replaceResources(basePath, null, Utility.propertiesToMap(System.getProperties()), propertyOwner);
+        } catch (SecurityException e) {
+            basePath = Utility.replaceResources(basePath, null, null, propertyOwner);
+        }
+        return basePath;
+    }
 }
