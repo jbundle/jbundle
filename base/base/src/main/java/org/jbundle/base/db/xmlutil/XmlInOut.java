@@ -382,7 +382,7 @@ public class XmlInOut extends BaseProcess
                     doc = db.parse(new File(filename));
             }
         } catch (FileNotFoundException e) {
-        	Utility.getLogger().warning("Table input file not found: " + filename);
+        	Utility.getLogger().info("Table input file not found: " + filename);
             return false;   // Error
         } catch (SAXException e) {
             Debug.print(e);

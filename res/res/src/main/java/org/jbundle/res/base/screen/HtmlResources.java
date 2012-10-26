@@ -272,12 +272,12 @@ public class HtmlResources extends ListResourceBundle
         " <div align=\"right\">" + "\n" +
         "<a href=\"?menu=&amp;navmenus=&amp;preferences=\"><img src=\"images/buttons/Expand.gif\" alt=\"Change the menu pane to full descriptions\" border=\"0\" width=\"16\" height=\"16\" /></a><a href=\"?menu=&amp;navmenus=No&amp;preferences=\"><img src=\"images/buttons/Close.gif\" alt=\"Close the menu pane\" border=\"0\" width=\"16\" height=\"16\" /></a></div>" + "\n" +
         " <hr/>"},
-    {"htmlNavMenu", "<a href=\"?menu=Home\"><img src=\"images/buttons/Home.gif\" width=\"16\" height=\"16\" alt=\"Home\" class=\"button\"/>&nbsp;Home</a><br/>" + "\n" +
-        "<a href=\"?menu=\"><img src=\"images/buttons/MyHome.gif\" width=\"16\" height=\"16\" alt=\"My home\" class=\"button\"/>&nbsp;My home</a><br/>" + "\n" +
-        "<a href=\"?screen=.main.user.screen.UserPreferenceScreen&java=no\"><img src=\"images/buttons/Settings.gif\" width=\"16\" height=\"16\" alt=\"View or change settings\" class=\"button\"/>&nbsp;Settings</a><br/>" + "\n" +
-        "<a href=\"?screen=.main.user.screen.UserLoginScreen&java=no\"><img src=\"images/buttons/Login.gif\" width=\"16\" height=\"16\" alt=\"Sign in\" class=\"button\"/>&nbsp;Sign in</a><br/>" + "\n" +
-        "<a href=\"?user=&amp;menu=\"><img src=\"images/buttons/Logoff.gif\" width=\"16\" height=\"16\" alt=\"Sign out\" class=\"button\"/>&nbsp;Sign out</a><br/>" + "\n" +
-        "<a href=\"?help=&class=.base.screen.model.report.HelpScreen\"><img src=\"images/buttons/Help.gif\" width=\"16\" height=\"16\" alt=\"Help for the current screen\" class=\"button\"/>&nbsp;Help</a><br/>"},
+    {"htmlNavMenu", "<a href=\"?menu=Home\"><img src=\"images/buttons/Home.gif\" width=\"16\" height=\"16\" alt=\"Home\" class=\"button\"/>&#160;Home</a><br/>" + "\n" +
+        "<a href=\"?menu=\"><img src=\"images/buttons/MyHome.gif\" width=\"16\" height=\"16\" alt=\"My home\" class=\"button\"/>&#160;My home</a><br/>" + "\n" +
+        "<a href=\"?screen=.main.user.screen.UserPreferenceScreen&java=no\"><img src=\"images/buttons/Settings.gif\" width=\"16\" height=\"16\" alt=\"View or change settings\" class=\"button\"/>&#160;Settings</a><br/>" + "\n" +
+        "<a href=\"?screen=.main.user.screen.UserLoginScreen&java=no\"><img src=\"images/buttons/Login.gif\" width=\"16\" height=\"16\" alt=\"Sign in\" class=\"button\"/>&#160;Sign in</a><br/>" + "\n" +
+        "<a href=\"?user=&amp;menu=\"><img src=\"images/buttons/Logoff.gif\" width=\"16\" height=\"16\" alt=\"Sign out\" class=\"button\"/>&#160;Sign out</a><br/>" + "\n" +
+        "<a href=\"?help=&class=.base.screen.model.report.HelpScreen\"><img src=\"images/buttons/Help.gif\" width=\"16\" height=\"16\" alt=\"Help for the current screen\" class=\"button\"/>&#160;Help</a><br/>"},
     {"htmlNavMenuDon", "      <tr valign=\"top\">" + "\n" +
         "        <td width=\"15%\"  bgcolor=\"#b0b0e0\">" + "\n" +
         "<div align=right><a href=\"?menu=&navmenus=Icons+Only&preferences=\"><img src=\"images/buttons/Contract.gif\" alt=\"Change the menu pane to Icons only\" border=\"0\" width=\"16\" height=\"16\" /></a><a href=\"?menu=&navmenus=No&preferences=\"><img src=\"images/buttons/Close.gif\" alt=\"Close the menu pane\" border=\"0\" width=\"16\" height=\"16\"></a></div>" + "\n" +

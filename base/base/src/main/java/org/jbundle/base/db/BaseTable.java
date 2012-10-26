@@ -1153,12 +1153,6 @@ public abstract class BaseTable extends FieldTable
         	table = this.getPhysicalTable((PassThruTable)record.getTable(), record);
         int iOpenMode = record.getOpenMode();
         record.setOpenMode(DBConstants.OPEN_NORMAL);	// Possible read-only
-        String strFilename = record.getArchiveFilename(true);
-        InputStream inputStream = null;
-        if (Record.findRecordOwner(record) != null)
-            if (Record.findRecordOwner(record).getTask() != null)
-                inputStream = Record.findRecordOwner(record).getTask().getInputStream(strFilename);
-        org.jbundle.base.db.xmlutil.XmlInOut xml = new org.jbundle.base.db.xmlutil.XmlInOut(null, null, null);
         
         int iCount = record.getFieldCount();
         boolean[] brgCurrentSelection = new boolean[iCount];
@@ -1169,11 +1163,31 @@ public abstract class BaseTable extends FieldTable
         }
         BaseBuffer buffer = new VectorBuffer(null);
         buffer.fieldsToBuffer(record);
+
+        org.jbundle.base.db.xmlutil.XmlInOut xml = new org.jbundle.base.db.xmlutil.XmlInOut(null, null, null);
+
+        String filename = record.getArchiveFilename(true);
+        String defaultFilename = record.getArchiveFilename(false);
+        InputStream inputStream = null;
+        if (Record.findRecordOwner(record) != null)
+            if (Record.findRecordOwner(record).getTask() != null)
+                inputStream = Record.findRecordOwner(record).getTask().getInputStream(filename);
+
         boolean bSuccess = false;
         try {
-        	bSuccess = xml.importXML(table, strFilename, inputStream);
+        	bSuccess = xml.importXML(table, filename, inputStream);    // Data file read successfully
+            if (!bSuccess)
+                if (!defaultFilename.equals(filename))
+            {
+                if (Record.findRecordOwner(record) != null)
+                    if (Record.findRecordOwner(record).getTask() != null)
+                        inputStream = Record.findRecordOwner(record).getTask().getInputStream(defaultFilename);
+                bSuccess = xml.importXML(table, defaultFilename, inputStream);
+            }
+            if (!bSuccess)   
+                Utility.getLogger().warning("No initial data for: " + record.getRecordName());
         } catch (Exception ex) {
-        	Utility.getLogger().warning("Could not load initial data - " + record.getRecordName());
+            ex.printStackTrace();
         } finally {
         	xml.free();
         }

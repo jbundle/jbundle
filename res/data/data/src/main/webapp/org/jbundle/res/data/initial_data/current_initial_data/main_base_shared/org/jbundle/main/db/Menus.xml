@@ -268,10 +268,10 @@
 <p>Html <b>bold</b> fields</p>
 </body>
 </html></Comment>
-		<Code>Development</Code>
+		<Code>Main</Code>
 		<Type>menu</Type>
 		<AutoDesc>Y</AutoDesc>
-		<Program>Development</Program>
+		<Program>Main</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -2488,10 +2488,10 @@
 		<ParentFolderID>789</ParentFolderID>
 		<Sequence>100</Sequence>
 		<Comment/>
-		<Code>Main</Code>
+		<Code>Switch</Code>
 		<Type>menu</Type>
 		<AutoDesc>Y</AutoDesc>
-		<Program>Main</Program>
+		<Program>Switch</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
