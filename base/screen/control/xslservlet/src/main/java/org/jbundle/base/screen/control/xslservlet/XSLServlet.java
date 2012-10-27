@@ -112,8 +112,12 @@ public class XSLServlet extends XMLServlet
                 servletTask.doProcessOutput(servlet, req, null, writer, screen, freeWhenDone);
             } catch (ServletException e) {
                 e.printStackTrace();
+                if (freeWhenDone)
+                    servletTask.free();
             } catch (IOException e) {
                 e.printStackTrace();
+                if (freeWhenDone)
+                    servletTask.free();
             } finally {
                 writer.flush();
                 writer.close();
@@ -141,6 +145,7 @@ public class XSLServlet extends XMLServlet
         PipedWriter out = new PipedWriter(in);
         
         new PrintThread(this, out, servletTask, req, screen, true).start();
+        // Note: Print Thread frees the servlettask when it is done.
 
         StreamSource source = new StreamSource(in);
 

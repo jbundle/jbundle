@@ -75,7 +75,7 @@ public class ServletApplication extends MainApplication
         Utility.getLogger().info("Session Unbound");
         if (this.getMainTask() == null)
             this.free();
-        else
-            Utility.getLogger().warning("Unbound error ServletApplication/77");
+        else   // Never - This would mean the session was released before the http response was sent
+            Utility.getLogger().warning("Unbound error ServletApplication.valueUnbound");
     }
 }

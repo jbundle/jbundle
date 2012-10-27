@@ -21,14 +21,10 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.Debug;
 import org.jbundle.base.model.ScreenModel;
-import org.jbundle.base.model.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
 import org.jbundle.model.screen.ComponentParent;
-import org.jbundle.thin.base.remote.RemoteException;
-import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.thin.base.thread.RecordOwnerCollection;
 
 
 /**
@@ -55,10 +51,6 @@ public class ServletTask extends BaseHttpTask
      * Needed to get the properties.
      */
     protected HttpServletRequest m_req = null;
-    /**
-     * Children record owners.
-     */
-    protected RecordOwnerCollection m_recordOwnerCollection = null;
 
     /**
      * Constructor.
@@ -80,7 +72,6 @@ public class ServletTask extends BaseHttpTask
      */
     public void init(BasicServlet servlet, BasicServlet.SERVLET_TYPE servletType)
     {
-        m_recordOwnerCollection = new RecordOwnerCollection(this);
         super.init(servlet, servletType);
     }
     /**
@@ -167,45 +158,45 @@ public class ServletTask extends BaseHttpTask
         {
         	if (out != null)
         		out.println("Error: default screen not available");
-            return;
         }
-        try
-        { // create and execute the query
-            // if no parameters, just print the form
-            String strDatatype = this.getProperty(DBParams.DATATYPE); // Raw data (such as in image from the DB)
-            if (strDatatype == null)
-            {
-                if (out == null)
-                    out = servlet.getOutputStream(res); // Always
-                ((ScreenModel)screen).printReport(out);
+        else
+        {
+            try
+            { // create and execute the query
+                // if no parameters, just print the form
+                String strDatatype = this.getProperty(DBParams.DATATYPE); // Raw data (such as in image from the DB)
+                if (strDatatype == null)
+                {
+                    if (out == null)
+                        out = servlet.getOutputStream(res); // Always
+                    ((ScreenModel)screen).printReport(out);
+                }
+                else
+                {       // Raw data output
+                    ((ScreenModel)screen).getScreenFieldView().sendData(req, res);
+                }
+                screen.free();
+                screen = null;
             }
-            else
-            {       // Raw data output
-                ((ScreenModel)screen).getScreenFieldView().sendData(req, res);
+            catch (DBException ex) {
+                if (out != null)
+                {
+                    out.println("<hr>*** SQLException caught ***<p>");
+                    out.println("Message:  " + ex.getMessage() + "<br>");
+                    ex.printStackTrace(out);
+                }
+                ex.printStackTrace();
             }
-            screen.free();
-            screen = null;
-        }
-        catch (DBException ex) {
-            if (out != null)
-            {
-                out.println("<hr>*** SQLException caught ***<p>");
-                out.println("Message:  " + ex.getMessage() + "<br>");
-                ex.printStackTrace(out);
+            catch (java.lang.Exception ex) {
+                ex.printStackTrace();
+            } finally {
+            	if (outExt == null)
+            		if (out != null)
+            			out.close();
             }
-            ex.printStackTrace();
         }
-        catch (java.lang.Exception ex) {
-            ex.printStackTrace();
-        } finally {
-        	if (outExt == null)
-        		if (out != null)
-        			out.close();
-        }
-            // I know this is called in destroy(), but I'm being careful (if server forgets to call)
         if (freeWhenDone)
-            this.free();    // I'm done. Note: ServletApplication will not free since it has a main 'AutoTask'
-            // TODO(don) What if a remote task is still running?
+            this.free();    // I'm done. Note: ServletApplication will not free until session is unbound since it has a main 'AutoTask'
     }
     /**
      *  Set the argument properties.

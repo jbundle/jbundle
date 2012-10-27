@@ -669,8 +669,9 @@ public class BaseHttpTask extends Object
         
         application = this.changeCookie(application, req, res);
         
-        session.setAttribute(DBParams.APPLICATION, application);   // Cache the preferences, so I can save my session putValue(APPLICATION, application);//
-        application.addTask(this, null);      // Will be removed on destroy
+        session.setAttribute(DBParams.APPLICATION, application);   // Cache the preferences, so I can save my session putValue(APPLICATION, application);
+        // Note: Application will be notified of session termination in valueUnbound method
+        application.addTask(this, null);      // Will be removed on session destroy
         this.setApplication(application);
         return application;
     }
