@@ -2211,7 +2211,7 @@ Just override the compute value method to re-calculate the target field's value.
       </tr>
 
       <tr>
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Next Field</td>
 
@@ -2219,20 +2219,20 @@ Just override the compute value method to re-calculate the target field's value.
         Enter<br />
         Down Arrow</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Move the cursor to the next field</td>
       </tr>
 
       <tr>
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Previous Field</td>
 
         <td>Shift+Tab<br />
         Up Arrow</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Move the cursor to the previous field</td>
       </tr>
@@ -2283,7 +2283,7 @@ Just override the compute value method to re-calculate the target field's value.
         <td>Edit<br />
         Paste</td>
 
-        <td>&nbsp;Paste the text on the clipboard to the current
+        <td>&#160;Paste the text on the clipboard to the current
         cursor location or selection.</td>
       </tr>
 
@@ -2293,9 +2293,9 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>Lookup</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Change this form to lookup mode to search for a
         record.<br />
@@ -2322,7 +2322,7 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>First Record</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Record<br />
         First Record</td>
@@ -2364,7 +2364,7 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>Last Record</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Record<br />
         Last Record</td>
@@ -2437,9 +2437,9 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>Context Sensitive Help</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Access the help information for this item.</td>
       </tr>
@@ -2450,9 +2450,9 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>E-Mail</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Bring up the e-mail screen with this address.</td>
       </tr>
@@ -2463,9 +2463,9 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>Fax</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Bring up the fax screen with this fax address.</td>
       </tr>
@@ -2476,9 +2476,9 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>Form</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Bring up the data-entry form for this file.</td>
       </tr>
@@ -2489,9 +2489,9 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>Grid</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Bring up the data-display grid for this file.</td>
       </tr>
@@ -2502,9 +2502,9 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>Home</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Go to the home page.</td>
       </tr>
@@ -2515,9 +2515,9 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>Mail</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Bring up the mail screen for this address.</td>
       </tr>
@@ -2528,9 +2528,9 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>Phone</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Dial this phone number (must have a JTAPI-enabled
         computer).</td>
@@ -2557,27 +2557,27 @@ Just override the compute value method to re-calculate the target field's value.
 
         <td>URL</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Bring up the browser and go to this URL.</td>
       </tr>
 
       <tr>
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Hard Return</td>
 
         <td>Shift+Enter</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Enter a carriage return in a text box</td>
       </tr>
 
       <tr>
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Close Window</td>
 
@@ -2590,11 +2590,11 @@ Just override the compute value method to re-calculate the target field's value.
       </tr>
 
       <tr>
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Preferences</td>
 
-        <td>&nbsp;</td>
+        <td>&#160;</td>
 
         <td>Edit<br />
         Preferences</td>

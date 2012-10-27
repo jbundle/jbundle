@@ -30,12 +30,12 @@
 <strong>Navigation menu</strong>
 <br/>
 <hr/>
-<a href="?menu=Home"><img src="images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/>&nbsp;Home</a><br/>
-<a href="?menu="><img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/>&nbsp;My home</a><br/>
-<a href="?screen=.main.user.screen.UserPreferenceScreen&java=no"><img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/>&nbsp;Settings</a><br/>
-<a href="?screen=.main.user.screen.UserLoginScreen&java=no"><img src="images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/>&nbsp;Sign in</a><br/>
-<a href="?user=&amp;menu="><img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/>&nbsp;Sign out</a><br/>
-<a href="?help=&class=.base.screen.model.report.HelpScreen"><img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/>&nbsp;Help</a><br/>
+<a href="?menu=Home"><img src="images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/>&#160;Home</a><br/>
+<a href="?menu="><img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/>&#160;My home</a><br/>
+<a href="?screen=.main.user.screen.UserPreferenceScreen&java=no"><img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/>&#160;Settings</a><br/>
+<a href="?screen=.main.user.screen.UserLoginScreen&java=no"><img src="images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/>&#160;Sign in</a><br/>
+<a href="?user=&amp;menu="><img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/>&#160;Sign out</a><br/>
+<a href="?help=&class=.base.screen.model.report.HelpScreen"><img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/>&#160;Help</a><br/>
 <!-- End Nav menu -->
 </th>
 <th id="navStartShadow" class="navStartShadow" style="background-image: url(images/graphics/NavHShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>

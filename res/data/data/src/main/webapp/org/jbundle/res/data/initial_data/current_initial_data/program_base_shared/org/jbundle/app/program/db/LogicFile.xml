@@ -28397,11 +28397,11 @@ try   {
     {
         fieldInfo.next();
         out.println("<tr>");
-        out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.FIELD_NAME).toString() + "</td>");
-        out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.FIELD_CLASS).toString() + "</td>");
-        out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.BASE_FIELD_NAME).toString() + "</td>");
-        out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.MAXIMUM_LENGTH).toString() + "</td>");
-        out.println("<td>&nbsp;" + fieldInfo.getField(FieldData.FIELD_DESCRIPTION).toString() + "</td>");
+        out.println("<td>&#160;" + fieldInfo.getField(FieldData.FIELD_NAME).toString() + "</td>");
+        out.println("<td>&#160;" + fieldInfo.getField(FieldData.FIELD_CLASS).toString() + "</td>");
+        out.println("<td>&#160;" + fieldInfo.getField(FieldData.BASE_FIELD_NAME).toString() + "</td>");
+        out.println("<td>&#160;" + fieldInfo.getField(FieldData.MAXIMUM_LENGTH).toString() + "</td>");
+        out.println("<td>&#160;" + fieldInfo.getField(FieldData.FIELD_DESCRIPTION).toString() + "</td>");
         out.println("</tr>");
     }
     out.println("</table>");

@@ -73,7 +73,7 @@
 		<!-- Put the side navigation bar here -->
 		<xsl:element name="th">
 			<xsl:attribute name="id">navStart</xsl:attribute>
-			<xsl:attribute name="style">background-image: url(images/graphics/NavBack.gif);</xsl:attribute>
+			<xsl:attribute name="style">background-image: url(org/jbundle/res/images/graphics/NavBack.gif);</xsl:attribute>
 			<xsl:attribute name="class">nav<xsl:value-of select="/full-screen/params/navmenus" />Start</xsl:attribute>
 			<xsl:call-template name="navigation-start">
 			</xsl:call-template>
@@ -112,12 +112,12 @@
 			<xsl:element name="a">
 				<xsl:attribute name="href">http://<xsl:value-of select="$domain"/></xsl:attribute>
 				<xsl:element name="img">
-					<xsl:attribute name="src">http://<xsl:value-of select="$domain"/>/images/com/<xsl:value-of select="$name"/>/nameblack.gif</xsl:attribute>
+					<xsl:attribute name="src">http://<xsl:value-of select="$domain"/>/com/tourapp/res/images/com/<xsl:value-of select="$name"/>/nameblack.gif</xsl:attribute>
 					<xsl:attribute name="border">0</xsl:attribute>
 				</xsl:element>
 			</xsl:element>
 			<br />
-			<span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif">© Copyright 2010 
+			<span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif">© Copyright 2011 
 			<xsl:element name="a">
 				<xsl:attribute name="href">http://<xsl:value-of select="$domain"/></xsl:attribute>
 				<xsl:value-of select="$name"/><span style="color: red; font-weight: bold">.</span>com
@@ -127,7 +127,7 @@
 			<xsl:element name="a">
 				<xsl:attribute name="href">mailto:webmaster@<xsl:value-of select="$dotcom"/></xsl:attribute>
 				<xsl:element name="img">
-					<xsl:attribute name="src"><xsl:value-of select="/full-screen/params/baseURL" />images/buttons/Mail.gif</xsl:attribute>
+					<xsl:attribute name="src"><xsl:value-of select="/full-screen/params/baseURL" />org/jbundle/res/images/buttons/Mail.gif</xsl:attribute>
 					<xsl:attribute name="width">16</xsl:attribute>
 					<xsl:attribute name="height">16</xsl:attribute>
 					<xsl:attribute name="border">0</xsl:attribute>
@@ -139,7 +139,7 @@
 		<td align="right"></td>
 		<td align="right" valign="top"><a href="./?menu=&amp;trailers=No&amp;preferences=">
 		<xsl:element name="img">
-			<xsl:attribute name="src"><xsl:value-of select="/full-screen/params/baseURL" />images/buttons/Close.gif</xsl:attribute>
+			<xsl:attribute name="src"><xsl:value-of select="/full-screen/params/baseURL" />org/jbundle/res/images/buttons/Close.gif</xsl:attribute>
 			<xsl:attribute name="width">16</xsl:attribute>
 			<xsl:attribute name="height">16</xsl:attribute>
 			<xsl:attribute name="border">0</xsl:attribute>
@@ -172,9 +172,9 @@
 		<xsl:if test="(count(/full-screen/params/navmenus)=0) or (/full-screen/params/navmenus!='No')">
 		<xsl:element name="th">
 			<xsl:attribute name="id">navStartShadow</xsl:attribute>
-			<xsl:attribute name="style">background-image: url(images/graphics/NavHShadow.gif);</xsl:attribute>
+			<xsl:attribute name="style">background-image: url(org/jbundle/res/images/graphics/NavHShadow.gif);</xsl:attribute>
 			<xsl:attribute name="class">nav<xsl:value-of select="/full-screen/params/navmenus" />StartShadow</xsl:attribute>
-				<img src="images/graphics/1ptrans.gif" width="1" height="1" />
+				<img src="org/jbundle/res/images/graphics/1ptrans.gif" width="1" height="1" />
 		</xsl:element>
 		</xsl:if>
 	</xsl:template>
@@ -184,15 +184,15 @@
 		<tr height="8">
 			<xsl:element name="th">
 				<xsl:attribute name="id">navStartVShadow</xsl:attribute>
-				<xsl:attribute name="style">background-image: url(images/graphics/NavVShadow.gif);</xsl:attribute>
+				<xsl:attribute name="style">background-image: url(org/jbundle/res/images/graphics/NavVShadow.gif);</xsl:attribute>
 				<xsl:attribute name="class">nav<xsl:value-of select="/full-screen/params/navmenus" />Start</xsl:attribute>
-					<img src="images/graphics/1ptrans.gif" width="1" height="1" />
+					<img src="org/jbundle/res/images/graphics/1ptrans.gif" width="1" height="1" />
 			</xsl:element>
 			<xsl:element name="th">
 				<xsl:attribute name="id">navStartSECorner</xsl:attribute>
-				<xsl:attribute name="style">background-image: url(images/graphics/NavSECorner.gif);</xsl:attribute>
+				<xsl:attribute name="style">background-image: url(org/jbundle/res/images/graphics/NavSECorner.gif);</xsl:attribute>
 				<xsl:attribute name="class">nav<xsl:value-of select="/full-screen/params/navmenus" />StartShadow</xsl:attribute>
-				<img src="images/graphics/1ptrans.gif" width="1" height="1" />
+				<img src="org/jbundle/res/images/graphics/1ptrans.gif" width="1" height="1" />
 			</xsl:element>
 		</tr>
 		</xsl:if>
@@ -287,7 +287,7 @@
 			<xsl:element name="img">
 				<xsl:choose>
 					<xsl:when test="contains($image, '/') or contains($image, '.')">
-						<xsl:attribute name="src"><xsl:if test="not(contains($image, '.')) and not(starts-with($image, '/')) and not(contains($image, '//'))">images/</xsl:if><xsl:value-of select="$image" /><xsl:if test="not(contains($image, '.'))">.gif</xsl:if></xsl:attribute>
+						<xsl:attribute name="src"><xsl:if test="not(contains($image, '.')) and not(starts-with($image, '/')) and not(contains($image, '//'))">org/jbundle/res/images/</xsl:if><xsl:value-of select="$image" /><xsl:if test="not(contains($image, '.'))">.gif</xsl:if></xsl:attribute>
 						<xsl:if test="$width!=''">
 							<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 						</xsl:if>
@@ -297,10 +297,10 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:if test="$type!='icon'">
-							<xsl:attribute name="src">images/buttons/<xsl:value-of select="$image" />.gif</xsl:attribute>
+							<xsl:attribute name="src">org/jbundle/res/images/buttons/<xsl:value-of select="$image" />.gif</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="$type='icon'">
-							<xsl:attribute name="src">images/icons/<xsl:value-of select="$image" />.gif</xsl:attribute>
+							<xsl:attribute name="src">org/jbundle/res/images/icons/<xsl:value-of select="$image" />.gif</xsl:attribute>
 						</xsl:if>
 						<xsl:attribute name="width">
 							<xsl:choose>
