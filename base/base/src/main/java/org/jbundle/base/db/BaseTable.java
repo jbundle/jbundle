@@ -1185,7 +1185,9 @@ public abstract class BaseTable extends FieldTable
                 bSuccess = xml.importXML(table, defaultFilename, inputStream);
             }
             if (!bSuccess)   
-                Utility.getLogger().warning("No initial data for: " + record.getRecordName());
+                Utility.getLogger().warning("No initial data for: "
+                    + ((record.getRecordName().endsWith(TEMP_SUFFIX)) ? record.getRecordName().substring(0, record.getRecordName().length() - TEMP_SUFFIX.length()) : record.getRecordName())
+                    + " from " + filename);
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1659,7 +1661,7 @@ public abstract class BaseTable extends FieldTable
                     if (loadInitialData)
                 {
                     tableName = this.getRecord().getTableNames(false);
-                    this.getRecord().setTableNames(tableName + "_temp");
+                    this.getRecord().setTableNames(tableName + TEMP_SUFFIX);
                 }
                 bSuccess = this.create();
                 if (bSuccess)
@@ -1667,7 +1669,7 @@ public abstract class BaseTable extends FieldTable
                 {
                     this.loadInitialData();
                     if (useTemporaryFilename)
-                    	this.renameTable(tableName + "_temp", tableName);
+                    	this.renameTable(tableName + TEMP_SUFFIX, tableName);
                 }
             } catch (DBException e) {
                 // Exception usually means another thread is creating and loading the data for this table... just wait for it to finish.
@@ -1711,6 +1713,7 @@ public abstract class BaseTable extends FieldTable
         }
         return false;
     }
+    public static final String TEMP_SUFFIX = "_temp";
     /**
      * Rename this table
      * @param tableName
