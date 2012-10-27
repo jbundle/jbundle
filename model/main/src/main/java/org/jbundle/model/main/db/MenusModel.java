@@ -28,8 +28,8 @@ public interface MenusModel extends FolderModel
     public static final String MENUS_HELP = "MenusHelp";
 
     public static final String TYPE_KEY = "Type";
-    public static final String MENUS_SCREEN_CLASS = "org.jbundle.main.screen.MenusScreen";
     public static final String MENU_SCREEN_CLASS = "org.jbundle.base.screen.model.MenuScreen";
+    public static final String MENUS_SCREEN_CLASS = "org.jbundle.main.screen.MenusScreen";
     public static final String MENUS_GRID_SCREEN_CLASS = "org.jbundle.main.screen.MenusGridScreen";
 
     public static final String MENUS_FILE = "Menus";

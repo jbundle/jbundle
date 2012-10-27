@@ -65,10 +65,10 @@ public class ProgramControl extends FieldList
         field.setDataClass(Boolean.class);
         field.setHidden(true);
         field = new FieldInfo(this, PROJECT_NAME, 30, null, null);
-        field = new FieldInfo(this, BASE_DIRECTORY, 127, null, "/home/don/workspace/tour/");
+        field = new FieldInfo(this, BASE_DIRECTORY, 127, null, null);
         field = new FieldInfo(this, SOURCE_DIRECTORY, 127, null, "src/main/java/");
         field = new FieldInfo(this, CLASS_DIRECTORY, 127, null, "target/classes/");
-        field = new FieldInfo(this, ARCHIVE_DIRECTORY, 127, null, "data/archive/");
+        field = new FieldInfo(this, ARCHIVE_DIRECTORY, 127, null, "src/main/resources/");
         field = new FieldInfo(this, RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field = new FieldInfo(this, CLASS_RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field = new FieldInfo(this, PACKAGE_NAME, 40, null, null);
@@ -76,10 +76,9 @@ public class ProgramControl extends FieldList
         field = new FieldInfo(this, THIN_PACKAGE, 40, null, null);
         field = new FieldInfo(this, RESOURCE_PACKAGE, 40, null, null);
         field = new FieldInfo(this, LAST_PACKAGE_UPDATE, 25, null, null);
-        field.setDataClass(Object.class);
+        field.setDataClass(Date.class);
         field = new FieldInfo(this, PACKAGES_BASE_PATH, 128, null, null);
         field = new FieldInfo(this, PACKAGES_PATH, 128, null, null);
-        field.setDataClass(Object.class);
     }
     /**
     * Set up the key areas.

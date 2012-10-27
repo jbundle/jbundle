@@ -17,11 +17,11 @@ import org.jbundle.base.field.*;
 import org.jbundle.base.field.convert.*;
 import org.jbundle.base.field.event.*;
 import org.jbundle.base.model.*;
-import org.jbundle.base.screen.model.BaseScreen;
 import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
+import org.jbundle.base.screen.model.*;
 import org.jbundle.app.program.resource.db.*;
 import org.jbundle.model.app.program.db.*;
 
@@ -116,7 +116,7 @@ public class ProgramControl extends ControlRecord
         }
         if (iFieldSeq == 7)
         {
-            field = new StringField(this, ARCHIVE_DIRECTORY, 127, null, "data/archive/");
+            field = new StringField(this, ARCHIVE_DIRECTORY, 127, null, "src/main/resources/");
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 8)
@@ -173,6 +173,10 @@ public class ProgramControl extends ControlRecord
         super.addMasterListeners();
         this.getField(ProgramControl.LAST_PACKAGE_UPDATE).setEnabled(false);
     }
+    /**
+     * Get the base path.
+     * Replace all the params first.
+     */
     public String getBasePath()
     {
         String basePath = DBConstants.BLANK;
@@ -187,4 +191,5 @@ public class ProgramControl extends ControlRecord
         }
         return basePath;
     }
+
 }
