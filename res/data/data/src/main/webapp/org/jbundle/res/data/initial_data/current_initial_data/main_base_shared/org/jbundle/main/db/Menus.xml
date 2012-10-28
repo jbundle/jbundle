@@ -282,7 +282,7 @@
 		<LastChanged>2010-04-09T13:17:04</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Program Generator</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>10</Sequence>
 		<Comment/>
 		<Code/>
@@ -300,7 +300,7 @@
 		<Deleted>N</Deleted>
 		<Name>Menu maintenance</Name>
 		<ParentFolderID>1,185</ParentFolderID>
-		<Sequence>30</Sequence>
+		<Sequence>20</Sequence>
 		<Comment/>
 		<Code/>
 		<Type>record</Type>
@@ -319,7 +319,7 @@
 		<LastChanged>2010-02-20T06:18:45</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>User Information</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>130</Sequence>
 		<Comment>User Information maintenance</Comment>
 		<Code/>
@@ -336,7 +336,7 @@
 		<LastChanged>2010-02-20T06:31:06</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>User registration</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>140</Sequence>
 		<Comment/>
 		<Code/>
@@ -354,7 +354,7 @@
 		<Deleted>N</Deleted>
 		<Name>Resources</Name>
 		<ParentFolderID>1,185</ParentFolderID>
-		<Sequence>20</Sequence>
+		<Sequence>30</Sequence>
 		<Comment/>
 		<Code/>
 		<Type>record</Type>
@@ -370,7 +370,7 @@
 		<LastChanged>2010-04-09T13:17:58</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Record layouts</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>210</Sequence>
 		<Comment>Record layouts (usually for Corba/EDI/XML)</Comment>
 		<Code/>
@@ -387,7 +387,7 @@
 		<LastChanged>2007-09-28T14:41:00</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Testing</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>1,000</Sequence>
 		<Comment/>
 		<Code>Test</Code>
@@ -1260,7 +1260,7 @@
 		<LastChanged>2010-04-09T13:17:32</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Script maintenance</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>40</Sequence>
 		<Comment/>
 		<Code/>
@@ -1301,7 +1301,7 @@
 		<LastChanged/>
 		<Deleted>N</Deleted>
 		<Name>Packages</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>70</Sequence>
 		<Comment/>
 		<Code>packages</Code>
@@ -1528,7 +1528,7 @@
 		<LastChanged/>
 		<Deleted>N</Deleted>
 		<Name>Bug tracking</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>50</Sequence>
 		<Comment/>
 		<Code>bugs</Code>
@@ -1829,7 +1829,7 @@
 		<LastChanged/>
 		<Deleted>N</Deleted>
 		<Name>Project tracking</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>60</Sequence>
 		<Comment/>
 		<Code>project</Code>
@@ -1898,7 +1898,7 @@
 		<Deleted>N</Deleted>
 		<Name>Program control</Name>
 		<ParentFolderID>1,185</ParentFolderID>
-		<Sequence>15</Sequence>
+		<Sequence>50</Sequence>
 		<Comment/>
 		<Code/>
 		<Type>record</Type>
@@ -2107,7 +2107,7 @@
 		<LastChanged>2010-02-20T06:19:19</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Create a new demo site</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>3,000</Sequence>
 		<Comment/>
 		<Code/>
@@ -2315,7 +2315,7 @@
 		<Deleted>N</Deleted>
 		<Name>Class projects</Name>
 		<ParentFolderID>1,185</ParentFolderID>
-		<Sequence>5</Sequence>
+		<Sequence>10</Sequence>
 		<Comment/>
 		<Code/>
 		<Type>record</Type>
@@ -2468,7 +2468,7 @@
 		<LastChanged>2010-02-20T06:19:27</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Main control</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>17</Sequence>
 		<Comment/>
 		<Code/>
@@ -2918,7 +2918,7 @@
 		<LastChanged>2011-03-10T13:41:45</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Applications</Name>
-		<ParentFolderID>1,185</ParentFolderID>
+		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>4,000</Sequence>
 		<Comment/>
 		<Code/>

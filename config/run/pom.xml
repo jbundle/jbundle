@@ -31,42 +31,85 @@
           </instructions>
         </configuration>
       </plugin>
-
-      <plugin>  <!-- Lets you run your app standalone by typing exec:java -->
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>run</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-            <mainClass>org.jbundle.base.screen.control.swing.activator.Main</mainClass> <!-- These properties are declared in my parent pom (jbundle-util-webapp-webstart) -->
-            <arguments>
-              <argument>menu=dev.tourapp.com</argument>
-              <argument>background=backgrounds/worldmapalpha.gif</argument>
-              <argument>backgroundcolor=#EEEEFF</argument>
-              <argument>remotehost=localhost</argument>
-              <argument>codebase=localhost:8181/</argument>
-              <argument>connectionType=proxy</argument>
-              <argument>mainSharedDBName=main_base</argument>
-              <!-- argument>local=Jdbc</argument>
-              <argument>remote=Jdbc</argument>
-              <argument>table=Jdbc</argument -->
-            </arguments>
-          <systemProperties>
-            <systemProperty>
-              <key>myproperty</key>
-              <value>myvalue</value>
-            </systemProperty>
-          </systemProperties>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>run</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+	  <build>
+	    <plugins>      
+	      <plugin>
+	        <groupId>org.codehaus.mojo</groupId>
+	        <artifactId>exec-maven-plugin</artifactId>
+	        <executions>
+	          <execution>
+	          	<phase>run</phase>
+	            <goals>
+	              <goal>exec</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	        <configuration>
+            <mainClass>org.jbundle.Main</mainClass>
+            <arguments>
+              <argument>menu=Switch</argument>
+              <argument>background=backgrounds/worldmapalpha.gif</argument>
+              <argument>backgroundcolor=#EEEEFF</argument>
+              <argument>connectionType=proxy</argument>
+              <argument>mainSharedDBName=main_base</argument>
+		<argument>remotehost=${jbundle.server}</argument>
+		<argument>codebase=${jbundle.codebase}</argument>
+		<argument>local=${jbundle.db.local}</argument>
+		<argument>remote=${jbundle.db.remote}</argument>
+		<argument>table=${jbundle.db.table}</argument>
+            </arguments>
+	        </configuration>
+	      </plugin>
+	    </plugins>
+	  </build>
+    </profile>
+    <profile>
+      <id>jdbcdev</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+	  <build>
+	    <plugins>      
+	      <plugin>
+	        <groupId>org.codehaus.mojo</groupId>
+	        <artifactId>exec-maven-plugin</artifactId>
+	        <executions>
+	          <execution>
+	          	<phase>run</phase>
+	            <goals>
+	              <goal>exec</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	        <configuration>
+            <mainClass>org.jbundle.Main</mainClass>
+            <arguments>
+		<argument>background=backgrounds/worldmapalpha.gif</argument>
+		<argument>backgroundcolor=#EEEEFF</argument>
+		<argument>jmsserver=false</argument>
+		<argument>databaseproduct=${jbundle.db.databaseproduct}</argument>
+		<argument>dbSuffix=_base</argument>
+		<argument>mainSharedDBName=main_base</argument>
+		<argument>programSharedDBName=program_base</argument>
+		<argument>local=Jdbc</argument>
+		<argument>remote=Jdbc</argument>
+		<argument>table=Jdbc</argument>
+            </arguments>
+	        </configuration>
+	      </plugin>
+	    </plugins>
+	  </build>
+    </profile>
+  </profiles>
 
   <dependencies>
     <dependency>
