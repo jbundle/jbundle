@@ -87,7 +87,7 @@ public class XSLServlet extends XMLServlet
      * This thread feeds data to the pipe.
      * @author don
      */
-    class PrintThread extends Thread
+    class ProcessOutputThread extends Thread
     {
         Writer outWriter = null;
         ServletTask servletTask = null;
@@ -95,7 +95,7 @@ public class XSLServlet extends XMLServlet
         ScreenModel screen = null;
         BasicServlet servlet = null;
         boolean freeWhenDone = false;
-        public PrintThread(BasicServlet servlet, Writer outWriter, ServletTask servletTask, HttpServletRequest req, ScreenModel screen, boolean freeWhenDone)
+        public ProcessOutputThread(BasicServlet servlet, Writer outWriter, ServletTask servletTask, HttpServletRequest req, ScreenModel screen, boolean freeWhenDone)
         {
             super();
             this.outWriter = outWriter;
@@ -109,18 +109,21 @@ public class XSLServlet extends XMLServlet
         {
             PrintWriter writer = new PrintWriter(outWriter);
             try {
-                servletTask.doProcessOutput(servlet, req, null, writer, screen, freeWhenDone);
+                servletTask.status = 12;
+                servletTask.doProcessOutput(servlet, req, null, writer, screen);
+                servletTask.status = 11;
             } catch (ServletException e) {
+                servletTask.status = 13;
                 e.printStackTrace();
-                if (freeWhenDone)
-                    servletTask.free();
             } catch (IOException e) {
+                servletTask.status = 14;
                 e.printStackTrace();
-                if (freeWhenDone)
-                    servletTask.free();
             } finally {
+                servletTask.status = 15;
                 writer.flush();
                 writer.close();
+                if (freeWhenDone)
+                    servletTask.free();
             }
             
         }        
@@ -136,31 +139,51 @@ public class XSLServlet extends XMLServlet
         throws ServletException, IOException
     {
         ServletTask servletTask = new ServletTask(this, BasicServlet.SERVLET_TYPE.COCOON);
-        this.addBrowserProperties(req, servletTask);
-		ScreenModel screen = servletTask.doProcessInput(this, req, null);
-		
-        Transformer transformer = getTransformer(req, servletTask, screen); // Screen can't be freed when I call this.
-
-        PipedReader in = new PipedReader();
-        PipedWriter out = new PipedWriter(in);
-        
-        new PrintThread(this, out, servletTask, req, screen, true).start();
-        // Note: Print Thread frees the servlettask when it is done.
-
-        StreamSource source = new StreamSource(in);
-
-        ServletOutputStream outStream = res.getOutputStream();
-        Result result = new StreamResult(outStream);
-
         try {
+            servletTask.status = 1;
+            this.addBrowserProperties(req, servletTask);
+            servletTask.status = 2;
+    		ScreenModel screen = servletTask.doProcessInput(this, req, null);
+            servletTask.status = 3;
+    		
+            Transformer transformer = getTransformer(req, servletTask, screen); // Screen can't be freed when I call this.
+            servletTask.status = 4;
+    
+            PipedReader in = new PipedReader();
+            PipedWriter out = new PipedWriter(in);
+            servletTask.status = 5;
+            
+            new ProcessOutputThread(this, out, servletTask, req, screen, true).start();
+            // Note: Print Thread frees the servlettask when it is done.
+            servletTask.status = 6;
+    
+            StreamSource source = new StreamSource(in);
+    
+            ServletOutputStream outStream = res.getOutputStream();
+            Result result = new StreamResult(outStream);
+            servletTask.status = 7;
+
             synchronized (transformer)
             {
                 transformer.transform(source, result);  // Get the data from the pipe (thread) and transform it to http
             }
+            servletTask.status = 8;
         } catch (TransformerException ex) {
+            servletTask.status = 8;
             ex.printStackTrace();
             servletTask.free();
-        } // Never
+        } catch (ServletException ex) {
+            servletTask.status = 9;
+            servletTask.free();
+            throw ex;
+        } catch (IOException ex) {
+            servletTask.status = 10;
+            servletTask.free();
+            throw ex;
+        } catch (Exception ex) {
+            servletTask.status = 11;
+            servletTask.free();
+        }
 	
     	//x Don't call super.service(req, res);
     }

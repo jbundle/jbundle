@@ -20,6 +20,15 @@ public class ServletApplication extends MainApplication
     implements HttpSessionBindingListener
 {
 
+    public boolean inited = false;
+    public boolean freed = false;
+    public boolean error = false;
+    public boolean bound = false;
+    public boolean unbound = false;
+    public boolean bounderror = false;
+    public boolean unbounderror = false;
+    public boolean unboundwarning = false;
+    
     /**
      * Default constructor.
      */
@@ -50,6 +59,9 @@ public class ServletApplication extends MainApplication
      */
     public void init(Object env, Map<String,Object> properties, Object applet)
     {
+        if (inited)
+            error = true;
+        inited = true;
         super.init(env, properties, applet);
     }
     /**
@@ -57,6 +69,9 @@ public class ServletApplication extends MainApplication
      */
     public void free()
     {
+        if (freed)
+            error = true;
+        freed = true;
         Utility.getLogger().info("ServletApplication/Free()");
         super.free();
     }
@@ -66,6 +81,9 @@ public class ServletApplication extends MainApplication
     public void valueBound(HttpSessionBindingEvent event)
     {
         Utility.getLogger().info("Session bound");
+        if (bound)
+            bounderror = true;
+        bound = true;
     }
     /**
      * Notifies the object that is being unbound from a session and identifies the session.
@@ -73,9 +91,15 @@ public class ServletApplication extends MainApplication
     public void valueUnbound(HttpSessionBindingEvent event) 
     {
         Utility.getLogger().info("Session Unbound");
+        if (unbound)
+            unbounderror = true;
+        unbound = true;
         if (this.getMainTask() == null)
             this.free();
         else   // Never - This would mean the session was released before the http response was sent
+        {
             Utility.getLogger().warning("Unbound error ServletApplication.valueUnbound");
+            unboundwarning = true;
+        }
     }
 }

@@ -47,6 +47,8 @@ import org.jbundle.model.screen.ComponentParent;
 public class ServletTask extends BaseHttpTask
     implements Task
 {
+    public int status;
+    
     /**
      * Needed to get the properties.
      */
@@ -99,7 +101,7 @@ public class ServletTask extends BaseHttpTask
         throws ServletException, IOException
     {
     	ScreenModel screen = this.doProcessInput(servlet, req, res);
-    	this.doProcessOutput(servlet, req, res, outExt, screen, true);
+    	this.doProcessOutput(servlet, req, res, outExt, screen);
     }
     /**
      * Process an HTML get or post.
@@ -150,7 +152,7 @@ public class ServletTask extends BaseHttpTask
      * @exception ServletException From inherited class.
      * @exception IOException From inherited class.
      */
-    public void doProcessOutput(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res, PrintWriter outExt, ScreenModel screen, boolean freeWhenDone) 
+    public void doProcessOutput(BasicServlet servlet, HttpServletRequest req, HttpServletResponse res, PrintWriter outExt, ScreenModel screen) 
         throws ServletException, IOException
     {
         PrintWriter out = outExt;
@@ -195,8 +197,6 @@ public class ServletTask extends BaseHttpTask
             			out.close();
             }
         }
-        if (freeWhenDone)
-            this.free();    // I'm done. Note: ServletApplication will not free until session is unbound since it has a main 'AutoTask'
     }
     /**
      *  Set the argument properties.

@@ -82,6 +82,13 @@ public class ClassProjectGridScreen extends FolderGridScreen
     public void addToolbarButtons(ToolScreen toolScreen)
     {
         super.addToolbarButtons(toolScreen);
+
+        
+//        ResourceBundle resources = ((BaseApplication)this.getTask().getApplication()).getResources(ResourceConstants.BOOKING_RESOURCE, true);
+//        BaseField field = ((Record)this.getRecord(Booking.BOOKING_FILE).getRecordOwner().getScreenRecord()).getField(BookingScreenRecord.BK_SUB_SCREEN);
+//        new SCannedBox(toolScreen.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolScreen, field, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ProductType.AIR), Booking.BUTTON_LOCATION + ProductType.AIR, Integer.toString(BookingScreenHandler.AIR_SCREEN), resources.getString(ProductType.AIR + "Tip"));
+
+        
         new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, ClassProject.CLASS_DETAIL_SCREEN, MenuConstants.FORMDETAIL, ClassProject.CLASS_DETAIL_SCREEN, ClassProject.CLASS_DETAIL_SCREEN);
         new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, ClassProject.RESOURCE_DETAIL_SCREEN, MenuConstants.FORMDETAIL, ClassProject.RESOURCE_DETAIL_SCREEN, ClassProject.RESOURCE_DETAIL_SCREEN);
     }
