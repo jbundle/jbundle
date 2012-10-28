@@ -645,6 +645,8 @@ public class JdbcTable extends BaseTable
             }
         } catch (Exception e) {
             e.printStackTrace();    // Never
+            if (e instanceof DBException)
+                throw (DBException)e;
         }
         if (iRelPosition == DBConstants.LAST_RECORD) if (m_iEOFRow == Integer.MAX_VALUE)
         {   // Haven't found EOF yet... find it.
