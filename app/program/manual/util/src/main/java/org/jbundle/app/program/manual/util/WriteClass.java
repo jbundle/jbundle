@@ -534,6 +534,9 @@ public class WriteClass extends BaseProcess
         LogicFile recLogicFile = (LogicFile)this.getRecord(LogicFile.LOGIC_FILE_FILE);
         m_MethodHelper.getTheMethodInfo(recLogicFile, methodInfo);   // Get the correct interface, etc..
 
+        if (methodInfo.strMethodReturns.equalsIgnoreCase("INIT"))
+            return;
+
         this.writeMethodInterface(null, strClassName, "", "", methodInfo.strMethodThrows, "Default constructor", null);
         this.writeDefaultMethodCode(strClassName, "", "", strClassName);
         m_StreamOut.writeit("}\n");

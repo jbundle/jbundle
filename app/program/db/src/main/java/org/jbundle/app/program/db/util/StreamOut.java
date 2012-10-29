@@ -32,13 +32,6 @@ public class StreamOut extends PrintWriter
     protected boolean m_bTabOnNextLine = false;
     public static final String FOUR_SPACES = "    ";
     /**
-     * Default constructor.
-     */
-    public StreamOut() throws IOException
-    {
-        super();
-    }
-    /**
      * StreamOut Method.
      */
     public StreamOut(String fileName) throws IOException
