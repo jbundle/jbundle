@@ -109,17 +109,12 @@ public class XSLServlet extends XMLServlet
         {
             PrintWriter writer = new PrintWriter(outWriter);
             try {
-                servletTask.status = 12;
                 servletTask.doProcessOutput(servlet, req, null, writer, screen);
-                servletTask.status = 11;
             } catch (ServletException e) {
-                servletTask.status = 13;
                 e.printStackTrace();
             } catch (IOException e) {
-                servletTask.status = 14;
                 e.printStackTrace();
             } finally {
-                servletTask.status = 15;
                 writer.flush();
                 writer.close();
                 if (freeWhenDone)
@@ -140,48 +135,36 @@ public class XSLServlet extends XMLServlet
     {
         ServletTask servletTask = new ServletTask(this, BasicServlet.SERVLET_TYPE.COCOON);
         try {
-            servletTask.status = 1;
             this.addBrowserProperties(req, servletTask);
-            servletTask.status = 2;
     		ScreenModel screen = servletTask.doProcessInput(this, req, null);
-            servletTask.status = 3;
     		
             Transformer transformer = getTransformer(req, servletTask, screen); // Screen can't be freed when I call this.
-            servletTask.status = 4;
     
             PipedReader in = new PipedReader();
             PipedWriter out = new PipedWriter(in);
-            servletTask.status = 5;
             
             new ProcessOutputThread(this, out, servletTask, req, screen, true).start();
             // Note: Print Thread frees the servlettask when it is done.
-            servletTask.status = 6;
     
             StreamSource source = new StreamSource(in);
     
             ServletOutputStream outStream = res.getOutputStream();
             Result result = new StreamResult(outStream);
-            servletTask.status = 7;
 
             synchronized (transformer)
             {
                 transformer.transform(source, result);  // Get the data from the pipe (thread) and transform it to http
             }
-            servletTask.status = 8;
         } catch (TransformerException ex) {
-            servletTask.status = 8;
             ex.printStackTrace();
             servletTask.free();
         } catch (ServletException ex) {
-            servletTask.status = 9;
             servletTask.free();
             throw ex;
         } catch (IOException ex) {
-            servletTask.status = 10;
             servletTask.free();
             throw ex;
         } catch (Exception ex) {
-            servletTask.status = 11;
             servletTask.free();
         }
 	

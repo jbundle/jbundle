@@ -636,6 +636,7 @@ public class WriteClass extends BaseProcess
                 m_StreamOut.writeit("\tsuper();\n");
             else
             {
+                boolean bSuperFound = false;
                 if ((strMethodReturns.length() == 0) || (strMethodReturns.equalsIgnoreCase("void")))
                     if (recLogicFile.getField(LogicFile.LOGIC_SOURCE).getLength() > 0)
                         strMethodReturns =  strMethodVariables;   // Special case - if you have code, pass the default variables
@@ -643,20 +644,24 @@ public class WriteClass extends BaseProcess
                     m_StreamOut.writeit("\tthis();\n\tthis.init(" + strMethodVariables + ");\n");
                 else
                 {   // Special Case - Different variables are passed in, must supply and init method w/the correct interface
-                    m_StreamOut.writeit("\tthis();\n\tthis.init(" + strMethodVariables + ");\n");
-                    m_StreamOut.writeit("}\n");
-                    m_strLastMethodInterface = strMethodInterface;
-                    m_strLastMethod = strMethodName;
-                    this.writeMethodInterface(null, "init", "void", strMethodInterface, "", "Initialize class fields", null);                   
-                    if (strMethodReturns.equalsIgnoreCase("VOID"))
-                        strMethodReturns = "";
-                    this.writeClassInitialize(true);
-                    boolean bSuperFound = false;
+                    if (!strMethodReturns.equalsIgnoreCase("INIT"))
+                    {
+                        m_StreamOut.writeit("\tthis();\n\tthis.init(" + strMethodVariables + ");\n");
+                        m_StreamOut.writeit("}\n");
+                        m_strLastMethodInterface = strMethodInterface;
+                        m_strLastMethod = strMethodName;
+                        this.writeMethodInterface(null, "init", "void", strMethodInterface, "", "Initialize class fields", null);                   
+                        if (strMethodReturns.equalsIgnoreCase("VOID"))
+                            strMethodReturns = "";
+                        this.writeClassInitialize(true);
+                    }
+                    else
+                        bSuperFound = true; // Don't call init.super();
                     if (recLogicFile.getField(LogicFile.LOGIC_SOURCE).getString().length() != 0)
                     {
                         m_StreamOut.setTabs(+1);
 //x                     bSuperFound = m_MethodsOut.writeit(recLogicFile.getField(LogicFile.LOGIC_SOURCE).getString() + "\n");
-                        bSuperFound = this.writeTextField(recLogicFile.getField(LogicFile.LOGIC_SOURCE), strBaseClass, "init", strMethodReturns, strClassName);
+                        bSuperFound = bSuperFound | this.writeTextField(recLogicFile.getField(LogicFile.LOGIC_SOURCE), strBaseClass, "init", strMethodReturns, strClassName);
                         m_StreamOut.setTabs(-1);
                     }
                     if (!bSuperFound)

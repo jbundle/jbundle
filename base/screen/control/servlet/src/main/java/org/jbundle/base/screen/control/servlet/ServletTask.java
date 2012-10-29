@@ -47,7 +47,6 @@ import org.jbundle.model.screen.ComponentParent;
 public class ServletTask extends BaseHttpTask
     implements Task
 {
-    public int status;
     
     /**
      * Needed to get the properties.

@@ -32636,12 +32636,12 @@ return string;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785177">
-		<LastChanged>2012-07-18T22:34:38</LastChanged>
+		<LastChanged>2012-10-29T10:08:23</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>10</Sequence>
 		<MethodName>StreamOut</MethodName>
 		<LogicDescription/>
-		<MethodReturns>void</MethodReturns>
+		<MethodReturns>INIT</MethodReturns>
 		<MethodInterface>String fileName</MethodInterface>
 		<MethodClassName>StreamOut</MethodClassName>
 		<LogicSource><![CDATA[super(new FileWriter(fileName));
@@ -32797,6 +32797,21 @@ try {
     basePath = Utility.replaceResources(basePath, null, null, propertyOwner);
 }
 return basePath;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785184">
+		<LastChanged>2012-10-29T10:20:07</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>15</Sequence>
+		<MethodName>init</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>StreamOut</MethodClassName>
+		<LogicSource>// Not used</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>

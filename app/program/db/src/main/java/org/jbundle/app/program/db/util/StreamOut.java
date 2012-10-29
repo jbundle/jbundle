@@ -32,6 +32,13 @@ public class StreamOut extends PrintWriter
     protected boolean m_bTabOnNextLine = false;
     public static final String FOUR_SPACES = "    ";
     /**
+     * Default constructor.
+     */
+    public StreamOut() throws IOException
+    {
+        super();
+    }
+    /**
      * StreamOut Method.
      */
     public StreamOut(String fileName) throws IOException
@@ -40,6 +47,13 @@ public class StreamOut extends PrintWriter
         m_iTabs = 0;
         m_bTabOnNextLine = false;
         //      ASSERT(this->Open(fileName, CFile::modeCreate | CFile::modeWrite)); // | CFile::typeText));
+    }
+    /**
+     * Init Method.
+     */
+    public void init()
+    {
+        // Not used
     }
     /**
      * Free Method.
