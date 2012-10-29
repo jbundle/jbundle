@@ -3,7 +3,7 @@
 		<LastChanged>2012-01-10T19:54:11</LastChanged>
 		<Deleted>N</Deleted>
 		<ProjectName>jbundle</ProjectName>
-		<BaseDirectory>/home/don/workspace/</BaseDirectory>
+		<BaseDirectory>${user.home}/</BaseDirectory>
 		<SourceDirectory>src/main/java/</SourceDirectory>
 		<ClassDirectory>target/classes/</ClassDirectory>
 		<ArchiveDirectory>archive/</ArchiveDirectory>

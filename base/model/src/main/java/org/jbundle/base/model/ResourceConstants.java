@@ -21,7 +21,8 @@ public interface ResourceConstants extends ThinResourceConstants
 // ResourceConstants
     public static final String HTML_RESOURCE = "Html";  // Name of the main Html Resources
     public static final String DEFAULT_RESOURCE = "Default";  // Name of the main Default Resources
-    public static final String GENLED_RESOURCE = "com.tourapp.res.tour.genled.GenLed";  // Name of the main Default Resources
+    public static final String PROGRAM_RESOURCE = "org.jbundle.res.app.program.program.Program";  // Name of the main Default Resources
+    public static final String GENLED_RESOURCE = "com.tourapp.res.tour.assetdr.GenLed";  // Name of the main Default Resources
     public static final String ASSETDR_RESOURCE = "com.tourapp.res.tour.assetdr.AssetDr";  // Name of the main Default Resources
     public static final String ACCTREC_RESOURCE = "com.tourapp.res.tour.acctrec.AcctRec";  // Name of the main Default Resources
     public static final String ACCTPAY_RESOURCE = "com.tourapp.res.tour.acctpay.AcctPay";  // Name of the main Default Resources

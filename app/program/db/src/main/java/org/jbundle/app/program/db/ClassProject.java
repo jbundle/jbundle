@@ -413,6 +413,18 @@ public class ClassProject extends Folder
                 }
             }
         }
+        
+        if (!bPackagePath)
+        {
+            strSrcPath = Utility.replaceResources(strSrcPath, null, null, this.getRecordOwner());
+            try {
+                strSrcPath = Utility.replaceResources(strSrcPath, null, Utility.propertiesToMap(System.getProperties()), null);
+            } catch (SecurityException e) {
+                // Ignore
+            }
+            strSrcPath = Utility.normalizePath(strSrcPath);
+        }
+        
         return strSrcPath;
     }
 

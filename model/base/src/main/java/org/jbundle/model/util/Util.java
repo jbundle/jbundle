@@ -19,6 +19,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -177,6 +178,34 @@ public class Util extends Object
                 sb.append(fileName.substring(1));
             else
                 sb.append(fileName);
+        }
+        return sb.toString();
+    }
+    /**
+     * Change this to a straight path name without /../ references (Required for 'create directory').
+     * @return The new path string.
+     */
+    public static String normalizePath(String path)
+    {
+        StringBuilder sb = new StringBuilder(path);
+        int lastToken = -1;
+        for (int i = 0; i < sb.length(); i++)
+        {
+            if ((sb.charAt(i) == File.separatorChar)
+                || (sb.charAt(i) == '/'))
+            {
+                if (lastToken != -1)
+                {
+                    if (i < sb.length() - 2)
+                        if (sb.charAt(i + 1) == '.')
+                            if (sb.charAt(i + 2) == '.')
+                    {   // Remove last directory name from path
+                        sb.delete(lastToken, i + 3);
+                        i = lastToken;
+                    }
+                }
+                lastToken = i;
+            }
         }
         return sb.toString();
     }

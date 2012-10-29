@@ -74,8 +74,9 @@ public class ClassProjectScreen extends FolderScreen
     public void addToolbarButtons(ToolScreen toolScreen)
     {
         super.addToolbarButtons(toolScreen);
-        new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, ClassProject.CLASS_DETAIL_SCREEN, MenuConstants.FORMDETAIL, ClassProject.CLASS_DETAIL_SCREEN, ClassProject.CLASS_DETAIL_SCREEN);
-        new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, ClassProject.RESOURCE_DETAIL_SCREEN, MenuConstants.FORMDETAIL, ClassProject.RESOURCE_DETAIL_SCREEN, ClassProject.RESOURCE_DETAIL_SCREEN);
+        ResourceBundle resources = ((BaseApplication)this.getTask().getApplication()).getResources(ResourceConstants.PROGRAM_RESOURCE, true);
+        new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ClassProject.CLASS_DETAIL_SCREEN), MenuConstants.DISTRIBUTION, ClassProject.CLASS_DETAIL_SCREEN, resources.getString(ClassProject.CLASS_DETAIL_SCREEN));
+        new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN), MenuConstants.GROUP, ClassProject.RESOURCE_DETAIL_SCREEN, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN));
     }
     /**
      * Set up all the screen fields.

@@ -692,13 +692,13 @@
 		<Description>User workspace</Description>
 		<SystemClasses/>
 		<PackageName/>
-		<ProjectPath/>
+		<ProjectPath>workspace/workspace</ProjectPath>
 		<InterfacePackage/>
-		<InterfaceProjectPath/>
+		<InterfaceProjectPath>workspace/workspace</InterfaceProjectPath>
 		<ThinPackage/>
-		<ThinProjectPath/>
+		<ThinProjectPath>workspace/workspace</ThinProjectPath>
 		<ResourcePackage/>
-		<ResProjectPath/>
+		<ResProjectPath>workspace/workspace</ResProjectPath>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>
@@ -1188,7 +1188,7 @@
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="16777302">
-		<LastChanged>2011-03-10T05:25:39</LastChanged>
+		<LastChanged>2012-10-27T21:48:56</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>manual</Name>
 		<ParentFolderID>16,777,296</ParentFolderID>
@@ -1197,7 +1197,7 @@
 		<Code/>
 		<Description>Manual code</Description>
 		<SystemClasses>Y</SystemClasses>
-		<PackageName/>
+		<PackageName>.manual</PackageName>
 		<ProjectPath/>
 		<InterfacePackage/>
 		<InterfaceProjectPath/>

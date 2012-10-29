@@ -3601,7 +3601,7 @@ sourceDir=initial_data/current_initial_data
 		<Destination/>
 	</Script>
 	<Script ID="297">
-		<LastChanged>2011-06-22T15:21:10</LastChanged>
+		<LastChanged>2012-10-28T09:12:07</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Export base program data</Name>
 		<ParentFolderID>296</ParentFolderID>
@@ -3609,11 +3609,11 @@ sourceDir=initial_data/current_initial_data
 		<Comment/>
 		<Code/>
 		<Properties><![CDATA[#Field properties
-#Wed Jun 22 15:21:05 PDT 2011
+#Sun Oct 28 09:12:04 PDT 2012
 programSharedDBName=program_base
 mainSharedDBName=main_base
+sourcePrefix=/home/don/workspace/workspace/jbundle/jbundle/res/data/data/src/main/webapp/org/jbundle/res/data
 dbSuffix=_base
-sourcePrefix=/home/don/workspace/workspace/jbundle/jbundle/res/data/src/main/webapp/org/jbundle/res/data
 ]]></Properties>
 		<Command>Z</Command>
 		<Source/>

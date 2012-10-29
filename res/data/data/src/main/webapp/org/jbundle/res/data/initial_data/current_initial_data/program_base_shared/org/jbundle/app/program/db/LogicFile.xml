@@ -784,7 +784,7 @@ this.getMainRecord().getField(ClassInfo.CLASS_NAME).addListener(new MoveOnChange
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778031">
-		<LastChanged>2012-01-26T23:22:44</LastChanged>
+		<LastChanged>2012-10-27T21:44:56</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>70</Sequence>
 		<MethodName>addToolbars</MethodName>
@@ -807,7 +807,7 @@ String strJob = null;
 strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
 strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ExportRecordsToXmlScreen.class.getName());    // Screen class
 strJob = Utility.addURLParam(strJob, "newwindow", DBConstants.TRUE);    // Screen class
-strJob = Utility.addURLParam(strJob, "prefix", this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.BASE_DIRECTORY).toString()+ this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.PROJECT_NAME).toString() + "/");    // Screen class
+strJob = Utility.addURLParam(strJob, ConvertCode.DIR_PREFIX, Utility.addToPath(((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath(), this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.ARCHIVE_DIRECTORY).toString()));    // Screen class
 new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Export");
 strJob = Utility.addURLParam(strJob, "mode", "import");
 new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Import");
@@ -16449,7 +16449,7 @@ return objDefault;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783586">
-		<LastChanged>2012-08-29T14:06:41</LastChanged>
+		<LastChanged>2012-10-27T21:47:16</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>10</Sequence>
 		<MethodName>init</MethodName>
@@ -16467,7 +16467,15 @@ if (this.registerUniqueApplication(null, null) != Constants.NORMAL_RETURN)
 final int MAX_TASKS = 1;    // For now, run them sequentially
 this.setTaskScheduler(new PrivateTaskScheduler(this, MAX_TASKS, true));
 
-MessageManager messageManager = RemoteMessageManager.getMessageManager(this);
+
+
+MessageManager messageManager = null;
+if (this.getEnvironment() != null)
+    if (this.getEnvironment().getMessageApplication(true, properties) != null)
+        messageManager = this.getEnvironment().getMessageApplication(true, properties).getThickMessageManager();
+if (messageManager == null) // Never
+    messageManager = RemoteMessageManager.getMessageManager(this);
+
 String strQueueName = this.getProperty(MessageConstants.QUEUE_NAME);
 if (strQueueName == null)
     strQueueName = MessageConstants.TRX_RECEIVE_QUEUE; // Never
@@ -27490,7 +27498,7 @@ record.free();]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784958">
-		<LastChanged>2010-02-04T04:56:34</LastChanged>
+		<LastChanged>2012-10-29T03:45:59</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>60</Sequence>
 		<MethodName>addToolbarButtons</MethodName>
@@ -27499,15 +27507,16 @@ record.free();]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>ClassProjectGridScreen</MethodClassName>
 		<LogicSource><![CDATA[super;
-new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, ClassProject.CLASS_DETAIL_SCREEN, MenuConstants.FORMDETAIL, ClassProject.CLASS_DETAIL_SCREEN, ClassProject.CLASS_DETAIL_SCREEN);
-new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, ClassProject.RESOURCE_DETAIL_SCREEN, MenuConstants.FORMDETAIL, ClassProject.RESOURCE_DETAIL_SCREEN, ClassProject.RESOURCE_DETAIL_SCREEN);]]></LogicSource>
+ResourceBundle resources = ((BaseApplication)this.getTask().getApplication()).getResources(ResourceConstants.PROGRAM_RESOURCE, true);
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ClassProject.CLASS_DETAIL_SCREEN), MenuConstants.DISTRIBUTION, ClassProject.CLASS_DETAIL_SCREEN, resources.getString(ClassProject.CLASS_DETAIL_SCREEN));
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN), MenuConstants.GROUP, ClassProject.RESOURCE_DETAIL_SCREEN, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784959">
-		<LastChanged>2010-02-04T05:00:09</LastChanged>
+		<LastChanged>2012-10-29T03:46:54</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>70</Sequence>
 		<MethodName>addNavButtons</MethodName>
@@ -27515,8 +27524,9 @@ new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenCo
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>ClassProjectGridScreen</MethodClassName>
-		<LogicSource><![CDATA[new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.FORMDETAIL, ClassProject.CLASS_DETAIL_SCREEN, ClassProject.CLASS_DETAIL_SCREEN);
-new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.FORMDETAIL, ClassProject.RESOURCE_DETAIL_SCREEN, ClassProject.RESOURCE_DETAIL_SCREEN);
+		<LogicSource><![CDATA[ResourceBundle resources = ((BaseApplication)this.getTask().getApplication()).getResources(ResourceConstants.PROGRAM_RESOURCE, true);
+new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.GROUP, ClassProject.RESOURCE_DETAIL_SCREEN, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN));
+new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.DISTRIBUTION, ClassProject.CLASS_DETAIL_SCREEN, resources.getString(ClassProject.CLASS_DETAIL_SCREEN));
 super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -27614,7 +27624,7 @@ return screen;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784965">
-		<LastChanged>2012-01-26T23:22:50</LastChanged>
+		<LastChanged>2012-10-27T21:37:08</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>getFileName</MethodName>
@@ -27627,7 +27637,7 @@ return screen;]]></LogicSource>
 		<MethodReturns>String</MethodReturns>
 		<MethodInterface>String strFileName, String strPackage, CodeType codeType, boolean fullPath, boolean sourcePath</MethodInterface>
 		<MethodClassName>ClassProject</MethodClassName>
-		<LogicSource><![CDATA[Record recProgramControl = (Record)this.getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE);
+		<LogicSource><![CDATA[ProgramControl recProgramControl = (ProgramControl)this.getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE);
 if (recProgramControl == null)
     recProgramControl = new ProgramControl(this.findRecordOwner());
 
@@ -27641,7 +27651,7 @@ if (strPackage != null)
 String strFileRoot = DBConstants.BLANK;
 if (fullPath)
 {
-    strFileRoot = recProgramControl.getField(ProgramControl.BASE_DIRECTORY).toString();
+    strFileRoot = recProgramControl.getBasePath();
     if (!strFileRoot.endsWith("/"))
         strFileRoot += "/";
 }
@@ -27731,7 +27741,7 @@ return super;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784969">
-		<LastChanged>2012-01-26T23:22:50</LastChanged>
+		<LastChanged>2012-10-29T03:49:40</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>getPath</MethodName>
@@ -27802,6 +27812,18 @@ if (this.getField(ClassProject.PARENT_FOLDER_ID).getValue() != 0)
         }
     }
 }
+
+if (!bPackagePath)
+{
+    strSrcPath = Utility.replaceResources(strSrcPath, null, null, this.getRecordOwner());
+    try {
+        strSrcPath = Utility.replaceResources(strSrcPath, null, Utility.propertiesToMap(System.getProperties()), null);
+    } catch (SecurityException e) {
+        // Ignore
+    }
+    strSrcPath = Utility.normalizePath(strSrcPath);
+}
+
 return strSrcPath;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -28086,7 +28108,7 @@ this.getScreenRecord().getField(ClassInfoScreenRecord.PACKAGE).addListener(new F
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784982">
-		<LastChanged>2010-02-04T05:18:51</LastChanged>
+		<LastChanged>2012-10-29T03:47:54</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>addToolbarButtons</MethodName>
@@ -28095,8 +28117,9 @@ this.getScreenRecord().getField(ClassInfoScreenRecord.PACKAGE).addListener(new F
 		<MethodInterface/>
 		<MethodClassName>ClassProjectScreen</MethodClassName>
 		<LogicSource><![CDATA[super;
-new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, ClassProject.CLASS_DETAIL_SCREEN, MenuConstants.FORMDETAIL, ClassProject.CLASS_DETAIL_SCREEN, ClassProject.CLASS_DETAIL_SCREEN);
-new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, ClassProject.RESOURCE_DETAIL_SCREEN, MenuConstants.FORMDETAIL, ClassProject.RESOURCE_DETAIL_SCREEN, ClassProject.RESOURCE_DETAIL_SCREEN);]]></LogicSource>
+ResourceBundle resources = ((BaseApplication)this.getTask().getApplication()).getResources(ResourceConstants.PROGRAM_RESOURCE, true);
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ClassProject.CLASS_DETAIL_SCREEN), MenuConstants.DISTRIBUTION, ClassProject.CLASS_DETAIL_SCREEN, resources.getString(ClassProject.CLASS_DETAIL_SCREEN));
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN), MenuConstants.GROUP, ClassProject.RESOURCE_DETAIL_SCREEN, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -31960,7 +31983,7 @@ if (this.getProperty(DBParams.APP_NAME) == null)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785142">
-		<LastChanged>2012-06-06T08:17:08</LastChanged>
+		<LastChanged>2012-10-27T21:45:54</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>110</Sequence>
 		<MethodName>startupService</MethodName>
@@ -31971,6 +31994,7 @@ if (this.getProperty(DBParams.APP_NAME) == null)
 		<LogicSource><![CDATA[Map<String,Object> props = this.getServiceProperties();
 try {
     Environment env = (Environment)this.getService(Env.class);
+    props = Utility.putAllIfNew(props, env.getProperties());  // Use the same params as environment
     // Note the order that I do this... this is because MainApplication may need access to the remoteapp during initialization
     App app = env.getMessageApplication(false, props);
     RemoteSessionServer service = null;
@@ -32747,6 +32771,32 @@ return string;]]></LogicSource>
 		<MethodInterface>void</MethodInterface>
 		<MethodClassName>ResourcesUtilities</MethodClassName>
 		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785183">
+		<LastChanged>2012-10-27T21:40:46</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>getBasePath</MethodName>
+		<LogicDescription><![CDATA[Get the base path.
+Replace all the params first.]]></LogicDescription>
+		<MethodReturns>String</MethodReturns>
+		<MethodInterface/>
+		<MethodClassName>ProgramControl</MethodClassName>
+		<LogicSource><![CDATA[String basePath = DBConstants.BLANK;
+basePath = this.getField(ProgramControl.BASE_DIRECTORY).toString();
+PropertyOwner propertyOwner = null;
+if (this.getOwner() instanceof PropertyOwner)
+    propertyOwner = (PropertyOwner)this.getOwner();
+try {
+    basePath = Utility.replaceResources(basePath, null, Utility.propertiesToMap(System.getProperties()), propertyOwner);
+} catch (SecurityException e) {
+    basePath = Utility.replaceResources(basePath, null, null, propertyOwner);
+}
+return basePath;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>

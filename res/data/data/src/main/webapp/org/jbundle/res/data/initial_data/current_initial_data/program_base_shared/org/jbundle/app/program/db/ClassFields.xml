@@ -13085,4 +13085,19 @@
 		<ClassFieldsType>C</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
+	<ClassFields ID="16782641">
+		<LastChanged>2012-10-27T21:44:05</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassInfoScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ConvertCode</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
 </file>

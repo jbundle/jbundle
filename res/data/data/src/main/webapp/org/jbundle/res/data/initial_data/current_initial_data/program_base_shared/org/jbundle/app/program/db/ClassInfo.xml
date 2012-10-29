@@ -11611,4 +11611,21 @@ previous date was oem]]></ClassDesc>
 		<TechnicalInfo/>
 		<CopyDescFrom/>
 	</ClassInfo>
+	<ClassInfo ID="16779712">
+		<LastChanged>2012-10-27T21:43:02</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>ConvertCode</ClassName>
+		<BaseClassName>BaseProcess</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,302</ClassProjectID>
+		<ClassPackage>.convert</ClassPackage>
+		<ClassSourceFile>ConvertCode</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
 </file>

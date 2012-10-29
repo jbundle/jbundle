@@ -19,6 +19,8 @@ public interface MenuConstants extends ThinMenuConstants
     public static final String REQUERY = "Requery";
     public static final String MENUREC = "Menurec";     // Menu Record
     public static final String DISPLAY = "Display";
+    public static final String DISTRIBUTION = "Distribution";
+    public static final String GROUP = "Group";
 
     public static final String CLONE = "Clone";
     public static final String NEW_WINDOW = "NewWindow";

@@ -9504,7 +9504,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784403">
-		<LastChanged>2010-02-03T13:01:04</LastChanged>
+		<LastChanged>2012-10-27T21:38:08</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>BaseDirectory</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -9513,7 +9513,7 @@
 		<MinimumLength/>
 		<MaximumLength>127</MaximumLength>
 		<DefaultValue>old</DefaultValue>
-		<InitialValue>"/home/don/workspace/tour/"</InitialValue>
+		<InitialValue>"${user.dir}/"</InitialValue>
 		<FieldDescription>Base directory (from directory root, with trailing /)</FieldDescription>
 		<FieldDescVertical>Base folder</FieldDescVertical>
 		<FieldType/>
@@ -9570,7 +9570,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784406">
-		<LastChanged>2010-02-03T13:02:00</LastChanged>
+		<LastChanged>2012-10-27T21:38:40</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ArchiveDirectory</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -9579,7 +9579,7 @@
 		<MinimumLength/>
 		<MaximumLength>127</MaximumLength>
 		<DefaultValue>old</DefaultValue>
-		<InitialValue>"data/archive/"</InitialValue>
+		<InitialValue>"src/main/resources/"</InitialValue>
 		<FieldDescription>Default archive path (location for import and export)</FieldDescription>
 		<FieldDescVertical>Archive path</FieldDescVertical>
 		<FieldType/>
