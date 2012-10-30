@@ -19,14 +19,14 @@
 <td align="left" valign="top">
     <hr/>
     <a href="${link}">
-        <img src="${icon}" alt="${menutitle}" width="24" height="24" border="0"  align="center"/>
-    </A>
+        <img src="${icon}" alt="${menutitle}" width="24" height="24" border="0"  align="center" />
+    </a>
     <a href="${link}">
         ${menutitle}
     </a>
-<br/><javalogo><img src="images/buttons/java.gif" width="16" height="15" border="0">&#160;</javalogo><span style="font-size: 10pt">${menudesc}</span>
+<br/>${javalogo}<img src="images/buttons/java.gif" width="16" height="15" border="0" />&#160;<span style="font-size: 10pt">${menudesc}</span>
 </td>
-${items}
+</items>
 Thanks for visiting!]]></XmlData>
 		<MenusHelp/>
 	</Menus>
