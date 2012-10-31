@@ -13100,4 +13100,19 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
+	<ClassFields ID="16782642">
+		<LastChanged>2012-10-30T20:56:12</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ProgramControl</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>java.io</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>P</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
 </file>

@@ -202,6 +202,15 @@ public class ClassInfo extends VirtualRecord
         return keyArea;
     }
     /**
+     * AddMasterListeners Method.
+     */
+    public void addMasterListeners()
+    {
+        super.addMasterListeners();
+        
+        this.getField(ClassInfo.CLASS_NAME).addListener(new MoveOnChangeHandler(this.getField(ClassInfo.CLASS_SOURCE_FILE), null, true, true));
+    }
+    /**
      * Get the link that will run this class.
      */
     public String getLink()

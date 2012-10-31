@@ -21509,36 +21509,6 @@ try {
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
-	<LogicFile ID="16784435">
-		<LastChanged>2009-02-12T14:49:30</LastChanged>
-		<Deleted>N</Deleted>
-		<Sequence>100</Sequence>
-		<MethodName>Test11000123450</MethodName>
-		<LogicDescription/>
-		<MethodReturns/>
-		<MethodInterface/>
-		<MethodClassName>Test</MethodClassName>
-		<LogicSource/>
-		<LogicThrows/>
-		<Protection/>
-		<CopyFrom/>
-		<IncludeScope>1</IncludeScope>
-	</LogicFile>
-	<LogicFile ID="16784436">
-		<LastChanged>2009-02-12T14:49:30</LastChanged>
-		<Deleted>N</Deleted>
-		<Sequence>200</Sequence>
-		<MethodName>Test122</MethodName>
-		<LogicDescription/>
-		<MethodReturns/>
-		<MethodInterface/>
-		<MethodClassName>Test</MethodClassName>
-		<LogicSource/>
-		<LogicThrows/>
-		<Protection/>
-		<CopyFrom/>
-		<IncludeScope>1</IncludeScope>
-	</LogicFile>
 	<LogicFile ID="16784437">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
 		<Deleted>N</Deleted>
@@ -27534,7 +27504,7 @@ super;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784960">
-		<LastChanged>2012-07-19T00:05:42</LastChanged>
+		<LastChanged>2012-10-30T17:06:27</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>40</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -27544,7 +27514,7 @@ super;]]></LogicSource>
 		<MethodClassName>ClassProject</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ClassProject.CLASS_DETAIL_MODE) == ClassProject.CLASS_DETAIL_MODE)
-    screen = Record.makeNewScreen(ClassInfo.CLASS_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+    screen = Record.makeNewScreen(ClassInfo.CLASS_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ClassProject.RESOURCE_DETAIL_MODE) == ClassProject.RESOURCE_DETAIL_MODE)
     screen = Record.makeNewScreen(Resource.RESOURCE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
@@ -28631,7 +28601,7 @@ new ProgramControl(this);]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785001">
-		<LastChanged>2012-01-26T23:22:50</LastChanged>
+		<LastChanged>2012-10-30T20:55:25</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>20</Sequence>
 		<MethodName>addMasterListeners</MethodName>
@@ -28640,7 +28610,40 @@ new ProgramControl(this);]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>ProgramControl</MethodClassName>
 		<LogicSource><![CDATA[super;
-this.getField(ProgramControl.LAST_PACKAGE_UPDATE).setEnabled(false);]]></LogicSource>
+this.getField(ProgramControl.LAST_PACKAGE_UPDATE).setEnabled(false);
+
+this.addListener(new FileListener()
+{
+    public void doNewRecord(boolean bDisplayOption)
+    {
+        super.doNewRecord(bDisplayOption);
+        
+        BaseField field = this.getOwner().getField(ProgramControl.BASE_DIRECTORY);
+        if (!field.isModified())
+            if (field.getDefault().equals(field.getData()))
+        {
+            try {
+                String home = System.getProperty("user.home");
+                String current = System.getProperty("user.dir");
+                if (!home.equals(current))
+                    if (current.startsWith(home))
+                {   // Set the base directory to the current directories' home
+                    current = Utility.addToPath((String)field.getDefault(), current.substring(home.length()));
+                    int lastPathSeparator = current.lastIndexOf(File.separator);
+                    if (lastPathSeparator == -1)
+                        lastPathSeparator = current.lastIndexOf('/');
+                    if (lastPathSeparator != -1)
+                    {
+                        ((InitOnceFieldHandler)field.getListener(InitOnceFieldHandler.class)).setFirstTime(true);
+                        field.setString(current.substring(0, lastPathSeparator), DBConstants.DISPLAY, DBConstants.INIT_MOVE);
+                    }
+                }
+            } catch (SecurityException e) {
+                // Ignore (default is fine)
+            }
+        }
+    }
+});]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -32812,6 +32815,23 @@ return basePath;]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>StreamOut</MethodClassName>
 		<LogicSource>// Not used</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785185">
+		<LastChanged>2012-10-30T21:24:31</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>addMasterListeners</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ClassInfo</MethodClassName>
+		<LogicSource><![CDATA[super;
+
+this.getField(ClassInfo.CLASS_NAME).addListener(new MoveOnChangeHandler(this.getField(ClassInfo.CLASS_SOURCE_FILE), null, true, true));]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>

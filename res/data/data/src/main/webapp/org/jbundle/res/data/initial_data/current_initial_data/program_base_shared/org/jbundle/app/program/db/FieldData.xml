@@ -13970,7 +13970,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784906">
-		<LastChanged>2012-01-07T10:16:38</LastChanged>
+		<LastChanged>2012-10-30T11:25:48</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>InterfacePackage</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -13979,7 +13979,7 @@
 		<MinimumLength/>
 		<MaximumLength/>
 		<DefaultValue>old</DefaultValue>
-		<InitialValue>.rec</InitialValue>
+		<InitialValue>.model</InitialValue>
 		<FieldDescription>Default interface package (start with a '.' to make this relative)</FieldDescription>
 		<FieldDescVertical>Interface pkg</FieldDescVertical>
 		<FieldType/>

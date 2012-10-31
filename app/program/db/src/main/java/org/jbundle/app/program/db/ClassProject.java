@@ -85,7 +85,7 @@ public class ClassProject extends Folder
     {
         ScreenParent screen = null;
         if ((iDocMode & ClassProject.CLASS_DETAIL_MODE) == ClassProject.CLASS_DETAIL_MODE)
-            screen = Record.makeNewScreen(ClassInfo.CLASS_INFO_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+            screen = Record.makeNewScreen(ClassInfo.CLASS_INFO_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ClassProject.RESOURCE_DETAIL_MODE) == ClassProject.RESOURCE_DETAIL_MODE)
             screen = Record.makeNewScreen(Resource.RESOURCE_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
         else if ((iDocMode & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)

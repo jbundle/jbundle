@@ -9405,23 +9405,6 @@ There are several possible source transactions in the system:
 		<TechnicalInfo/>
 		<CopyDescFrom/>
 	</ClassInfo>
-	<ClassInfo ID="16779473">
-		<LastChanged>2010-02-05T11:18:12</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassName>Test</ClassName>
-		<BaseClassName>Record</BaseClassName>
-		<ClassDesc/>
-		<ClassProjectID>16,777,240</ClassProjectID>
-		<ClassPackage>.test</ClassPackage>
-		<ClassSourceFile>Test</ClassSourceFile>
-		<ClassType/>
-		<ClassExplain/>
-		<ClassHelp/>
-		<ClassImplements/>
-		<SeeAlso/>
-		<TechnicalInfo/>
-		<CopyDescFrom/>
-	</ClassInfo>
 	<ClassInfo ID="16779474">
 		<LastChanged>2010-02-05T11:18:12</LastChanged>
 		<Deleted>N</Deleted>
@@ -10842,23 +10825,6 @@ There are several possible source transactions in the system:
 		<ClassProjectID>16,777,288</ClassProjectID>
 		<ClassPackage>.trx.message.external.convert.jibx</ClassPackage>
 		<ClassSourceFile>JibxConvertToNative</ClassSourceFile>
-		<ClassType/>
-		<ClassExplain/>
-		<ClassHelp/>
-		<ClassImplements/>
-		<SeeAlso/>
-		<TechnicalInfo/>
-		<CopyDescFrom/>
-	</ClassInfo>
-	<ClassInfo ID="16779665">
-		<LastChanged>2010-04-09T11:59:16</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassName/>
-		<BaseClassName/>
-		<ClassDesc/>
-		<ClassProjectID>16,777,221</ClassProjectID>
-		<ClassPackage/>
-		<ClassSourceFile/>
 		<ClassType/>
 		<ClassExplain/>
 		<ClassHelp/>

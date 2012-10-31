@@ -21,6 +21,7 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
+import java.io.*;
 import org.jbundle.app.program.resource.db.*;
 import org.jbundle.model.app.program.db.*;
 
@@ -126,7 +127,7 @@ public class ProgramControl extends ControlRecord
             field = new StringField(this, PACKAGE_NAME, 40, null, null);
         if (iFieldSeq == 11)
         {
-            field = new StringField(this, INTERFACE_PACKAGE, Constants.DEFAULT_FIELD_LENGTH, null, ".rec");
+            field = new StringField(this, INTERFACE_PACKAGE, Constants.DEFAULT_FIELD_LENGTH, null, ".model");
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 12)
@@ -171,6 +172,39 @@ public class ProgramControl extends ControlRecord
     {
         super.addMasterListeners();
         this.getField(ProgramControl.LAST_PACKAGE_UPDATE).setEnabled(false);
+        
+        this.addListener(new FileListener()
+        {
+            public void doNewRecord(boolean bDisplayOption)
+            {
+                super.doNewRecord(bDisplayOption);
+                
+                BaseField field = this.getOwner().getField(ProgramControl.BASE_DIRECTORY);
+                if (!field.isModified())
+                    if (field.getDefault().equals(field.getData()))
+                {
+                    try {
+                        String home = System.getProperty("user.home");
+                        String current = System.getProperty("user.dir");
+                        if (!home.equals(current))
+                            if (current.startsWith(home))
+                        {   // Set the base directory to the current directories' home
+                            current = Utility.addToPath((String)field.getDefault(), current.substring(home.length()));
+                            int lastPathSeparator = current.lastIndexOf(File.separator);
+                            if (lastPathSeparator == -1)
+                                lastPathSeparator = current.lastIndexOf('/');
+                            if (lastPathSeparator != -1)
+                            {
+                                ((InitOnceFieldHandler)field.getListener(InitOnceFieldHandler.class)).setFirstTime(true);
+                                field.setString(current.substring(0, lastPathSeparator), DBConstants.DISPLAY, DBConstants.INIT_MOVE);
+                            }
+                        }
+                    } catch (SecurityException e) {
+                        // Ignore (default is fine)
+                    }
+                }
+            }
+        });
     }
     /**
      * Get the base path.
