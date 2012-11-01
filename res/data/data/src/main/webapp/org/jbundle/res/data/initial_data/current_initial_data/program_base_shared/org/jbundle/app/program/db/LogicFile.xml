@@ -6923,7 +6923,7 @@ This method does nothing - Override it to provide the link.]]></LogicDescription
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16781537">
-		<LastChanged>2012-07-05T23:57:35</LastChanged>
+		<LastChanged>2012-11-01T10:14:41</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>openOtherRecords</MethodName>
@@ -6956,7 +6956,8 @@ if (m_recHeader != null)
             }
         }
     }
-    this.addRecord(m_recHeader, false);
+    if (this.getRecord(m_recHeader.getTableNames(false)) != m_recHeader) // May be in a parent screen
+        this.addRecord(m_recHeader, false);
 }
 else
 {
@@ -32858,29 +32859,6 @@ this.getField(ClassInfo.CLASS_NAME).addListener(new MoveOnChangeHandler(this.get
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
-	<LogicFile ID="16785186">
-		<LastChanged>2012-10-31T11:00:04</LastChanged>
-		<Deleted>N</Deleted>
-		<Sequence>200</Sequence>
-		<MethodName>doCommand</MethodName>
-		<LogicDescription/>
-		<MethodReturns/>
-		<MethodInterface/>
-		<MethodClassName>ClassProjectHeaderScreen</MethodClassName>
-		<LogicSource><![CDATA[if ((MenuConstants.FORM.equalsIgnoreCase(strCommand)) || (MenuConstants.FORMLINK.equalsIgnoreCase(strCommand)))
-    if (this.getMainRecord().getEditMode() == DBConstants.EDIT_ADD)
-        if (!this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).isNull())
-{
-    strCommand = Utility.addURLParam(null, DBParams.COMMAND, strCommand);
-    strCommand = Utility.addURLParam(strCommand, DBParams.RECORD, ClassInfo.class.getName());
-    strCommand = Utility.addURLParam(strCommand, DBParams.HEADER_OBJECT_ID, this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).toString());
-}
-return super;]]></LogicSource>
-		<LogicThrows/>
-		<Protection/>
-		<CopyFrom/>
-		<IncludeScope>1</IncludeScope>
-	</LogicFile>
 	<LogicFile ID="16785187">
 		<LastChanged>2012-10-31T11:01:06</LastChanged>
 		<Deleted>N</Deleted>
@@ -32972,6 +32950,29 @@ super;]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>FileHdrScreen</MethodClassName>
 		<LogicSource>// None</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785193">
+		<LastChanged>2012-11-01T10:15:47</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>300</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ClassInfoGridScreen</MethodClassName>
+		<LogicSource><![CDATA[if ((MenuConstants.FORM.equalsIgnoreCase(strCommand)) || (MenuConstants.FORMLINK.equalsIgnoreCase(strCommand)))
+    if (this.getMainRecord().getEditMode() == DBConstants.EDIT_ADD)
+        if (!this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).isNull())
+{
+    strCommand = Utility.addURLParam(null, DBParams.COMMAND, strCommand);
+    strCommand = Utility.addURLParam(strCommand, DBParams.RECORD, ClassInfo.class.getName());
+    strCommand = Utility.addURLParam(strCommand, DBParams.HEADER_OBJECT_ID, this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).toString());
+}
+return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
