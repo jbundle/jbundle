@@ -31,7 +31,7 @@ import org.jbundle.app.program.manual.convert.*;
 /**
  *  ClassInfoScreen - .
  */
-public class ClassInfoScreen extends Screen
+public class ClassInfoScreen extends DetailScreen
 {
     /**
      * Default constructor.
@@ -69,6 +69,24 @@ public class ClassInfoScreen extends Screen
     public Record openMainRecord()
     {
         return new ClassInfo(this);
+    }
+    /**
+     * Open the header record.
+     * @return The new header record.
+     */
+    public Record openHeaderRecord()
+    {
+        return new ClassProject(this);
+    }
+    /**
+     * If there is a header record, return it, otherwise, return the main record.
+     * The header record is the (optional) main record on gridscreens and is sometimes used
+     * to enter data in a sub-record when a header is required.
+     * @return The header record.
+     */
+    public Record getHeaderRecord()
+    {
+        return this.getRecord(ClassProject.CLASS_PROJECT_FILE);
     }
     /**
      * Add the screen fields.
@@ -110,7 +128,20 @@ public class ClassInfoScreen extends Screen
         
         Record mainFile = this.getMainRecord();
         
-        JavaButton pJavaButton = new JavaButton(toolbar.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolbar, null, ScreenConstants.DISPLAY_FIELD_DESC);
+        BaseField field = this.getScreenRecord().getField(ClassVars.CLASS_KEY);
+        SCannedBox button = new SCannedBox(toolbar.getNextLocation(ScreenConstants.FLUSH_LEFT, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "5", "Description");
+        button.setImageButtonName(MenuConstants.FORMLINK);
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "0", "Logic");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "1", "Fields");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "2", "Keys");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "3", "Members");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "4", "Screen");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "6", "Help Desc");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "7", "Resources");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "8", "Issues");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "9", "File header");
+        
+        JavaButton pJavaButton = new JavaButton(toolbar.getNextLocation(ScreenConstants.FLUSH_LEFT, ScreenConstants.SET_ANCHOR), toolbar, null, ScreenConstants.DISPLAY_FIELD_DESC);
         pJavaButton.setClassInfo((ClassInfo)mainFile);
         new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, "?screen=" + FileHdrScreen.class.getName(), "File header");
         new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, "?screen=" + DatabaseInfoScreen.class.getName(), "Database info");
@@ -130,16 +161,6 @@ public class ClassInfoScreen extends Screen
         strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ".app.program.manual.util.process.CopyHelpInfo");    // Screen class
         new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Scan Help");
         
-        BaseField field = this.getScreenRecord().getField(ClassVars.CLASS_KEY);
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.FLUSH_LEFT, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "5", "Description");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "0", "Logic");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "1", "Fields");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "2", "Keys");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "3", "Members");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "4", "Screen");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "6", "Help Desc");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "7", "Resources");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "8", "Issues");
         return toolbar;
     }
     /**
@@ -188,6 +209,16 @@ public class ClassInfoScreen extends Screen
             String packageName = ((ClassInfo)this.getMainRecord()).getPackageName(null);
             strCommand = Utility.addURLParam(strCommand, "package", packageName);
             strCommand = Utility.addURLParam(strCommand, "project", Converter.stripNonNumber(this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).toString()));
+        }
+        
+        if ((this.getMainRecord().getEditMode() == DBConstants.EDIT_ADD)
+            || (this.getMainRecord().getEditMode() == DBConstants.EDIT_CURRENT))
+        {
+            try {
+                this.getMainRecord().writeAndRefresh(false);    // Make sure data is current before doing any command.
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
         }
         
         if (bFlag == false)

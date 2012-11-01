@@ -3601,7 +3601,7 @@ sourceDir=initial_data/current_initial_data
 		<Destination/>
 	</Script>
 	<Script ID="297">
-		<LastChanged>2012-10-28T09:12:07</LastChanged>
+		<LastChanged>2012-11-01T03:29:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Export base program data</Name>
 		<ParentFolderID>296</ParentFolderID>
@@ -3976,6 +3976,19 @@ process=.app.program.manual.convert.ConvertCode
 listenerClass=org.jbundle.app.program.script.scan.DeleteMeScanListener
 extension=xml
 ]]></Properties>
+		<Command>R</Command>
+		<Source/>
+		<Destination/>
+	</Script>
+	<Script ID="320">
+		<LastChanged>2012-11-01T03:28:01</LastChanged>
+		<Deleted>N</Deleted>
+		<Name/>
+		<ParentFolderID>296</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Properties/>
 		<Command>R</Command>
 		<Source/>
 		<Destination/>

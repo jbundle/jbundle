@@ -101,7 +101,7 @@ public class ProgramControl extends ControlRecord
             field = new StringField(this, PROJECT_NAME, 30, null, null);
         if (iFieldSeq == 4)
         {
-            field = new StringField(this, BASE_DIRECTORY, 127, null, "${user.dir}/");
+            field = new StringField(this, BASE_DIRECTORY, 127, null, "${user.home}/");
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 5)

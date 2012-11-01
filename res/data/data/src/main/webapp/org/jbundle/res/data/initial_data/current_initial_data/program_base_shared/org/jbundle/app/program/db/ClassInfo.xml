@@ -255,10 +255,10 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777479">
-		<LastChanged>2010-02-05T11:19:47</LastChanged>
+		<LastChanged>2012-10-31T11:03:18</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassInfoScreen</ClassName>
-		<BaseClassName>Screen</BaseClassName>
+		<BaseClassName>DetailScreen</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,221</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>
@@ -731,10 +731,10 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777584">
-		<LastChanged>2010-02-05T11:19:48</LastChanged>
+		<LastChanged>2012-10-31T11:06:39</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>FileHdrScreen</ClassName>
-		<BaseClassName>Screen</BaseClassName>
+		<BaseClassName>DetailScreen</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,221</ClassProjectID>
 		<ClassPackage>.screen</ClassPackage>

@@ -9513,7 +9513,7 @@
 		<MinimumLength/>
 		<MaximumLength>127</MaximumLength>
 		<DefaultValue>old</DefaultValue>
-		<InitialValue>"${user.dir}/"</InitialValue>
+		<InitialValue>"${user.home}/"</InitialValue>
 		<FieldDescription>Base directory (from directory root, with trailing /)</FieldDescription>
 		<FieldDescVertical>Base folder</FieldDescVertical>
 		<FieldType/>

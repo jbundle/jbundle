@@ -153,5 +153,28 @@ public class ClassInfoGridScreen extends DetailGridScreen
     {
         return new ClassProjectHeaderScreen(null, this, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, null);
     }
+    /**
+     * Process the command.
+     * <br />Step 1 - Process the command if possible and return true if processed.
+     * <br />Step 2 - If I can't process, pass to all children (with me as the source).
+     * <br />Step 3 - If children didn't process, pass to parent (with me as the source).
+     * <br />Note: Never pass to a parent or child that matches the source (to avoid an endless loop).
+     * @param strCommand The command to process.
+     * @param sourceSField The source screen field (to avoid echos).
+     * @param iCommandOptions If this command creates a new screen, create in a new window?
+     * @return true if success.
+     */
+    public boolean doCommand(String strCommand, ScreenField sourceSField, int iCommandOptions)
+    {
+        if ((MenuConstants.FORM.equalsIgnoreCase(strCommand)) || (MenuConstants.FORMLINK.equalsIgnoreCase(strCommand)))
+            if (this.getMainRecord().getEditMode() == DBConstants.EDIT_ADD)
+                if (!this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).isNull())
+        {
+            strCommand = Utility.addURLParam(null, DBParams.COMMAND, strCommand);
+            strCommand = Utility.addURLParam(strCommand, DBParams.RECORD, ClassInfo.class.getName());
+            strCommand = Utility.addURLParam(strCommand, DBParams.HEADER_OBJECT_ID, this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).toString());
+        }
+        return super.doCommand(strCommand, sourceSField, iCommandOptions);
+    }
 
 }

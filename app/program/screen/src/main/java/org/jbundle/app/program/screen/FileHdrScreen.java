@@ -23,12 +23,13 @@ import org.jbundle.base.util.*;
 import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
+import org.jbundle.main.screen.*;
 import org.jbundle.app.program.db.*;
 
 /**
  *  FileHdrScreen - .
  */
-public class FileHdrScreen extends Screen
+public class FileHdrScreen extends DetailScreen
 {
     /**
      * Default constructor.
@@ -56,6 +57,12 @@ public class FileHdrScreen extends Screen
      */
     public void init(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
+        if (record == null)
+            if (parentScreen.getRecord(ClassInfo.CLASS_INFO_FILE) != null)
+        {
+            iDisplayFieldDesc = iDisplayFieldDesc | ScreenConstants.DETAIL_MODE;
+            record = parentScreen.getRecord(ClassInfo.CLASS_INFO_FILE); // Header record
+        }
         super.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
@@ -68,12 +75,44 @@ public class FileHdrScreen extends Screen
         return new FileHdr(this);
     }
     /**
+     * Open the header record.
+     * @return The new header record.
+     */
+    public Record openHeaderRecord()
+    {
+        return new ClassInfo(this);
+    }
+    /**
+     * If there is a header record, return it, otherwise, return the main record.
+     * The header record is the (optional) main record on gridscreens and is sometimes used
+     * to enter data in a sub-record when a header is required.
+     * @return The header record.
+     */
+    public Record getHeaderRecord()
+    {
+        return this.getRecord(ClassInfo.CLASS_INFO_FILE);
+    }
+    /**
      * Add all the screen listeners.
      */
     public void addListeners()
     {
         super.addListeners();
         this.addMainKeyBehavior();
+        if (!this.getHeaderRecord().getField(ClassInfo.CLASS_NAME).isNull())
+        {
+            if (this.getMainRecord().getEditMode() != DBConstants.EDIT_CURRENT)
+                if (this.getMainRecord().getEditMode() != DBConstants.EDIT_IN_PROGRESS)
+                    this.getMainRecord().getField(FileHdr.FILE_NAME).moveFieldToThis(this.getHeaderRecord().getField(ClassInfo.CLASS_NAME));    // Current filename
+        }
+    }
+    /**
+     * Add the sub file filter (linking the header to the main file)
+     * Override this if the header does not have a direct link to the detail.
+     */
+    public void addSubFileFilter()
+    {
+        // None
     }
     /**
      * Set up all the screen fields.

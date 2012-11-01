@@ -134,7 +134,8 @@ public class DetailScreen extends Screen
                     }
                 }
             }
-            this.addRecord(m_recHeader, false);
+            if (this.getRecord(m_recHeader.getTableNames(false)) != m_recHeader) // May be in a parent screen
+                this.addRecord(m_recHeader, false);
         }
         else
         {

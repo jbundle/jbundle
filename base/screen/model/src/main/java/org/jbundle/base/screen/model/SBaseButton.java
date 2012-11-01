@@ -185,6 +185,15 @@ public class SBaseButton extends ScreenField
         return m_strImageButton;
     }
     /**
+     * Get the best guess for the command name.
+     * This is usually used to get the command to perform for a canned button.
+     * @return The button image file name.
+     */
+    public void setImageButtonName(String imageButton)
+    {
+        m_strImageButton = imageButton;
+    }
+    /**
      * Get the tooltip.
      * @return The tooltip text.
      */

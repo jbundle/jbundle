@@ -784,7 +784,7 @@ this.getMainRecord().getField(ClassInfo.CLASS_NAME).addListener(new MoveOnChange
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778031">
-		<LastChanged>2012-10-27T21:44:56</LastChanged>
+		<LastChanged>2012-10-31T11:02:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>70</Sequence>
 		<MethodName>addToolbars</MethodName>
@@ -798,7 +798,20 @@ ToolScreen toolbar = new EmptyToolbar(null, this, null, ScreenConstants.DONT_DIS
 
 Record mainFile = this.getMainRecord();
 
-JavaButton pJavaButton = new JavaButton(toolbar.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolbar, null, ScreenConstants.DISPLAY_FIELD_DESC);
+BaseField field = this.getScreenRecord().getField(ClassVars.CLASS_KEY);
+SCannedBox button = new SCannedBox(toolbar.getNextLocation(ScreenConstants.FLUSH_LEFT, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "5", "Description");
+button.setImageButtonName(MenuConstants.FORMLINK);
+new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "0", "Logic");
+new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "1", "Fields");
+new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "2", "Keys");
+new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "3", "Members");
+new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "4", "Screen");
+new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "6", "Help Desc");
+new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "7", "Resources");
+new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "8", "Issues");
+new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "9", "File header");
+
+JavaButton pJavaButton = new JavaButton(toolbar.getNextLocation(ScreenConstants.FLUSH_LEFT, ScreenConstants.SET_ANCHOR), toolbar, null, ScreenConstants.DISPLAY_FIELD_DESC);
 pJavaButton.setClassInfo((ClassInfo)mainFile);
 new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, "?screen=" + FileHdrScreen.class.getName(), "File header");
 new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, "?screen=" + DatabaseInfoScreen.class.getName(), "Database info");
@@ -818,16 +831,6 @@ strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Scr
 strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ".app.program.manual.util.process.CopyHelpInfo");    // Screen class
 new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Scan Help");
 
-BaseField field = this.getScreenRecord().getField(ClassVars.CLASS_KEY);
-new SCannedBox(toolbar.getNextLocation(ScreenConstants.FLUSH_LEFT, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "5", "Description");
-new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "0", "Logic");
-new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "1", "Fields");
-new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "2", "Keys");
-new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "3", "Members");
-new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "4", "Screen");
-new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "6", "Help Desc");
-new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "7", "Resources");
-new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "8", "Issues");
 return toolbar;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -1513,7 +1516,7 @@ the params (if String given).
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778288">
-		<LastChanged>2009-02-12T14:49:28</LastChanged>
+		<LastChanged>2012-10-31T11:06:07</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -1522,7 +1525,13 @@ the params (if String given).
 		<MethodInterface/>
 		<MethodClassName>FileHdrScreen</MethodClassName>
 		<LogicSource><![CDATA[super;
-this.addMainKeyBehavior();]]></LogicSource>
+this.addMainKeyBehavior();
+if (!this.getHeaderRecord().getField(ClassInfo.CLASS_NAME).isNull())
+{
+    if (this.getMainRecord().getEditMode() != DBConstants.EDIT_CURRENT)
+        if (this.getMainRecord().getEditMode() != DBConstants.EDIT_IN_PROGRESS)
+            this.getMainRecord().getField(FileHdr.FILE_NAME).moveFieldToThis(this.getHeaderRecord().getField(ClassInfo.CLASS_NAME));    // Current filename
+}]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -3463,7 +3472,7 @@ If there was a field specified, return the value, otherwise just return a count 
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16779115">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2012-10-31T11:07:08</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>getSubScreen</MethodName>
@@ -3491,6 +3500,8 @@ case 7:
     return new ClassResourceGridScreen(null, screenLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 case 8:
     return new ClassIssueGridScreen(null, screenLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+case 9:
+    return new FileHdrScreen(null, screenLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 }
 return null;]]></LogicSource>
 		<LogicThrows/>
@@ -4397,7 +4408,7 @@ The base code is now in the swing implementation
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16779593">
-		<LastChanged>2012-03-29T06:50:35</LastChanged>
+		<LastChanged>2012-10-31T11:03:12</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>300</Sequence>
 		<MethodName>doCommand</MethodName>
@@ -4418,6 +4429,16 @@ if ((strCommand.indexOf("ExportRecordsToXml") != -1)
     String packageName = ((ClassInfo)this.getMainRecord()).getPackageName(null);
     strCommand = Utility.addURLParam(strCommand, "package", packageName);
     strCommand = Utility.addURLParam(strCommand, "project", Converter.stripNonNumber(this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).toString()));
+}
+
+if ((this.getMainRecord().getEditMode() == DBConstants.EDIT_ADD)
+    || (this.getMainRecord().getEditMode() == DBConstants.EDIT_CURRENT))
+{
+    try {
+        this.getMainRecord().writeAndRefresh(false);    // Make sure data is current before doing any command.
+    } catch (DBException e) {
+        e.printStackTrace();
+    }
 }
 
 if (bFlag == false)
@@ -31946,7 +31967,7 @@ return ((target & scope) != 0);]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785140">
-		<LastChanged>2012-01-20T06:36:30</LastChanged>
+		<LastChanged>2012-10-31T10:58:23</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>50</Sequence>
 		<MethodName>makeScreen</MethodName>
@@ -31956,7 +31977,7 @@ return ((target & scope) != 0);]]></LogicSource>
 		<MethodClassName>ClassInfo</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.MAINT_MODE) != 0)
-    screen = Record.makeNewScreen(MAINT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+    screen = Record.makeNewScreen(MAINT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DETAIL_MODE | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else if ((iDocMode & ScreenConstants.DISPLAY_MODE) != 0)
     screen = Record.makeNewScreen(GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
 else
@@ -32832,6 +32853,125 @@ return basePath;]]></LogicSource>
 		<LogicSource><![CDATA[super;
 
 this.getField(ClassInfo.CLASS_NAME).addListener(new MoveOnChangeHandler(this.getField(ClassInfo.CLASS_SOURCE_FILE), null, true, true));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785186">
+		<LastChanged>2012-10-31T11:00:04</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ClassProjectHeaderScreen</MethodClassName>
+		<LogicSource><![CDATA[if ((MenuConstants.FORM.equalsIgnoreCase(strCommand)) || (MenuConstants.FORMLINK.equalsIgnoreCase(strCommand)))
+    if (this.getMainRecord().getEditMode() == DBConstants.EDIT_ADD)
+        if (!this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).isNull())
+{
+    strCommand = Utility.addURLParam(null, DBParams.COMMAND, strCommand);
+    strCommand = Utility.addURLParam(strCommand, DBParams.RECORD, ClassInfo.class.getName());
+    strCommand = Utility.addURLParam(strCommand, DBParams.HEADER_OBJECT_ID, this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).toString());
+}
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785187">
+		<LastChanged>2012-10-31T11:01:06</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>15</Sequence>
+		<MethodName>openHeaderRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ClassInfoScreen</MethodClassName>
+		<LogicSource>return new ClassProject(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785188">
+		<LastChanged>2012-10-31T11:01:20</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>17</Sequence>
+		<MethodName>getHeaderRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ClassInfoScreen</MethodClassName>
+		<LogicSource>return this.getRecord(ClassProject.CLASS_PROJECT_FILE);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785189">
+		<LastChanged>2012-10-31T11:04:32</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>5</Sequence>
+		<MethodName>FileHdrScreen</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>FileHdrScreen</MethodClassName>
+		<LogicSource><![CDATA[if (record == null)
+    if (parentScreen.getRecord(ClassInfo.CLASS_INFO_FILE) != null)
+{
+    iDisplayFieldDesc = iDisplayFieldDesc | ScreenConstants.DETAIL_MODE;
+    record = parentScreen.getRecord(ClassInfo.CLASS_INFO_FILE); // Header record
+}
+super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785190">
+		<LastChanged>2012-10-31T11:04:59</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>15</Sequence>
+		<MethodName>openHeaderRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>FileHdrScreen</MethodClassName>
+		<LogicSource>return new ClassInfo(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785191">
+		<LastChanged>2012-10-31T11:05:13</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>getHeaderRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>FileHdrScreen</MethodClassName>
+		<LogicSource>return this.getRecord(ClassInfo.CLASS_INFO_FILE);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785192">
+		<LastChanged>2012-10-31T11:06:21</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>40</Sequence>
+		<MethodName>addSubFileFilter</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>FileHdrScreen</MethodClassName>
+		<LogicSource>// None</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
