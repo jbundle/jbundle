@@ -13,7 +13,6 @@ package org.jbundle.base.thread;
 import java.util.Enumeration;
 import java.util.Map;
 
-import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.RecordList;
 import org.jbundle.base.db.SQLParams;

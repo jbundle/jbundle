@@ -5,28 +5,26 @@ package org.jbundle.app.program.manual.util;
 
 import java.util.Map;
 
+import org.jbundle.app.program.db.ClassInfo;
+import org.jbundle.app.program.db.ClassProject;
+import org.jbundle.app.program.db.FileHdr;
+import org.jbundle.app.program.manual.util.data.NameList;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.CompareFileFilter;
 import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.screen.model.BasePanel;
-import org.jbundle.base.screen.model.Screen;
-import org.jbundle.base.screen.model.util.ScreenLocation;
-import org.jbundle.app.program.db.ClassInfo;
-import org.jbundle.app.program.db.ClassProject;
-import org.jbundle.app.program.db.FileHdr;
-import org.jbundle.model.app.program.db.ClassProjectModel.CodeType;
-import org.jbundle.app.program.manual.util.data.NameList;
+import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.model.DBException;
+import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.app.program.db.ClassProjectModel.CodeType;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Converter;
 
 
 /**
  *  WriteJava - Constructor.
  */
-public class WriteClasses extends Screen
+public class WriteClasses extends BaseProcess
 {
     protected String m_strFileName = null;
     protected String m_strPackage = null;
@@ -42,18 +40,26 @@ public class WriteClasses extends Screen
         super();
     }
     /**
-     * Constructor.
+     * Initialization.
+     * @param taskParent Optional task param used to get parent's properties, etc.
+     * @param recordMain Optional main record.
+     * @param properties Optional properties object (note you can add properties later).
      */
-    public WriteClasses(Record mainFile, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
+    public WriteClasses(RecordOwnerParent taskParent, Record recordMain, Map<String, Object> properties)
     {
         this();
-        this.init(mainFile, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
+        this.init(taskParent, recordMain, properties);
     }
     /**
-     * Init.
+     * Initialization.
+     * @param taskParent Optional task param used to get parent's properties, etc.
+     * @param recordMain Optional main record.
+     * @param properties Optional properties object (note you can add properties later).
      */
-    public void init(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String, Object> properties)
+    public void init(RecordOwnerParent taskParent, Record recordMain, Map<String, Object> properties)
     {
+        m_properties = properties;
+
         m_strFileName = null;
         m_strPackage = null;
         m_strProjectID = null;
@@ -61,11 +67,7 @@ public class WriteClasses extends Screen
         m_ClassNameList = null;     // List of all classes written so far
     
     // Open the source files
-        super.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
-
-//      this.writeFileDesc();   // Write the code
-//          BasePanel panel = screen.getRootScreen();
-//          panel.free();
+        super.init(taskParent, recordMain, properties);
     }
     /**
      *  Free.
@@ -89,8 +91,6 @@ public class WriteClasses extends Screen
         if (m_strProjectID == null)
             m_strProjectID = Constants.BLANK;
         this.writeFileDesc();   // Write the code
-        BasePanel panel = this.getRootScreen();
-        panel.free();
     }
     public Record openMainRecord()
     {
@@ -100,14 +100,6 @@ public class WriteClasses extends Screen
     {
     	super.openOtherRecords();
         new ClassInfo(this);
-    }
-    /**
-     *
-     */
-    public void setupSFields()
-    {   // Override this to add screen behaviors
-        Record query = this.getMainRecord();
-        query.getField(FileHdr.FILE_NAME).setupFieldView(this);   // Add this view to the list
     }
     /**
      *  Create the default file Class

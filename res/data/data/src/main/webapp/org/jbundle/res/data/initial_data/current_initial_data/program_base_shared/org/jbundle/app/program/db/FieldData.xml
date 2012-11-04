@@ -1672,7 +1672,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781666">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-04T02:33:36</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>KeyField7</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -1682,7 +1682,7 @@
 		<MaximumLength>40</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription>Key field</FieldDescription>
+		<FieldDescription/>
 		<FieldDescVertical>Key field</FieldDescVertical>
 		<FieldType>I</FieldType>
 		<FieldDimension>1</FieldDimension>
@@ -1694,7 +1694,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781667">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-04T02:33:38</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>KeyField8</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -1704,7 +1704,7 @@
 		<MaximumLength>40</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription>Key field</FieldDescription>
+		<FieldDescription/>
 		<FieldDescVertical>Key field</FieldDescVertical>
 		<FieldType>I</FieldType>
 		<FieldDimension>1</FieldDimension>
@@ -1716,7 +1716,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781668">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-04T02:33:40</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>KeyField9</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -1726,7 +1726,7 @@
 		<MaximumLength>40</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription>Key field</FieldDescription>
+		<FieldDescription/>
 		<FieldDescVertical>Key field</FieldDescVertical>
 		<FieldType>I</FieldType>
 		<FieldDimension>1</FieldDimension>
@@ -1760,7 +1760,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781670">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-04T02:33:49</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>KeyName</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -1770,7 +1770,7 @@
 		<MaximumLength>40</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription>Key field</FieldDescription>
+		<FieldDescription/>
 		<FieldDescVertical>Key field</FieldDescVertical>
 		<FieldType>I</FieldType>
 		<FieldDimension>1</FieldDimension>
@@ -1804,16 +1804,16 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781672">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-04T02:26:06</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>KeyType</FieldName>
-		<FieldClass>StringField</FieldClass>
+		<FieldClass>KeyTypeField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
 		<MaximumLength>1</MaximumLength>
 		<DefaultValue/>
-		<InitialValue/>
+		<InitialValue>KeyTypeField.UNIQUE</InitialValue>
 		<FieldDescription>Unique?</FieldDescription>
 		<FieldDescVertical>Unique/Normal</FieldDescVertical>
 		<FieldType/>
@@ -14102,7 +14102,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784912">
-		<LastChanged>2012-01-11T12:33:42</LastChanged>
+		<LastChanged>2012-11-04T02:19:21</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>IncludeScope</FieldName>
 		<FieldClass>IncludeScopeField</FieldClass>

@@ -33222,4 +33222,25 @@ new ProgramControl(this);]]></LogicSource>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
+	<LogicFile ID="16785204">
+		<LastChanged>2012-11-04T01:44:59</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>getPopupMap</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>KeyTypeField</MethodClassName>
+		<LogicSource><![CDATA[String string[][] = {
+{UNIQUE, "Unique"},
+{NOT_UNIQUE, "Not unique"},
+{SECONDARY, "Secondary key"},
+};
+return string;
+]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
 </file>

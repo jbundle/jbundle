@@ -914,7 +914,7 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777670">
-		<LastChanged>2012-07-18T23:42:17</LastChanged>
+		<LastChanged>2012-11-04T03:05:20</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>KeyInfo</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
@@ -11654,6 +11654,23 @@ previous date was oem]]></ClassDesc>
 		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>FieldClassField</ClassSourceFile>
+		<ClassType>field</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779717">
+		<LastChanged>2012-11-04T01:47:47</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>KeyTypeField</ClassName>
+		<BaseClassName>StringPopupField</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,328</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>KeyTypeField</ClassSourceFile>
 		<ClassType>field</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
