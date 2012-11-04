@@ -141,7 +141,7 @@ public class KeyInfo extends VirtualRecord
         if (iFieldSeq == 14)
             field = new StringField(this, KEY_NAME, 40, null, null);
         if (iFieldSeq == 15)
-            field = new StringField(this, KEY_TYPE, 1, null, null);
+            field = new KeyTypeField(this, KEY_TYPE, 1, null, null);
         if (iFieldSeq == 16)
         {
             field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
