@@ -58,7 +58,7 @@ public class JavaButton extends SButtonBox
     public void init(ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int sDisplayFieldDesc)
     {
         m_classInfo = null;
-        super.init(itsLocation, parentScreen, fieldConverter, sDisplayFieldDesc, "", "Print Java", null, null, null);
+        super.init(itsLocation, parentScreen, fieldConverter, sDisplayFieldDesc, "", "Print Java", MenuConstants.PRINT, null, null);
     }
     /**
      * Move the control's value to the field.

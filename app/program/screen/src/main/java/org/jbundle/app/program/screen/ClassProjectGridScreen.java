@@ -77,6 +77,14 @@ public class ClassProjectGridScreen extends FolderGridScreen
         return new ClassProject(this);
     }
     /**
+     * Override this to open the other files in the query.
+     */
+    public void openOtherRecords()
+    {
+        super.openOtherRecords();
+        new ProgramControl(this);
+    }
+    /**
      * Add button(s) to the toolbar.
      */
     public void addToolbarButtons(ToolScreen toolScreen)

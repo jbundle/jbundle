@@ -27,6 +27,8 @@ import org.jbundle.app.program.db.*;
 import org.jbundle.main.screen.*;
 import org.jbundle.app.program.script.process.*;
 import org.jbundle.app.program.manual.convert.*;
+import org.jbundle.thin.base.thread.*;
+import org.jbundle.thin.base.screen.*;
 
 /**
  *  ClassInfoScreen - .
@@ -115,6 +117,27 @@ public class ClassInfoScreen extends DetailScreen
         this.getMainRecord().getField(ClassInfo.CLASS_NAME).addListener(new MainFieldHandler(ClassInfo.CLASS_NAME_KEY));
         this.getMainRecord().addListener(new EnableOnPhysicalHandler(null));
         this.getMainRecord().getField(ClassInfo.CLASS_NAME).addListener(new MoveOnChangeHandler(this.getMainRecord().getField(ClassInfo.CLASS_SOURCE_FILE), this.getMainRecord().getField(ClassInfo.CLASS_NAME), false, true));
+        
+        this.getMainRecord().addListener(new FileListener(null)
+        {
+            public int doRecordChange(FieldInfo field, int iChangeType, boolean bDisplayOption)
+            {
+                int iErrorCode = super.doRecordChange(field, iChangeType, bDisplayOption);
+                if ((iChangeType == DBConstants.AFTER_UPDATE_TYPE) || (iChangeType == DBConstants.AFTER_UPDATE_TYPE))
+                {
+                    Record classInfo = getMainRecord();
+                    TaskScheduler js = BaseApplet.getSharedInstance().getApplication().getTaskScheduler();
+                    String strJob = Utility.addURLParam(null, DBParams.PROCESS, ".app.program.manual.util.WriteClasses");
+                    strJob = Utility.addURLParam(strJob, "fileName", classInfo.getField(ClassInfo.CLASS_SOURCE_FILE).toString());
+                    strJob = Utility.addURLParam(strJob, "package", classInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
+                    strJob = Utility.addURLParam(strJob, "project", Converter.stripNonNumber(classInfo.getField(ClassInfo.CLASS_PROJECT_ID).toString()));
+                    strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
+                    js.addTask(strJob);                    
+                }
+                return iErrorCode;
+            };
+            
+        });
     }
     /**
      * Add the toolbars that belong with this screen.
@@ -129,37 +152,36 @@ public class ClassInfoScreen extends DetailScreen
         Record mainFile = this.getMainRecord();
         
         BaseField field = this.getScreenRecord().getField(ClassVars.CLASS_KEY);
-        SCannedBox button = new SCannedBox(toolbar.getNextLocation(ScreenConstants.FLUSH_LEFT, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "5", "Description");
-        button.setImageButtonName(MenuConstants.FORMLINK);
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "0", "Logic");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "1", "Fields");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "2", "Keys");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "3", "Members");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "4", "Screen");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "6", "Help Desc");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "7", "Resources");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "8", "Issues");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, "9", "File header");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.FLUSH_LEFT, ScreenConstants.SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, null, "Description", MenuConstants.FORM, "5", null);
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, null, "Logic", MenuConstants.GROUP, "0", null);
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, null, "Fields", MenuConstants.DISTRIBUTION, "1", null);
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, null, "Keys", MenuConstants.GROUP, "2", null);
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, null, "Members", MenuConstants.DISTRIBUTION, "3", null);
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, null, "Screen", MenuConstants.GROUP, "4", null);
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, null, "File header", MenuConstants.FORMLINK, "9", null);
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, null, "Resources", MenuConstants.DISTRIBUTION, "7", null);
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, null, "Help Desc", MenuConstants.HELP, "6", null);
+        //new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, null, "Issues", MenuConstants.CLONE, "8", null);
         
         JavaButton pJavaButton = new JavaButton(toolbar.getNextLocation(ScreenConstants.FLUSH_LEFT, ScreenConstants.SET_ANCHOR), toolbar, null, ScreenConstants.DISPLAY_FIELD_DESC);
         pJavaButton.setClassInfo((ClassInfo)mainFile);
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, "?screen=" + FileHdrScreen.class.getName(), "File header");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, "?screen=" + DatabaseInfoScreen.class.getName(), "Database info");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, "?screen=" + LayoutScreen.class.getName(), "Layout");
+        //new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "File header", MenuConstants.FORM, "?screen=" + FileHdrScreen.class.getName(), null);
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Database info", MenuConstants.FORM, "?screen=" + DatabaseInfoScreen.class.getName(), null);
+        //new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Layout", MenuConstants.FORM, "?screen=" + LayoutScreen.class.getName(), null);
         String strJob = null;
         strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
         strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ExportRecordsToXmlScreen.class.getName());    // Screen class
         strJob = Utility.addURLParam(strJob, "newwindow", DBConstants.TRUE);    // Screen class
         strJob = Utility.addURLParam(strJob, ConvertCode.DIR_PREFIX, Utility.addToPath(((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath(), this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.ARCHIVE_DIRECTORY).toString()));    // Screen class
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Export");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Export", "Export", strJob, null);
         strJob = Utility.addURLParam(strJob, "mode", "import");
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Import");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Import", "Import", strJob, null);
         
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, "?screen=" + org.jbundle.app.program.access.AccessGridScreen.class.getName(), "Maintenance");
+        //new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Maintenance", MenuConstants.FORM, "?screen=" + org.jbundle.app.program.access.AccessGridScreen.class.getName(), null);
         strJob = null;
         strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
         strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ".app.program.manual.util.process.CopyHelpInfo");    // Screen class
-        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, strJob, "Scan Help");
+        new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Scan Help", MenuConstants.RUN, strJob, null);
         
         return toolbar;
     }
@@ -211,8 +233,9 @@ public class ClassInfoScreen extends DetailScreen
             strCommand = Utility.addURLParam(strCommand, "project", Converter.stripNonNumber(this.getMainRecord().getField(ClassInfo.CLASS_PROJECT_ID).toString()));
         }
         
+        if (!DBConstants.RESET.equalsIgnoreCase(strCommand))
         if ((this.getMainRecord().getEditMode() == DBConstants.EDIT_ADD)
-            || (this.getMainRecord().getEditMode() == DBConstants.EDIT_CURRENT))
+            || (this.getMainRecord().getEditMode() == DBConstants.EDIT_IN_PROGRESS))
         {
             try {
                 this.getMainRecord().writeAndRefresh(false);    // Make sure data is current before doing any command.

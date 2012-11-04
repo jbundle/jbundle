@@ -896,4 +896,17 @@
 		<DisplayClass/>
 		<MaintClass/>
 	</FileHdr>
+	<FileHdr ID="16777576">
+		<LastChanged>2012-11-01T16:41:21</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>Test</FileName>
+		<FileDesc/>
+		<FileMainFilename>Test</FileMainFilename>
+		<Type>REMOTE</Type>
+		<FileNotes/>
+		<DatabaseName/>
+		<FileRecCalled/>
+		<DisplayClass/>
+		<MaintClass/>
+	</FileHdr>
 </file>

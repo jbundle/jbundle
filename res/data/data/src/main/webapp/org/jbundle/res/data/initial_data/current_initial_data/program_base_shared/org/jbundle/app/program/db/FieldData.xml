@@ -1012,10 +1012,10 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781627">
-		<LastChanged>2010-02-03T15:08:39</LastChanged>
+		<LastChanged>2012-11-01T17:32:45</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ClassType</FieldName>
-		<FieldClass>StringField</FieldClass>
+		<FieldClass>ClassTypeField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
@@ -1078,10 +1078,10 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781631">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-01T17:36:37</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>FieldClass</FieldName>
-		<FieldClass>StringField</FieldClass>
+		<FieldClass>FieldClassField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
@@ -1364,10 +1364,10 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781647">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-01T14:43:18</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>Type</FieldName>
-		<FieldClass>StringField</FieldClass>
+		<FieldClass>FileTypeField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
@@ -12892,14 +12892,14 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784855">
-		<LastChanged>2010-12-06T04:37:06</LastChanged>
+		<LastChanged>2012-11-02T08:53:48</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>Name</FieldName>
 		<FieldClass/>
 		<BaseFieldName>Name</BaseFieldName>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength/>
+		<MaximumLength>100</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
 		<FieldDescription>Project name</FieldDescription>
@@ -12914,14 +12914,14 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784856">
-		<LastChanged>2010-02-03T05:49:58</LastChanged>
+		<LastChanged>2012-11-02T08:54:00</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>PackageName</FieldName>
 		<FieldClass>StringField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength>30</MaximumLength>
+		<MaximumLength>100</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
 		<FieldDescription>Start of package name</FieldDescription>
@@ -12936,14 +12936,14 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784857">
-		<LastChanged>2010-02-03T01:52:34</LastChanged>
+		<LastChanged>2012-11-02T08:54:05</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ProjectPath</FieldName>
 		<FieldClass>StringField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength>128</MaximumLength>
+		<MaximumLength>100</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
 		<FieldDescription>Project path (Defaults to project name)</FieldDescription>
@@ -13310,14 +13310,14 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784875">
-		<LastChanged>2010-02-03T01:56:16</LastChanged>
+		<LastChanged>2012-11-02T08:54:22</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ThinProjectPath</FieldName>
 		<FieldClass>StringField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength>128</MaximumLength>
+		<MaximumLength>100</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
 		<FieldDescription>Thin code project path (Defaults to project path)</FieldDescription>
@@ -13332,14 +13332,14 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784876">
-		<LastChanged>2010-02-03T01:56:26</LastChanged>
+		<LastChanged>2012-11-02T08:54:32</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ResProjectPath</FieldName>
 		<FieldClass>StringField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength>128</MaximumLength>
+		<MaximumLength>100</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
 		<FieldDescription>Resources project path (Defaults to project path)</FieldDescription>
@@ -13442,14 +13442,14 @@
 		<IncludeScope>1</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784882">
-		<LastChanged>2010-02-03T15:39:06</LastChanged>
+		<LastChanged>2012-11-02T08:53:53</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>Description</FieldName>
 		<FieldClass>StringField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength>40</MaximumLength>
+		<MaximumLength>100</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
 		<FieldDescription/>
@@ -13618,18 +13618,18 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784890">
-		<LastChanged>2010-02-04T15:41:17</LastChanged>
+		<LastChanged>2012-11-02T08:54:18</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ThinPackage</FieldName>
 		<FieldClass>StringField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength>40</MaximumLength>
+		<MaximumLength>100</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription>Package name (start with a '.' to make the package relative)</FieldDescription>
-		<FieldDescVertical>Package name</FieldDescVertical>
+		<FieldDescription>Thin package name (start with a '.' to make the package relative)</FieldDescription>
+		<FieldDescVertical>Thin package</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension/>
 		<FieldFileName>ClassProject</FieldFileName>
@@ -13640,14 +13640,14 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784891">
-		<LastChanged>2010-02-04T15:42:07</LastChanged>
+		<LastChanged>2012-11-02T08:54:27</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ResourcePackage</FieldName>
 		<FieldClass>StringField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength>40</MaximumLength>
+		<MaximumLength>100</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
 		<FieldDescription>Resource package (start with a '.' to make the path relative)</FieldDescription>
@@ -13992,17 +13992,17 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784907">
-		<LastChanged>2012-01-07T10:27:21</LastChanged>
+		<LastChanged>2012-11-02T08:54:09</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>InterfacePackage</FieldName>
 		<FieldClass>StringField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength>40</MaximumLength>
+		<MaximumLength>100</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription>Package name (start with a '.' to make the package relative)</FieldDescription>
+		<FieldDescription>Interface/Model package name (start with a '.' to make the package relative)</FieldDescription>
 		<FieldDescVertical>Interface pkg</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension/>
@@ -14014,17 +14014,17 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784908">
-		<LastChanged>2012-01-07T10:27:43</LastChanged>
+		<LastChanged>2012-11-02T08:54:14</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>InterfaceProjectPath</FieldName>
 		<FieldClass>StringField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength>128</MaximumLength>
+		<MaximumLength>100</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription>Interface code project path (Defaults to project path)</FieldDescription>
+		<FieldDescription>Interface/Model code project path (Defaults to project path)</FieldDescription>
 		<FieldDescVertical>Interface path</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension/>

@@ -123,7 +123,7 @@ public class ClassProject extends Folder
         //}
         if (iFieldSeq == 3)
         {
-            field = new StringField(this, NAME, 40, null, null);
+            field = new StringField(this, NAME, 100, null, null);
             field.setNullable(false);
         }
         if (iFieldSeq == 4)
@@ -135,25 +135,25 @@ public class ClassProject extends Folder
         //if (iFieldSeq == 7)
         //  field = new StringField(this, CODE, 30, null, null);
         if (iFieldSeq == 8)
-            field = new StringField(this, DESCRIPTION, 40, null, null);
+            field = new StringField(this, DESCRIPTION, 100, null, null);
         if (iFieldSeq == 9)
             field = new BooleanField(this, SYSTEM_CLASSES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 10)
-            field = new StringField(this, PACKAGE_NAME, 30, null, null);
+            field = new StringField(this, PACKAGE_NAME, 100, null, null);
         if (iFieldSeq == 11)
-            field = new StringField(this, PROJECT_PATH, 128, null, null);
+            field = new StringField(this, PROJECT_PATH, 100, null, null);
         if (iFieldSeq == 12)
-            field = new StringField(this, INTERFACE_PACKAGE, 40, null, null);
+            field = new StringField(this, INTERFACE_PACKAGE, 100, null, null);
         if (iFieldSeq == 13)
-            field = new StringField(this, INTERFACE_PROJECT_PATH, 128, null, null);
+            field = new StringField(this, INTERFACE_PROJECT_PATH, 100, null, null);
         if (iFieldSeq == 14)
-            field = new StringField(this, THIN_PACKAGE, 40, null, null);
+            field = new StringField(this, THIN_PACKAGE, 100, null, null);
         if (iFieldSeq == 15)
-            field = new StringField(this, THIN_PROJECT_PATH, 128, null, null);
+            field = new StringField(this, THIN_PROJECT_PATH, 100, null, null);
         if (iFieldSeq == 16)
-            field = new StringField(this, RESOURCE_PACKAGE, 40, null, null);
+            field = new StringField(this, RESOURCE_PACKAGE, 100, null, null);
         if (iFieldSeq == 17)
-            field = new StringField(this, RES_PROJECT_PATH, 128, null, null);
+            field = new StringField(this, RES_PROJECT_PATH, 100, null, null);
         if (iFieldSeq == 18)
             field = new PropertiesField(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 19)
@@ -188,6 +188,51 @@ public class ClassProject extends Folder
         if (keyArea == null)
             keyArea = super.setupKey(iKeyArea);     
         return keyArea;
+    }
+    /**
+     * AddMasterListeners Method.
+     */
+    public void addMasterListeners()
+    {
+        super.addMasterListeners();
+        
+        this.getField(ClassProject.PACKAGE_NAME).addListener(new MoveOnChangeHandler(this.getField(ClassProject.INTERFACE_PACKAGE), null, false, true)
+        {
+            public int moveSourceToDest(boolean bDisplayOption, int iMoveMode)
+            {
+                String packageName = (getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE) == null) ? "" : getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.INTERFACE_PACKAGE).toString();
+                if (packageName.startsWith("."))
+                    return m_fldDest.setString(m_fldSource.getString() + packageName, bDisplayOption, iMoveMode);   // Move dependent field to here
+                else
+                    return super.moveSourceToDest(bDisplayOption, iMoveMode);
+            }            
+        });
+        this.getField(ClassProject.PACKAGE_NAME).addListener(new MoveOnChangeHandler(this.getField(ClassProject.THIN_PACKAGE), null, false, true)
+        {
+            public int moveSourceToDest(boolean bDisplayOption, int iMoveMode)
+            {
+                String packageName = (getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE) == null) ? "" : getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.THIN_PACKAGE).toString();
+                if (packageName.startsWith("."))
+                    return m_fldDest.setString(m_fldSource.getString() + packageName, bDisplayOption, iMoveMode);   // Move dependent field to here
+                else
+                    return super.moveSourceToDest(bDisplayOption, iMoveMode);
+            }            
+        });
+        this.getField(ClassProject.PACKAGE_NAME).addListener(new MoveOnChangeHandler(this.getField(ClassProject.RESOURCE_PACKAGE), null, false, true)
+        {
+            public int moveSourceToDest(boolean bDisplayOption, int iMoveMode)
+            {
+                String packageName = (getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE) == null) ? "" : getRecordOwner().getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.RESOURCE_PACKAGE).toString();
+                if (packageName.startsWith("."))
+                    return m_fldDest.setString(m_fldSource.getString() + packageName, bDisplayOption, iMoveMode);   // Move dependent field to here
+                else
+                    return super.moveSourceToDest(bDisplayOption, iMoveMode);
+            }            
+        });
+        
+        this.getField(ClassProject.PROJECT_PATH).addListener(new MoveOnChangeHandler(this.getField(ClassProject.INTERFACE_PROJECT_PATH), null, false, true));
+        this.getField(ClassProject.PROJECT_PATH).addListener(new MoveOnChangeHandler(this.getField(ClassProject.THIN_PROJECT_PATH), null, false, true));
+        this.getField(ClassProject.PROJECT_PATH).addListener(new MoveOnChangeHandler(this.getField(ClassProject.RES_PROJECT_PATH), null, false, true));
     }
     /**
      * Convert the command to the screen document type.
@@ -284,7 +329,7 @@ public class ClassProject extends Folder
         if (codeType == CodeType.THICK)
             if (!programControl.getField(ProgramControl.PACKAGE_NAME).isNull())
         {
-            if (programControl.getField(ProgramControl.THIN_PACKAGE).toString().startsWith("."))
+            if (programControl.getField(ProgramControl.PACKAGE_NAME).toString().startsWith("."))
                 startPackage = startPackage + programControl.getField(ProgramControl.PACKAGE_NAME).toString();
             else
                 startPackage = programControl.getField(ProgramControl.PACKAGE_NAME).toString();

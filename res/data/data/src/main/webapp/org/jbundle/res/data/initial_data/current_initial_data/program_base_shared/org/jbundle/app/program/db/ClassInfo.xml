@@ -11594,4 +11594,72 @@ previous date was oem]]></ClassDesc>
 		<TechnicalInfo/>
 		<CopyDescFrom/>
 	</ClassInfo>
+	<ClassInfo ID="16779713">
+		<LastChanged>2012-11-01T14:45:12</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>FileTypeField</ClassName>
+		<BaseClassName>StringPopupField</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,328</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>FileTypeField</ClassSourceFile>
+		<ClassType>Field</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779714">
+		<LastChanged>2012-11-01T16:41:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>Test</ClassName>
+		<BaseClassName/>
+		<ClassDesc/>
+		<ClassProjectID/>
+		<ClassPackage/>
+		<ClassSourceFile>Test</ClassSourceFile>
+		<ClassType/>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779715">
+		<LastChanged>2012-11-01T17:35:48</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>ClassTypeField</ClassName>
+		<BaseClassName>StringPopupField</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,328</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>ClassTypeField</ClassSourceFile>
+		<ClassType>field</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779716">
+		<LastChanged>2012-11-01T17:42:07</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>FieldClassField</ClassName>
+		<BaseClassName>StringPopupField</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,328</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>FieldClassField</ClassSourceFile>
+		<ClassType>field</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
 </file>

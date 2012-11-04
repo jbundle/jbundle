@@ -124,7 +124,7 @@ public class FileHdr extends VirtualRecord
         if (iFieldSeq == 5)
             field = new StringField(this, FILE_MAIN_FILENAME, 40, null, null);
         if (iFieldSeq == 6)
-            field = new StringField(this, TYPE, 60, null, null);
+            field = new FileTypeField(this, TYPE, 60, null, null);
         if (iFieldSeq == 7)
             field = new MemoField(this, FILE_NOTES, 9999, null, null);
         if (iFieldSeq == 8)
@@ -183,6 +183,14 @@ public class FileHdr extends VirtualRecord
             if (strFileType.indexOf("MAPPED") != -1)
                 bPhysicalFile = false;  // Only the base table is considered physical
         return bPhysicalFile;
+    }
+    /**
+     * AddMasterListeners Method.
+     */
+    public void addMasterListeners()
+    {
+        super.addMasterListeners();
+        this.getField(FileHdr.FILE_NAME).addListener(new MoveOnChangeHandler(this.getField(FileHdr.FILE_MAIN_FILENAME), null, false, true));
     }
 
 }

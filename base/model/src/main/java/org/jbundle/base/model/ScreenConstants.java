@@ -89,7 +89,7 @@ public interface ScreenConstants //x extends JScreenConstants
     public static final short DONT_SET_ANCHOR = 3;
     public static final short FILL_REMAINDER = 4; // Grow the control to fill the parent screen
 
-    public static final short MAX_SINGLE_LINE_CHARS = 65;
+    public static final short MAX_SINGLE_LINE_CHARS = 100;
     public static final short MAX_SINGLE_CHARS = 50;
     public static final short MAX_SINGLE_LINES = 2;
     public static final short MAX_DOUBLE_LINE_CHARS = MAX_SINGLE_LINE_CHARS * 2;

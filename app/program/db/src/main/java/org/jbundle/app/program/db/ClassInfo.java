@@ -145,7 +145,7 @@ public class ClassInfo extends VirtualRecord
             field = new StringField(this, CLASS_SOURCE_FILE, 40, null, null);
         if (iFieldSeq == 9)
         {
-            field = new StringField(this, CLASS_TYPE, 20, null, null);
+            field = new ClassTypeField(this, CLASS_TYPE, 20, null, null);
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 10)

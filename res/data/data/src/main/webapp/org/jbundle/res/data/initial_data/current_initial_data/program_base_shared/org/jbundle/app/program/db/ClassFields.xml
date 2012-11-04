@@ -13115,4 +13115,49 @@
 		<ClassFieldsType>P</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
+	<ClassFields ID="16782643">
+		<LastChanged>2012-11-01T15:24:55</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassInfoScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>TaskScheduler</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782644">
+		<LastChanged>2012-11-01T15:25:09</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassInfoScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>BaseApplet</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782645">
+		<LastChanged>2012-11-02T08:41:17</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassProjectScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ProgramControl</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
 </file>

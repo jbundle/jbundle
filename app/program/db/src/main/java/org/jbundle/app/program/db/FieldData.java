@@ -122,7 +122,7 @@ public class FieldData extends VirtualRecord
             field.setNullable(false);
         }
         if (iFieldSeq == 4)
-            field = new StringField(this, FIELD_CLASS, 40, null, null);
+            field = new FieldClassField(this, FIELD_CLASS, 40, null, null);
         if (iFieldSeq == 5)
             field = new StringField(this, BASE_FIELD_NAME, 40, null, null);
         if (iFieldSeq == 6)
