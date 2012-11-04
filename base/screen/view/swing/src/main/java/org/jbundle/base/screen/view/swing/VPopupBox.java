@@ -18,6 +18,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
@@ -285,7 +286,7 @@ public class VPopupBox extends VScreenField
             iCurrentIndex = ((JComboBox)control).getSelectedIndex();
             if (iCurrentIndex == -1)
                 if (((JComboBox)control).isEditable())
-                    return ((JComboBox)control).getSelectedItem();  // Special case - Combo Box (with input area).
+                    return ((JTextField)(((JComboBox)control).getEditor()).getEditorComponent()).getText();  // Special case - Combo Box (with input area).
         }
         return new Integer(iCurrentIndex);
     }
@@ -299,16 +300,22 @@ public class VPopupBox extends VScreenField
     {
         int iCurrentIndex = -1;
         if (objValue instanceof Integer)
-            iCurrentIndex = ((Integer)objValue).intValue();
-        if (iCurrentIndex != ((JComboBox)control).getSelectedIndex()) // Only for changes
         {
-            ((JComboBox)control).removeItemListener(this);  // Don't respond when system say's I was changed
-            try {
-            	((JComboBox)control).setSelectedIndex(iCurrentIndex); // Not found, try to find this string
-            } catch (IllegalArgumentException ex) {
-            	ex.printStackTrace();//((JComboBox)control).setSelectedIndex(0);
+            iCurrentIndex = ((Integer)objValue).intValue();
+            if (iCurrentIndex != ((JComboBox)control).getSelectedIndex()) // Only for changes
+            {
+                ((JComboBox)control).removeItemListener(this);  // Don't respond when system say's I was changed
+                try {
+                	((JComboBox)control).setSelectedIndex(iCurrentIndex); // Not found, try to find this string
+                } catch (IllegalArgumentException ex) {
+                	ex.printStackTrace();//((JComboBox)control).setSelectedIndex(0);
+                }
+                ((JComboBox)control).addItemListener(this);   // Don't respond when system say's I was changed
             }
-            ((JComboBox)control).addItemListener(this);   // Don't respond when system say's I was changed
+        }
+        else if ((objValue instanceof String) && (((JComboBox)control).isEditable()))
+        {
+            ((JTextField)(((JComboBox)control).getEditor()).getEditorComponent()).setText((String)objValue);  // Special case - Combo Box (with input area).
         }
     }
     /**
@@ -355,7 +362,7 @@ public class VPopupBox extends VScreenField
                 ((JComboBox)control).setSelectedItem(tempString); // Not found, try to find this string
                 ((JComboBox)control).addItemListener(this);
                 thisItem = ((JComboBox)control).getSelectedIndex();
-                if (thisItem == 0) if (!tempString.equals(((JComboBox)control).getSelectedItem()))
+                if ((thisItem == 0) && (!tempString.equals(((JComboBox)control).getSelectedItem())))
                 { // Still didn't find it! If this is the initial value, just set it to the first item to match the display
                 BaseField field = (BaseField)this.getScreenField().getConverter().getField();
                     if (field != null)
@@ -376,6 +383,10 @@ public class VPopupBox extends VScreenField
                             }
                         }
                     }
+                }
+                else if ((thisItem == -1) && (((JComboBox)control).isEditable()))
+                {   // Free text in a combo box = return the data
+                    return this.getScreenField().getConverter().getString();
                 }
             }
         }

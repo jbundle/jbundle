@@ -13,8 +13,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.util.EventObject;
 
 import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.screen.control.swing.util.ScreenInfo;
@@ -95,5 +99,42 @@ public class VComboBox extends VPopupBox
         Dimension itsSize = this.getTextBoxSize(maxLength, ScreenConstants.POPUP_DESC, 1);
         itsSize.width += ScreenInfo.EXTRA_COL_SPACING;
         return new Rectangle(ptLocation.x , ptLocation.y, itsSize.width, itsSize.height);
+    }
+    /**
+     * Ask the editor if it can start editing using anEvent. anEvent is in the invoking component coordinate system. The editor
+     * can not assume the Component returned by getCellEditorComponent() is installed. This method is intended for the use of
+     * client to avoid the cost of setting up and installing the editor component if editing is not possible. If editing can be started
+     * this method returns true. 
+     * @param anEvent - the event the editor should use to consider whether to begin editing or not. 
+     * @return true if editing can be started. 
+     */
+    public boolean isCellEditable(EventObject anEvent)
+    {
+        lastKeyTyped = 0;
+        if (anEvent instanceof KeyEvent)
+            lastKeyTyped = ((KeyEvent)anEvent).getKeyChar(); // Hack, First key is not passed to newly focused component.
+        return super.isCellEditable(anEvent);
+    }
+    char lastKeyTyped = 0;
+    /**
+     * Sets an initial value for the editor. This will cause the editor to stopEditing and lose any partially edited value if the editor
+     * is editing when this method is called. 
+     */
+    public Component getTableCellEditorComponent(JTable table,
+                                                       Object value,
+                                                       boolean isSelected,
+                                                       int row,
+                                                       int column)
+    {
+        char lastKey = lastKeyTyped;
+        JComboBox component = (JComboBox)super.getTableCellEditorComponent(table, value, isSelected, row, column);
+        if (component.isEditable())
+            if (lastKey != 0)
+        { // Hack, First key is not passed to newly focused component.
+            String text = ((JTextField)(((JComboBox)component).getEditor()).getEditorComponent()).getText();
+            ((JTextField)(((JComboBox)component).getEditor()).getEditorComponent()).setText(text + lastKey);
+        }
+        lastKeyTyped = 0;
+        return component;
     }
 }
