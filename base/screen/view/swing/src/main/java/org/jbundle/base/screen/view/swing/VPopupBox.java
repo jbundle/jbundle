@@ -283,8 +283,8 @@ public class VPopupBox extends VScreenField
         int iCurrentIndex = -1;
         if (control != null)
         {
-            iCurrentIndex = ((JComboBox)control).getSelectedIndex();
-            if (iCurrentIndex == -1)
+//            iCurrentIndex = ((JComboBox)control).getSelectedIndex();
+//            if (iCurrentIndex == -1)
                 if (((JComboBox)control).isEditable())
                     return ((JTextField)(((JComboBox)control).getEditor()).getEditorComponent()).getText();  // Special case - Combo Box (with input area).
         }
