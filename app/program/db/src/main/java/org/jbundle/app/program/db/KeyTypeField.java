@@ -27,6 +27,9 @@ import org.jbundle.model.screen.*;
  */
 public class KeyTypeField extends StringPopupField
 {
+    public static final String UNIQUE = "U";
+    public static final String NOT_UNIQUE = "N";
+    public static final String SECONDARY = "S";
     /**
      * Default constructor.
      */

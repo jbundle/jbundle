@@ -101,6 +101,47 @@ public class VComboBox extends VPopupBox
         return new Rectangle(ptLocation.x , ptLocation.y, itsSize.width, itsSize.height);
     }
     /**
+     * Get this component's current state in an object that can be used to set this
+     * component's converter value using setConverterState(obj).
+     * <p/>Note: control is always valid. No not touch the converter.
+     * @param control The control to get the state from.
+     * @return The control's value.
+     */
+    public Object getComponentState(Object control)
+    {
+        return ((JTextField)(((JComboBox)control).getEditor()).getEditorComponent()).getText();  // Special case - Combo Box (with input area).
+    }
+    /**
+     * Set the component to this state. State is defined by the component.
+     * <p/>Note: control is always valid. No not touch the converter.
+     * @param control The control to set the state to.
+     * @param objValue The value to set the control to.
+     */
+    public void setComponentState(Object control, Object objValue)
+    {
+        ((JTextField)(((JComboBox)control).getEditor()).getEditorComponent()).setText((String)objValue);  // Special case - Combo Box (with input area).
+    }
+    /**
+     * Get this field's current state in an object that can be used to set this
+     * component's converter value using setConverterState(obj).
+     * @return The field's value (class defined by the field type).
+     */
+    public Object getFieldState()
+    {
+        return this.getScreenField().getConverter().getString();   // Free text in a combo box = return the data
+    }
+    /**
+     * Set the converter to this state. State is defined by the component.
+     * @param objValue The value to set the field to (class of object depends on the control).
+     * @param bDisplayOption Display the data on the screen if true.
+     * @param iMoveMode INIT, SCREEN, or READ move mode.
+     * @return Error code.
+     */
+    public int setFieldState(Object objValue, boolean bDisplayOption, int iMoveMode)
+    {
+        return this.getScreenField().getConverter().setString((String)objValue, bDisplayOption, iMoveMode);
+    }
+    /**
      * Ask the editor if it can start editing using anEvent. anEvent is in the invoking component coordinate system. The editor
      * can not assume the Component returned by getCellEditorComponent() is installed. This method is intended for the use of
      * client to avoid the cost of setting up and installing the editor component if editing is not possible. If editing can be started

@@ -18,7 +18,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
-import javax.swing.JTextField;
 
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
@@ -282,12 +281,7 @@ public class VPopupBox extends VScreenField
     {
         int iCurrentIndex = -1;
         if (control != null)
-        {
-//            iCurrentIndex = ((JComboBox)control).getSelectedIndex();
-//            if (iCurrentIndex == -1)
-                if (((JComboBox)control).isEditable())
-                    return ((JTextField)(((JComboBox)control).getEditor()).getEditorComponent()).getText();  // Special case - Combo Box (with input area).
-        }
+            iCurrentIndex = ((JComboBox)control).getSelectedIndex();
         return new Integer(iCurrentIndex);
     }
     /**
@@ -312,10 +306,6 @@ public class VPopupBox extends VScreenField
                 }
                 ((JComboBox)control).addItemListener(this);   // Don't respond when system say's I was changed
             }
-        }
-        else if ((objValue instanceof String) && (((JComboBox)control).isEditable()))
-        {
-            ((JTextField)(((JComboBox)control).getEditor()).getEditorComponent()).setText((String)objValue);  // Special case - Combo Box (with input area).
         }
     }
     /**
@@ -383,10 +373,6 @@ public class VPopupBox extends VScreenField
                             }
                         }
                     }
-                }
-                else if ((thisItem == -1) && (((JComboBox)control).isEditable()))
-                {   // Free text in a combo box = return the data
-                    return this.getScreenField().getConverter().getString();
                 }
             }
         }

@@ -15,6 +15,7 @@ import org.jbundle.app.program.db.FieldData;
 import org.jbundle.app.program.db.FileHdr;
 import org.jbundle.app.program.db.IncludeScopeField;
 import org.jbundle.app.program.db.KeyInfo;
+import org.jbundle.app.program.db.KeyTypeField;
 import org.jbundle.app.program.db.ProgramControl;
 import org.jbundle.app.program.db.util.ResourcesUtilities;
 import org.jbundle.app.program.manual.util.data.FieldStuff;
@@ -680,11 +681,11 @@ public class WriteRecordClass extends WriteSharedClass
             strKeyType = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
             strDaoKeyName = this.fixSQLName(strDaoKeyName);
             String strUnique = "UNIQUE";
-            if (strKeyType.equalsIgnoreCase("U"))
+            if (strKeyType.equalsIgnoreCase(KeyTypeField.UNIQUE))
                 strUnique = "UNIQUE";
-            else if (strKeyType.equalsIgnoreCase("N"))
+            else if (strKeyType.equalsIgnoreCase(KeyTypeField.NOT_UNIQUE))
                 strUnique = "NOT_UNIQUE";
-            else if (strKeyType.equalsIgnoreCase("S"))
+            else if (strKeyType.equalsIgnoreCase(KeyTypeField.SECONDARY))
                 strUnique = "SECONDARY_KEY";
             else
             {   // Not specified.
@@ -1020,9 +1021,9 @@ public class WriteRecordClass extends WriteSharedClass
                 String keyTypeStr, strKeyFieldName;
                 keyTypeStr = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
                 if (keyTypeStr.length() == 0)
-                    keyTypeStr = "U"; // Unique key if no selection
+                    keyTypeStr = KeyTypeField.UNIQUE; // Unique key if no selection
                 strKeyFieldName = recKeyInfo.getField(KeyInfo.KEY_FIELD_2).getString();
-                if (((keyTypeStr.charAt(0) == 'U') || (keyTypeStr.charAt(0) == 'Y')) && (strKeyFieldName.length() == 0))
+                if (((keyTypeStr.charAt(0) == KeyTypeField.UNIQUE.charAt(0)) || (keyTypeStr.charAt(0) == 'Y')) && (strKeyFieldName.length() == 0))
                     { // Unique key with one field, default logic... always try to read
                     strKeyFieldName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
                     uniqueKeyFields[uniqueKeyCount] = strKeyFieldName;
@@ -1306,11 +1307,11 @@ public class WriteRecordClass extends WriteSharedClass
                 strKeyType = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
                 strDaoKeyName = this.fixSQLName(strDaoKeyName);
                 String strUnique = "UNIQUE";
-                if (strKeyType.equalsIgnoreCase("U"))
+                if (strKeyType.equalsIgnoreCase(KeyTypeField.UNIQUE))
                     strUnique = "UNIQUE";
-                else if (strKeyType.equalsIgnoreCase("N"))
+                else if (strKeyType.equalsIgnoreCase(KeyTypeField.NOT_UNIQUE))
                     strUnique = "NOT_UNIQUE";
-                else if (strKeyType.equalsIgnoreCase("S"))
+                else if (strKeyType.equalsIgnoreCase(KeyTypeField.SECONDARY))
                     strUnique = "SECONDARY_KEY";
                 else
                 {   // Not specified.
