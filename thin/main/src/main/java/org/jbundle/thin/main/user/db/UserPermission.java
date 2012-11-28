@@ -77,16 +77,16 @@ public class UserPermission extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "UserGroupID");
-        keyArea.addKeyField("UserGroupID", Constants.ASCENDING);
-        keyArea.addKeyField("UserResourceID", Constants.ASCENDING);
-        keyArea.addKeyField("LoginLevel", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "UserResourceID");
-        keyArea.addKeyField("UserResourceID", Constants.ASCENDING);
-        keyArea.addKeyField("UserGroupID", Constants.ASCENDING);
-        keyArea.addKeyField("LoginLevel", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, USER_GROUP_ID_KEY);
+        keyArea.addKeyField(USER_GROUP_ID, Constants.ASCENDING);
+        keyArea.addKeyField(USER_RESOURCE_ID, Constants.ASCENDING);
+        keyArea.addKeyField(LOGIN_LEVEL, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, USER_RESOURCE_ID_KEY);
+        keyArea.addKeyField(USER_RESOURCE_ID, Constants.ASCENDING);
+        keyArea.addKeyField(USER_GROUP_ID, Constants.ASCENDING);
+        keyArea.addKeyField(LOGIN_LEVEL, Constants.ASCENDING);
     }
 
 }

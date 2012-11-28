@@ -132,19 +132,19 @@ public class UserPermission extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "UserGroupID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, USER_GROUP_ID_KEY);
             keyArea.addKeyField(USER_GROUP_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(USER_RESOURCE_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(LOGIN_LEVEL, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "UserResourceID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, USER_RESOURCE_ID_KEY);
             keyArea.addKeyField(USER_RESOURCE_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(USER_GROUP_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(LOGIN_LEVEL, DBConstants.ASCENDING);

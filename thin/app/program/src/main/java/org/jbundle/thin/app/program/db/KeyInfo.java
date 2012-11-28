@@ -87,11 +87,11 @@ public class KeyInfo extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "KeyFilename");
-        keyArea.addKeyField("KeyFilename", Constants.ASCENDING);
-        keyArea.addKeyField("KeyNumber", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, KEY_FILENAME_KEY);
+        keyArea.addKeyField(KEY_FILENAME, Constants.ASCENDING);
+        keyArea.addKeyField(KEY_NUMBER, Constants.ASCENDING);
     }
 
 }

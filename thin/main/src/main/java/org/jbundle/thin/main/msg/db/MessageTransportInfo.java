@@ -84,12 +84,12 @@ public class MessageTransportInfo extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "MessageProcessInfoID");
-        keyArea.addKeyField("MessageProcessInfoID", Constants.ASCENDING);
-        keyArea.addKeyField("MessageTransportID", Constants.ASCENDING);
-        keyArea.addKeyField("MessageVersionID", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, MESSAGE_PROCESS_INFO_ID_KEY);
+        keyArea.addKeyField(MESSAGE_PROCESS_INFO_ID, Constants.ASCENDING);
+        keyArea.addKeyField(MESSAGE_TRANSPORT_ID, Constants.ASCENDING);
+        keyArea.addKeyField(MESSAGE_VERSION_ID, Constants.ASCENDING);
     }
 
 }

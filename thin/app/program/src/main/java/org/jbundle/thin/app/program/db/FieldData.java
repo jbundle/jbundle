@@ -65,7 +65,7 @@ public class FieldData extends FieldList
         field.setDataClass(Boolean.class);
         field.setHidden(true);
         field = new FieldInfo(this, FIELD_NAME, 40, null, null);
-        field = new FieldInfo(this, FIELD_CLASS, 40, null, "StringField");
+        field = new FieldInfo(this, FIELD_CLASS, 40, null, null);
         field = new FieldInfo(this, BASE_FIELD_NAME, 40, null, null);
         field = new FieldInfo(this, DEPENDENT_FIELD_NAME, 40, null, null);
         field = new FieldInfo(this, MINIMUM_LENGTH, 4, null, null);
@@ -96,14 +96,14 @@ public class FieldData extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "FieldFileName");
-        keyArea.addKeyField("FieldFileName", Constants.ASCENDING);
-        keyArea.addKeyField("FieldSeqNo", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "FieldName");
-        keyArea.addKeyField("FieldFileName", Constants.ASCENDING);
-        keyArea.addKeyField("FieldName", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, FIELD_FILE_NAME_KEY);
+        keyArea.addKeyField(FIELD_FILE_NAME, Constants.ASCENDING);
+        keyArea.addKeyField(FIELD_SEQ_NO, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, FIELD_NAME_KEY);
+        keyArea.addKeyField(FIELD_FILE_NAME, Constants.ASCENDING);
+        keyArea.addKeyField(FIELD_NAME, Constants.ASCENDING);
     }
 
 }

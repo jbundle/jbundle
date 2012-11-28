@@ -103,12 +103,12 @@ public class DatabaseInfo extends ControlRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Name");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, NAME_KEY);
             keyArea.addKeyField(NAME, DBConstants.ASCENDING);
         }
         if (keyArea == null)

@@ -130,22 +130,22 @@ public class QueueName extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Name");
+            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, NAME_KEY);
             keyArea.addKeyField(NAME, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Code");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, CODE_KEY);
             keyArea.addKeyField(CODE, DBConstants.ASCENDING);
         }
         if (iKeyArea == 3)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ExternalQueueName");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, EXTERNAL_QUEUE_NAME_KEY);
             keyArea.addKeyField(EXTERNAL_QUEUE_NAME, DBConstants.ASCENDING);
         }
         if (keyArea == null)

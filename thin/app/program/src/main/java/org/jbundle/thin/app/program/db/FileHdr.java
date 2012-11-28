@@ -81,10 +81,10 @@ public class FileHdr extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "FileName");
-        keyArea.addKeyField("FileName", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, FILE_NAME_KEY);
+        keyArea.addKeyField(FILE_NAME, Constants.ASCENDING);
     }
 
 }

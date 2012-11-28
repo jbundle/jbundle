@@ -95,12 +95,12 @@ public class ClassProject extends Folder
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ParentFolderID");
-        keyArea.addKeyField("ParentFolderID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Name");
-        keyArea.addKeyField("Name", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, PARENT_FOLDER_ID_KEY);
+        keyArea.addKeyField(PARENT_FOLDER_ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, NAME_KEY);
+        keyArea.addKeyField(NAME, Constants.ASCENDING);
     }
 
 }

@@ -91,11 +91,11 @@ public class ScreenIn extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ScreenInProgName");
-        keyArea.addKeyField("ScreenInProgName", Constants.ASCENDING);
-        keyArea.addKeyField("ScreenItemNumber", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, SCREEN_IN_PROG_NAME_KEY);
+        keyArea.addKeyField(SCREEN_IN_PROG_NAME, Constants.ASCENDING);
+        keyArea.addKeyField(SCREEN_ITEM_NUMBER, Constants.ASCENDING);
     }
 
 }

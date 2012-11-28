@@ -79,19 +79,19 @@ public class Registration extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ResourceID");
-        keyArea.addKeyField("ResourceID", Constants.ASCENDING);
-        keyArea.addKeyField("Language", Constants.ASCENDING);
-        keyArea.addKeyField("Locale", Constants.ASCENDING);
-        keyArea.addKeyField("KeyValue", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "Code");
-        keyArea.addKeyField("ResourceID", Constants.ASCENDING);
-        keyArea.addKeyField("Code", Constants.ASCENDING);
-        keyArea.addKeyField("Language", Constants.ASCENDING);
-        keyArea.addKeyField("Locale", Constants.ASCENDING);
-        keyArea.addKeyField("KeyValue", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, RESOURCE_ID_KEY);
+        keyArea.addKeyField(RESOURCE_ID, Constants.ASCENDING);
+        keyArea.addKeyField(LANGUAGE, Constants.ASCENDING);
+        keyArea.addKeyField(LOCALE, Constants.ASCENDING);
+        keyArea.addKeyField(KEY_VALUE, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, CODE_KEY);
+        keyArea.addKeyField(RESOURCE_ID, Constants.ASCENDING);
+        keyArea.addKeyField(CODE, Constants.ASCENDING);
+        keyArea.addKeyField(LANGUAGE, Constants.ASCENDING);
+        keyArea.addKeyField(LOCALE, Constants.ASCENDING);
+        keyArea.addKeyField(KEY_VALUE, Constants.ASCENDING);
     }
 
 }

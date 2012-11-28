@@ -236,12 +236,12 @@ public class UserInfo extends PropertiesRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "UserName");
+            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, USER_NAME_KEY);
             keyArea.addKeyField(USER_NAME, DBConstants.ASCENDING);
         }
         if (keyArea == null)

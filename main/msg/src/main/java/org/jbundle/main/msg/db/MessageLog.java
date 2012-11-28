@@ -243,30 +243,30 @@ public class MessageLog extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ReferenceID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, REFERENCE_ID_KEY);
             keyArea.addKeyField(REFERENCE_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(MESSAGE_TIME, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ContactTypeID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, CONTACT_TYPE_ID_KEY);
             keyArea.addKeyField(CONTACT_TYPE_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(CONTACT_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(MESSAGE_TIME, DBConstants.ASCENDING);
         }
         if (iKeyArea == 3)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "MessageTime");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, MESSAGE_TIME_KEY);
             keyArea.addKeyField(MESSAGE_TIME, DBConstants.ASCENDING);
         }
         if (iKeyArea == 4)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Timeout");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, TIMEOUT_KEY);
             keyArea.addKeyField(MESSAGE_STATUS_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(TIMEOUT_TIME, DBConstants.ASCENDING);
         }

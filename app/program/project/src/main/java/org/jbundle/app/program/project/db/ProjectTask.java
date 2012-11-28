@@ -190,12 +190,12 @@ public class ProjectTask extends Folder
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ParentProjectTaskID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, PARENT_PROJECT_TASK_ID_KEY);
             keyArea.addKeyField(PARENT_PROJECT_TASK_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(START_DATE_TIME, DBConstants.ASCENDING);
             keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);

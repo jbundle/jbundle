@@ -78,14 +78,14 @@ public class ProjectTaskPredecessor extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ProjectTaskID");
-        keyArea.addKeyField("ProjectTaskID", Constants.ASCENDING);
-        keyArea.addKeyField("ProjectTaskPredecessorID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ProjectTaskPredecessorID");
-        keyArea.addKeyField("ProjectTaskPredecessorID", Constants.ASCENDING);
-        keyArea.addKeyField("ProjectTaskID", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, PROJECT_TASK_ID_KEY);
+        keyArea.addKeyField(PROJECT_TASK_ID, Constants.ASCENDING);
+        keyArea.addKeyField(PROJECT_TASK_PREDECESSOR_ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, PROJECT_TASK_PREDECESSOR_ID_KEY);
+        keyArea.addKeyField(PROJECT_TASK_PREDECESSOR_ID, Constants.ASCENDING);
+        keyArea.addKeyField(PROJECT_TASK_ID, Constants.ASCENDING);
     }
 
 }

@@ -173,24 +173,24 @@ public class Issue extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Description");
+            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, DESCRIPTION_KEY);
             keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "IssuePriorityID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, ISSUE_PRIORITY_ID_KEY);
             keyArea.addKeyField(ISSUE_PRIORITY_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(ISSUE_SEQUENCE, DBConstants.ASCENDING);
             keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
         if (iKeyArea == 3)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassInfoID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, CLASS_INFO_ID_KEY);
             keyArea.addKeyField(CLASS_INFO_ID, DBConstants.ASCENDING);
         }
         if (keyArea == null)

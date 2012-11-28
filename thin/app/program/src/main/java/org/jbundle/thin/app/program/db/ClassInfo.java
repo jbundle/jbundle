@@ -92,18 +92,18 @@ public class ClassInfo extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ClassName");
-        keyArea.addKeyField("ClassName", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ClassSourceFile");
-        keyArea.addKeyField("ClassSourceFile", Constants.ASCENDING);
-        keyArea.addKeyField("ClassName", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "BaseClassName");
-        keyArea.addKeyField("BaseClassName", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ClassProjectID");
-        keyArea.addKeyField("ClassProjectID", Constants.ASCENDING);
-        keyArea.addKeyField("ClassName", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, CLASS_NAME_KEY);
+        keyArea.addKeyField(CLASS_NAME, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, CLASS_SOURCE_FILE_KEY);
+        keyArea.addKeyField(CLASS_SOURCE_FILE, Constants.ASCENDING);
+        keyArea.addKeyField(CLASS_NAME, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, BASE_CLASS_NAME_KEY);
+        keyArea.addKeyField(BASE_CLASS_NAME, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, CLASS_PROJECT_ID_KEY);
+        keyArea.addKeyField(CLASS_PROJECT_ID, Constants.ASCENDING);
+        keyArea.addKeyField(CLASS_NAME, Constants.ASCENDING);
     }
     /**
      * Get the link that will run this class.

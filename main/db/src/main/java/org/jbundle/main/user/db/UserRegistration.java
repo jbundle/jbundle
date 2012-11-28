@@ -132,12 +132,12 @@ public class UserRegistration extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "UserID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, USER_ID_KEY);
             keyArea.addKeyField(USER_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(CODE, DBConstants.ASCENDING);
         }

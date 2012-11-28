@@ -133,18 +133,18 @@ public class ProjectTaskPredecessor extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ProjectTaskID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, PROJECT_TASK_ID_KEY);
             keyArea.addKeyField(PROJECT_TASK_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(PROJECT_TASK_PREDECESSOR_ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ProjectTaskPredecessorID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, PROJECT_TASK_PREDECESSOR_ID_KEY);
             keyArea.addKeyField(PROJECT_TASK_PREDECESSOR_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(PROJECT_TASK_ID, DBConstants.ASCENDING);
         }

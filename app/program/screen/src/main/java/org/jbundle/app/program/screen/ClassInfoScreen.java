@@ -29,6 +29,7 @@ import org.jbundle.app.program.script.process.*;
 import org.jbundle.app.program.manual.convert.*;
 import org.jbundle.thin.base.thread.*;
 import org.jbundle.thin.base.screen.*;
+import org.jbundle.base.thread.*;
 
 /**
  *  ClassInfoScreen - .
@@ -131,7 +132,7 @@ public class ClassInfoScreen extends DetailScreen
                     strJob = Utility.addURLParam(strJob, "fileName", classInfo.getField(ClassInfo.CLASS_SOURCE_FILE).toString());
                     strJob = Utility.addURLParam(strJob, "package", classInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
                     strJob = Utility.addURLParam(strJob, "project", Converter.stripNonNumber(classInfo.getField(ClassInfo.CLASS_PROJECT_ID).toString()));
-                    strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
+                    strJob = Utility.addURLParam(strJob, DBParams.TASK, ProcessRunnerTask.class.getName()); // Screen class
                     js.addTask(strJob);                    
                 }
                 return iErrorCode;

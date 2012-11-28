@@ -139,12 +139,12 @@ public class MessageTransportInfo extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "MessageProcessInfoID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, MESSAGE_PROCESS_INFO_ID_KEY);
             keyArea.addKeyField(MESSAGE_PROCESS_INFO_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(MESSAGE_TRANSPORT_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(MESSAGE_VERSION_ID, DBConstants.ASCENDING);

@@ -106,10 +106,10 @@ public class UserInfo extends PropertiesRecord
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.SECONDARY_KEY, "UserName");
-        keyArea.addKeyField("UserName", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.SECONDARY_KEY, USER_NAME_KEY);
+        keyArea.addKeyField(USER_NAME, Constants.ASCENDING);
     }
     /**
      * GetUserInfo Method.

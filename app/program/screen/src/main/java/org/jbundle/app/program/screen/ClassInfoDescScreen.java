@@ -29,6 +29,7 @@ import org.jbundle.app.program.script.process.*;
 import org.jbundle.app.program.manual.convert.*;
 import org.jbundle.thin.base.thread.*;
 import org.jbundle.thin.base.screen.*;
+import org.jbundle.base.thread.*;
 
 /**
  *  ClassInfoDescScreen - .

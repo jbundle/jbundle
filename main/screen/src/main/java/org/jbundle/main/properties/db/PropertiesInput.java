@@ -125,12 +125,12 @@ public class PropertiesInput extends Record
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "Key");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, KEY_KEY);
             keyArea.addKeyField(KEY, DBConstants.ASCENDING);
         }
         if (keyArea == null)

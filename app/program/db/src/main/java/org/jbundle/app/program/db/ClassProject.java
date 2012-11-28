@@ -172,17 +172,17 @@ public class ClassProject extends Folder
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ParentFolderID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, PARENT_FOLDER_ID_KEY);
             keyArea.addKeyField(PARENT_FOLDER_ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Name");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, NAME_KEY);
             keyArea.addKeyField(NAME, DBConstants.ASCENDING);
         }
         if (keyArea == null)

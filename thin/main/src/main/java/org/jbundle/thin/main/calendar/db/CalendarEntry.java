@@ -87,16 +87,16 @@ public class CalendarEntry extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "StartDateTime");
-        keyArea.addKeyField("StartDateTime", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "AnnivMasterID");
-        keyArea.addKeyField("AnnivMasterID", Constants.ASCENDING);
-        keyArea.addKeyField("StartDateTime", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "CalendarCategoryID");
-        keyArea.addKeyField("CalendarCategoryID", Constants.ASCENDING);
-        keyArea.addKeyField("StartDateTime", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, START_DATE_TIME_KEY);
+        keyArea.addKeyField(START_DATE_TIME, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, ANNIV_MASTER_ID_KEY);
+        keyArea.addKeyField(ANNIV_MASTER_ID, Constants.ASCENDING);
+        keyArea.addKeyField(START_DATE_TIME, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, CALENDAR_CATEGORY_ID_KEY);
+        keyArea.addKeyField(CALENDAR_CATEGORY_ID, Constants.ASCENDING);
+        keyArea.addKeyField(START_DATE_TIME, Constants.ASCENDING);
     }
 
 }

@@ -134,22 +134,22 @@ public class Resource extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Code");
+            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, CODE_KEY);
             keyArea.addKeyField(CODE, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Description");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, DESCRIPTION_KEY);
             keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }
         if (iKeyArea == 3)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassProjectID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, CLASS_PROJECT_ID_KEY);
             keyArea.addKeyField(CLASS_PROJECT_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(DESCRIPTION, DBConstants.ASCENDING);
         }

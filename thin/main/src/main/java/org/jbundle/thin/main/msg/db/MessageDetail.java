@@ -93,13 +93,13 @@ public class MessageDetail extends PropertiesRecord
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ContactTypeID");
-        keyArea.addKeyField("ContactTypeID", Constants.ASCENDING);
-        keyArea.addKeyField("PersonID", Constants.ASCENDING);
-        keyArea.addKeyField("MessageProcessInfoID", Constants.ASCENDING);
-        keyArea.addKeyField("MessageTransportID", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, CONTACT_TYPE_ID_KEY);
+        keyArea.addKeyField(CONTACT_TYPE_ID, Constants.ASCENDING);
+        keyArea.addKeyField(PERSON_ID, Constants.ASCENDING);
+        keyArea.addKeyField(MESSAGE_PROCESS_INFO_ID, Constants.ASCENDING);
+        keyArea.addKeyField(MESSAGE_TRANSPORT_ID, Constants.ASCENDING);
     }
 
 }

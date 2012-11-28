@@ -85,11 +85,11 @@ public class AnalysisLog extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ObjectID");
-        keyArea.addKeyField("SystemID", Constants.ASCENDING);
-        keyArea.addKeyField("ObjectID", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, OBJECT_ID_KEY);
+        keyArea.addKeyField(SYSTEM_ID, Constants.ASCENDING);
+        keyArea.addKeyField(OBJECT_ID, Constants.ASCENDING);
     }
     /**
      * Log that this record has been added.

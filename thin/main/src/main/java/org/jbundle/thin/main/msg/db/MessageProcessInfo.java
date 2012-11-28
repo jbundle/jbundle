@@ -94,16 +94,16 @@ public class MessageProcessInfo extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "MessageInfoID");
-        keyArea.addKeyField("MessageInfoID", Constants.ASCENDING);
-        keyArea.addKeyField("MessageTypeID", Constants.ASCENDING);
-        keyArea.addKeyField("ProcessTypeID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Description");
-        keyArea.addKeyField("Description", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Code");
-        keyArea.addKeyField("Code", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, MESSAGE_INFO_ID_KEY);
+        keyArea.addKeyField(MESSAGE_INFO_ID, Constants.ASCENDING);
+        keyArea.addKeyField(MESSAGE_TYPE_ID, Constants.ASCENDING);
+        keyArea.addKeyField(PROCESS_TYPE_ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, DESCRIPTION_KEY);
+        keyArea.addKeyField(DESCRIPTION, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, CODE_KEY);
+        keyArea.addKeyField(CODE, Constants.ASCENDING);
     }
     /**
      * GetMessageProcessInfo Method.

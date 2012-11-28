@@ -111,13 +111,13 @@ public class ProjectTask extends Folder
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ParentProjectTaskID");
-        keyArea.addKeyField("ParentProjectTaskID", Constants.ASCENDING);
-        keyArea.addKeyField("StartDateTime", Constants.ASCENDING);
-        keyArea.addKeyField("Sequence", Constants.ASCENDING);
-        keyArea.addKeyField("Name", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, PARENT_PROJECT_TASK_ID_KEY);
+        keyArea.addKeyField(PARENT_PROJECT_TASK_ID, Constants.ASCENDING);
+        keyArea.addKeyField(START_DATE_TIME, Constants.ASCENDING);
+        keyArea.addKeyField(SEQUENCE, Constants.ASCENDING);
+        keyArea.addKeyField(NAME, Constants.ASCENDING);
     }
 
 }

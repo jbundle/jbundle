@@ -76,11 +76,11 @@ public class UserRegistration extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "UserID");
-        keyArea.addKeyField("UserID", Constants.ASCENDING);
-        keyArea.addKeyField("Code", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, USER_ID_KEY);
+        keyArea.addKeyField(USER_ID, Constants.ASCENDING);
+        keyArea.addKeyField(CODE, Constants.ASCENDING);
     }
 
 }

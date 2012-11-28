@@ -125,12 +125,12 @@ public class ClassIncludes extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassInfoID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, CLASS_INFO_ID_KEY);
             keyArea.addKeyField(CLASS_INFO_ID, DBConstants.ASCENDING);
         }
         if (keyArea == null)

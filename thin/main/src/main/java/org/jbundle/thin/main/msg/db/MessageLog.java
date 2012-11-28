@@ -118,20 +118,20 @@ public class MessageLog extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ReferenceID");
-        keyArea.addKeyField("ReferenceID", Constants.ASCENDING);
-        keyArea.addKeyField("MessageTime", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ContactTypeID");
-        keyArea.addKeyField("ContactTypeID", Constants.ASCENDING);
-        keyArea.addKeyField("ContactID", Constants.ASCENDING);
-        keyArea.addKeyField("MessageTime", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "MessageTime");
-        keyArea.addKeyField("MessageTime", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Timeout");
-        keyArea.addKeyField("MessageStatusID", Constants.ASCENDING);
-        keyArea.addKeyField("TimeoutTime", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, REFERENCE_ID_KEY);
+        keyArea.addKeyField(REFERENCE_ID, Constants.ASCENDING);
+        keyArea.addKeyField(MESSAGE_TIME, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, CONTACT_TYPE_ID_KEY);
+        keyArea.addKeyField(CONTACT_TYPE_ID, Constants.ASCENDING);
+        keyArea.addKeyField(CONTACT_ID, Constants.ASCENDING);
+        keyArea.addKeyField(MESSAGE_TIME, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, MESSAGE_TIME_KEY);
+        keyArea.addKeyField(MESSAGE_TIME, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, TIMEOUT_KEY);
+        keyArea.addKeyField(MESSAGE_STATUS_ID, Constants.ASCENDING);
+        keyArea.addKeyField(TIMEOUT_TIME, Constants.ASCENDING);
     }
     /**
      * CreateMessage Method.

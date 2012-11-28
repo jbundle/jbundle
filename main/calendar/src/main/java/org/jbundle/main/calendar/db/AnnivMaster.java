@@ -147,12 +147,12 @@ public class AnnivMaster extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "StartDateTime");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, START_DATE_TIME_KEY);
             keyArea.addKeyField(START_DATE_TIME, DBConstants.ASCENDING);
         }
         if (keyArea == null)

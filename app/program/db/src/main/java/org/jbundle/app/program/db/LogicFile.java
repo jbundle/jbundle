@@ -156,18 +156,18 @@ public class LogicFile extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "MethodClassName");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, METHOD_CLASS_NAME_KEY);
             keyArea.addKeyField(METHOD_CLASS_NAME, DBConstants.ASCENDING);
             keyArea.addKeyField(METHOD_NAME, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "Sequence");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, SEQUENCE_KEY);
             keyArea.addKeyField(METHOD_CLASS_NAME, DBConstants.ASCENDING);
             keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
             keyArea.addKeyField(METHOD_NAME, DBConstants.ASCENDING);

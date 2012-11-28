@@ -159,12 +159,12 @@ public class KeyInfo extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "KeyFilename");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, KEY_FILENAME_KEY);
             keyArea.addKeyField(KEY_FILENAME, DBConstants.ASCENDING);
             keyArea.addKeyField(KEY_NUMBER, DBConstants.ASCENDING);
         }

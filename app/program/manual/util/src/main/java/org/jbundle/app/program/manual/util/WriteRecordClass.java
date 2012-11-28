@@ -52,6 +52,9 @@ public class WriteRecordClass extends WriteSharedClass
      */
     public static final String RESOURCE_CLASS = "ListResourceBundle";     // Resource only class
 
+    Record recClassInfo2 = null;
+    Record recKeyInfo2 = null;
+
     /**
      * Constructor.
      */
@@ -624,109 +627,13 @@ public class WriteRecordClass extends WriteSharedClass
             m_StreamOut.writeit("}\n");
 
             this.writeKeyOffsets(CodeType.THIN);   // Write the Key offsets
-            this.writeClassKeys(strClassName, recClassInfo, recFieldData, bAutoCounterField);
+            this.writeThinSetupKey(strClassName, recClassInfo, recFieldData, bAutoCounterField);
             
         } catch (DBException ex)    {
             ex.printStackTrace();
         }
     }
 
-    public void writeClassKeys(String strClassName, ClassInfo recClassInfo, FieldData recFieldData, boolean bAutoCounterField)
-        throws DBException
-    {
-        // Now write out the setupkey method.
-        this.readRecordClass(strClassName);     // Return the record to the original position
-        String strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
-        m_StreamOut.writeit("/**\n");
-        m_StreamOut.writeit("* Set up the key areas.\n");
-        m_StreamOut.writeit("*/\n");
-        m_StreamOut.writeit("public void setupKeys()\n");
-        m_StreamOut.writeit("{\n");
-        m_StreamOut.setTabs(+1);
-        m_StreamOut.writeit("KeyAreaInfo keyArea = null;\n");
-        int count = 0;
-        Record recKeyInfo = this.getRecord(KeyInfo.KEY_INFO_FILE);
-        
-        recKeyInfo.close();
-        while (recKeyInfo.hasNext())
-        {
-            recKeyInfo.next();
-            count++;
-            String strDaoKeyName = "";
-            String strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
-            if ((strKeyName == null) || (strKeyName.length() == 0))
-            {
-                strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
-                recFieldData.initRecord(false);
-                String strFieldName, strBaseFieldName;
-                strFieldName = strKeyName;
-                strBaseFieldName = "";
-                m_BasedFieldHelper.getBasedField(recFieldData, strRecordClass, strFieldName, strBaseFieldName);  // Get the field this is based on
-                strDaoKeyName = recFieldData.getField(FieldData.FIELD_NAME).getString();
-                if (count == 1)
-                {
-                    strDaoKeyName = DBConstants.PRIMARY_KEY;
-                }
-            }
-            if (strDaoKeyName.length() == 0)
-                strDaoKeyName = strKeyName;
-            if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
-                strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
-            strKeyName = strKeyName + "Key";
-
-            String strKeyType, strKeyFieldName;
-            strKeyType = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
-            strDaoKeyName = this.fixSQLName(strDaoKeyName);
-            String strUnique = "UNIQUE";
-            if (strKeyType.equalsIgnoreCase(KeyTypeField.UNIQUE))
-                strUnique = "UNIQUE";
-            else if (strKeyType.equalsIgnoreCase(KeyTypeField.NOT_UNIQUE))
-                strUnique = "NOT_UNIQUE";
-            else if (strKeyType.equalsIgnoreCase(KeyTypeField.SECONDARY))
-                strUnique = "SECONDARY_KEY";
-            else
-            {   // Not specified.
-                if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
-                    strUnique = "UNIQUE";
-                else
-                    strUnique = "NOT_UNIQUE";
-            }
-            m_StreamOut.writeit("keyArea = new KeyAreaInfo(this, Constants." + strUnique + ", \"" + strDaoKeyName + "\");\n");
-            boolean bAscending = true;
-            if (recKeyInfo.getField(KeyInfo.KEY_FIELD_9).getString().equalsIgnoreCase("D"))
-                bAscending = false;     // *Fix this to allow Ascending/Descending on each key area!*
-            for (int i = recKeyInfo.getFieldSeq(KeyInfo.KEY_FIELD_1); i <= recKeyInfo.getFieldSeq(KeyInfo.KEY_FIELD_9); i++)
-            {
-                strKeyFieldName = recKeyInfo.getField(i).getString();
-                if (strKeyFieldName.length() == 0)
-                    break;
-                String strAscending = "ASCENDING";
-                if (!bAscending)
-                    strAscending = "DESCENDING";
-                m_StreamOut.writeit("keyArea.addKeyField(\"" + strKeyFieldName + "\", Constants." + strAscending + ");\n");
-            }
-        }
-        recKeyInfo.close();
-        
-        if (count == 0)
-            m_StreamOut.writeit("super.setupKeys();\n");
-        
-        m_StreamOut.setTabs(-1);
-        m_StreamOut.writeit("}\n");
-        
-        if (!bAutoCounterField)
-        {
-            m_StreamOut.writeit("/**\n");
-            m_StreamOut.writeit("* This is not an auto-counter record.\n");
-            m_StreamOut.writeit("*/\n");
-            m_StreamOut.writeit("public boolean isAutoSequence()\n");
-            m_StreamOut.writeit("{\n");
-            m_StreamOut.setTabs(+1);
-            m_StreamOut.writeit("return false;\n");
-            m_StreamOut.setTabs(-1);
-            m_StreamOut.writeit("}\n");
-        }               
-    }
     /**
      *  Create the Record Class for this Record.
      */
@@ -966,64 +873,6 @@ public class WriteRecordClass extends WriteSharedClass
         
     }
     /**
-     *  Create the Record Class for this Record
-     */
-    public void writeKeyOffsets(CodeType codeType)
-    { // Now, write all the key offsets out
-        Record recClassInfo = this.getMainRecord();
-        try   {
-            //String previousKey;
-            String strKeyName = "";
-            String strRecordClass;
-            String uniqueKeyFields[] = new String[10];
-            String uniqueKeySeq[] = new String[10];
-            int uniqueKeyCount = 0;
-            strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
-            
-            Record recKeyInfo = this.getRecord(KeyInfo.KEY_INFO_FILE);
-            recKeyInfo.close();
-            int count = 0;
-            //String strLastKeyName = "DBConstants.MAIN_KEY_FIELD;";
-            while (recKeyInfo.hasNext())
-            {
-                recKeyInfo.next();
-                count++;
-                strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
-                if ((strKeyName == null) || (strKeyName.length() == 0))
-                    strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
-                if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
-                    strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
-
-                if (!((IncludeScopeField)recKeyInfo.getField(KeyInfo.INCLUDE_SCOPE)).includeThis(codeType, true))
-                    continue;
-                if (keyInBase(recClassInfo, recKeyInfo))
-                    continue;
-                if (count > 1)
-                    m_StreamOut.writeit("\npublic static final String " + this.convertNameToConstant(strKeyName + "Key") + " = \"" + strKeyName +"\";\n");
-
-                    // This logic here checks to see if this is a unique key with one field, if yes adds field to array
-                String keyTypeStr, strKeyFieldName;
-                keyTypeStr = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
-                if (keyTypeStr.length() == 0)
-                    keyTypeStr = KeyTypeField.UNIQUE; // Unique key if no selection
-                strKeyFieldName = recKeyInfo.getField(KeyInfo.KEY_FIELD_2).getString();
-                if (((keyTypeStr.charAt(0) == KeyTypeField.UNIQUE.charAt(0)) || (keyTypeStr.charAt(0) == 'Y')) && (strKeyFieldName.length() == 0))
-                { // Unique key with one field, default logic... always try to read
-                    strKeyFieldName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
-                    uniqueKeyFields[uniqueKeyCount] = strKeyFieldName;
-                    uniqueKeySeq[uniqueKeyCount] = strKeyName;
-                    uniqueKeyCount++;
-                }
-            }
-            recKeyInfo.close();
-            return;
-        } catch (DBException ex)   {
-            ex.printStackTrace();
-        }
-    }
-    Record recClassInfo2 = null;
-    Record recKeyInfo2 = null;
-    /**
      * Is this key already included in a base record?
      * @return
      */
@@ -1162,8 +1011,6 @@ public class WriteRecordClass extends WriteSharedClass
             return;
 
     // Initialization method
-        //String strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
-
         this.writeMethodInterface(null, "setupField", "BaseField", "int iFieldSeq", "", "Add this field in the Record's field sequence.", null);
         m_StreamOut.setTabs(+1);
         m_StreamOut.writeit("BaseField field = null;\n");
@@ -1208,20 +1055,70 @@ public class WriteRecordClass extends WriteSharedClass
             if ((strFieldType.equalsIgnoreCase(FieldTypeField.VIRTUAL_FIELD)) || (fieldStuff.bNotNullField) || (strDefaultValue.equalsIgnoreCase("old")) || (strMinimumLength.length() > 0) || bHidden)   // Virtual BaseField?
                 m_StreamOut.writeit(strPre + "}\n");
         }
-    //  m_MethodsOut.writeit("default:\n");
         m_StreamOut.writeit("if (field == null)\n");
-        //m_StreamOut.writeit("{\n");
         m_StreamOut.setTabs(+1);
         m_StreamOut.writeit("field = super.setupField(iFieldSeq);\n");
-        //m_StreamOut.writeit("if (field == null) if (iFieldSeq < k" + strRecordClass + "LastField)\n");
-        //m_StreamOut.writeit("\tfield = new EmptyField(this);\n");
         m_StreamOut.setTabs(-1);
-    //  m_MethodsOut.SetTabs(-1);
-        //m_StreamOut.writeit("}\n");
         m_StreamOut.writeit("return field;\n");
         m_StreamOut.setTabs(-1);
         m_StreamOut.writeit("}\n");
         fieldIterator.free();
+    }
+    /**
+     *  Create the Record Class for this Record
+     */
+    public void writeKeyOffsets(CodeType codeType)
+    { // Now, write all the key offsets out
+        Record recClassInfo = this.getMainRecord();
+        try   {
+            //String previousKey;
+            String strKeyName = "";
+            String strRecordClass;
+            String uniqueKeyFields[] = new String[10];
+            String uniqueKeySeq[] = new String[10];
+            int uniqueKeyCount = 0;
+            strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
+            
+            Record recKeyInfo = this.getRecord(KeyInfo.KEY_INFO_FILE);
+            recKeyInfo.close();
+            int count = 0;
+            while (recKeyInfo.hasNext())
+            {
+                recKeyInfo.next();
+                count++;
+                strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
+                if (strKeyName.length() == 0)
+                {
+                    strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
+                }
+                if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
+                    strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
+
+                if (!((IncludeScopeField)recKeyInfo.getField(KeyInfo.INCLUDE_SCOPE)).includeThis(codeType, true))
+                    continue;
+                if (keyInBase(recClassInfo, recKeyInfo))
+                    continue;
+                if (count > 1)
+                    m_StreamOut.writeit("\npublic static final String " + this.convertNameToConstant(strKeyName + "Key") + " = \"" + strKeyName +"\";\n");
+
+                    // This logic here checks to see if this is a unique key with one field, if yes adds field to array
+                String keyTypeStr, strKeyFieldName;
+                keyTypeStr = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
+                if (keyTypeStr.length() == 0)
+                    keyTypeStr = KeyTypeField.UNIQUE; // Unique key if no selection
+                strKeyFieldName = recKeyInfo.getField(KeyInfo.KEY_FIELD_2).getString();
+                if (((keyTypeStr.charAt(0) == KeyTypeField.UNIQUE.charAt(0)) || (keyTypeStr.charAt(0) == 'Y')) && (strKeyFieldName.length() == 0))
+                    { // Unique key with one field, default logic... always try to read
+                    strKeyFieldName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
+                    uniqueKeyFields[uniqueKeyCount] = strKeyFieldName;
+                    uniqueKeySeq[uniqueKeyCount] = strKeyName;
+                    uniqueKeyCount++;
+                }
+            }
+            recKeyInfo.close();
+        } catch (DBException ex)   {
+            ex.printStackTrace();
+        }
     }
     /**
      *  WriteSetupKey.
@@ -1230,7 +1127,8 @@ public class WriteRecordClass extends WriteSharedClass
     { // Now, write the key setup method
         Record recClassInfo = this.getMainRecord();
         try   {
-            String strRecordClass, strDaoKeyName;
+            String strRecordClass;
+            String finalKeyName;
             String strKeyName = DBConstants.BLANK;
             strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
             
@@ -1245,21 +1143,19 @@ public class WriteRecordClass extends WriteSharedClass
             this.writeMethodInterface(null, "setupKey", "KeyArea", "int iKeyArea", "", "Add this key area description to the Record.", null);
             m_StreamOut.setTabs(+1);
             m_StreamOut.writeit("KeyArea keyArea = null;\n");
-        //  m_MethodsOut.writeit("switch(iKeyArea)\n{\n");
-        //  m_MethodsOut.SetTabs(+1);
         
             int count = 0;
             recKeyInfo.close();
             while (recKeyInfo.hasNext())
             {
                 recKeyInfo.next();
-                strDaoKeyName = "";
+                finalKeyName = "";
                 strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
-                if ((strKeyName == null) || (strKeyName.length() == 0))
+                if (strKeyName.length() == 0)
                 {
                     strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
                     if (count == 0)
-                        strDaoKeyName = DBConstants.PRIMARY_KEY;
+                        finalKeyName = DBConstants.PRIMARY_KEY;
                     else
                     {   // No key name, use the field name!
                         FieldData recFieldData = (FieldData)this.getRecord(FieldData.FIELD_DATA_FILE);
@@ -1268,21 +1164,20 @@ public class WriteRecordClass extends WriteSharedClass
                         strFieldName = strKeyName;
                         strBaseFieldName = "";
                         m_BasedFieldHelper.getBasedField(recFieldData, strRecordClass, strFieldName, strBaseFieldName);  // Get the field this is based on
-                        strDaoKeyName = recFieldData.getField(FieldData.FIELD_NAME).getString();
+                        finalKeyName = recFieldData.getField(FieldData.FIELD_NAME).getString();
                     }
                 }
-                if (strDaoKeyName.length() == 0)
-                    strDaoKeyName = strKeyName;
+                if (finalKeyName.length() == 0)
+                    finalKeyName = strKeyName;
                 if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
                     strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
                 strKeyName = strKeyName + "Key";
-        //      m_MethodsOut.writeit("case k" + strKeyName + ":\n");
                 m_StreamOut.writeit("if (iKeyArea == " + count++ + ")\n");
                 m_StreamOut.writeit("{\n");
                 m_StreamOut.setTabs(+1);
                 String strKeyType, strKeyFieldName;
                 strKeyType = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
-                strDaoKeyName = this.fixSQLName(strDaoKeyName);
+                finalKeyName = this.fixSQLName(finalKeyName);
                 String strUnique = "UNIQUE";
                 if (strKeyType.equalsIgnoreCase(KeyTypeField.UNIQUE))
                     strUnique = "UNIQUE";
@@ -1297,7 +1192,7 @@ public class WriteRecordClass extends WriteSharedClass
                     else
                         strUnique = "NOT_UNIQUE";
                 }
-                m_StreamOut.writeit("keyArea = this.makeIndex(DBConstants." + strUnique + ", \"" + strDaoKeyName + "\");\n");
+                m_StreamOut.writeit("keyArea = this.makeIndex(DBConstants." + strUnique + ", " + this.convertNameToConstant(finalKeyName + "Key") + ");\n");
                 boolean bAscending = true;
                 if (recKeyInfo.getField(KeyInfo.KEY_FIELD_9).getString().equalsIgnoreCase("D"))
                     bAscending = false;     // *Fix this to allow Ascending/Descending on each key area!*
@@ -1311,32 +1206,124 @@ public class WriteRecordClass extends WriteSharedClass
                         strAscending = "DESCENDING";
                     m_StreamOut.writeit("keyArea.addKeyField(" + this.convertNameToConstant(strKeyFieldName) + ", DBConstants." + strAscending + ");\n");
                 }
-        //      m_MethodsOut.writeit("break;\n");
                 m_StreamOut.setTabs(-1);
                 m_StreamOut.writeit("}\n");
             }
             recKeyInfo.close();
             m_StreamOut.writeit("if (keyArea == null)\n");
-        //  m_MethodsOut.writeit("default:\n");
-            //m_StreamOut.writeit("{\n");
             m_StreamOut.setTabs(+1);
             m_StreamOut.writeit("keyArea = super.setupKey(iKeyArea);\t\t\n");
-            //if (strKeyName.length() != 0)
-            //{
-            //    m_StreamOut.writeit("if (keyArea == null) if (iKeyArea < k" + strRecordClass + "LastKey)\n");
-            //    m_StreamOut.writeit("\tkeyArea = new EmptyKey(this);\n");
-            //}
             m_StreamOut.setTabs(-1);
-            //m_StreamOut.writeit("}\n");
-        //  m_MethodsOut.writeit("break;\n");
-        //  m_MethodsOut.SetTabs(-1);
-        //  m_MethodsOut.writeit("}\n");
             m_StreamOut.writeit("return keyArea;\n");
             m_StreamOut.setTabs(-1);
             m_StreamOut.writeit("}\n");
         } catch (DBException ex)   {
             ex.printStackTrace();
         }
+    }
+    /**
+     * 
+     * @param strClassName
+     * @param recClassInfo
+     * @param recFieldData
+     * @param bAutoCounterField
+     * @throws DBException
+     */
+    public void writeThinSetupKey(String strClassName, ClassInfo recClassInfo, FieldData recFieldData, boolean bAutoCounterField)
+            throws DBException
+    {
+        // Now write out the setupkey method.
+        this.readRecordClass(strClassName);     // Return the record to the original position
+        String strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
+        m_StreamOut.writeit("/**\n");
+        m_StreamOut.writeit("* Set up the key areas.\n");
+        m_StreamOut.writeit("*/\n");
+        m_StreamOut.writeit("public void setupKeys()\n");
+        m_StreamOut.writeit("{\n");
+        m_StreamOut.setTabs(+1);
+        m_StreamOut.writeit("KeyAreaInfo keyArea = null;\n");
+        int count = 0;
+        Record recKeyInfo = this.getRecord(KeyInfo.KEY_INFO_FILE);
+        
+        recKeyInfo.close();
+        while (recKeyInfo.hasNext())
+        {
+            recKeyInfo.next();
+            count++;
+            String finalKeyName = "";
+            String strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
+            if (strKeyName.length() == 0)
+            {
+                strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
+                recFieldData.initRecord(false);
+                String strFieldName, strBaseFieldName;
+                strFieldName = strKeyName;
+                strBaseFieldName = "";
+                m_BasedFieldHelper.getBasedField(recFieldData, strRecordClass, strFieldName, strBaseFieldName);  // Get the field this is based on
+                finalKeyName = recFieldData.getField(FieldData.FIELD_NAME).getString();
+                if (count == 1)
+                {
+                    finalKeyName = DBConstants.PRIMARY_KEY;
+                }
+            }
+            if (finalKeyName.length() == 0)
+                finalKeyName = strKeyName;
+            if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
+                strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
+            strKeyName = strKeyName + "Key";
+
+            String strKeyType, strKeyFieldName;
+            strKeyType = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
+            finalKeyName = this.fixSQLName(finalKeyName);
+            String strUnique = "UNIQUE";
+            if (strKeyType.equalsIgnoreCase(KeyTypeField.UNIQUE))
+                strUnique = "UNIQUE";
+            else if (strKeyType.equalsIgnoreCase(KeyTypeField.NOT_UNIQUE))
+                strUnique = "NOT_UNIQUE";
+            else if (strKeyType.equalsIgnoreCase(KeyTypeField.SECONDARY))
+                strUnique = "SECONDARY_KEY";
+            else
+            {   // Not specified.
+                if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
+                    strUnique = "UNIQUE";
+                else
+                    strUnique = "NOT_UNIQUE";
+            }
+            m_StreamOut.writeit("keyArea = new KeyAreaInfo(this, Constants." + strUnique + ", " + this.convertNameToConstant(finalKeyName + "Key") + ");\n");
+            boolean bAscending = true;
+            if (recKeyInfo.getField(KeyInfo.KEY_FIELD_9).getString().equalsIgnoreCase("D"))
+                bAscending = false;     // *Fix this to allow Ascending/Descending on each key area!*
+            for (int i = recKeyInfo.getFieldSeq(KeyInfo.KEY_FIELD_1); i <= recKeyInfo.getFieldSeq(KeyInfo.KEY_FIELD_9); i++)
+            {
+                strKeyFieldName = recKeyInfo.getField(i).getString();
+                if (strKeyFieldName.length() == 0)
+                    break;
+                String strAscending = "ASCENDING";
+                if (!bAscending)
+                    strAscending = "DESCENDING";
+                m_StreamOut.writeit("keyArea.addKeyField(" + this.convertNameToConstant(strKeyFieldName) + ", Constants." + strAscending + ");\n");
+            }
+        }
+        recKeyInfo.close();
+        
+        if (count == 0)
+            m_StreamOut.writeit("super.setupKeys();\n");
+        
+        m_StreamOut.setTabs(-1);
+        m_StreamOut.writeit("}\n");
+        
+        if (!bAutoCounterField)
+        {
+            m_StreamOut.writeit("/**\n");
+            m_StreamOut.writeit("* This is not an auto-counter record.\n");
+            m_StreamOut.writeit("*/\n");
+            m_StreamOut.writeit("public boolean isAutoSequence()\n");
+            m_StreamOut.writeit("{\n");
+            m_StreamOut.setTabs(+1);
+            m_StreamOut.writeit("return false;\n");
+            m_StreamOut.setTabs(-1);
+            m_StreamOut.writeit("}\n");
+        }               
     }
     /**
      *  Free the class.

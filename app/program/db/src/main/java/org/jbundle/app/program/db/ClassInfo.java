@@ -172,28 +172,28 @@ public class ClassInfo extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassName");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, CLASS_NAME_KEY);
             keyArea.addKeyField(CLASS_NAME, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassSourceFile");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, CLASS_SOURCE_FILE_KEY);
             keyArea.addKeyField(CLASS_SOURCE_FILE, DBConstants.ASCENDING);
             keyArea.addKeyField(CLASS_NAME, DBConstants.ASCENDING);
         }
         if (iKeyArea == 3)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "BaseClassName");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, BASE_CLASS_NAME_KEY);
             keyArea.addKeyField(BASE_CLASS_NAME, DBConstants.ASCENDING);
         }
         if (iKeyArea == 4)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ClassProjectID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, CLASS_PROJECT_ID_KEY);
             keyArea.addKeyField(CLASS_PROJECT_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(CLASS_NAME, DBConstants.ASCENDING);
         }

@@ -79,14 +79,14 @@ public class Part extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Description");
-        keyArea.addKeyField("Description", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "JnlpFileID");
-        keyArea.addKeyField("JnlpFileID", Constants.ASCENDING);
-        keyArea.addKeyField("Sequence", Constants.ASCENDING);
-        keyArea.addKeyField("Description", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, DESCRIPTION_KEY);
+        keyArea.addKeyField(DESCRIPTION, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, JNLP_FILE_ID_KEY);
+        keyArea.addKeyField(JNLP_FILE_ID, Constants.ASCENDING);
+        keyArea.addKeyField(SEQUENCE, Constants.ASCENDING);
+        keyArea.addKeyField(DESCRIPTION, Constants.ASCENDING);
     }
 
 }

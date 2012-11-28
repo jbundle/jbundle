@@ -96,16 +96,16 @@ public class Issue extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.SECONDARY_KEY, "Description");
-        keyArea.addKeyField("Description", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "IssuePriorityID");
-        keyArea.addKeyField("IssuePriorityID", Constants.ASCENDING);
-        keyArea.addKeyField("IssueSequence", Constants.ASCENDING);
-        keyArea.addKeyField("Description", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ClassInfoID");
-        keyArea.addKeyField("ClassInfoID", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.SECONDARY_KEY, DESCRIPTION_KEY);
+        keyArea.addKeyField(DESCRIPTION, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, ISSUE_PRIORITY_ID_KEY);
+        keyArea.addKeyField(ISSUE_PRIORITY_ID, Constants.ASCENDING);
+        keyArea.addKeyField(ISSUE_SEQUENCE, Constants.ASCENDING);
+        keyArea.addKeyField(DESCRIPTION, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, CLASS_INFO_ID_KEY);
+        keyArea.addKeyField(CLASS_INFO_ID, Constants.ASCENDING);
     }
 
 }

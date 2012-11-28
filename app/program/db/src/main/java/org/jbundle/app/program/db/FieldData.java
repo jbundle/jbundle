@@ -122,7 +122,7 @@ public class FieldData extends VirtualRecord
             field.setNullable(false);
         }
         if (iFieldSeq == 4)
-            field = new FieldClassField(this, FIELD_CLASS, 40, null, "StringField");
+            field = new FieldClassField(this, FIELD_CLASS, 40, null, null);
         if (iFieldSeq == 5)
             field = new StringField(this, BASE_FIELD_NAME, 40, null, null);
         if (iFieldSeq == 6)
@@ -173,18 +173,18 @@ public class FieldData extends VirtualRecord
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "FieldFileName");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, FIELD_FILE_NAME_KEY);
             keyArea.addKeyField(FIELD_FILE_NAME, DBConstants.ASCENDING);
             keyArea.addKeyField(FIELD_SEQ_NO, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "FieldName");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, FIELD_NAME_KEY);
             keyArea.addKeyField(FIELD_FILE_NAME, DBConstants.ASCENDING);
             keyArea.addKeyField(FIELD_NAME, DBConstants.ASCENDING);
         }

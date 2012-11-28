@@ -87,12 +87,12 @@ public class ClassFields extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ClassInfoClassName");
-        keyArea.addKeyField("ClassInfoClassName", Constants.ASCENDING);
-        keyArea.addKeyField("ClassFieldSequence", Constants.ASCENDING);
-        keyArea.addKeyField("ClassFieldName", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, CLASS_INFO_CLASS_NAME_KEY);
+        keyArea.addKeyField(CLASS_INFO_CLASS_NAME, Constants.ASCENDING);
+        keyArea.addKeyField(CLASS_FIELD_SEQUENCE, Constants.ASCENDING);
+        keyArea.addKeyField(CLASS_FIELD_NAME, Constants.ASCENDING);
     }
 
 }

@@ -85,14 +85,14 @@ public class Script extends Folder
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "ParentFolderID");
-        keyArea.addKeyField("ParentFolderID", Constants.ASCENDING);
-        keyArea.addKeyField("Sequence", Constants.ASCENDING);
-        keyArea.addKeyField("Name", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Code");
-        keyArea.addKeyField("Code", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, PARENT_FOLDER_ID_KEY);
+        keyArea.addKeyField(PARENT_FOLDER_ID, Constants.ASCENDING);
+        keyArea.addKeyField(SEQUENCE, Constants.ASCENDING);
+        keyArea.addKeyField(NAME, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, CODE_KEY);
+        keyArea.addKeyField(CODE, Constants.ASCENDING);
     }
 
 }

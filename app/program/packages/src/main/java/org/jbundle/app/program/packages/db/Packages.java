@@ -156,31 +156,31 @@ public class Packages extends Folder
         KeyArea keyArea = null;
         if (iKeyArea == 0)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "ID");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
             keyArea.addKeyField(ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 1)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "ParentFolderID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, PARENT_FOLDER_ID_KEY);
             keyArea.addKeyField(PARENT_FOLDER_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
             keyArea.addKeyField(NAME, DBConstants.ASCENDING);
         }
         if (iKeyArea == 2)
         {
-            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, "Code");
+            keyArea = this.makeIndex(DBConstants.SECONDARY_KEY, CODE_KEY);
             keyArea.addKeyField(CODE, DBConstants.ASCENDING);
         }
         if (iKeyArea == 3)
         {
-            keyArea = this.makeIndex(DBConstants.UNIQUE, "Name");
+            keyArea = this.makeIndex(DBConstants.UNIQUE, NAME_KEY);
             keyArea.addKeyField(PARENT_FOLDER_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(NAME, DBConstants.ASCENDING);
             keyArea.addKeyField(CLASS_PROJECT_ID, DBConstants.ASCENDING);
         }
         if (iKeyArea == 4)
         {
-            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, "PartID");
+            keyArea = this.makeIndex(DBConstants.NOT_UNIQUE, PART_ID_KEY);
             keyArea.addKeyField(PART_ID, DBConstants.ASCENDING);
             keyArea.addKeyField(SEQUENCE, DBConstants.ASCENDING);
         }

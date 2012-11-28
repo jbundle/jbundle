@@ -86,15 +86,15 @@ public class LogicFile extends FieldList
     public void setupKeys()
     {
         KeyAreaInfo keyArea = null;
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "ID");
-        keyArea.addKeyField("ID", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, "MethodClassName");
-        keyArea.addKeyField("MethodClassName", Constants.ASCENDING);
-        keyArea.addKeyField("MethodName", Constants.ASCENDING);
-        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, "Sequence");
-        keyArea.addKeyField("MethodClassName", Constants.ASCENDING);
-        keyArea.addKeyField("Sequence", Constants.ASCENDING);
-        keyArea.addKeyField("MethodName", Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+        keyArea.addKeyField(ID, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.UNIQUE, METHOD_CLASS_NAME_KEY);
+        keyArea.addKeyField(METHOD_CLASS_NAME, Constants.ASCENDING);
+        keyArea.addKeyField(METHOD_NAME, Constants.ASCENDING);
+        keyArea = new KeyAreaInfo(this, Constants.NOT_UNIQUE, SEQUENCE_KEY);
+        keyArea.addKeyField(METHOD_CLASS_NAME, Constants.ASCENDING);
+        keyArea.addKeyField(SEQUENCE, Constants.ASCENDING);
+        keyArea.addKeyField(METHOD_NAME, Constants.ASCENDING);
     }
 
 }
