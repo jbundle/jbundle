@@ -12,6 +12,7 @@ import org.jbundle.app.program.db.ClassFieldsTypeField;
 import org.jbundle.app.program.db.ClassInfo;
 import org.jbundle.app.program.db.ClassProject;
 import org.jbundle.app.program.db.FieldData;
+import org.jbundle.app.program.db.FieldTypeField;
 import org.jbundle.app.program.db.FileHdr;
 import org.jbundle.app.program.db.IncludeScopeField;
 import org.jbundle.app.program.db.KeyInfo;
@@ -50,10 +51,6 @@ public class WriteRecordClass extends WriteSharedClass
      * Special resource only base class.
      */
     public static final String RESOURCE_CLASS = "ListResourceBundle";     // Resource only class
-    /**
-     *
-     */
-    public static final String VIRTUAL_FIELD_TYPE = "N";
 
     /**
      * Constructor.
@@ -148,7 +145,7 @@ public class WriteRecordClass extends WriteSharedClass
                 ClassInfo recClassInfo2 = null;
                 boolean ignoreThisField = this.ignoreFieldData(recFieldData);
                 this.getFieldData(fieldStuff, false);
-                if ((recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase("N")) || (fieldStuff.bNotNullField))
+                if ((recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase(FieldTypeField.VIRTUAL_FIELD)) || (fieldStuff.bNotNullField))
                     ignoreThisField = false;
                 if (ignoreThisField)
                     continue;
@@ -204,7 +201,7 @@ public class WriteRecordClass extends WriteSharedClass
             fieldIterator.next();
             boolean ignoreThisField = this.ignoreFieldData(recFieldData);
             this.getFieldData(fieldStuff, false);
-            if ((recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase("N")) || (fieldStuff.bNotNullField))
+            if ((recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase(FieldTypeField.VIRTUAL_FIELD)) || (fieldStuff.bNotNullField))
                 ignoreThisField = false;
             if (ignoreThisField)
                 continue;
@@ -564,7 +561,7 @@ public class WriteRecordClass extends WriteSharedClass
                     || ("CounterField".equals(fieldStuff.strBaseFieldClass)))
                         bAutoCounterField = true;
 
-                if (recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase(VIRTUAL_FIELD_TYPE))
+                if (recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase(FieldTypeField.VIRTUAL_FIELD))
                     strPre = "//";  // Skip virtual fields (EJB is not expecting them to be sent to the server)
                 if (!fieldStuff.strFieldDesc.equals("null"))
                     fieldStuff.strFieldDesc = "\"" + fieldStuff.strFieldDesc + "\"";
@@ -657,7 +654,7 @@ public class WriteRecordClass extends WriteSharedClass
             count++;
             String strDaoKeyName = "";
             String strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
-            if (strKeyName.length() == 0)
+            if ((strKeyName == null) || (strKeyName.length() == 0))
             {
                 strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
                 recFieldData.initRecord(false);
@@ -992,31 +989,18 @@ public class WriteRecordClass extends WriteSharedClass
                 recKeyInfo.next();
                 count++;
                 strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
-                if (strKeyName.length() == 0)
-                {
+                if ((strKeyName == null) || (strKeyName.length() == 0))
                     strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
-                }
                 if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
                     strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
-                //if (count == 1)
-                //{
-                //    previousKey = "DBConstants.MAIN_KEY_FIELD;";
-                //}
-                //else
-                //    previousKey = "k" + strLastKeyName + "Key + 1;";
-                
-                //if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
-                //{
-                    if (!((IncludeScopeField)recKeyInfo.getField(KeyInfo.INCLUDE_SCOPE)).includeThis(codeType, true))
-                        continue;
-                    if (keyInBase(recClassInfo, recKeyInfo))
-                        continue;
-                    if (count > 1)
-                        m_StreamOut.writeit("\npublic static final String " + this.convertNameToConstant(strKeyName + "Key") + " = \"" + strKeyName +"\";\n");
-                //    continue;
-                //}
-                    
-                //m_StreamOut.writeit("\npublic static final int k" + strKeyName + "Key = " + previousKey);
+
+                if (!((IncludeScopeField)recKeyInfo.getField(KeyInfo.INCLUDE_SCOPE)).includeThis(codeType, true))
+                    continue;
+                if (keyInBase(recClassInfo, recKeyInfo))
+                    continue;
+                if (count > 1)
+                    m_StreamOut.writeit("\npublic static final String " + this.convertNameToConstant(strKeyName + "Key") + " = \"" + strKeyName +"\";\n");
+
                     // This logic here checks to see if this is a unique key with one field, if yes adds field to array
                 String keyTypeStr, strKeyFieldName;
                 keyTypeStr = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
@@ -1024,21 +1008,14 @@ public class WriteRecordClass extends WriteSharedClass
                     keyTypeStr = KeyTypeField.UNIQUE; // Unique key if no selection
                 strKeyFieldName = recKeyInfo.getField(KeyInfo.KEY_FIELD_2).getString();
                 if (((keyTypeStr.charAt(0) == KeyTypeField.UNIQUE.charAt(0)) || (keyTypeStr.charAt(0) == 'Y')) && (strKeyFieldName.length() == 0))
-                    { // Unique key with one field, default logic... always try to read
+                { // Unique key with one field, default logic... always try to read
                     strKeyFieldName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
                     uniqueKeyFields[uniqueKeyCount] = strKeyFieldName;
                     uniqueKeySeq[uniqueKeyCount] = strKeyName;
                     uniqueKeyCount++;
                 }
-                //strLastKeyName = strKeyName;
             }
             recKeyInfo.close();
-            //if (count > 0)
-            //    if (codeType == CodeType.THICK)
-            //{
-            //    m_StreamOut.writeit("\npublic static final int k" + strRecordClass + "LastKey = k" + strKeyName + "Key;\n");
-            //    m_StreamOut.writeit("public static final int k" + strRecordClass + "Keys = k" + strKeyName + "Key - DBConstants.MAIN_KEY_FIELD + 1;\n");
-            //}
             return;
         } catch (DBException ex)   {
             ex.printStackTrace();
@@ -1201,7 +1178,7 @@ public class WriteRecordClass extends WriteSharedClass
 
             this.getFieldData(fieldStuff, false);
 
-            if ((recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase("N")) || (fieldStuff.bNotNullField))
+            if ((recFieldData.getField(FieldData.FIELD_TYPE).getString().equalsIgnoreCase(FieldTypeField.VIRTUAL_FIELD)) || (fieldStuff.bNotNullField))
                 strPre = DBConstants.BLANK;
             m_StreamOut.writeit(strPre + "if (iFieldSeq == " + count++ + ")\n");
             String strFieldType = recFieldData.getField(FieldData.FIELD_TYPE).getString();
@@ -1210,7 +1187,7 @@ public class WriteRecordClass extends WriteSharedClass
             boolean bHidden = recFieldData.getField(FieldData.HIDDEN).getState();
             if (strMinimumLength.equals("0"))
                 strMinimumLength = "";
-            if ((strFieldType.equalsIgnoreCase("N")) || (fieldStuff.bNotNullField) || (strDefaultValue.equalsIgnoreCase("old")) || (strMinimumLength.length() > 0) || bHidden)   // Virtual BaseField?
+            if ((strFieldType.equalsIgnoreCase(FieldTypeField.VIRTUAL_FIELD)) || (fieldStuff.bNotNullField) || (strDefaultValue.equalsIgnoreCase("old")) || (strMinimumLength.length() > 0) || bHidden)   // Virtual BaseField?
                 m_StreamOut.writeit(strPre + "{\n");
             if (!fieldStuff.strFieldDesc.equals("null"))
                 fieldStuff.strFieldDesc = "\"" + fieldStuff.strFieldDesc + "\"";
@@ -1218,7 +1195,7 @@ public class WriteRecordClass extends WriteSharedClass
 
             m_StreamOut.writeit(strPre + "\tfield = new " + fieldStuff.strFieldClass + "(this, " + this.convertNameToConstant(fieldStuff.strFileFieldName) + ", " + fieldStuff.strFieldLength + ", " + fieldStuff.strFieldDesc + ", " + fieldStuff.strDefaultField + ");\n");
 
-            if (strFieldType.equalsIgnoreCase("N"))     // Virtual BaseField?
+            if (strFieldType.equalsIgnoreCase(FieldTypeField.VIRTUAL_FIELD))     // Virtual BaseField?
                 m_StreamOut.writeit(strPre + "\tfield.setVirtual(true);\n");
             if (bHidden)     // Virtual BaseField?
                 m_StreamOut.writeit(strPre + "\tfield.setHidden(true);\n");
@@ -1228,7 +1205,7 @@ public class WriteRecordClass extends WriteSharedClass
                 m_StreamOut.writeit(strPre + "\tfield.addListener(new InitOnceFieldHandler(null));\n");
             if (strMinimumLength.length() > 0)  // Virtual BaseField?
                 m_StreamOut.writeit(strPre + "\tfield.setMinimumLength(" + strMinimumLength + ");\n");
-            if ((strFieldType.equalsIgnoreCase("N")) || (fieldStuff.bNotNullField) || (strDefaultValue.equalsIgnoreCase("old")) || (strMinimumLength.length() > 0) || bHidden)   // Virtual BaseField?
+            if ((strFieldType.equalsIgnoreCase(FieldTypeField.VIRTUAL_FIELD)) || (fieldStuff.bNotNullField) || (strDefaultValue.equalsIgnoreCase("old")) || (strMinimumLength.length() > 0) || bHidden)   // Virtual BaseField?
                 m_StreamOut.writeit(strPre + "}\n");
         }
     //  m_MethodsOut.writeit("default:\n");
@@ -1278,7 +1255,7 @@ public class WriteRecordClass extends WriteSharedClass
                 recKeyInfo.next();
                 strDaoKeyName = "";
                 strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
-                if (strKeyName.length() == 0)
+                if ((strKeyName == null) || (strKeyName.length() == 0))
                 {
                     strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
                     if (count == 0)

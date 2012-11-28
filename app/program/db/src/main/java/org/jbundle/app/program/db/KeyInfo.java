@@ -144,7 +144,7 @@ public class KeyInfo extends VirtualRecord
             field = new KeyTypeField(this, KEY_TYPE, 1, null, "KeyTypeField.UNIQUE");
         if (iFieldSeq == 16)
         {
-            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
+            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x003));
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (field == null)

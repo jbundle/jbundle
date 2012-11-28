@@ -70,7 +70,7 @@ public class JavaButton extends SButtonBox
         if (m_classInfo != null)
         {
             TaskScheduler js = BaseApplet.getSharedInstance().getApplication().getTaskScheduler();
-            String strJob = Utility.addURLParam(null, DBParams.SCREEN, ".app.program.manual.util.WriteClassesScreen");
+            String strJob = Utility.addURLParam(null, DBParams.SCREEN, ".app.program.manual.util.WriteClasses");
             strJob = Utility.addURLParam(strJob, "fileName", m_classInfo.getField(ClassInfo.CLASS_SOURCE_FILE).toString());
             strJob = Utility.addURLParam(strJob, "package", m_classInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
             strJob = Utility.addURLParam(strJob, "project", Converter.stripNonNumber(m_classInfo.getField(ClassInfo.CLASS_PROJECT_ID).toString()));

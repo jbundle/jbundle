@@ -92,14 +92,17 @@ public class FieldDataScreen extends Screen
     {
         this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.FIELD_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.FIELD_SEQ_NO).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.BASE_FIELD_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.FIELD_CLASS).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.BASE_FIELD_NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         ScreenLocation lastFieldPosition;
         Record query = this.getMainRecord();
-        for (int fieldSeq = query.getFieldSeq(FieldData.DEPENDENT_FIELD_NAME); fieldSeq <= query.getFieldSeq(FieldData.FIELD_FILE_NAME); fieldSeq++)
+        for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= query.getFieldSeq(FieldData.FIELD_TYPE); fieldSeq++)
         {
             lastFieldPosition = this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR);
-            query.getField(fieldSeq).setupDefaultView(lastFieldPosition, this, ScreenConstants.DISPLAY_DESC); // Add this view to the list
+            Converter converter = query.getField(fieldSeq);
+            if (query.getFieldSeq(FieldData.DEFAULT_VALUE) == fieldSeq)
+                converter = new CheckConverter((Converter)converter, "old", null, true);
+            converter.setupDefaultView(lastFieldPosition, this, ScreenConstants.DISPLAY_DESC);  // Add this view to the list
         }
         this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.FIELD_NOT_NULL).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
         this.getRecord(FieldData.FIELD_DATA_FILE).getField(FieldData.INCLUDE_SCOPE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);

@@ -122,7 +122,7 @@ public class FieldData extends VirtualRecord
             field.setNullable(false);
         }
         if (iFieldSeq == 4)
-            field = new FieldClassField(this, FIELD_CLASS, 40, null, null);
+            field = new FieldClassField(this, FIELD_CLASS, 40, null, "StringField");
         if (iFieldSeq == 5)
             field = new StringField(this, BASE_FIELD_NAME, 40, null, null);
         if (iFieldSeq == 6)
@@ -140,7 +140,7 @@ public class FieldData extends VirtualRecord
         if (iFieldSeq == 12)
             field = new StringField(this, FIELD_DESC_VERTICAL, 14, null, null);
         if (iFieldSeq == 13)
-            field = new StringField(this, FIELD_TYPE, 1, null, null);
+            field = new FieldTypeField(this, FIELD_TYPE, 1, null, null);
         if (iFieldSeq == 14)
             field = new ShortField(this, FIELD_DIMENSION, 3, null, null);
         if (iFieldSeq == 15)
@@ -158,7 +158,7 @@ public class FieldData extends VirtualRecord
             field = new BooleanField(this, HIDDEN, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 20)
         {
-            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
+            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x003));
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (field == null)
