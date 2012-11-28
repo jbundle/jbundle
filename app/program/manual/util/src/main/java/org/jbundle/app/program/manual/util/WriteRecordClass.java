@@ -319,7 +319,6 @@ public class WriteRecordClass extends WriteSharedClass
                     	m_StreamOut.writeit(strPre + "\t\t{\"" + ResourcesUtilities.fixPropertyKey(fieldStuff.strFieldName + strTipSuffix) + "\", " + ResourcesUtilities.fixPropertyValue(fieldStuff.strFieldTip, bResourceListBundle) + "}");
                     else
                     	m_StreamOut.writeit(strPre + ResourcesUtilities.fixPropertyKey(fieldStuff.strFieldName + strTipSuffix) + "=" + ResourcesUtilities.fixPropertyValue(fieldStuff.strFieldTip, bResourceListBundle));
-//                    m_MethodsOut.writeit(strPre + "\t\t{\"" + fieldStuff.strFieldName + strTipSuffix + "\", \"" + fieldStuff.strFieldTip + "\"}");
                     count++;
                 }
             }
@@ -403,7 +402,6 @@ public class WriteRecordClass extends WriteSharedClass
 
             m_StreamOut.writeit("public static final String THIN_CLASS = \"" + this.getPackage(CodeType.THIN) + "." + strClassName + "\";\n");
             m_StreamOut.writeit("public static final String THICK_CLASS = \"" + this.getPackage(CodeType.THICK) + "." + strClassName + "\";\n");
-//            m_StreamOut.writeit("public static final String RESOURCE_CLASS = \"" + this.getPackage(CodeType.RESOURCE_CODE) + "." + strClassName + "\";\n");
         }
          
         if (m_MethodNameList.size() != 0)
@@ -502,6 +500,16 @@ public class WriteRecordClass extends WriteSharedClass
 
         this.readRecordClass(strClassName);     // Return the record to the original position
     }
+    /**
+     * 
+     * @param strClassName
+     * @param strDatabaseName
+     * @param strDBType
+     * @param recClassInfo
+     * @param recFileHdr
+     * @param recFieldData
+     * @param fieldIterator
+     */
     public void writeFields(String strClassName, String strDatabaseName, String strDBType, ClassInfo recClassInfo, Record recFileHdr, FieldData recFieldData, FieldIterator fieldIterator)
     {
         FieldStuff fieldStuff = new FieldStuff();
@@ -737,34 +745,6 @@ public class WriteRecordClass extends WriteSharedClass
         String strFieldName = "MainField";     // In case there are no fields
         Record recFieldData = this.getRecord(FieldData.FIELD_DATA_FILE);
 
-/*        if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
-        {
-            // Write out any field constants that should be included in the model record.
-            fieldIterator.close();
-            while (fieldIterator.hasNext())
-            {
-                fieldIterator.next();
-                boolean concreteClass = true;
-                if (recFieldData.getField(FieldData.kID).isNull())  // Only for concrete class
-                    concreteClass = false;
-                if (!recFieldData.getField(FieldData.BASE_FIELD_NAME).isNull())
-                    if (!recFieldData.getField(FieldData.BASE_FIELD_NAME).toString().equalsIgnoreCase(recFieldData.getField(FieldData.BASE_FIELD_NAME).toString()))
-                        concreteClass = false;
-                if (codeType == CodeType.THIN)
-                    if (!concreteClass)
-                        continue;
-                if (((IncludeScopeField)recFieldData.getField(FieldData.INCLUDE_SCOPE)).includeThis(codeType, true))
-                    if (strRecordClass.equalsIgnoreCase(recFieldData.getField(FieldData.FIELD_FILE_NAME).toString()))  // Only for concrete class
-                {
-                    strFieldName = recFieldData.getField(FieldData.FIELD_NAME).toString();
-                    String strFieldConstant = this.convertNameToConstant(strFieldName);
-                    m_StreamOut.writeit("public static final String " + strFieldConstant + " = \"" + strFieldName + "\";\n");
-                }
-            }     
-            return;
-        }
-*/
-        //String strLastField = strBaseRecordClass + "LastField";
         boolean alwaysInclude = false;
         boolean alwaysExclude = false;
         if (recClassInfo.isARecord(false))
@@ -796,27 +776,11 @@ public class WriteRecordClass extends WriteSharedClass
                     if (strBaseFieldName.length() > 0)
                     {
                         firstTime = false;
-//                        boolean concreteClass = true;
-//                        if (recFieldData.getField(FieldData.kID).isNull())  // Only for concrete class
-//                            concreteClass = false;
-//                        if (!recFieldData.getField(FieldData.BASE_FIELD_NAME).isNull())
-//                            if (!recFieldData.getField(FieldData.BASE_FIELD_NAME).toString().equalsIgnoreCase(recFieldData.getField(FieldData.BASE_FIELD_NAME).toString()))
-//                                concreteClass = false;
-//                        if (codeType == CodeType.THIN)
-//                            if (!concreteClass)
-//                                break;
-                        String value;
-                        //if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
-                            value = convertNameToConstant(strBaseFieldName);
-                        //else
-                        //    value = "k" + strBaseFieldName;
+                        String value = convertNameToConstant(strBaseFieldName);
                         String strPre = DBConstants.BLANK;
                         if (recFieldData.getField(FieldData.FIELD_NAME).getString().equals(strBaseFieldName))
                             strPre = "//";
-                        //if ((codeType == CodeType.THIN) || (codeType == CodeType.INTERFACE))
-                            strFieldName = convertNameToConstant(strFieldName);
-                        //else
-                        //    strFieldName = "k" + strFieldName;
+                        strFieldName = convertNameToConstant(strFieldName);
                         boolean includeThis = ((IncludeScopeField)recFieldData.getField(FieldData.INCLUDE_SCOPE)).includeThis(codeType, true);
                         if (alwaysInclude)
                             includeThis = true;
@@ -838,14 +802,7 @@ public class WriteRecordClass extends WriteSharedClass
                         if (Rec.ID.equals(strFieldName))
                             includeThis = false;    // HACK
                         if (includeThis)
-                        {
-                            String strFieldConstant = this.convertNameToConstant(strFieldName);
-                            m_StreamOut.writeit("\n" + "public static final String " + strFieldConstant + " = \"" + strFieldName + "\";");
-                        }
-                        //String tempStr3 = " = k" + strLastField + " + 1;";
-                        //if (codeType == CodeType.THICK)
-                        //    m_StreamOut.writeit("\npublic static final int k" + strFieldName + tempStr3);
-                        //strLastField = strFieldName;
+                            m_StreamOut.writeit("\n" + "public static final String " + this.convertNameToConstant(strFieldName) + " = \"" + strFieldName + "\";");
                         break;
                     }
                 }
@@ -854,15 +811,7 @@ public class WriteRecordClass extends WriteSharedClass
             if (pass == 2)
             {
                 if (!firstTime)
-                {
-                    //if (codeType == CodeType.THICK)
-                    //{
-                    //    m_StreamOut.writeit("\npublic static final int k" + strRecordClass + "LastField = k" + strLastField + ";\n");
-                    //    m_StreamOut.writeit("public static final int k" + strRecordClass + "Fields = k" + strLastField + " - DBConstants.MAIN_FIELD + 1;\n");
-                    //}
-                    //else
-                        m_StreamOut.writeit("\n");
-                }
+                    m_StreamOut.writeit("\n");
             }
         } // End of pass loop
         
@@ -977,6 +926,11 @@ public class WriteRecordClass extends WriteSharedClass
             }
         }
     }
+    /**
+     * 
+     * @param recFieldData
+     * @return
+     */
     public boolean ignoreFieldData(FieldData recFieldData)
     {
         if (recFieldData.getField(FieldData.kID).isNull())
@@ -1374,7 +1328,6 @@ public class WriteRecordClass extends WriteSharedClass
         else
             fieldStuff.strFieldLength = recFieldData.getField(FieldData.MAXIMUM_LENGTH).stripNonNumeric(fieldStuff.strFieldLength);
         fieldStuff.strFileFieldName = recFieldData.getField(FieldData.FIELD_NAME).getString();
-//x     fieldStuff.strFileFieldName = recFieldData.getField(FieldData.FIELD_NAME_DB).getString();
         if (fieldStuff.strFileFieldName.length() == 0)
             fieldStuff.strFileFieldName = fieldStuff.strFieldName;
         fieldStuff.bNotNullField = recFieldData.getField(FieldData.FIELD_NOT_NULL).getState();
