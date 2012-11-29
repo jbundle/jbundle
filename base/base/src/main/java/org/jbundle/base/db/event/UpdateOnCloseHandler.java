@@ -58,7 +58,7 @@ public class UpdateOnCloseHandler extends FileListener
     public UpdateOnCloseHandler(Record recordToUpdate)
     {
         this();
-        this.init(null, recordToUpdate, false, true, false, null);
+        this.init(null, recordToUpdate, false, true, false);
     }
     /**
      * Constructor.
@@ -67,7 +67,7 @@ public class UpdateOnCloseHandler extends FileListener
     public UpdateOnCloseHandler(Record recordToUpdate, boolean bRefreshAfterUpdate)
     {
         this();
-        this.init(null, recordToUpdate, bRefreshAfterUpdate, true, false, null);
+        this.init(null, recordToUpdate, bRefreshAfterUpdate, true, false);
     }
     /**
      * Constructor.
@@ -76,7 +76,7 @@ public class UpdateOnCloseHandler extends FileListener
     public UpdateOnCloseHandler(Record recordToUpdate, boolean bRefreshAfterUpdate, boolean bUpdateOnUpdate)
     {
         this();
-        this.init(null, recordToUpdate, bRefreshAfterUpdate, true, bUpdateOnUpdate, null);
+        this.init(null, recordToUpdate, bRefreshAfterUpdate, true, bUpdateOnUpdate);
     }
     /**
      * Constructor.
@@ -85,29 +85,19 @@ public class UpdateOnCloseHandler extends FileListener
     public UpdateOnCloseHandler(Record recordToUpdate, boolean bRefreshAfterUpdate, boolean bUpdateOnClose, boolean bUpdateOnUpdate)
     {
         this();
-        this.init(null, recordToUpdate, bRefreshAfterUpdate, bUpdateOnClose, bUpdateOnUpdate, null);
-    }
-    /**
-     * Constructor - set this field to "modified" if any changes to record.
-     * @param recordToUpdate Record to update on close (if null, defaults to this file).
-     */
-    public UpdateOnCloseHandler(BaseField fieldToUpdate)
-    {
-        this();
-        this.init(null, null, false, false, true, fieldToUpdate);
+        this.init(null, recordToUpdate, bRefreshAfterUpdate, bUpdateOnClose, bUpdateOnUpdate);
     }
     /**
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      * @param recordToUpdate Record to update on close.
      */
-    public void init(Record record, Record recordToUpdate, boolean bRefreshAfterUpdate, boolean bUpdateOnClose, boolean bUpdateOnUpdate, BaseField fieldToUpdate)
+    public void init(Record record, Record recordToUpdate, boolean bRefreshAfterUpdate, boolean bUpdateOnClose, boolean bUpdateOnUpdate)
     {
         m_recordToUpdate = recordToUpdate;
         m_bRefreshAfterUpdate = bRefreshAfterUpdate;
         m_bUpdateOnClose = bUpdateOnClose;
         m_bUpdateOnUpdate = bUpdateOnUpdate;
-        this.fieldToUpdate = fieldToUpdate;
         super.init(record);
     }
     /**
@@ -210,6 +200,14 @@ public class UpdateOnCloseHandler extends FileListener
     public Record getRecordToUpdate()
     {
         return m_recordToUpdate;
+    }
+    /**
+     * Constructor - set this field to "modified" if any changes to record.
+     * @param recordToUpdate Record to update on close (if null, defaults to this file).
+     */
+    public void setFieldToUpdate(BaseField fieldToUpdate)
+    {
+        this.fieldToUpdate = fieldToUpdate;
     }
     /**
      * Add this listener to a record (only if it doesn't already exist)
