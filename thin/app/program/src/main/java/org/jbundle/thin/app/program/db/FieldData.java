@@ -87,7 +87,7 @@ public class FieldData extends FieldList
         //field = new FieldInfo(this, DATA_CLASS, 20, null, null);
         field = new FieldInfo(this, HIDDEN, 10, null, null);
         field.setDataClass(Boolean.class);
-        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x003));
+        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x004));
         field.setDataClass(Integer.class);
     }
     /**

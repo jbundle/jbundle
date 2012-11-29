@@ -76,7 +76,6 @@ public class MessageTransportInfo extends FieldList
         field = new FieldInfo(this, DEFAULT_TRANSPORT, 10, null, null);
         field.setDataClass(Boolean.class);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
     }
     /**
     * Set up the key areas.

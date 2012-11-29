@@ -44,6 +44,6 @@ public class WriteOnUpdateHandler extends UpdateOnCloseHandler
      */
     public void init(Record record, Record recordToUpdate, boolean bRefreshAfterUpdate, boolean bUpdateOnClose, boolean bUpdateOnUpdate)
     {
-        super.init(record, recordToUpdate, bRefreshAfterUpdate, bUpdateOnClose, bUpdateOnUpdate);
+        super.init(record, recordToUpdate, bRefreshAfterUpdate, bUpdateOnClose, bUpdateOnUpdate, null);
     }
 }

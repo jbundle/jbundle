@@ -74,11 +74,9 @@ public class ClassFields extends FieldList
         field = new FieldInfo(this, CLASS_FIELD_DESC, 30, null, null);
         field = new FieldInfo(this, CLASS_FIELD_PROTECT, 30, null, null);
         field = new FieldInfo(this, CLASS_FIELD_INITIAL, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CLASS_FIELD_INITIAL_VALUE, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CLASS_FIELDS_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x001));
+        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x004));
         field.setDataClass(Integer.class);
     }
     /**

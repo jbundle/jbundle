@@ -66,7 +66,6 @@ public class UserInfo extends PropertiesRecord
         field.setDataClass(Boolean.class);
         field.setHidden(true);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, USER_NAME, 60, null, null);
         field = new FieldInfo(this, FIRST_NAME, 20, null, null);
         field = new FieldInfo(this, LAST_NAME, 20, null, null);

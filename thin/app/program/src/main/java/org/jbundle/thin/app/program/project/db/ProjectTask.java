@@ -71,7 +71,6 @@ public class ProjectTask extends Folder
         field = new FieldInfo(this, SEQUENCE, 5, null, new Short((short)0));
         field.setDataClass(Short.class);
         field = new FieldInfo(this, COMMENT, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CODE, 30, null, null);
         field = new FieldInfo(this, START_DATE_TIME, 25, null, null);
         field.setDataClass(Date.class);

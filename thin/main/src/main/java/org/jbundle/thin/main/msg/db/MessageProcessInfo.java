@@ -82,7 +82,6 @@ public class MessageProcessInfo extends FieldList
         field.setDataClass(Integer.class);
         field = new FieldInfo(this, PROCESSOR_CLASS, 127, null, null);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, DEFAULT_MESSAGE_TRANSPORT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field = new FieldInfo(this, INITIAL_MESSAGE_STATUS_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);

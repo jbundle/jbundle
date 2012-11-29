@@ -31,6 +31,10 @@ public class DateChangedHandler extends FileListener
      * The date changed field in this record.
      */
     protected DateTimeField m_field = null;
+    /**
+     * Should I change the mod date on a field change?
+     */
+    protected boolean onFieldChange = false;
 
     /**
      * Constructor.
@@ -70,6 +74,15 @@ public class DateChangedHandler extends FileListener
         this.mainFilesFieldName = mainFilesFieldName;
     }
     /**
+     * Respond to field change events?
+     * This is useful with sub-files that notify me of field changes, but do no change any fields.
+     * @param onFieldChange
+     */
+    public void setOnFieldChange(boolean onFieldChange)
+    {
+        this.onFieldChange = onFieldChange;
+    }
+    /**
      * Called when a change is the record status is about to happen/has happened.
      * This method sets the field to the current time on an add or update.
      * @param field If this file change is due to a field, this is the field.
@@ -81,6 +94,9 @@ public class DateChangedHandler extends FileListener
     { // Write/Update a record
         switch (iChangeType)
         {
+            case DBConstants.FIELD_CHANGED_TYPE:
+                if (!onFieldChange)
+                    break;
             case DBConstants.REFRESH_TYPE:
             case DBConstants.ADD_TYPE:
             case DBConstants.UPDATE_TYPE:

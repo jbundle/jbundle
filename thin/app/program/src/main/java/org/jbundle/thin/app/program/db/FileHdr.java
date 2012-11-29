@@ -69,7 +69,6 @@ public class FileHdr extends FieldList
         field = new FieldInfo(this, FILE_MAIN_FILENAME, 40, null, null);
         field = new FieldInfo(this, TYPE, 60, null, null);
         field = new FieldInfo(this, FILE_NOTES, 9999, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, DATABASE_NAME, 20, null, null);
         field = new FieldInfo(this, FILE_REC_CALLED, 40, null, null);
         field = new FieldInfo(this, DISPLAY_CLASS, 40, null, null);

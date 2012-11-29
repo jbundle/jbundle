@@ -78,7 +78,7 @@ public class KeyInfo extends FieldList
         field = new FieldInfo(this, KEY_FIELD_9, 40, null, null);
         field = new FieldInfo(this, KEY_NAME, 40, null, null);
         field = new FieldInfo(this, KEY_TYPE, 1, null, null);
-        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x003));
+        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x004));
         field.setDataClass(Integer.class);
     }
     /**

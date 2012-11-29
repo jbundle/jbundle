@@ -158,7 +158,7 @@ public class FieldData extends VirtualRecord
             field = new BooleanField(this, HIDDEN, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 20)
         {
-            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x003));
+            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x004));
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (field == null)

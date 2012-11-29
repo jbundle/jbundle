@@ -562,7 +562,7 @@ public class BaseScreen extends BasePanel
             }
         }
         // Update the header record if it changes.
-        recHeader.addListener(new org.jbundle.base.db.event.UpdateOnCloseHandler(null));
+        recHeader.addListener(new org.jbundle.base.db.event.UpdateOnCloseHandler((Record)null));
     }
     /**
      * Add this record to this screen.

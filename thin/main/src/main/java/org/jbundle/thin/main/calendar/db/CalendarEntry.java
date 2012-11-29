@@ -77,7 +77,6 @@ public class CalendarEntry extends FieldList
         field = new FieldInfo(this, HIDDEN, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, ANNIV_MASTER_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
     }

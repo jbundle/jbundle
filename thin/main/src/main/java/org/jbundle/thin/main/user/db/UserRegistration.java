@@ -68,7 +68,6 @@ public class UserRegistration extends FieldList
         field.setDataClass(Integer.class);
         field = new FieldInfo(this, CODE, 128, null, null);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
     }
     /**
     * Set up the key areas.

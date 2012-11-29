@@ -77,7 +77,6 @@ public class AnalysisLog extends FieldList
         field.setDataClass(Date.class);
         field = new FieldInfo(this, RECORD_OWNER, 255, null, null);
         field = new FieldInfo(this, STACK_TRACE, 32000, null, null);
-        field.setDataClass(Object.class);
     }
     /**
     * Set up the key areas.

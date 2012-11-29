@@ -78,7 +78,6 @@ public class AnnivMaster extends FieldList
         field = new FieldInfo(this, HIDDEN, 10, null, new Boolean(false));
         field.setDataClass(Boolean.class);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
     }
     /**
     * Set up the key areas.

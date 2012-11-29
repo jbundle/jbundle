@@ -71,7 +71,6 @@ public class Registration extends FieldList
         field = new FieldInfo(this, LOCALE, 2, null, null);
         field = new FieldInfo(this, KEY_VALUE, 80, null, null);
         field = new FieldInfo(this, OBJECT_VALUE, 32000, null, null);
-        field.setDataClass(Object.class);
     }
     /**
     * Set up the key areas.

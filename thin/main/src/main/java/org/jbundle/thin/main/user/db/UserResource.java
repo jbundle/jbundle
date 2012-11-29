@@ -66,7 +66,6 @@ public class UserResource extends FieldList
         field.setHidden(true);
         field = new FieldInfo(this, DESCRIPTION, 30, null, null);
         field = new FieldInfo(this, RESOURCE_CLASS, 32000, null, null);
-        field.setDataClass(Object.class);
     }
     /**
     * Set up the key areas.

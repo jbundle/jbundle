@@ -71,7 +71,6 @@ public class MessageVersion extends FieldList
         field = new FieldInfo(this, NUMERIC_VERSION, 20, null, null);
         field = new FieldInfo(this, VERSION_ID, 20, null, null);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
     }
     /**
     * Set up the key areas.

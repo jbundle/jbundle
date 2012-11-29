@@ -65,7 +65,6 @@ public class IssueHistory extends FieldList
         field.setDataClass(Boolean.class);
         field.setHidden(true);
         field = new FieldInfo(this, COMMENT, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, ISSUE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
     }

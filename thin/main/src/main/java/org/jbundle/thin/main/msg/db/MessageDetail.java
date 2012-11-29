@@ -66,7 +66,6 @@ public class MessageDetail extends PropertiesRecord
         field.setDataClass(Boolean.class);
         field.setHidden(true);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CONTACT_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field = new FieldInfo(this, PERSON_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);

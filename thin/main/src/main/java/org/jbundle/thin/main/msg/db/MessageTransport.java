@@ -68,7 +68,6 @@ public class MessageTransport extends FieldList
         field = new FieldInfo(this, DESCRIPTION, 30, null, null);
         field = new FieldInfo(this, CODE, 10, null, null);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, MESSAGE_TRANSPORT_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
     }
     /**

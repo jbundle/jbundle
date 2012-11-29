@@ -68,16 +68,14 @@ public class LogicFile extends FieldList
         field.setDataClass(Integer.class);
         field = new FieldInfo(this, METHOD_NAME, 40, null, null);
         field = new FieldInfo(this, LOGIC_DESCRIPTION, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, METHOD_RETURNS, 255, null, null);
         field = new FieldInfo(this, METHOD_INTERFACE, 255, null, null);
         field = new FieldInfo(this, METHOD_CLASS_NAME, 40, null, null);
         field = new FieldInfo(this, LOGIC_SOURCE, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, LOGIC_THROWS, 255, null, null);
         field = new FieldInfo(this, PROTECTION, 60, null, null);
         field = new FieldInfo(this, COPY_FROM, 40, null, null);
-        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x001));
+        field = new FieldInfo(this, INCLUDE_SCOPE, 10, null, new Integer(0x004));
         field.setDataClass(Integer.class);
     }
     /**

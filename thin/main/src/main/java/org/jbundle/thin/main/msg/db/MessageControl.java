@@ -65,7 +65,6 @@ public class MessageControl extends FieldList
         field.setDataClass(Boolean.class);
         field.setHidden(true);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, WEB_SERVICES_SERVER, 128, null, "/ws");
         field = new FieldInfo(this, DEFAULT_VERSION_ID, 20, null, null);
         field.setDataClass(Integer.class);

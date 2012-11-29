@@ -65,7 +65,6 @@ public class Messages extends FieldList
         field.setDataClass(Boolean.class);
         field.setHidden(true);
         field = new FieldInfo(this, DESCRIPTION, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, EMAIL, 70, null, null);
         field = new FieldInfo(this, USER_ID_FIELD, 50, null, null);
     }

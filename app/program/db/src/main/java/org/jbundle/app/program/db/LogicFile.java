@@ -141,7 +141,7 @@ public class LogicFile extends VirtualRecord
             field = new StringField(this, COPY_FROM, 40, null, null);
         if (iFieldSeq == 13)
         {
-            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x001));
+            field = new IncludeScopeField(this, INCLUDE_SCOPE, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(0x004));
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (field == null)

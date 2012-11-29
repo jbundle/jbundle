@@ -94,11 +94,8 @@ public class MessageLog extends FieldList
         field = new FieldInfo(this, RESPONSE_MESSAGE_LOG_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);
         field = new FieldInfo(this, MESSAGE_HEADER_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, MESSAGE_INFO_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, MESSAGE_TRANSPORT_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, MESSAGE_CLASS_NAME, 128, null, null);
         field = new FieldInfo(this, MESSAGE_HEADER_CLASS_NAME, 128, null, null);
         field = new FieldInfo(this, MESSAGE_DATA_CLASS_NAME, 128, null, null);
@@ -107,9 +104,7 @@ public class MessageLog extends FieldList
         field = new FieldInfo(this, MESSAGE_QUEUE_TYPE, 60, null, null);
         field = new FieldInfo(this, MESSAGE_DATA_TYPE, 30, null, null);
         field = new FieldInfo(this, XML_MESSAGE_DATA, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, MESSAGE_DATA, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, ERROR_TEXT, 127, null, null);
     }
     /**

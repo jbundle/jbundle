@@ -68,7 +68,6 @@ public class MessageInfo extends FieldList
         field = new FieldInfo(this, CODE, 30, null, null);
         field = new FieldInfo(this, MESSAGE_CLASS, 127, null, null);
         field = new FieldInfo(this, MESSAGE_PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, MESSAGE_INFO_TYPE_ID, Constants.DEFAULT_FIELD_LENGTH, null, new Integer(1));
         field.setDataClass(Integer.class);
         field = new FieldInfo(this, REVERSE_MESSAGE_INFO_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);

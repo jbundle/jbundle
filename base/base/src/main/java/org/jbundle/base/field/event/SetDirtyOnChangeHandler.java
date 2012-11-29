@@ -16,7 +16,7 @@ import org.jbundle.thin.base.db.Constants;
 
 
 /**
- * SetDirtyOnChangeHandler - Change the screen focus.
+ * SetDirtyOnChangeHandler - If this record changes, make sure the main record shows it was updated.
  *
  * @version 1.0.0
  * @author    Don Corley

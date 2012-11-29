@@ -73,7 +73,6 @@ public class DatabaseInfo extends FieldList
         field.setDataClass(Integer.class);
         field = new FieldInfo(this, BASE_DATABASE, 30, null, null);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
     }
     /**
     * Set up the key areas.

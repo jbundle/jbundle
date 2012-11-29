@@ -11,6 +11,7 @@ package org.jbundle.base.db.event;
  */
 
 import org.jbundle.base.db.Record;
+import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
@@ -19,7 +20,7 @@ import org.jbundle.thin.base.db.FieldInfo;
 
 
 /**
- * Update table if this file is freed.
+ * Update table if this file is freed or updated.
  */
 public class UpdateOnCloseHandler extends FileListener
 {
@@ -39,7 +40,10 @@ public class UpdateOnCloseHandler extends FileListener
      * 
      */
     protected boolean m_bUpdateOnUpdate = false;
-
+    /**
+     * 
+     */
+    protected BaseField fieldToUpdate = null;
     /**
      * Constructor.
      */
@@ -54,7 +58,7 @@ public class UpdateOnCloseHandler extends FileListener
     public UpdateOnCloseHandler(Record recordToUpdate)
     {
         this();
-        this.init(null, recordToUpdate, false, true, false);
+        this.init(null, recordToUpdate, false, true, false, null);
     }
     /**
      * Constructor.
@@ -63,7 +67,7 @@ public class UpdateOnCloseHandler extends FileListener
     public UpdateOnCloseHandler(Record recordToUpdate, boolean bRefreshAfterUpdate)
     {
         this();
-        this.init(null, recordToUpdate, bRefreshAfterUpdate, true, false);
+        this.init(null, recordToUpdate, bRefreshAfterUpdate, true, false, null);
     }
     /**
      * Constructor.
@@ -72,7 +76,7 @@ public class UpdateOnCloseHandler extends FileListener
     public UpdateOnCloseHandler(Record recordToUpdate, boolean bRefreshAfterUpdate, boolean bUpdateOnUpdate)
     {
         this();
-        this.init(null, recordToUpdate, bRefreshAfterUpdate, true, bUpdateOnUpdate);
+        this.init(null, recordToUpdate, bRefreshAfterUpdate, true, bUpdateOnUpdate, null);
     }
     /**
      * Constructor.
@@ -81,19 +85,29 @@ public class UpdateOnCloseHandler extends FileListener
     public UpdateOnCloseHandler(Record recordToUpdate, boolean bRefreshAfterUpdate, boolean bUpdateOnClose, boolean bUpdateOnUpdate)
     {
         this();
-        this.init(null, recordToUpdate, bRefreshAfterUpdate, bUpdateOnClose, bUpdateOnUpdate);
+        this.init(null, recordToUpdate, bRefreshAfterUpdate, bUpdateOnClose, bUpdateOnUpdate, null);
+    }
+    /**
+     * Constructor - set this field to "modified" if any changes to record.
+     * @param recordToUpdate Record to update on close (if null, defaults to this file).
+     */
+    public UpdateOnCloseHandler(BaseField fieldToUpdate)
+    {
+        this();
+        this.init(null, null, false, false, true, fieldToUpdate);
     }
     /**
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      * @param recordToUpdate Record to update on close.
      */
-    public void init(Record record, Record recordToUpdate, boolean bRefreshAfterUpdate, boolean bUpdateOnClose, boolean bUpdateOnUpdate)
+    public void init(Record record, Record recordToUpdate, boolean bRefreshAfterUpdate, boolean bUpdateOnClose, boolean bUpdateOnUpdate, BaseField fieldToUpdate)
     {
         m_recordToUpdate = recordToUpdate;
         m_bRefreshAfterUpdate = bRefreshAfterUpdate;
         m_bUpdateOnClose = bUpdateOnClose;
         m_bUpdateOnUpdate = bUpdateOnUpdate;
+        this.fieldToUpdate = fieldToUpdate;
         super.init(record);
     }
     /**
@@ -178,6 +192,11 @@ public class UpdateOnCloseHandler extends FileListener
                     else if (m_recordToUpdate.getEditMode() == Constants.EDIT_ADD)
                         m_recordToUpdate.add();
                 }
+            }
+            if (fieldToUpdate != null)
+            {
+                fieldToUpdate.setModified(true);
+                //?result = fieldToUpdate.getRecord().handleRecordChange(m_fldTarget, DBConstants.FIELD_CHANGED_TYPE, bDisplayOption);    // Tell table that I'm getting changed (if not locked)
             }
         } catch(DBException ex)   {
             ex.printStackTrace();

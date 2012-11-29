@@ -76,14 +76,10 @@ public class ClassInfo extends FieldList
         field = new FieldInfo(this, CLASS_SOURCE_FILE, 40, null, null);
         field = new FieldInfo(this, CLASS_TYPE, 20, null, null);
         field = new FieldInfo(this, CLASS_EXPLAIN, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CLASS_HELP, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CLASS_IMPLEMENTS, 60, null, null);
         field = new FieldInfo(this, SEE_ALSO, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, TECHNICAL_INFO, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, COPY_DESC_FROM, 50, null, null);
     }
     /**

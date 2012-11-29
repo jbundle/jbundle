@@ -613,13 +613,14 @@ public class WriteRecordClass extends WriteSharedClass
             if ((fieldStuff.strDataClass.equals("Currency")) || (fieldStuff.strDataClass.equals("Real")))
                 fieldStuff.strDataClass = "Double";
             if ((fieldStuff.strDataClass == null) || (fieldStuff.strDataClass.length() == 0))
-                fieldStuff.strDataClass = "Object";                     
+                fieldStuff.strDataClass = "String";                     
             if (fieldStuff.strDataClass.equals("String"))
                 fieldStuff.strDataClass = null;
             if ("ImageField".equals(fieldStuff.strBaseFieldClass))
                 fieldStuff.strDataClass = "Object";   //"javax.swing.ImageIcon";
             if ((fieldStuff.strDataClass != null) && (fieldStuff.strDataClass.length() > 0))
                 m_StreamOut.writeit(strPre + "field.setDataClass(" + fieldStuff.strDataClass + ".class);\n");
+            
             if ("RealField".equals(fieldStuff.strBaseFieldClass))
                 m_StreamOut.writeit(strPre + "field.setScale(-1);\n");
             if ("DateField".equals(fieldStuff.strBaseFieldClass))
@@ -988,6 +989,8 @@ public class WriteRecordClass extends WriteSharedClass
             if (!fieldStuff.strFieldDesc.equals("null"))
                 fieldStuff.strFieldDesc = "\"" + fieldStuff.strFieldDesc + "\"";
             fieldStuff.strFieldDesc = "null";   // Use the resource file!
+            if ((fieldStuff.strFieldClass == null) || (fieldStuff.strFieldClass.length() == 0))
+                fieldStuff.strFieldClass = "StringField";
 
             m_StreamOut.writeit(strPre + "\tfield = new " + fieldStuff.strFieldClass + "(this, " + this.convertNameToConstant(fieldStuff.strFileFieldName) + ", " + fieldStuff.strFieldLength + ", " + fieldStuff.strFieldDesc + ", " + fieldStuff.strDefaultField + ");\n");
 
@@ -1315,7 +1318,7 @@ public class WriteRecordClass extends WriteSharedClass
         recClassInfo.getField(ClassInfo.BASE_CLASS_NAME).setString(strBaseClass);
     }
     /**
-     *  getFieldData.
+     *  Extract the actual Field Data from the record and put it in the FieldStuff object.
      */
     public void getFieldData(FieldStuff fieldStuff, boolean bThin)
     {

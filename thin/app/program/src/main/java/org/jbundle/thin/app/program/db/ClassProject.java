@@ -71,7 +71,6 @@ public class ClassProject extends Folder
         field = new FieldInfo(this, SEQUENCE, 5, null, null);
         field.setDataClass(Short.class);
         field = new FieldInfo(this, COMMENT, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CODE, 30, null, null);
         field = new FieldInfo(this, DESCRIPTION, 100, null, null);
         field = new FieldInfo(this, SYSTEM_CLASSES, 10, null, null);
@@ -85,7 +84,6 @@ public class ClassProject extends Folder
         field = new FieldInfo(this, RESOURCE_PACKAGE, 100, null, null);
         field = new FieldInfo(this, RES_PROJECT_PATH, 100, null, null);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, ARTIFACT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field = new FieldInfo(this, GROUP_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
     }

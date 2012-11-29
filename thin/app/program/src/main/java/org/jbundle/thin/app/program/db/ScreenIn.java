@@ -81,7 +81,6 @@ public class ScreenIn extends FieldList
         field = new FieldInfo(this, SCREEN_LOCATION, 20, null, null);
         field = new FieldInfo(this, SCREEN_FIELD_DESC, 30, null, null);
         field = new FieldInfo(this, SCREEN_TEXT, 9999, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, SCREEN_ANCHOR, 20, null, null);
         field = new FieldInfo(this, SCREEN_CONTROL_TYPE, 20, null, null);
     }

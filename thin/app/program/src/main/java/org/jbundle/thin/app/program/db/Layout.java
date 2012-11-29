@@ -71,7 +71,6 @@ public class Layout extends Folder
         field = new FieldInfo(this, SEQUENCE, 5, null, null);
         field.setDataClass(Short.class);
         field = new FieldInfo(this, COMMENT, 255, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CODE, 30, null, null);
         field = new FieldInfo(this, TYPE, 50, null, null);
         field = new FieldInfo(this, FIELD_VALUE, 255, null, null);

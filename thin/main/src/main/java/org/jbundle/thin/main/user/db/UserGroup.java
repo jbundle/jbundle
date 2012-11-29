@@ -66,10 +66,8 @@ public class UserGroup extends PropertiesRecord
         field.setDataClass(Boolean.class);
         field.setHidden(true);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, DESCRIPTION, 30, null, null);
         field = new FieldInfo(this, ACCESS_MAP, 32000, null, null);
-        field.setDataClass(Object.class);
     }
     /**
     * Set up the key areas.

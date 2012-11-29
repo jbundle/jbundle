@@ -71,20 +71,16 @@ public class Menus extends Folder
         field = new FieldInfo(this, SEQUENCE, 5, null, new Short((short)0));
         field.setDataClass(Short.class);
         field = new FieldInfo(this, COMMENT, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CODE, 30, null, null);
         field = new FieldInfo(this, TYPE, 10, null, null);
         field = new FieldInfo(this, AUTO_DESC, 10, null, new Boolean(true));
         field.setDataClass(Boolean.class);
         field = new FieldInfo(this, PROGRAM, 255, null, null);
         field = new FieldInfo(this, PARAMS, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, ICON_RESOURCE, 255, null, null);
         field = new FieldInfo(this, KEYWORDS, 50, null, null);
         field = new FieldInfo(this, XML_DATA, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, MENUS_HELP, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
     }
     /**
     * Set up the key areas.

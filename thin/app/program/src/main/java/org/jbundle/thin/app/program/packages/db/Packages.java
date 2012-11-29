@@ -71,7 +71,6 @@ public class Packages extends Folder
         field = new FieldInfo(this, SEQUENCE, 5, null, null);
         field.setDataClass(Short.class);
         field = new FieldInfo(this, COMMENT, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CODE, 30, null, null);
         field = new FieldInfo(this, CLASS_PROJECT_ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field.setDataClass(Integer.class);

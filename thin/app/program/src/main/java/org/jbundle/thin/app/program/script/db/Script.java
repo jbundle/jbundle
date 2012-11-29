@@ -71,10 +71,8 @@ public class Script extends Folder
         field = new FieldInfo(this, SEQUENCE, 5, null, null);
         field.setDataClass(Short.class);
         field = new FieldInfo(this, COMMENT, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CODE, 30, null, null);
         field = new FieldInfo(this, PROPERTIES, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, COMMAND, Constants.DEFAULT_FIELD_LENGTH, null, "true");
         //field = new FieldInfo(this, SOURCE, 128, null, null);
         //field = new FieldInfo(this, DESTINATION, 128, null, null);

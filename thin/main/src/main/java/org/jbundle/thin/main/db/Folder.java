@@ -71,7 +71,6 @@ public class Folder extends BaseFolder
         field = new FieldInfo(this, SEQUENCE, 5, null, null);
         field.setDataClass(Short.class);
         field = new FieldInfo(this, COMMENT, 32000, null, null);
-        field.setDataClass(Object.class);
         field = new FieldInfo(this, CODE, 30, null, null);
     }
     /**
