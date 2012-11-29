@@ -735,7 +735,7 @@ public class WriteRecordClass extends WriteSharedClass
     }
     /**
      *  Write the constants for the field offsets
-     * @param codeType TODO
+     * @param codeType
      */
     public void writeFieldOffsets(FieldIterator fieldIterator, CodeType codeType)
     { // Now, write all the field offsets out in the header file
@@ -1037,9 +1037,7 @@ public class WriteRecordClass extends WriteSharedClass
                 count++;
                 strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
                 if (strKeyName.length() == 0)
-                {
                     strKeyName = recKeyInfo.getField(KeyInfo.KEY_FIELD_1).getString();
-                }
                 if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
                     strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
 
@@ -1047,6 +1045,10 @@ public class WriteRecordClass extends WriteSharedClass
                     continue;
                 if (keyInBase(recClassInfo, recKeyInfo))
                     continue;
+                if (!strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
+                    if (count == 1)
+                        if (recKeyInfo.getField(KeyInfo.KEY_NUMBER).isNull())
+                            count++;   // Special case, no sequence, first key is not the primary key... first key must be primary key
                 if (count > 1)
                     m_StreamOut.writeit("\npublic static final String " + this.convertNameToConstant(strKeyName + "Key") + " = \"" + strKeyName +"\";\n");
 
@@ -1076,7 +1078,6 @@ public class WriteRecordClass extends WriteSharedClass
     { // Now, write the key setup method
         Record recClassInfo = this.getMainRecord();
         try   {
-            String finalKeyName;
             String strKeyName = DBConstants.BLANK;
             String strRecordClass = recClassInfo.getField(ClassInfo.CLASS_NAME).getString();
             
@@ -1112,7 +1113,7 @@ public class WriteRecordClass extends WriteSharedClass
             while (recKeyInfo.hasNext())
             {
                 recKeyInfo.next();
-                finalKeyName = "";
+                String finalKeyName = "";
                 strKeyName = recKeyInfo.getField(KeyInfo.KEY_NAME).getString();
                 if (strKeyName.length() == 0)
                 {
@@ -1131,26 +1132,6 @@ public class WriteRecordClass extends WriteSharedClass
                     }
                 }
 
-                if (finalKeyName.length() == 0)
-                    finalKeyName = strKeyName;
-                if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
-                    strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
-                else
-                {
-                    if (count == 0)
-                        if (recKeyInfo.getField(KeyInfo.KEY_NUMBER).isNull())
-                        {   // Special case, no sequence, first key is not the primary key... first key must be primary key
-                            recKeyInfo.addNew();
-                            recKeyInfo.close();
-                        }
-                }
-                if (codeType == CodeType.THICK)
-                {
-                    m_StreamOut.writeit("if (iKeyArea == " + count + ")\n");
-                    m_StreamOut.writeit("{\n");
-                    m_StreamOut.setTabs(+1);
-                }
-                count++;
                 String strKeyType = recKeyInfo.getField(KeyInfo.KEY_TYPE).getString();
                 finalKeyName = this.fixSQLName(finalKeyName);
                 String strUnique = "UNIQUE";
@@ -1167,6 +1148,29 @@ public class WriteRecordClass extends WriteSharedClass
                     else
                         strUnique = "NOT_UNIQUE";
                 }
+
+                if (finalKeyName.length() == 0)
+                    finalKeyName = strKeyName;
+                if (strKeyName.equalsIgnoreCase(DBConstants.PRIMARY_KEY))
+                    strKeyName = strRecordClass + "Primary";    // To avoid re-defining kPrimaryKey
+                else
+                {
+                    if (count == 0)
+                        if (recKeyInfo.getField(KeyInfo.KEY_NUMBER).isNull())
+                        {   // Special case, no sequence, first key is not the primary key... first key must be primary key
+                            recKeyInfo.addNew();
+                            strUnique = "UNIQUE";
+                            recKeyInfo.getField(KeyInfo.KEY_FIELD_1).setString(DBConstants.PRIMARY_KEY);
+                            recKeyInfo.close();
+                        }
+                }
+                if (codeType == CodeType.THICK)
+                {
+                    m_StreamOut.writeit("if (iKeyArea == " + count + ")\n");
+                    m_StreamOut.writeit("{\n");
+                    m_StreamOut.setTabs(+1);
+                }
+                count++;
                 if (codeType == CodeType.THICK)
                     m_StreamOut.writeit("keyArea = this.makeIndex(DBConstants." + strUnique + ", " + this.convertNameToConstant(finalKeyName + "Key") + ");\n");
                 else    // Thin

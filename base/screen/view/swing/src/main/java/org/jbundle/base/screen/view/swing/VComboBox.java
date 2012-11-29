@@ -119,6 +119,7 @@ public class VComboBox extends VPopupBox
      */
     public void setComponentState(Object control, Object objValue)
     {
+        ((JComboBox)control).setSelectedItem(objValue);
         ((JTextField)(((JComboBox)control).getEditor()).getEditorComponent()).setText((String)objValue);  // Special case - Combo Box (with input area).
     }
     /**

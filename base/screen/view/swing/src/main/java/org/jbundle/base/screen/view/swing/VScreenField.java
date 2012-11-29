@@ -81,17 +81,9 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
      */
     protected Rectangle m_rectExtent = null;
     /**
-     * Zero insets constants.
-     */
-    public final static Insets NO_INSETS = new Insets(0,0,0,0);
-    /**
      * To time a mouse-double click.
      */
     protected long m_lMouseLastClick = 0;
-    /**
-     * 5/10 of a sec.
-     */
-    public static final int kiDoubleClickTimems = 500;
     /**
      * These are used for screenfields rendered and edited in a GridScreen.
      */
@@ -111,11 +103,19 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
     /**
      * A border used to convey focus.
      */
-    protected static final Border m_focusBorder = new LineBorder(Color.black);
+    protected static final Border FOCUS_BORDER = new LineBorder(Color.black);
     /**
      * A border used to convey focus.
      */
-    protected static final Border m_defaultBorder = new LineBorder(Color.gray);
+    protected static final Border DEFAULT_BORDER = new LineBorder(Color.gray);
+    /**
+     * Zero insets constants.
+     */
+    public final static Insets NO_INSETS = new Insets(0,0,0,0);
+    /**
+     * 5/10 of a sec.
+     */
+    public static final int DOUBLE_CLICK_TIME_MS = 500;
 
     /**
      * Constructor.
@@ -567,12 +567,12 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
         JComponent control = this.getRendererControl();
         this.setComponentState(control, value);   // Set this component
         this.setControlAttributes(control, false, isSelected, true);
-        if (control.getBorder() == m_focusBorder)
+        if (control.getBorder() == FOCUS_BORDER)
             control.setBorder(null);
         if (isSelected) if (hasFocus)
         {
             if (control.getBorder() == null)
-                control.setBorder(m_focusBorder);
+                control.setBorder(FOCUS_BORDER);
             if (!table.isCellEditable(row, column))
                 isSelected = false;
             this.setControlAttributes(control, true, isSelected, true);     // This is the user's cue that this is the focused component (no cursor yet)
@@ -673,7 +673,7 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
             isSelected = false;
         this.setControlAttributes(control, isSelected, isSelected, true);
         if (control.getBorder() == null)
-            control.setBorder(m_focusBorder);
+            control.setBorder(FOCUS_BORDER);
         if (table.getSelectedRow() != row)
             table.setRowSelectionInterval(row, row);
         return control;
@@ -848,7 +848,7 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
     {
         long lMouseLastClick = m_lMouseLastClick;
         m_lMouseLastClick = System.currentTimeMillis();
-        if ((m_lMouseLastClick - lMouseLastClick) < kiDoubleClickTimems)
+        if ((m_lMouseLastClick - lMouseLastClick) < DOUBLE_CLICK_TIME_MS)
             this.onDoubleClick(e);
         else
             this.onMouseClicked(e);

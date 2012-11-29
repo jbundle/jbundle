@@ -14045,7 +14045,7 @@
 		<MinimumLength/>
 		<MaximumLength/>
 		<DefaultValue>old</DefaultValue>
-		<InitialValue>0x001</InitialValue>
+		<InitialValue>0x004</InitialValue>
 		<FieldDescription>Include where (thick,thin,interface)</FieldDescription>
 		<FieldDescVertical>Include</FieldDescVertical>
 		<FieldType/>
@@ -14067,7 +14067,7 @@
 		<MinimumLength/>
 		<MaximumLength/>
 		<DefaultValue>old</DefaultValue>
-		<InitialValue>0x001</InitialValue>
+		<InitialValue>0x004</InitialValue>
 		<FieldDescription>Include field names here</FieldDescription>
 		<FieldDescVertical>Include names</FieldDescVertical>
 		<FieldType/>
@@ -14089,7 +14089,7 @@
 		<MinimumLength/>
 		<MaximumLength/>
 		<DefaultValue>old</DefaultValue>
-		<InitialValue>0x003</InitialValue>
+		<InitialValue>0x004</InitialValue>
 		<FieldDescription>Include field description in these files</FieldDescription>
 		<FieldDescVertical>Include desc</FieldDescVertical>
 		<FieldType/>
@@ -14111,7 +14111,7 @@
 		<MinimumLength/>
 		<MaximumLength/>
 		<DefaultValue>old</DefaultValue>
-		<InitialValue>0x003</InitialValue>
+		<InitialValue>0x004</InitialValue>
 		<FieldDescription>Include this key field here</FieldDescription>
 		<FieldDescVertical>Include key</FieldDescVertical>
 		<FieldType/>
