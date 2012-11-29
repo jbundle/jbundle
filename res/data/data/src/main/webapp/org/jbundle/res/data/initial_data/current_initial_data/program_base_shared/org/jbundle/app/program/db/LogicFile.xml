@@ -750,7 +750,7 @@ return strLink;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778029">
-		<LastChanged>2012-11-01T15:24:29</LastChanged>
+		<LastChanged>2012-11-27T19:00:42</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>40</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -769,7 +769,7 @@ this.getMainRecord().addListener(new FileListener(null)
     public int doRecordChange(FieldInfo field, int iChangeType, boolean bDisplayOption)
     {
         int iErrorCode = super.doRecordChange(field, iChangeType, bDisplayOption);
-        if ((iChangeType == DBConstants.AFTER_UPDATE_TYPE) || (iChangeType == DBConstants.AFTER_UPDATE_TYPE))
+        if ((iChangeType == DBConstants.AFTER_UPDATE_TYPE) || (iChangeType == DBConstants.AFTER_ADD_TYPE))
         {
             Record classInfo = getMainRecord();
             TaskScheduler js = BaseApplet.getSharedInstance().getApplication().getTaskScheduler();
@@ -777,7 +777,7 @@ this.getMainRecord().addListener(new FileListener(null)
             strJob = Utility.addURLParam(strJob, "fileName", classInfo.getField(ClassInfo.CLASS_SOURCE_FILE).toString());
             strJob = Utility.addURLParam(strJob, "package", classInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
             strJob = Utility.addURLParam(strJob, "project", Converter.stripNonNumber(classInfo.getField(ClassInfo.CLASS_PROJECT_ID).toString()));
-            strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
+            strJob = Utility.addURLParam(strJob, DBParams.TASK, ProcessRunnerTask.class.getName()); // Screen class
             js.addTask(strJob);                    
         }
         return iErrorCode;
@@ -4428,7 +4428,7 @@ The base code is now in the swing implementation
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16779593">
-		<LastChanged>2012-11-02T08:18:50</LastChanged>
+		<LastChanged>2012-11-27T16:30:50</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>300</Sequence>
 		<MethodName>doCommand</MethodName>
@@ -4457,6 +4457,14 @@ if ((this.getMainRecord().getEditMode() == DBConstants.EDIT_ADD)
 {
     try {
         this.getMainRecord().writeAndRefresh(false);    // Make sure data is current before doing any command.
+        if (this.getScreenRecord().getField(ClassVars.CLASS_KEY).getListener(SwitchClassSub.class) != null)
+        {
+            ScreenField screen = ((SwitchClassSub)this.getScreenRecord().getField(ClassVars.CLASS_KEY).getListener(SwitchClassSub.class)).getSubScreen();
+            if (screen instanceof Screen)
+                ((Screen)screen).getMainRecord().writeAndRefresh(false);    // Make sure data is current before doing any command.
+            else if (screen instanceof GridScreen)
+                ((GridScreen)screen).finalizeThisScreen();   //? Validate current row
+        }
     } catch (DBException e) {
         e.printStackTrace();
     }
@@ -6269,7 +6277,7 @@ NOTE: For now, you are only notified of the main record changes.
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16780387">
-		<LastChanged>2012-01-26T23:22:45</LastChanged>
+		<LastChanged>2012-11-27T19:01:26</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>controlToField</MethodName>
@@ -6281,7 +6289,7 @@ NOTE: For now, you are only notified of the main record changes.
 if (m_classInfo != null)
 {
     TaskScheduler js = BaseApplet.getSharedInstance().getApplication().getTaskScheduler();
-    String strJob = Utility.addURLParam(null, DBParams.SCREEN, ".app.program.manual.util.WriteClasses");
+    String strJob = Utility.addURLParam(null, DBParams.SCREEN, ".app.program.manual.util.WriteClassesScreen");
     strJob = Utility.addURLParam(strJob, "fileName", m_classInfo.getField(ClassInfo.CLASS_SOURCE_FILE).toString());
     strJob = Utility.addURLParam(strJob, "package", m_classInfo.getField(ClassInfo.CLASS_PACKAGE).toString());
     strJob = Utility.addURLParam(strJob, "project", Converter.stripNonNumber(m_classInfo.getField(ClassInfo.CLASS_PROJECT_ID).toString()));
@@ -7990,7 +7998,7 @@ if (iDataLength == DBConstants.DEFAULT_FIELD_LENGTH)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16781781">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2009-02-12T14:49:17</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>520</Sequence>
 		<MethodName>getSharedRecordTypeKey</MethodName>
@@ -18079,7 +18087,7 @@ return replyMessage;    // Override this!]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784043">
-		<LastChanged>2012-01-28T09:54:18</LastChanged>
+		<LastChanged>2012-03-29T10:38:00</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>addListeners</MethodName>
@@ -33238,6 +33246,41 @@ new ProgramControl(this);]]></LogicSource>
 };
 return string;
 ]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785205">
+		<LastChanged>2012-11-27T16:18:18</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>50</Sequence>
+		<MethodName>getPopupMap</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>FieldTypeField</MethodClassName>
+		<LogicSource><![CDATA[String string[][] = {
+{"", ""},
+{VIRTUAL_FIELD, "Virtual Field"},
+};
+return string;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785206">
+		<LastChanged>2012-11-27T16:29:23</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>FieldTypeField</MethodClassName>
+		<LogicSource><![CDATA[converter = new CheckConverter((Converter)converter, VIRTUAL_FIELD, null, true);
+return createScreenComponent(ScreenModel.CHECK_BOX, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>

@@ -30,7 +30,7 @@
 		<ReverseQueueNameID>4</ReverseQueueNameID>
 	</QueueName>
 	<QueueName ID="4">
-		<LastChanged>2006-09-03T13:32:00</LastChanged>
+		<LastChanged>2006-09-03T07:30:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Code>trxReceive</Code>
 		<Name>Trx receive queue</Name>

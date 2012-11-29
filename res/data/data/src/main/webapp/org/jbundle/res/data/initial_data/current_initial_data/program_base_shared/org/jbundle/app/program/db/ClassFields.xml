@@ -4483,7 +4483,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16781466">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
+		<LastChanged>2010-02-20T06:18:57</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>UserLoginScreen</ClassInfoClassName>
 		<ClassInfoID/>
@@ -9104,7 +9104,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782339">
-		<LastChanged>2010-11-25T15:48:13</LastChanged>
+		<LastChanged>2011-08-05T15:59:47</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>ImportXMLScanListener</ClassInfoClassName>
 		<ClassInfoID/>
@@ -9794,7 +9794,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782409">
-		<LastChanged>2010-10-28T06:09:19</LastChanged>
+		<LastChanged>2010-10-17T13:23:05</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>BaseSetupSiteProcess</ClassInfoClassName>
 		<ClassInfoID/>
@@ -10131,7 +10131,7 @@
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782435">
-		<LastChanged>2010-11-05T09:10:23</LastChanged>
+		<LastChanged>2010-11-05T15:59:47</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>BaseRegistrationScreen</ClassInfoClassName>
 		<ClassInfoID/>
@@ -11241,7 +11241,7 @@
 		<IncludeScope>4</IncludeScope>
 	</ClassFields>
 	<ClassFields ID="16782511">
-		<LastChanged>2012-01-15T11:32:37</LastChanged>
+		<LastChanged>2012-08-05T15:59:47</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>FileHdr</ClassInfoClassName>
 		<ClassInfoID/>
@@ -13203,6 +13203,36 @@
 		<ClassFieldInitial/>
 		<ClassFieldInitialValue>"N"</ClassFieldInitialValue>
 		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782649">
+		<LastChanged>2012-11-27T16:07:22</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>FieldTypeField</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>10</ClassFieldSequence>
+		<ClassFieldName>VIRTUAL_FIELD</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"N"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782650">
+		<LastChanged>2012-11-27T21:44:46</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassInfoScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ProcessRunnerTask</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
 </file>

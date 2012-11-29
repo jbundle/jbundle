@@ -836,7 +836,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781559">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-27T16:14:08</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>BaseFieldName</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -846,7 +846,7 @@
 		<MaximumLength>40</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription/>
+		<FieldDescription>The field name in the base record that this field overrides</FieldDescription>
 		<FieldDescVertical>Base field</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension>1</FieldDimension>
@@ -1034,7 +1034,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781629">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-27T17:21:46</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>DefaultValue</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -1044,8 +1044,8 @@
 		<MaximumLength>50</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription/>
-		<FieldDescVertical>Default (old)</FieldDescVertical>
+		<FieldDescription>Default to the previous value?</FieldDescription>
+		<FieldDescVertical>Default?</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension>1</FieldDimension>
 		<FieldFileName>FieldData</FieldFileName>
@@ -1078,7 +1078,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781631">
-		<LastChanged>2012-11-01T17:36:37</LastChanged>
+		<LastChanged>2012-11-27T18:58:05</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>FieldClass</FieldName>
 		<FieldClass>FieldClassField</FieldClass>
@@ -1144,7 +1144,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781634">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-27T16:17:27</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>FieldDescription</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -1154,7 +1154,7 @@
 		<MaximumLength>100</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription/>
+		<FieldDescription>Detailed field description</FieldDescription>
 		<FieldDescVertical>Field desc.</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension>1</FieldDimension>
@@ -1166,7 +1166,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781635">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-27T16:15:50</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>FieldDescVertical</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -1176,7 +1176,7 @@
 		<MaximumLength>14</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription/>
+		<FieldDescription>Short description for form entry</FieldDescription>
 		<FieldDescVertical>Vertical desc</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension>1</FieldDimension>
@@ -1254,7 +1254,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781640">
-		<LastChanged>2010-12-06T04:38:51</LastChanged>
+		<LastChanged>2012-11-27T17:21:26</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>FieldNotNull</FieldName>
 		<FieldClass>BooleanField</FieldClass>
@@ -1276,7 +1276,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781641">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-27T17:21:06</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>FieldSeqNo</FieldName>
 		<FieldClass>ShortField</FieldClass>
@@ -1286,8 +1286,8 @@
 		<MaximumLength>4</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription/>
-		<FieldDescVertical/>
+		<FieldDescription>Optional field order</FieldDescription>
+		<FieldDescVertical>Field sequence</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension>1</FieldDimension>
 		<FieldFileName>FieldData</FieldFileName>
@@ -1298,18 +1298,18 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781642">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-11-27T16:11:56</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>FieldType</FieldName>
-		<FieldClass>StringField</FieldClass>
+		<FieldClass>FieldTypeField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
 		<MaximumLength>1</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription/>
-		<FieldDescVertical>Field type</FieldDescVertical>
+		<FieldDescription>A virtual field is not persisted to the database</FieldDescription>
+		<FieldDescVertical>Virtual field?</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension>1</FieldDimension>
 		<FieldFileName>FieldData</FieldFileName>
@@ -1672,7 +1672,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781666">
-		<LastChanged>2012-11-04T02:33:36</LastChanged>
+		<LastChanged>2012-11-27T16:47:45</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>KeyField7</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -1683,7 +1683,7 @@
 		<DefaultValue/>
 		<InitialValue/>
 		<FieldDescription/>
-		<FieldDescVertical>Key field</FieldDescVertical>
+		<FieldDescVertical>Field 7</FieldDescVertical>
 		<FieldType>I</FieldType>
 		<FieldDimension>1</FieldDimension>
 		<FieldFileName>KeyInfo</FieldFileName>
@@ -1694,7 +1694,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781667">
-		<LastChanged>2012-11-04T02:33:38</LastChanged>
+		<LastChanged>2012-11-27T16:47:53</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>KeyField8</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -1705,7 +1705,7 @@
 		<DefaultValue/>
 		<InitialValue/>
 		<FieldDescription/>
-		<FieldDescVertical>Key field</FieldDescVertical>
+		<FieldDescVertical>Field 8</FieldDescVertical>
 		<FieldType>I</FieldType>
 		<FieldDimension>1</FieldDimension>
 		<FieldFileName>KeyInfo</FieldFileName>
@@ -1716,7 +1716,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16781668">
-		<LastChanged>2012-11-04T02:33:40</LastChanged>
+		<LastChanged>2012-11-27T16:48:03</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>KeyField9</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -1727,7 +1727,7 @@
 		<DefaultValue/>
 		<InitialValue/>
 		<FieldDescription/>
-		<FieldDescVertical>Key field</FieldDescVertical>
+		<FieldDescVertical>Field 9</FieldDescVertical>
 		<FieldType>I</FieldType>
 		<FieldDimension>1</FieldDimension>
 		<FieldFileName>KeyInfo</FieldFileName>
@@ -4092,7 +4092,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16783048">
-		<LastChanged>2009-02-12T14:49:25</LastChanged>
+		<LastChanged>2009-02-12T14:41:30</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ID</FieldName>
 		<FieldClass/>
@@ -11066,7 +11066,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784585">
-		<LastChanged>2012-01-11T13:55:36</LastChanged>
+		<LastChanged>2012-01-09T16:13:17</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>MessageDataClassName</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -13112,7 +13112,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784866">
-		<LastChanged>2012-01-11T05:46:33</LastChanged>
+		<LastChanged>2012-01-11T18:05:04</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>Description</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -13134,7 +13134,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784867">
-		<LastChanged>2012-01-11T05:46:38</LastChanged>
+		<LastChanged>2012-01-11T16:16:42</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>Name</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -14080,7 +14080,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784911">
-		<LastChanged>2012-01-08T00:28:11</LastChanged>
+		<LastChanged>2012-11-27T15:57:35</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>IncludeScope</FieldName>
 		<FieldClass>IncludeScopeField</FieldClass>
@@ -14089,7 +14089,7 @@
 		<MinimumLength/>
 		<MaximumLength/>
 		<DefaultValue>old</DefaultValue>
-		<InitialValue>0x001</InitialValue>
+		<InitialValue>0x003</InitialValue>
 		<FieldDescription>Include field description in these files</FieldDescription>
 		<FieldDescVertical>Include desc</FieldDescVertical>
 		<FieldType/>
@@ -14102,7 +14102,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784912">
-		<LastChanged>2012-11-04T02:19:21</LastChanged>
+		<LastChanged>2012-11-27T16:48:17</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>IncludeScope</FieldName>
 		<FieldClass>IncludeScopeField</FieldClass>
@@ -14111,13 +14111,35 @@
 		<MinimumLength/>
 		<MaximumLength/>
 		<DefaultValue>old</DefaultValue>
-		<InitialValue>0x001</InitialValue>
+		<InitialValue>0x003</InitialValue>
 		<FieldDescription>Include this key field here</FieldDescription>
 		<FieldDescVertical>Include key</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension/>
 		<FieldFileName>KeyInfo</FieldFileName>
 		<FieldSeqNo>150</FieldSeqNo>
+		<FieldNotNull/>
+		<DataClass/>
+		<Hidden/>
+		<IncludeScope>4</IncludeScope>
+	</FieldData>
+	<FieldData ID="16784913">
+		<LastChanged>2012-11-27T16:18:00</LastChanged>
+		<Deleted>N</Deleted>
+		<FieldName/>
+		<FieldClass>FieldTypeField</FieldClass>
+		<BaseFieldName/>
+		<DependentFieldName/>
+		<MinimumLength/>
+		<MaximumLength/>
+		<DefaultValue/>
+		<InitialValue/>
+		<FieldDescription/>
+		<FieldDescVertical/>
+		<FieldType/>
+		<FieldDimension/>
+		<FieldFileName>FieldTypeField</FieldFileName>
+		<FieldSeqNo/>
 		<FieldNotNull/>
 		<DataClass/>
 		<Hidden/>

@@ -274,11 +274,11 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenControlType/>
 	</ScreenIn>
 	<ScreenIn ID="16778111">
-		<LastChanged>2009-02-12T14:49:22</LastChanged>
+		<LastChanged>2012-11-27T16:42:13</LastChanged>
 		<Deleted>N</Deleted>
 		<ScreenInProgName>FieldDataScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
-		<ScreenItemNumber>30</ScreenItemNumber>
+		<ScreenItemNumber>40</ScreenItemNumber>
 		<ScreenFileName>FieldData</ScreenFileName>
 		<ScreenFieldName>BaseFieldName</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
@@ -292,11 +292,11 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenControlType/>
 	</ScreenIn>
 	<ScreenIn ID="16778112">
-		<LastChanged>2009-02-12T14:49:22</LastChanged>
+		<LastChanged>2012-11-27T16:42:15</LastChanged>
 		<Deleted>N</Deleted>
 		<ScreenInProgName>FieldDataScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
-		<ScreenItemNumber>40</ScreenItemNumber>
+		<ScreenItemNumber>30</ScreenItemNumber>
 		<ScreenFileName>FieldData</ScreenFileName>
 		<ScreenFieldName>FieldClass</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
@@ -310,7 +310,7 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenControlType/>
 	</ScreenIn>
 	<ScreenIn ID="16778113">
-		<LastChanged>2012-02-01T20:45:55</LastChanged>
+		<LastChanged>2012-11-27T16:38:28</LastChanged>
 		<Deleted>N</Deleted>
 		<ScreenInProgName>FieldDataScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
@@ -325,10 +325,13 @@ converter.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, Sc
 		<ScreenFieldDesc/>
 		<ScreenText><![CDATA[ScreenLocation lastFieldPosition;
 Record query = this.getMainRecord();
-for (int fieldSeq = query.getFieldSeq(FieldData.DEPENDENT_FIELD_NAME); fieldSeq <= query.getFieldSeq(FieldData.FIELD_FILE_NAME); fieldSeq++)
+for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= query.getFieldSeq(FieldData.FIELD_TYPE); fieldSeq++)
 {
 	lastFieldPosition = this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR);
-	query.getField(fieldSeq).setupDefaultView(lastFieldPosition, this, ScreenConstants.DISPLAY_DESC);	// Add this view to the list
+	Converter converter = query.getField(fieldSeq);
+	if (query.getFieldSeq(FieldData.DEFAULT_VALUE) == fieldSeq)
+		converter = new CheckConverter((Converter)converter, "old", null, true);
+	converter.setupDefaultView(lastFieldPosition, this, ScreenConstants.DISPLAY_DESC);	// Add this view to the list
 }]]></ScreenText>
 		<ScreenAnchor/>
 		<ScreenControlType/>

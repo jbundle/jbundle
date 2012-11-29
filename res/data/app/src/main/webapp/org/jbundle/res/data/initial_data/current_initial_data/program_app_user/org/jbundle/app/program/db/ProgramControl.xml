@@ -3,7 +3,7 @@
 		<LastChanged>2012-01-13T10:57:02</LastChanged>
 		<Deleted>N</Deleted>
 		<ProjectName/>
-		<BaseDirectory>${user.home}/</BaseDirectory>
+		<BaseDirectory>/home/don/workspace</BaseDirectory>
 		<SourceDirectory>src/main/java/</SourceDirectory>
 		<ClassDirectory>target/classes/</ClassDirectory>
 		<ArchiveDirectory>data/archive/</ArchiveDirectory>
