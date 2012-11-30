@@ -142,7 +142,7 @@ public class BaseServlet extends BaseWebappServlet
 	public static final String JBUNDLE_RESOURCES = "org/jbundle/res";
 	public static final String TOURAPP_RESOURCES = "com/tourapp/res";
 	public static final String PROXY = "proxy";
-	public static final String TOURAPP = "tourapp";
+	public static final String TOURAPP = Constants.DEFAULT_SERVLET;
 	public static final String TABLE = TOURAPP + "/table";
 	public static final String IMAGE = TOURAPP + "/image";
 	public static final String JNLP = TOURAPP + "/jnlp";

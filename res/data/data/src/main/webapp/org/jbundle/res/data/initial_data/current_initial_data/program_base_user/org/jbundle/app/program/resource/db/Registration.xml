@@ -2300,7 +2300,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Locale/>
 		<KeyValue>htmlDefault</KeyValue>
 		<ObjectValue><![CDATA[<hr>
-<form action="tourapp" method="get">
+<form action="app" method="get">
 <pre>
 Record : <input type="text" length="50" name=record value="<record/>" />
 Screen : <input type="text" length="50" name=screen value="<screen/>" />
@@ -2309,14 +2309,14 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 <input type="submit" name="move" value="Submit" />
 </form>
 <hr/>
-<form action="tourapp" method="get">
+<form action="app" method="get">
 <pre>
 Menu : <input type="text" length="50" name="menu" />
 </pre>
 <input type="submit" name="move" value="Submit" />
 </form>
 <hr>
-<form action="tourapp" method="get">
+<form action="app" method="get">
 <input type="hidden" name="applet" value="" />
 <pre>
 Record : <input type="text" length="50" name=record value="<record/>" />

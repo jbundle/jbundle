@@ -56,7 +56,7 @@ public interface HtmlConstants
     public static final String JNLPJARS = "jnlpjars";
     public static final String DEFAULT_CODEBASE = ".";  // Default applet codebase
     public static final String NAME = "name";  // applet name param
-    public static final String DEFAULT_NAME = "tourapp";  // Default applet name
+    public static final String DEFAULT_NAME = Constants.DEFAULT_SERVLET;  // Default applet name
 
     public static final boolean SHARED_SERVER = false;      // If you share a servlet engine, you can't save anything between sessions
         // Html Options
