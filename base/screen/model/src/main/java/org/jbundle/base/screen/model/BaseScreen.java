@@ -987,7 +987,7 @@ public class BaseScreen extends BasePanel
     	ScreenParent screen = null;
 // First, see if they want to see a screen
         String strScreen = task.getProperty(DBParams.SCREEN);
-        if (strScreen != null)
+        if ((strScreen != null) && (strScreen.length() > 0))
             screen = Record.makeNewScreen(strScreen, itsLocation, screenParent, iDocType | ScreenConstants.DEFAULT_DISPLAY, properties, null, true);
 // Now, see if they want to open a file and create the default screen
         if (screen == null)
