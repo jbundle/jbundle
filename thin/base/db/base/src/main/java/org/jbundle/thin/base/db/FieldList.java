@@ -262,7 +262,10 @@ public class FieldList extends Object
      * Override this to add the key areas.
      */
     public void setupKeys()
-    {
+    {   // Override this to set up the actual keys
+         KeyAreaInfo keyArea = null;
+         keyArea = new KeyAreaInfo(this, Constants.UNIQUE, ID_KEY);
+         keyArea.addKeyField(ID, Constants.ASCENDING);
     }
     /**
      * Add this field to this record.

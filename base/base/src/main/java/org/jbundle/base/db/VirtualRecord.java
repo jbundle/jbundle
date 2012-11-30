@@ -61,15 +61,15 @@ public class VirtualRecord extends Record
     {
         BaseField field = null;
         if (iFieldSeq == kID)
-            field = new CounterField(this, "ID", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new CounterField(this, ID, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == kLastChanged)
         {
-            field = new RecordChangedField(this, "LastChanged", Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new RecordChangedField(this, LAST_CHANGED, Constants.DEFAULT_FIELD_LENGTH, null, null);
             field.setHidden(true);
         }
         if (iFieldSeq == kDeleted)
         {
-            field = new BooleanField(this, "Deleted", Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(false));
+            field = new BooleanField(this, DELETED, Constants.DEFAULT_FIELD_LENGTH, null, Boolean.FALSE);
             field.setHidden(true);
         }
         if (field == null)
@@ -79,6 +79,21 @@ public class VirtualRecord extends Record
                 field = new EmptyField(this);
         }
         return field;
+    }
+    /**
+     * Add this key area description to the Record.
+     */
+    public KeyArea setupKey(int iKeyArea)
+    {
+        KeyArea keyArea = null;
+        if (iKeyArea == 0)
+        {
+            keyArea = this.makeIndex(DBConstants.UNIQUE, ID_KEY);
+            keyArea.addKeyField(ID, DBConstants.ASCENDING);
+        }
+        if (keyArea == null)
+            keyArea = super.setupKey(iKeyArea);     
+        return keyArea;
     }
     /**
      * Add all standard file & field behaviors.
