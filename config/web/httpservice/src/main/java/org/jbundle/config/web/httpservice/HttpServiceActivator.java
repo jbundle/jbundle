@@ -161,8 +161,8 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
                 // This redirects non-matching requests to the proper servlet
                 properties.put(BaseWebappServlet.IE, BaseServlet.XSL);
                 properties.put(BaseWebappServlet.FIREFOX, BaseServlet.XSL);
-                //properties.put("chrome", "tourappxsl");
-                //properties.put("safari", "tourappxsl");
+                //properties.put("chrome", "appxsl");
+                //properties.put("safari", "appxsl");
                 properties.put(BaseWebappServlet.WEBKIT, BaseServlet.XSL);
                 properties.put(BaseWebappServlet.MOBILE, BaseServlet.XHTML);
                 properties.put(BaseWebappServlet.JAVA, BaseServlet.XHTML);

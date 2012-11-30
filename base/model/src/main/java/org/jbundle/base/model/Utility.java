@@ -825,7 +825,7 @@ public class Utility extends ThinUtil
         {
             strServletName = Constants.DEFAULT_SERVLET;
  //?            if (this.getTask() instanceof RemoteRecordOwner)
- //?             strServletName = strServletName + "xsl";    // Special case - if task is a session, servlet should be tourappxsl
+ //?             strServletName = strServletName + "xsl";    // Special case - if task is a session, servlet should be appxsl
             if (Params.XHTMLSERVLET.equalsIgnoreCase(strServletParam))
                 strServletName = Constants.DEFAULT_XHTML_SERVLET;
         }
