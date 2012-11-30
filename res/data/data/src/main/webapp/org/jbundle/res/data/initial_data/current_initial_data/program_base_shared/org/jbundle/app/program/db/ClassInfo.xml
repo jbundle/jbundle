@@ -255,7 +255,7 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777479">
-		<LastChanged>2012-10-31T11:03:18</LastChanged>
+		<LastChanged>2012-11-29T18:31:22</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassInfoScreen</ClassName>
 		<BaseClassName>DetailScreen</BaseClassName>

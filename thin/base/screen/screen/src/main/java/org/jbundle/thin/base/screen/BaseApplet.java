@@ -256,9 +256,8 @@ public class BaseApplet extends JApplet
         if (bEmptyTaskList)
             this.quit();
         if (Application.getRootApplet() == this)
-        	Application.setRootApplet(null);
-        if (BaseApplet.getSharedInstance() == this)
         {
+            Application.setRootApplet(null);
         	if (m_application.getTaskList() != null)
         	{
 	            for (Task task : m_application.getTaskList().keySet())

@@ -11,6 +11,7 @@ package org.jbundle.base.db.event;
  */
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.DateTimeField;
+import org.jbundle.base.field.event.FieldRemoveBOnCloseHandler;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.thin.base.db.FieldInfo;
 
@@ -71,6 +72,9 @@ public class DateChangedHandler extends FileListener
     {
         super.init(record);
         m_field = field;
+        if (field != null)
+            if (field.getRecord() != record)
+                field.addListener(new FieldRemoveBOnCloseHandler(this));
         this.mainFilesFieldName = mainFilesFieldName;
     }
     /**

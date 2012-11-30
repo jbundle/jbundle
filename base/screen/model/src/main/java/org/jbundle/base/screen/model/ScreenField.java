@@ -456,7 +456,8 @@ public abstract class ScreenField extends Object
      */
     public void finalizeThisScreen()
     {
-        this.getScreenFieldView().finalizeThisScreen();
+        if (this.getScreenFieldView() != null)
+            this.getScreenFieldView().finalizeThisScreen();
     }
     /**
      * Get the HTML param for this screen field.

@@ -217,6 +217,7 @@ public class BaseScreen extends BasePanel
         {
             try
             {
+                this.finalizeThisScreen();  // Validate current field
                 if (record.isModified(false))
                     if (record.getRecordOwner() == this)
                     {

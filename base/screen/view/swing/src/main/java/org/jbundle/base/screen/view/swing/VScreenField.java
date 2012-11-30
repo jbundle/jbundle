@@ -1041,4 +1041,11 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
     {
     	return null;	// Not used in swing
     }
+    /**
+     * Validate the current field, update the current grid record.
+     */
+    public void finalizeThisScreen()
+    {
+        this.validateCurrentFocus();  // Validate current field
+    }
 }

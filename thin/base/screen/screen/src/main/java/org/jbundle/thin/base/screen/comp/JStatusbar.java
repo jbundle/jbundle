@@ -102,7 +102,7 @@ public class JStatusbar extends JPanel
     {
         if (m_iconArea != null)
         {
-            if (iStatus == Cursor.WAIT_CURSOR)
+            if ((iStatus == Cursor.WAIT_CURSOR) && (BaseApplet.getSharedInstance() != null))
                 m_iconArea.setIcon(BaseApplet.getSharedInstance().loadImageIcon(ThinMenuConstants.WAIT));
             else
                 m_iconArea.setIcon(null);

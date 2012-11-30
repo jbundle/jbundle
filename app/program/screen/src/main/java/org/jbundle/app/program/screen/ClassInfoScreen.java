@@ -139,6 +139,11 @@ public class ClassInfoScreen extends DetailScreen
             };
             
         });
+        
+        DateChangedHandler dateChangedHandler = (DateChangedHandler)this.getMainRecord().getListener(DateChangedHandler.class);
+        if (dateChangedHandler == null)
+            this.getMainRecord().addListener(dateChangedHandler = new DateChangedHandler((DateTimeField)this.getMainRecord().getField(ClassInfo.LAST_CHANGED)));
+        dateChangedHandler.setOnFieldChange(true);
     }
     /**
      * Add the toolbars that belong with this screen.
@@ -200,11 +205,27 @@ public class ClassInfoScreen extends DetailScreen
      */
     public BasePanel makeSubScreen()
     {
-        SwitchClassSub listener = new SwitchClassSub(null, null, null);
+        SwitchClassSub listener = new SwitchClassSub(null, null, null)
+        {
+            public BasePanel getSubScreen(BasePanel parentScreen, ScreenLocation screenLocation, Map<String, Object> properties, int screenNo)
+            {
+                BasePanel subScreen = super.getSubScreen(parentScreen, screenLocation, properties, screenNo);
+                if (subScreen != null)
+                {
+                    Record record = subScreen.getMainRecord();
+                    if (record != null)
+                        if (record != getMainRecord())
+                    {   // Make sure classinfo is updated when detail is update, so I can write on exit
+                        record.addListener(new DateChangedHandler((DateTimeField)getMainRecord().getField(ClassInfo.LAST_CHANGED)));
+                    }
+                }
+                return subScreen;
+            }
+            
+        };
         this.getScreenRecord().getField(ClassVars.CLASS_KEY).addListener(listener);
         this.getScreenRecord().getField(ClassVars.CLASS_KEY).setValue(5, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
         return (BasePanel)listener.getSubScreen();
-
     }
     /**
      * Process the command.
