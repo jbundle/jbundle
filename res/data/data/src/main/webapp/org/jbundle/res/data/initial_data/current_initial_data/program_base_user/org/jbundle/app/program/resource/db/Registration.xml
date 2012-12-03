@@ -2247,7 +2247,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
         <td width="15%"  bgcolor="#b0b0e0">
 <div align=right><a href="?menu=&navmenus=Icons+Only&preferences="><img src="images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /></a><a href="?menu=&navmenus=No&preferences="><img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16"></a></div>
         <strong>Don's personal menu</strong><br><hr>
-        <a href="tourapp?menu="><img src="images/buttons/Home.gif" align="center" alt="Home" border="0" width="16" height="16" />
+        <a href="app?menu="><img src="images/buttons/Home.gif" align="center" alt="Home" border="0" width="16" height="16" />
                 Home</a><br/>
         <a href="booking/entry"><img src="images/buttons/Mail.gif" align="center" alt="E-Mail" border="0" width="16" height="16" />
                 E-Mail Center</a><br/>

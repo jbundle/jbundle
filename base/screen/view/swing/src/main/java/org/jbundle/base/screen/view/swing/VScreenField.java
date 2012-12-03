@@ -998,7 +998,7 @@ public abstract class VScreenField extends ScreenFieldViewAdapter
                             if (sField.getScreenFieldView() instanceof VScreenField)    // Always
                 {
                     ((VScreenField)sField.getScreenFieldView()).stopCellEditing();
-                    ((VBaseGridScreen)sField.getParentScreen().getScreenFieldView()).finalizeThisScreen();
+//                    ((VBaseGridScreen)sField.getParentScreen().getScreenFieldView()).finalizeThisScreen();
                 }
             }
         }

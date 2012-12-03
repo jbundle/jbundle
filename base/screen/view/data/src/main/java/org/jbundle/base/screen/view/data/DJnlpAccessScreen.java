@@ -90,8 +90,7 @@ public class DJnlpAccessScreen extends DDataAccessScreen
         ClassFinder classFinder = classService.getClassFinder(null);
         if (classFinder == null)
             return;
-        HttpServiceActivator service = (HttpServiceActivator)classFinder.getClassBundleService(null, WEB_START_ACTIVATOR_CLASS, null, null, -1);
-        HttpServiceTracker tracker = service.getServiceTracker();
+        HttpServiceTracker tracker = (HttpServiceTracker)classFinder.getClassBundleService(null, WEB_START_ACTIVATOR_CLASS, null, null, -1);
         if (tracker == null)
             return;
         Servlet servlet = tracker.getServlet();
