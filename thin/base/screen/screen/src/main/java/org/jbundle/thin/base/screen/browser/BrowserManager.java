@@ -5,7 +5,7 @@
  
  * Copyright © 2012 jbundle.org. All rights reserved.
  */
-package org.jbundle.thin.base.screen;
+package org.jbundle.thin.base.screen.browser;
 
 import java.applet.Applet;
 import java.util.HashMap;
@@ -13,12 +13,12 @@ import java.util.Map;
 
 import netscape.javascript.JSObject;
 
-import org.jbundle.model.util.Util;
-import org.jbundle.thin.base.db.Constants;
-
+import org.jbundle.model.util.url.UrlUtil;
 
 /** 
  * BrowserManager - This code handles the browser interface for the java web start program.
+ * Note: These utilities have no external dependencies so potential users can
+ * include them in their osgi-webstart javascript wrapped code.
  * @author  Don Corley don@tourgeek.com
  * @version 1.0.0
  */
@@ -28,6 +28,8 @@ public class BrowserManager extends Object
 	
 	protected Map<String,Object> m_propertiesInitialCommand = null;
 	
+    public static final String BLANK = "";  // Blank String
+
     /**
      * Creates new BrowserManager.
      */
@@ -63,7 +65,7 @@ public class BrowserManager extends Object
         String args[] = new String[2];
         args[0] = this.getCommandForBrowser(command);
     	if (title == null)
-    		title = Constants.BLANK;
+    		title = BLANK;
         args[1] = title;
         this.callJavascript("pushBrowserHistory", args);
 	}
@@ -80,8 +82,8 @@ public class BrowserManager extends Object
     		if (m_propertiesInitialCommand != null)
     			properties.putAll(m_propertiesInitialCommand);
         	if (command != null)
-        		Util.parseArgs(properties, command);	// Note - duplicates will go with this version
-    		command = Constants.BLANK;
+        		UrlUtil.parseArgs(properties, command);	// Note - duplicates will go with this version
+    		command = BLANK;
     		for (String key : properties.keySet())
     		{
     			if (("samewindow".equalsIgnoreCase(key))
@@ -89,8 +91,8 @@ public class BrowserManager extends Object
     				|| ("menubars".equalsIgnoreCase(key)))
     					continue;
     			if (properties.get(key) == null)
-    				properties.put(key, Constants.BLANK);
-    			command = Util.addURLParam(command, key, properties.get(key).toString());
+    				properties.put(key, BLANK);
+    			command = UrlUtil.addURLParam(command, key, properties.get(key).toString());
     		}
         }
         return command;
@@ -108,7 +110,7 @@ public class BrowserManager extends Object
     	args [0] = Integer.toString(commandsToPop);
     	args [1] = Boolean.toString(bCommandHandledByJava);
     	if (title == null)
-    		title = Constants.BLANK;
+    		title = BLANK;
         args [2] = title;
         this.callJavascript("popBrowserHistory", args);
 	}
