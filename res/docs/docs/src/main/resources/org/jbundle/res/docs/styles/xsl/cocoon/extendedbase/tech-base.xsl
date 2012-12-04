@@ -35,12 +35,12 @@
 				</td>
 				<td style="text-align: left; vertical-align: baseline; width: 100%">
 					<xsl:element name="a">
-						<xsl:attribute name="href">./docs/programmer/api/com/tourapp/<xsl:value-of select="translate(ClassPackage, '.', '/')" />/<xsl:value-of select="ClassName" />.html</xsl:attribute>
+						<xsl:attribute name="href">./docs/programmer/api/org/jbundle/<xsl:value-of select="translate(ClassPackage, '.', '/')" />/<xsl:value-of select="ClassName" />.html</xsl:attribute>
 						Javadoc
 					</xsl:element>
 					<br />
 					<xsl:element name="a">
-						<xsl:attribute name="href">./src/com/tourapp/<xsl:value-of select="translate(ClassPackage, '.', '/')"/>/<xsl:value-of select="ClassName" />.java</xsl:attribute>
+						<xsl:attribute name="href">./src/org/jbundle/<xsl:value-of select="translate(ClassPackage, '.', '/')"/>/<xsl:value-of select="ClassName" />.java</xsl:attribute>
 						Source code
 					</xsl:element>
 				</td>

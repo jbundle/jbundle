@@ -16,7 +16,7 @@
 
 		<xsl:element name="a">
 			<xsl:attribute name="href">
-				<xsl:value-of select="/full-screen/params/baseURL" />?command=Form&amp;record=com.tourapp.tour.booking.detail.db.BookingDetail&amp;objectID=<xsl:value-of select="*[name()='BookingDetail.ID']" />
+				<xsl:value-of select="/full-screen/params/baseURL" />?command=Form&amp;record=com.jbundle.tour.booking.detail.db.BookingDetail&amp;objectID=<xsl:value-of select="*[name()='BookingDetail.ID']" />
 			</xsl:attribute>
             <b>
                 <xsl:value-of select="BookingDetail.DetailDate" /> - 
@@ -60,7 +60,7 @@
           Arrive <b><xsl:apply-templates select="BookingDetail.ArriveDesc" /></b>
         </td>
         <td align="center">
-		  <img src="http://www.tourapp.com/images/tour/buttons/Air.gif"/>
+		  <img src="http://www.jbundle.com/images/tour/buttons/Air.gif"/>
 		  <xsl:value-of select="BookingDetail.Flight" />
         </td>
         <td align="right">

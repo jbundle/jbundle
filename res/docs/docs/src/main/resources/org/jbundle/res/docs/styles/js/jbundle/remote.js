@@ -1,14 +1,14 @@
 /**
  * Top level methods and vars.
  */
-if(!dojo._hasResource["tourapp.remote"]){
-dojo._hasResource["tourapp.remote"] = true;
-dojo.provide("tourapp.remote");
+if(!dojo._hasResource["jbundle.remote"]){
+dojo._hasResource["jbundle.remote"] = true;
+dojo.provide("jbundle.remote");
 
 /**
  * Remote access utilities.
  */
-tourapp.remote = {
+jbundle.remote = {
 	/**
 	 * Send this command to the web server and bind the return to this function.
 	 */
@@ -18,7 +18,7 @@ tourapp.remote = {
 		if (remoteCommand)
 			args.remoteCommand = remoteCommand;
 		if (!url)
-			url = tourapp.getServerPath();
+			url = jbundle.getServerPath();
 		if (!mimetype)
 			mimetype = "text/html";
 		
@@ -32,9 +32,9 @@ tourapp.remote = {
 		bindArgs.content = args;
 		bindArgs.mimetype = mimetype;
 		bindArgs.load = bindFunction;
-		bindArgs.error = tourapp.remote.transportError;
+		bindArgs.error = jbundle.remote.transportError;
 		bindArgs.timeout = timeout;
-//			timeout: tourapp.remote.timeoutError,	// Now handled by error.
+//			timeout: jbundle.remote.timeoutError,	// Now handled by error.
 		
 		dojo.xhrPost(bindArgs);
 	  	if (djConfig.isDebug)
@@ -44,7 +44,7 @@ tourapp.remote = {
 	 * Transport error.
 	 */
 	transportError: function(data, ioArgs) {
-		var displayError = tourapp.gEnvState;
+		var displayError = jbundle.gEnvState;
 		if (ioArgs)
 			if (ioArgs.args)
 			if (ioArgs.args.content)
@@ -53,11 +53,11 @@ tourapp.remote = {
 					displayError = false;
 					if (data.dojoType == "timeout")	{
 						ioArgs.xhr.abort();
-						tourapp.remote.receiveRemoteMessage(tourapp.getTaskSession().getSessionByFullSessionID(ioArgs.args.content.target));	// Wait for the next message.
+						jbundle.remote.receiveRemoteMessage(jbundle.getTaskSession().getSessionByFullSessionID(ioArgs.args.content.target));	// Wait for the next message.
 					}
 				}
 		if (displayError == true)	// Ignore the error if the user moves away from this window
-			tourapp.util.displayErrorMessage("Transport error: " + data + "\nArgs: " + ioArgs.toSource());
+			jbundle.util.displayErrorMessage("Transport error: " + data + "\nArgs: " + ioArgs.toSource());
 	},
 	// ------- ApplicationServer --------
 	/**
@@ -71,30 +71,30 @@ tourapp.remote = {
 		};
 		args.properties = dojo.toJson(props);
 
-		tourapp.remote.sendToAjax("createRemoteTask", args, tourapp.remote.handleCreateRemoteTask);
+		jbundle.remote.sendToAjax("createRemoteTask", args, jbundle.remote.handleCreateRemoteTask);
 	},
 	/**
 	 *
 	 */
 	handleCreateRemoteTask: function(data, ioArgs) {
-		if (tourapp.remote.checkForDataError(data, "Could not create remote task"))
+		if (jbundle.remote.checkForDataError(data, "Could not create remote task"))
 			return;
 	  	if (djConfig.isDebug)
 		  	console.log("handleCreateRemoteTask session " + data);
-		tourapp.getTaskSession().sessionID = data;
+		jbundle.getTaskSession().sessionID = data;
 	
 		// If there are any queues for this new task, add them to the remote queue now
-		var childSessions = tourapp.getTaskSession().childSessions;
+		var childSessions = jbundle.getTaskSession().childSessions;
 		if (childSessions)
 		{
 			for (var i = 0; i < childSessions.length; i++)
 			{
-				if (childSessions[i] instanceof tourapp.classes.SendQueue)
-					tourapp.remote.createRemoteSendQueue(childSessions[i]);
-				if (childSessions[i] instanceof tourapp.classes.ReceiveQueue)
-					tourapp.remote.createRemoteReceiveQueue(childSessions[i]);
-				if (childSessions[i] instanceof tourapp.classes.Session)
-					tourapp.remote.makeRemoteSession(childSessions[i]);
+				if (childSessions[i] instanceof jbundle.classes.SendQueue)
+					jbundle.remote.createRemoteSendQueue(childSessions[i]);
+				if (childSessions[i] instanceof jbundle.classes.ReceiveQueue)
+					jbundle.remote.createRemoteReceiveQueue(childSessions[i]);
+				if (childSessions[i] instanceof jbundle.classes.Session)
+					jbundle.remote.makeRemoteSession(childSessions[i]);
 			}
 		}
 	},
@@ -108,13 +108,13 @@ tourapp.remote = {
 			target: session.getFullSessionID()
 		};
 
-		tourapp.remote.sendToAjax("freeRemoteSession", args, tourapp.remote.handleFreeRemoteSession);
+		jbundle.remote.sendToAjax("freeRemoteSession", args, jbundle.remote.handleFreeRemoteSession);
 	},
 	/**
 	 *
 	 */
 	handleFreeRemoteSession: function(data, ioArgs) {
-//x		if (tourapp.remote.checkForDataError(data, "Could not free remote session"))
+//x		if (jbundle.remote.checkForDataError(data, "Could not free remote session"))
 //x			return;
 		// TODO (don) Free/remove the session and set gTaskSession to null if IT was freed
 	  	if (djConfig.isDebug)
@@ -133,16 +133,16 @@ tourapp.remote = {
 			localSessionID: session.localSessionID
 		};
 
-		tourapp.remote.sendToAjax("makeRemoteSession", args, tourapp.remote.handleMakeRemoteSession);
+		jbundle.remote.sendToAjax("makeRemoteSession", args, jbundle.remote.handleMakeRemoteSession);
 	},
 	/**
 	 *
 	 */
 	handleMakeRemoteSession: function(data, ioArgs)
 	{
-		if (tourapp.remote.checkForDataError(data, "Could not create remote session"))
+		if (jbundle.remote.checkForDataError(data, "Could not create remote session"))
 			return;
-		var session = tourapp.getTaskSession().getSessionByLocalSessionID(ioArgs.args.content.localSessionID);
+		var session = jbundle.getTaskSession().getSessionByLocalSessionID(ioArgs.args.content.localSessionID);
 	
 	  	if (djConfig.isDebug)
 		  	console.log("makeRemoteSession session " + data);
@@ -157,7 +157,7 @@ tourapp.remote = {
 		if (session.remoteFilters)
 		{
 			for (var key in session.remoteFilters) {
-		    	tourapp.remote.doRemoteAction(session.remoteFilters[key]);
+		    	jbundle.remote.doRemoteAction(session.remoteFilters[key]);
 			}
 		}
 	},
@@ -176,24 +176,24 @@ tourapp.remote = {
 			if (messageFilter.properties instanceof Object)
 				args.properties = dojo.toJson(messageFilter.properties);
 
-		tourapp.remote.sendToAjax("doRemoteAction", args, tourapp.remote.handleDoRemoteAction, null, null, messageFilter.bindArgs);
+		jbundle.remote.sendToAjax("doRemoteAction", args, jbundle.remote.handleDoRemoteAction, null, null, messageFilter.bindArgs);
 	},
 	/**
 	 *
 	 */
 	handleDoRemoteAction: function(data, ioArgs)
 	{
-		if (tourapp.remote.checkForDataError(data, "Could not do remote action", true))
+		if (jbundle.remote.checkForDataError(data, "Could not do remote action", true))
 			return;
 		if (djConfig.isDebug)
 			console.log("handleDoRemoteAction, data received: " + data);
-		var messageFilter = tourapp.getTaskSession().getSessionByFullSessionID(ioArgs.args.content.target).getMessageFilter(ioArgs.args.content.filter);
+		var messageFilter = jbundle.getTaskSession().getSessionByFullSessionID(ioArgs.args.content.target).getMessageFilter(ioArgs.args.content.filter);
 		try {
 //?			if ((data) && (data.length > 0) && (data.charAt(0) == '(') && (data.charAt(data.length - 1) == ')'))
 //?				data = eval(data);
 			messageFilter.methodToCall(data, ioArgs);
 		} catch (e) {
-	  		tourapp.util.displayErrorMessage("Error: " + e.message);
+	  		jbundle.util.displayErrorMessage("Error: " + e.message);
 		}
 	},
 	// ------- RemoteTask --------
@@ -208,18 +208,18 @@ tourapp.remote = {
 			target: session.parentSession.getFullSessionID()
 		};
 
-		tourapp.remote.sendToAjax("createRemoteSendQueue", args, tourapp.remote.handleCreateRemoteSendQueue);
+		jbundle.remote.sendToAjax("createRemoteSendQueue", args, jbundle.remote.handleCreateRemoteSendQueue);
 	},
 	/**
 	 *
 	 */
 	handleCreateRemoteSendQueue: function(data, ioArgs)
 	{
-		if (tourapp.remote.checkForDataError(data, "Could not create remote send queue"))
+		if (jbundle.remote.checkForDataError(data, "Could not create remote send queue"))
 			return;
 	  	if (djConfig.isDebug)
 		  	console.log("createRemoteSendQueue session " + data);
-		tourapp.getTaskSession().getSendQueue(ioArgs.args.content.queueName, ioArgs.args.content.queueType).sessionID = data;
+		jbundle.getTaskSession().getSendQueue(ioArgs.args.content.queueName, ioArgs.args.content.queueType).sessionID = data;
 	},
 	/**
 	 * Create the receive queue.
@@ -232,16 +232,16 @@ tourapp.remote = {
 			target: session.parentSession.getFullSessionID()
 		};
 
-		tourapp.remote.sendToAjax("createRemoteReceiveQueue", args, tourapp.remote.handleCreateRemoteReceiveQueue);
+		jbundle.remote.sendToAjax("createRemoteReceiveQueue", args, jbundle.remote.handleCreateRemoteReceiveQueue);
 	},
 	/**
 	 *
 	 */
 	handleCreateRemoteReceiveQueue: function(data, ioArgs)
 	{
-		if (tourapp.remote.checkForDataError(data, "Could not create remote receive queue"))
+		if (jbundle.remote.checkForDataError(data, "Could not create remote receive queue"))
 			return;
-		var receiveQueue = tourapp.getTaskSession().getReceiveQueue(ioArgs.args.content.queueName, ioArgs.args.content.queueType);
+		var receiveQueue = jbundle.getTaskSession().getReceiveQueue(ioArgs.args.content.queueName, ioArgs.args.content.queueType);
 	
 	  	if (djConfig.isDebug)
 		  	console.log("createRemoteReceiveQueue session " + data);
@@ -249,10 +249,10 @@ tourapp.remote = {
 		
 		// If there are any filters for this new receive queue, add them to the remote queue now
 		for (var key in receiveQueue.remoteFilters) {
-	    	tourapp.remote.addRemoteMessageFilter(receiveQueue.remoteFilters[key]);
+	    	jbundle.remote.addRemoteMessageFilter(receiveQueue.remoteFilters[key]);
 		}
 
-		tourapp.remote.receiveRemoteMessage(tourapp.getTaskSession().getReceiveQueue(ioArgs.args.content.queueName, ioArgs.args.content.queueType));	// Wait for the next message.
+		jbundle.remote.receiveRemoteMessage(jbundle.getTaskSession().getReceiveQueue(ioArgs.args.content.queueName, ioArgs.args.content.queueType));	// Wait for the next message.
 	},
 	/**
 	 * Login.
@@ -268,19 +268,19 @@ tourapp.remote = {
 			password: password
 		};
 
-		tourapp.remote.sendToAjax("login", args, tourapp.remote.handleLogin);
+		jbundle.remote.sendToAjax("login", args, jbundle.remote.handleLogin);
 	},
 	/**
 	 *
 	 */
 	handleLogin: function(data, ioArgs)
 	{
-		if (tourapp.remote.checkForDataError(data, "Could not log in"))
+		if (jbundle.remote.checkForDataError(data, "Could not log in"))
 			return;
 		data = eval(data);
 	  	if (djConfig.isDebug)
 		  	console.log("Login ok ");
-		tourapp.getTaskSession().security = data;
+		jbundle.getTaskSession().security = data;
 	},
 	/**
 	 * Add a remote message filter.
@@ -292,18 +292,18 @@ tourapp.remote = {
 			filter: messageFilter.filterID
 		};
 
-		tourapp.remote.sendToAjax("addRemoteMessageFilter", args, tourapp.remote.handleAddRemoteMessageFilter);
+		jbundle.remote.sendToAjax("addRemoteMessageFilter", args, jbundle.remote.handleAddRemoteMessageFilter);
 	},
 	/**
 	 *
 	 */
 	handleAddRemoteMessageFilter: function(data, ioArgs)
 	{
-		if (tourapp.remote.checkForDataError(data, "Could not add remote message filter"))
+		if (jbundle.remote.checkForDataError(data, "Could not add remote message filter"))
 			return;
 	  	if (djConfig.isDebug)
 		  	console.log("handleAddRemoteMessageFilter to filter " + data);
-		var messageFilter = tourapp.getTaskSession().getSessionByFullSessionID(ioArgs.args.content.target).getMessageFilter(ioArgs.args.content.filter);
+		var messageFilter = jbundle.getTaskSession().getSessionByFullSessionID(ioArgs.args.content.target).getMessageFilter(ioArgs.args.content.filter);
 		messageFilter.remoteFilterID = data;
 	},
 	/**
@@ -315,13 +315,13 @@ tourapp.remote = {
 			target: receiveQueue.getFullSessionID()
 		};
 	
-		tourapp.remote.sendToAjax("receiveRemoteMessage", args, tourapp.remote.handleReceiveMessage);
+		jbundle.remote.sendToAjax("receiveRemoteMessage", args, jbundle.remote.handleReceiveMessage);
 	},
 	/**
 	 *
 	 */
 	handleReceiveMessage: function(data, ioArgs) {
-		if (tourapp.remote.checkForDataError(data, null))
+		if (jbundle.remote.checkForDataError(data, null))
 		{
 			// Ignore receive data errors.
 		}
@@ -331,12 +331,12 @@ tourapp.remote = {
 				data = eval(data);
 			  	if (djConfig.isDebug)
 				  	console.log("receiveRemoteMessage to filter " + data.id + ", message: " + data.message);
-				tourapp.getTaskSession().getReceiveQueue(data.queueName, data.queueType).getMessageFilterByRemoteID(data.id).methodToCall(data.message);
+				jbundle.getTaskSession().getReceiveQueue(data.queueName, data.queueType).getMessageFilterByRemoteID(data.id).methodToCall(data.message);
 			} catch (e) {
-		  		tourapp.util.displayErrorMessage("Error: " + e.description);
+		  		jbundle.util.displayErrorMessage("Error: " + e.description);
 			}
 		}
-		tourapp.remote.receiveRemoteMessage(tourapp.getTaskSession().getReceiveQueue(data.queueName, data.queueType));	// Wait for the next message.
+		jbundle.remote.receiveRemoteMessage(jbundle.getTaskSession().getReceiveQueue(data.queueName, data.queueType));	// Wait for the next message.
 	},
 	/**
 	 * Send this message.
@@ -348,7 +348,7 @@ tourapp.remote = {
 			target: sendQueue.getFullSessionID()
 		};
 	
-		tourapp.remote.sendToAjax("sendMessage", args, tourapp.remote.handleSendMessage);
+		jbundle.remote.sendToAjax("sendMessage", args, jbundle.remote.handleSendMessage);
 	},
 	/**
 	 *
@@ -367,7 +367,7 @@ tourapp.remote = {
 		if ((data == undefined) || (data == null) || (data.length == 0))
 		{
 			if (errorText)
-				tourapp.util.displayErrorMessage(errorText);
+				jbundle.util.displayErrorMessage(errorText);
 			return true;	// Error
 		}
 		if (!ignoreXMLError)
@@ -383,7 +383,7 @@ tourapp.remote = {
 					if ((startErrorText != -1) && (endErrorText > startErrorText))
 					{
 						errorText = data.substring(startErrorText + 6, endErrorText);
-						tourapp.util.displayErrorMessage(errorText);
+						jbundle.util.displayErrorMessage(errorText);
 						return true;
 					}
 				}

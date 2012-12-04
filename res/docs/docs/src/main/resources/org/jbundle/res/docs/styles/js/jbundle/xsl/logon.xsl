@@ -13,7 +13,7 @@
 	<xsl:attribute name="title"><xsl:value-of select="root/dialogTitle"/></xsl:attribute>
 	<xsl:attribute name="iconSrc">images/buttons/Login.gif</xsl:attribute>
 	<xsl:attribute name="displayCloseAction">true</xsl:attribute>
-	<form id="logonForm" onsubmit="return tourapp.gui.submitLogonDialog(true);">
+	<form id="logonForm" onsubmit="return jbundle.gui.submitLogonDialog(true);">
 		<table>
 			<xsl:element name="input">
 				<xsl:attribute name="id">command</xsl:attribute>
@@ -52,11 +52,11 @@
 				<td colspan="2" align="center">
 				<table>
 				<tr>
-					<td><button id="logonSubmitButton" dojoType="dijit.form.Button" onclick="tourapp.gui.submitLogonDialog(true);"><img src="images/buttons/Submit.gif" width="16" height="16" />&#160;Submit</button></td>
+					<td><button id="logonSubmitButton" dojoType="dijit.form.Button" onclick="jbundle.gui.submitLogonDialog(true);"><img src="images/buttons/Submit.gif" width="16" height="16" />&#160;Submit</button></td>
 					<td></td>
-					<td><button id="logonCancelButton" dojoType="dijit.form.Button" onclick="tourapp.gui.submitLogonDialog(false);"><img src="images/buttons/Cancel.gif" width="16" height="16" />&#160;Cancel</button></td>
+					<td><button id="logonCancelButton" dojoType="dijit.form.Button" onclick="jbundle.gui.submitLogonDialog(false);"><img src="images/buttons/Cancel.gif" width="16" height="16" />&#160;Cancel</button></td>
 					<td></td>
-					<td><button id="logonNewUser" dojoType="dijit.form.Button" onclick="tourapp.gui.submitLogonDialog('?screen=.main.user.screen.UserEntryScreen&amp;java=no');"><img src="images/buttons/Form.gif" width="16" height="16" alt="Create new account" class="button" />Create new account</button></td>
+					<td><button id="logonNewUser" dojoType="dijit.form.Button" onclick="jbundle.gui.submitLogonDialog('?screen=.main.user.screen.UserEntryScreen&amp;java=no');"><img src="images/buttons/Form.gif" width="16" height="16" alt="Create new account" class="button" />Create new account</button></td>
 				</tr>
 				</table>
 				</td>

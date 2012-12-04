@@ -1,7 +1,7 @@
 /**
  * Top level methods and vars.
  */
-//dojo.provide("tourapp.gui");
+//dojo.provide("jbundle.gui");
 
 //dojo.require("dojo.debug.console");
 //dojo.require("dojo.io.*");
@@ -21,7 +21,7 @@ dojo.require("dijit.Dialog");
 /**
  * Screen utilities.
  */
-tourapp.gui = {
+jbundle.gui = {
 
 // Replaced with dojo.back
 
@@ -33,9 +33,9 @@ tourapp.gui = {
 	 */
 	pushHistory: function(desc, command)
 	{
-		tourapp.gui.historyCommand.push(command);
-		tourapp.gui.historyDesc.push(desc);
-		if (tourapp.gui.historyCommand.length == 1)
+		jbundle.gui.historyCommand.push(command);
+		jbundle.gui.historyDesc.push(desc);
+		if (jbundle.gui.historyCommand.length == 1)
 			return;		// Don't display just one
 		var historyDOM = document.getElementById("history-area");
 		if (historyDOM)
@@ -43,7 +43,7 @@ tourapp.gui = {
 			var count = historyDOM.childNodes.length;
 			var lastChild = null;
 			if (count == 0)
-				historyDOM.appendChild(document.createTextNode(tourapp.gui.historyDesc[0]));
+				historyDOM.appendChild(document.createTextNode(jbundle.gui.historyDesc[0]));
 			if (count > 0)
 				lastChild = historyDOM.childNodes[count - 1];
 			historyDOM.insertBefore(document.createTextNode("  >  "), lastChild);
@@ -51,7 +51,7 @@ tourapp.gui = {
 			if (count == 0)
 			{
 				historyDOM.appendChild(document.createElement("br"));
-				tourapp.gui.showBackButton();
+				jbundle.gui.showBackButton();
 			}
 		}
 	},
@@ -60,8 +60,8 @@ tourapp.gui = {
 	 */
 	popHistory: function()
 	{
-		var command = tourapp.gui.historyCommand.pop();
-		tourapp.gui.historyDesc.pop();
+		var command = jbundle.gui.historyCommand.pop();
+		jbundle.gui.historyDesc.pop();
 		
 		var historyDOM = document.getElementById("history-area");
 		if (historyDOM)
@@ -70,13 +70,13 @@ tourapp.gui = {
 			var lastChild = null;
 			if (count > 4)
 			{
-				tourapp.gui.removeChildren(historyDOM.childNodes[count - 2], true);
-				tourapp.gui.removeChildren(historyDOM.childNodes[count - 3], true);	// >
+				jbundle.gui.removeChildren(historyDOM.childNodes[count - 2], true);
+				jbundle.gui.removeChildren(historyDOM.childNodes[count - 3], true);	// >
 			}
 			else
 			{
-				tourapp.gui.removeChildren(historyDOM);	// Remove all
-				tourapp.gui.hideBackButton();
+				jbundle.gui.removeChildren(historyDOM);	// Remove all
+				jbundle.gui.hideBackButton();
 			}
 		}
 		

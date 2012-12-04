@@ -1,13 +1,13 @@
 /**
  * Top level methods and vars.
  */
-if(!dojo._hasResource["tourapp.main"]){
-dojo._hasResource["tourapp.main"] = true;
-dojo.provide("tourapp.main");
+if(!dojo._hasResource["jbundle.main"]){
+dojo._hasResource["jbundle.main"] = true;
+dojo.provide("jbundle.main");
 
 // dojo.require("dojo.crypto.SHA1");
 
-tourapp = {
+jbundle = {
     TRX_SEND_QUEUE: "trxSend",          // The generic queue for remote sent transaction messages.
     TRX_RECEIVE_QUEUE: "trxReceive",    // The generic queue for received remote transaction messages.
 	DEFAULT_QUEUE_TYPE: "intranet",
@@ -20,12 +20,12 @@ tourapp = {
 	gEnvState: null,
 	
 	getTaskSession: function() {
-		return tourapp.gTaskSession;
+		return jbundle.gTaskSession;
 	},
 	getServerPath: function(filePath) {
 		if (!filePath)
-			filePath = tourapp.SERVER_NAME;
-		return tourapp.SERVER_PATH + filePath;
+			filePath = jbundle.SERVER_NAME;
+		return jbundle.SERVER_PATH + filePath;
 	},
 	// Debug mode
 	debug: true,
@@ -36,9 +36,9 @@ tourapp = {
 	whichBrowser: function()
 	{
 		if (document.implementation && document.implementation.createDocument)	// True for non-IE
-			return tourapp.NS;
+			return jbundle.NS;
 		else if (window.ActiveXObject)
-			return tourapp.IE;
+			return jbundle.IE;
 		else
 			return null;
 	}

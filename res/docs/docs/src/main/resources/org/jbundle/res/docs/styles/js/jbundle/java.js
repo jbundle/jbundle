@@ -1,23 +1,23 @@
 /**
  * Top level methods and vars.
  */
-if(!dojo._hasResource["tourapp.java"]){
-dojo._hasResource["tourapp.java"] = true;
-dojo.provide("tourapp.java");
+if(!dojo._hasResource["jbundle.java"]){
+dojo._hasResource["jbundle.java"] = true;
+dojo.provide("jbundle.java");
 
 dojo.require("dojo.back");
 
-if (!tourapp.util)
+if (!jbundle.util)
 {
 	dojo.addOnLoad(function(){
-		dojo.back.setInitialState(new tourapp.java.State(tourapp.java.getCommandFromHash(window.location.hash)));
+		dojo.back.setInitialState(new jbundle.java.State(jbundle.java.getCommandFromHash(window.location.hash)));
 	});
 }
 
 /**
  * Browser back support.
  */
-tourapp.java = {
+jbundle.java = {
 	    SERVLET_NAME: "webstart",          // The generic queue for remote sent transaction messages.
 	/**
 	 * This is called from the history state object when the state is popped by a browser back command.
@@ -26,16 +26,16 @@ tourapp.java = {
 	 */
 	doJavaBrowserBack: function(command)
 	{
-		if (!tourapp.java.isJavaWindow())
-			tourapp.java.displayApplet(command);
-		if (tourapp.java.ignoreBack != true)
+		if (!jbundle.java.isJavaWindow())
+			jbundle.java.displayApplet(command);
+		if (jbundle.java.ignoreBack != true)
 		{
-			if (document.tourapp)
-				document.tourapp.doJavaBrowserBack(command);
-			if (tourapp.debug == true)
+			if (document.jbundle)
+				document.jbundle.doJavaBrowserBack(command);
+			if (jbundle.debug == true)
 				console.log("doJavaBrowserBack command =" + command);
 		}
-		tourapp.java.ignoreBack = false;
+		jbundle.java.ignoreBack = false;
 	},
 	/**
 	 * This is called from the history state object when the state is popped by a browser back command.
@@ -44,11 +44,11 @@ tourapp.java = {
 	 */
 	doJavaBrowserForward: function(command)
 	{
-		if (!tourapp.java.isJavaWindow())
-			tourapp.java.displayApplet(command);
-		else if (document.tourapp)
-			document.tourapp.doJavaBrowserForward(command);
-		if (tourapp.debug == true)
+		if (!jbundle.java.isJavaWindow())
+			jbundle.java.displayApplet(command);
+		else if (document.jbundle)
+			document.jbundle.doJavaBrowserForward(command);
+		if (jbundle.debug == true)
 			console.log("doJavaBrowserForward command =" + command);
 	},
 	/**
@@ -58,24 +58,24 @@ tourapp.java = {
 	 */
 	doJavaBrowserHashChange: function(command)
 	{
-		if (tourapp.util)
-			if (tourapp.util.getProperty(command, "applet") == null)
+		if (jbundle.util)
+			if (jbundle.util.getProperty(command, "applet") == null)
 			{
-				if (tourapp.java.isJavaWindow())
-					tourapp.java.prepareWindowForApplet(false);
-				tourapp.util.doCommand(command);
+				if (jbundle.java.isJavaWindow())
+					jbundle.java.prepareWindowForApplet(false);
+				jbundle.util.doCommand(command);
 				return;
 			}
-		if (!tourapp.java.isJavaWindow())
-			tourapp.java.displayApplet(command);
-		else if (document.tourapp)
-			document.tourapp.doJavaBrowserHashChange(command);
-		else if (tourapp.util)
+		if (!jbundle.java.isJavaWindow())
+			jbundle.java.displayApplet(command);
+		else if (document.jbundle)
+			document.jbundle.doJavaBrowserHashChange(command);
+		else if (jbundle.util)
 		{	// Must be an xsl command
-			tourapp.java.prepareWindowForApplet(false);
-			tourapp.util.doBrowserHashChange(command);
+			jbundle.java.prepareWindowForApplet(false);
+			jbundle.util.doBrowserHashChange(command);
 		}
-		if (tourapp.debug == true)
+		if (jbundle.debug == true)
 			console.log("doJavaBrowserHashChange command =" + command);
 	},
 	/**
@@ -84,10 +84,10 @@ tourapp.java = {
 	 */
 	pushBrowserHistory: function(command, title)
 	{
-		dojo.back.addToHistory(new tourapp.java.State(command));
+		dojo.back.addToHistory(new jbundle.java.State(command));
 		if (title)
 			document.title = title;
-		if (tourapp.debug == true)
+		if (jbundle.debug == true)
 			console.log("pushBrowserHistory command =" + command + " title= " + title);
 	},
 	/**
@@ -99,11 +99,11 @@ tourapp.java = {
 	{
 		move = 0 - count;
 		if ((commandHandledByClient == 'true') || (commandHandledByClient == true))
-			tourapp.java.ignoreBack = true;
+			jbundle.java.ignoreBack = true;
 		history.go(move);
 		if (title)
 			document.title = title;
-		if (tourapp.debug == true)
+		if (jbundle.debug == true)
 			console.log('popBrowserHistory count =' + count + ' move = ' + move + ' handled = ' + commandHandledByClient + " title= " + title);
 	},
 	/**
@@ -129,29 +129,29 @@ tourapp.java = {
 	{
 		if (!command)
 			return false;
-		var params = tourapp.util.commandToProperties(command);
+		var params = jbundle.util.commandToProperties(command);
 
 		var domToAppendTo = document.getElementById("content-area");
 		// First, delete all the old nodes
-		tourapp.gui.removeChildren(domToAppendTo, false);
+		jbundle.gui.removeChildren(domToAppendTo, false);
 		// Then, add the new nodes (via xslt)
-		//+ var desc = tourapp.gui.changeTitleFromData(domToBeTransformed);
-		var attributes = tourapp.java.getAppletAttributes(params);
-		var jnlp = tourapp.java.getJnlpURL(attributes, params);
+		//+ var desc = jbundle.gui.changeTitleFromData(domToBeTransformed);
+		var attributes = jbundle.java.getAppletAttributes(params);
+		var jnlp = jbundle.java.getJnlpURL(attributes, params);
 		if (!params.jnlp_href)
 			params['jnlp_href'] = jnlp;
 		
-		tourapp.java.prepareWindowForApplet(true);
+		jbundle.java.prepareWindowForApplet(true);
 		
-		var html = tourapp.java.runApplet(attributes, params, '1.6');
+		var html = jbundle.java.runApplet(attributes, params, '1.6');
 		domToAppendTo.innerHTML = html;
-		tourapp.java.pushBrowserHistory(command);
+		jbundle.java.pushBrowserHistory(command);
 		return true;
 	},
 	// Return true if java applet is displayed
 	isJavaWindow: function()
 	{
-		if (tourapp.util)
+		if (jbundle.util)
 			return (document.body.parentNode.className == "java");
 		return true;	// This is only for tourapp windows
 	},
@@ -162,14 +162,14 @@ tourapp.java = {
 		if (flag == true)
 		{
 			if (document.body.parentNode.className != "java")
-				tourapp.java.oldClassName = document.body.parentNode.className;
+				jbundle.java.oldClassName = document.body.parentNode.className;
 			document.body.parentNode.className="java";	// For firefox html.class
-			tourapp.gui.changeTheTitle("Java Window");
+			jbundle.gui.changeTheTitle("Java Window");
 		}
 		else
 		{
-		    if (tourapp.java.oldClassName)
-				document.body.parentNode.className=tourapp.java.oldClassName;
+		    if (jbundle.java.oldClassName)
+				document.body.parentNode.className=jbundle.java.oldClassName;
 		}
 	},
 	// Get the applet attributes from the params
@@ -207,10 +207,10 @@ tourapp.java = {
 		if (!params.baseURL)
 		{
 			params.baseURL = location.host;
-			if ((location.pathname.indexOf(tourapp.java.SERVLET_NAME) < 1) && (location.pathname.indexOf(tourapp.java.SERVLET_NAME + '/') != 0))
+			if ((location.pathname.indexOf(jbundle.java.SERVLET_NAME) < 1) && (location.pathname.indexOf(jbundle.java.SERVLET_NAME + '/') != 0))
 				params.baseURL += "/";
 			else
-				params.baseURL += location.pathname.substring(0, location.pathname.indexOf(tourapp.java.SERVLET_NAME));
+				params.baseURL += location.pathname.substring(0, location.pathname.indexOf(jbundle.java.SERVLET_NAME));
 		}
 		if (!params.url)
 			params.url = location.protocol + '//' + location.host + location.pathname;
@@ -221,7 +221,7 @@ tourapp.java = {
 		if (!attributes.height)
 			attributes.height = '98%';
 		if (!attributes.name)
-			attributes.name = 'tourapp';
+			attributes.name = 'jbundle';
 		if (!params.hash) if (window.location.hash)
 		{	// How do I keep from picking up the xsl hash?
 //			params.hash = location.hash;
@@ -242,7 +242,7 @@ tourapp.java = {
 		if (!jnlp.applet)
 				if (attributes['code'])
 					jnlp['appletClass'] = attributes['code'];
-		var command = attributes.codebase + tourapp.java.SERVLET_NAME + tourapp.util.propertiesToCommand(jnlp);
+		var command = attributes.codebase + jbundle.java.SERVLET_NAME + jbundle.util.propertiesToCommand(jnlp);
 		return command;
 	},
     /**
@@ -266,17 +266,17 @@ tourapp.java = {
             var browser = deployJava.getBrowser();
             if ((browser != '?') && (browser != 'Safari')) {
                 if (deployJava.versionCheck(minimumVersion + '+')) {
-                    return tourapp.java.writeAppletTag(attributes, parameters);
+                    return jbundle.java.writeAppletTag(attributes, parameters);
                 } else if (deployJava.installJRE(minimumVersion + '+')) {
                     // after successfull install we need to refresh page to pick
                     // pick up new plugin
                     deployJava.refresh();
                     location.href = document.location;
-                    return tourapp.java.writeAppletTag(attributes, parameters);
+                    return jbundle.java.writeAppletTag(attributes, parameters);
                 }
             } else {
                 // for unknown or Safari - just try to show applet
-            	return tourapp.java.writeAppletTag(attributes, parameters);
+            	return jbundle.java.writeAppletTag(attributes, parameters);
             }
         } else {
             if (deployJava.debug) {
@@ -326,19 +326,19 @@ tourapp.java = {
 	ignoreBack: false
 };
 
-tourapp.java.State.prototype.back = function() { tourapp.java.doJavaBrowserBack(this.changeUrl); };
-tourapp.java.State.prototype.forward = function() { tourapp.java.doJavaBrowserForward(this.changeUrl); };
+jbundle.java.State.prototype.back = function() { jbundle.java.doJavaBrowserBack(this.changeUrl); };
+jbundle.java.State.prototype.forward = function() { jbundle.java.doJavaBrowserForward(this.changeUrl); };
 
 /**
  * For java to call these, these must be at the root.
  */
 function pushBrowserHistory(command, title)
 {
-	tourapp.java.pushBrowserHistory(command, title);
+	jbundle.java.pushBrowserHistory(command, title);
 }
 function popBrowserHistory(count, commandHandledByClient, title)
 {
-	 tourapp.java.popBrowserHistory(count, commandHandledByClient, title);
+	 jbundle.java.popBrowserHistory(count, commandHandledByClient, title);
 }
 
 }

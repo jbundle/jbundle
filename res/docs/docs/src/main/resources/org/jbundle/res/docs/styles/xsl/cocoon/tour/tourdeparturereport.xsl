@@ -69,8 +69,8 @@
 						<xsl:call-template name="button_link">
 							<xsl:with-param name="name">[none]</xsl:with-param>
 							<xsl:with-param name="image">tour/buttons/Booking</xsl:with-param>
-							<xsl:with-param name="link">/tourapp?applet=org.jbundle.thin.base.screen.BaseApplet&amp;userid=<xsl:value-of select="//full-screen/params/userid"/>&amp;webStart=thin&amp;screen=com.tourapp.thin.app.booking.entry.TourAppScreen&amp;objectID=<xsl:value-of select='$record/TourHeader.ID'/>&amp;date=<xsl:value-of select='$record/Tour.DepartureDate'/>&amp;productType=Tour</xsl:with-param>
-							<!-- xsl:with-param name="link">/tourapp?applet=org.jbundle.thin.base.screen.BaseApplet&amp;userid=<xsl:value-of select="//full-screen/params/userid"/>&amp;webStart=thin&amp;screen=com.tourapp.thin.app.booking.entry.TourAppScreen&amp;TourID=<xsl:value-of select="$record/@id"/></xsl:with-param -->
+							<xsl:with-param name="link">/app?applet=org.jbundle.thin.base.screen.BaseApplet&amp;userid=<xsl:value-of select="//full-screen/params/userid"/>&amp;webStart=thin&amp;screen=com.jbundle.thin.app.booking.entry.TourAppScreen&amp;objectID=<xsl:value-of select='$record/TourHeader.ID'/>&amp;date=<xsl:value-of select='$record/Tour.DepartureDate'/>&amp;productType=Tour</xsl:with-param>
+							<!-- xsl:with-param name="link">/app?applet=org.jbundle.thin.base.screen.BaseApplet&amp;userid=<xsl:value-of select="//full-screen/params/userid"/>&amp;webStart=thin&amp;screen=com.jbundle.thin.app.booking.entry.TourAppScreen&amp;TourID=<xsl:value-of select="$record/@id"/></xsl:with-param -->
 							<xsl:with-param name="type">button</xsl:with-param>
 							<xsl:with-param name="target">_blank</xsl:with-param>
 						</xsl:call-template>

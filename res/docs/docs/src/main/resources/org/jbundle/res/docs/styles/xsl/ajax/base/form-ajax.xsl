@@ -20,7 +20,7 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="xform/submission/@id" />
 			</xsl:attribute>
-			<xsl:attribute name="onsubmit">return tourapp.util.doButton('Submit');</xsl:attribute>
+			<xsl:attribute name="onsubmit">return jbundle.util.doButton('Submit');</xsl:attribute>
 		
 			<!-- note: the br is in this div due to an ie xslt bug -->
 		    <xsl:element name="div">
@@ -201,7 +201,7 @@
 			<xsl:attribute name="name">
 				<xsl:value-of select="$name"/>
 			</xsl:attribute>
-			<xsl:attribute name="class">tourapp.Editor</xsl:attribute>
+			<xsl:attribute name="class">jbundle.Editor</xsl:attribute>
 				<xsl:apply-templates select="//xform[@id=$xform]/../../data/*[name()=$fieldname]" />
 		</xsl:element>
 		</xsl:if>

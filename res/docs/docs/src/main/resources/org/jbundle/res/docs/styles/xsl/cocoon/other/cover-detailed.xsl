@@ -20,7 +20,7 @@
 			<tr>
 				<td>
 					<img
-						src="http://www.tourapp.com/images/coolart/javacup.gif" />
+						src="http://www.jbundle.com/images/coolart/javacup.gif" />
 				</td>
 				<td vertical-align="bottom">
 					<b>

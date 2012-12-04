@@ -1,9 +1,9 @@
 /**
  * Top level methods and vars.
  */
-if(!dojo._hasResource["tourapp.gui"]){
-dojo._hasResource["tourapp.gui"] = true;
-dojo.provide("tourapp.gui");
+if(!dojo._hasResource["jbundle.gui"]){
+dojo._hasResource["jbundle.gui"] = true;
+dojo.provide("jbundle.gui");
 
 dojo.require("dojo.parser");
 dojo.require("dijit.form.Button");
@@ -15,7 +15,7 @@ dojo.require("dijit.Dialog");
 /**
  * Screen utilities.
  */
-tourapp.gui = {
+jbundle.gui = {
 	/**
 	 * Get scratch area.
 	 * @return The dom to the scratch area.
@@ -38,27 +38,27 @@ tourapp.gui = {
 	displayLogonDialog: function(domToAppendTo, user, dialogTitle, command)
 	{
 		if (!domToAppendTo)
-			domToAppendTo = tourapp.gui.getScratch();
+			domToAppendTo = jbundle.gui.getScratch();
 		if (!user)
 		{
 			user = "";
-			if (tourapp.getTaskSession().security)
-				if (tourapp.getTaskSession().security.userProperties)
-					if (tourapp.getTaskSession().security.userProperties.user)
-						user = tourapp.getTaskSession().security.userProperties.user;
+			if (jbundle.getTaskSession().security)
+				if (jbundle.getTaskSession().security.userProperties)
+					if (jbundle.getTaskSession().security.userProperties.user)
+						user = jbundle.getTaskSession().security.userProperties.user;
 		}
 		if (!dialogTitle)
 			dialogTitle = "Login";
 		if (!command)
 			command = "";
 		var xmlToBeTransformed = "<root><user>" + user + "</user><dialogTitle>" + dialogTitle + "</dialogTitle><command>" + command + "</command></root>";
-		var xsltURI = tourapp.getServerPath("docs/styles/js/tourapp/xsl/logon.xsl");
+		var xsltURI = jbundle.getServerPath("docs/styles/js/jbundle/xsl/logon.xsl");
 
 		var logonDialog = dijit.byId("logonDialog");
 		if (!logonDialog)
 		{
 			var domToBeTransformed = dojox.data.dom.createDocument(xmlToBeTransformed);
-			tourapp.xml.doXSLT(domToBeTransformed, xsltURI, domToAppendTo, tourapp.gui.handleDisplayLogonDialog);
+			jbundle.xml.doXSLT(domToBeTransformed, xsltURI, domToAppendTo, jbundle.gui.handleDisplayLogonDialog);
 		}
 		else
 		{
@@ -100,30 +100,30 @@ tourapp.gui = {
 			var command = form.elements.command.value;
 
 			var password = form.elements.password.value;
-			tourapp.util.saveUser = form.elements.saveUser.checked;
+			jbundle.util.saveUser = form.elements.saveUser.checked;
 
 			if (password)
 				password = b64_sha1(password);
 
-			tourapp.gui.handleLoginLink = dojo.connect(tourapp.remote, "handleLogin", tourapp.gui, "handleLogin");
+			jbundle.gui.handleLoginLink = dojo.connect(jbundle.remote, "handleLogin", jbundle.gui, "handleLogin");
 
-			tourapp.util.lastCommand = "?menu=";
-			tourapp.util.handleLoginLink = dojo.connect(tourapp.remote, "handleLogin", tourapp.util, "doLoginCommand");
+			jbundle.util.lastCommand = "?menu=";
+			jbundle.util.handleLoginLink = dojo.connect(jbundle.remote, "handleLogin", jbundle.util, "doLoginCommand");
 
 			if (command)
 				if (command != "")
 			{
-				tourapp.util.lastCommand = command;	// Make sure it does the correct command.
-				tourapp.gui.handleLoginLink = dojo.connect(tourapp.remote, "handleLogin", tourapp.gui, "handleLogin");
+				jbundle.util.lastCommand = command;	// Make sure it does the correct command.
+				jbundle.gui.handleLoginLink = dojo.connect(jbundle.remote, "handleLogin", jbundle.gui, "handleLogin");
 			}
-			tourapp.remote.login(tourapp.getTaskSession(), user, password);
+			jbundle.remote.login(jbundle.getTaskSession(), user, password);
 		}
 		dlg0.hide();
 		if (submit)
 			if (submit != true)
 			if (submit != false)
 		{
-			tourapp.util.doCommand(submit);
+			jbundle.util.doCommand(submit);
 		}
 		return false;	// If called from post, don't submit form
 	},
@@ -136,34 +136,34 @@ tourapp.gui = {
 	 */
 	handleLogin: function(data, ioArgs)
 	{
-		dojo.disconnect(tourapp.gui.handleLoginLink);
-//		if (tourapp.remote.checkForDataError(data, "Could not log in"))
+		dojo.disconnect(jbundle.gui.handleLoginLink);
+//		if (jbundle.remote.checkForDataError(data, "Could not log in"))
 	//		return;
 		var user = "";
 		var userid = null;
-		if (tourapp.getTaskSession().security)
-			if (tourapp.getTaskSession().security.userProperties)
+		if (jbundle.getTaskSession().security)
+			if (jbundle.getTaskSession().security.userProperties)
 		{
-			user = tourapp.getTaskSession().security.userProperties.user;
-			userid = tourapp.getTaskSession().security.userProperties.userid;
+			user = jbundle.getTaskSession().security.userProperties.user;
+			userid = jbundle.getTaskSession().security.userProperties.userid;
 		}
-		if ((tourapp.util.saveUser == true)
+		if ((jbundle.util.saveUser == true)
 			&& (userid)
 				&& (userid != "1"))	// Anon
-			tourapp.util.setCookie("userid", userid, +365);
-		else if (tourapp.util.saveUser == false)
-			tourapp.util.setCookie("userid", null);
-		tourapp.util.saveUser = null;
-		tourapp.gui.changeUser(user);
-		var desc = tourapp.gui.LOGOUT_DESC;
+			jbundle.util.setCookie("userid", userid, +365);
+		else if (jbundle.util.saveUser == false)
+			jbundle.util.setCookie("userid", null);
+		jbundle.util.saveUser = null;
+		jbundle.gui.changeUser(user);
+		var desc = jbundle.gui.LOGOUT_DESC;
 		var command = "Logout";
 		if ((!user) || (user == "") || (userid == "1"))
 		{
-			desc = tourapp.gui.LOGIN_DESC;
+			desc = jbundle.gui.LOGIN_DESC;
 			command = "Login";
 		}
-		tourapp.gui.changeButton(dijit.byId(tourapp.gui.LOGIN_DESC), desc, command);	// Could be either
-		tourapp.gui.changeButton(dijit.byId(tourapp.gui.LOGOUT_DESC), desc, command);
+		jbundle.gui.changeButton(dijit.byId(jbundle.gui.LOGIN_DESC), desc, command);	// Could be either
+		jbundle.gui.changeButton(dijit.byId(jbundle.gui.LOGOUT_DESC), desc, command);
 	},
 	LOGOUT_DESC: "Sign out",	// Change these for I18N
 	LOGIN_DESC: "Sign in",
@@ -172,7 +172,7 @@ tourapp.gui = {
 	 */
 	displayErrorMessage: function(message)
 	{
-		var domToAppendTo = tourapp.gui.getScratch();
+		var domToAppendTo = jbundle.gui.getScratch();
 		
 		var alertDialog = dijit.byId("alertDialog");
 		if (!alertDialog)
@@ -195,7 +195,7 @@ tourapp.gui = {
 			message + 
 				"<br/><button id=\"alertDialogOkay\" onClick=\"dijit.byId('alertDialog').hide();\" dojoType=\"dijit.form.Button\" class=\"button\" ><img src=\"images/buttons/Close.gif\" width=\"16\" height=\"16\" alt=\"Close\" class=\"button\" />Close</button>" + 
 //x				"&#160;&#160;&#160;" +
-//x				"<button id=\"alertDialogNewUser\" onClick=\"tourapp.util.doCommand('?screen=.main.user.screen.UserEntryScreen&amp;java=no');\" dojoType=\"dijit.form.Button\" class=\"button\" ><img src=\"images/buttons/Form.gif\" width=\"16\" height=\"16\" alt=\"Create new account\" class=\"button\" />Create new account</button>" + 
+//x				"<button id=\"alertDialogNewUser\" onClick=\"jbundle.util.doCommand('?screen=.main.user.screen.UserEntryScreen&amp;java=no');\" dojoType=\"dijit.form.Button\" class=\"button\" ><img src=\"images/buttons/Form.gif\" width=\"16\" height=\"16\" alt=\"Create new account\" class=\"button\" />Create new account</button>" + 
 				"</div>";
 		alertDialog.setContent(message);
 
@@ -211,7 +211,7 @@ tourapp.gui = {
 		var messageArea = document.getElementById('status-area');
 		if (messageArea)
 		{
-			tourapp.gui.removeChildren(messageArea);
+			jbundle.gui.removeChildren(messageArea);
 			messageArea.appendChild(document.createTextNode(infoText));
 			if (!infoClass)
 				infoClass = "information";
@@ -239,7 +239,7 @@ tourapp.gui = {
 		var div = document.getElementById("userName");
 		if (div)
 		{	// Always
-			tourapp.gui.removeChildren(div);
+			jbundle.gui.removeChildren(div);
 			div.appendChild(document.createTextNode(user));
 		}
 	},
@@ -253,7 +253,7 @@ tourapp.gui = {
 		var div = document.getElementById("title");
 		if (div)
 		{	// Always
-			tourapp.gui.removeChildren(div);
+			jbundle.gui.removeChildren(div);
 			div.appendChild(document.createTextNode(newtitle));
 		}
 		document.title = newtitle;
@@ -267,7 +267,7 @@ tourapp.gui = {
 		var title = null;
 		if (elements)
 			if (elements.length > 0)
-				tourapp.gui.changeTheTitle(title = elements[0].textContent);
+				jbundle.gui.changeTheTitle(title = elements[0].textContent);
 		return title;
 	},
 	/**
@@ -338,7 +338,7 @@ tourapp.gui = {
 			while (elem = elements[i++])
 			{
 			    if (elem.className)
-			    	if (elem.className.indexOf("tourapp.Editor") != -1)
+			    	if (elem.className.indexOf("jbundle.Editor") != -1)
 			    {
 					var editor = dijit.byNode(elem);
 					if (editor)
@@ -369,8 +369,8 @@ tourapp.gui = {
 				continue;
 			if ((formValues) && (formValues[elem.name]))
 				elem.value = formValues[elem.name];
-			else if ((tourapp.gui.defaultFormValues) && (tourapp.gui.defaultFormValues[elem.name]))
-				elem.value = tourapp.gui.defaultFormValues[elem.name];
+			else if ((jbundle.gui.defaultFormValues) && (jbundle.gui.defaultFormValues[elem.name]))
+				elem.value = jbundle.gui.defaultFormValues[elem.name];
 			else
 				elem.value = "";
 		}
@@ -379,15 +379,15 @@ tourapp.gui = {
 		while (elem = elements[i++])
 		{
 		    if (elem.className)
-		    	if (elem.className.indexOf("tourapp.Editor") != -1)
+		    	if (elem.className.indexOf("jbundle.Editor") != -1)
 		    {
 				var editor = dijit.byNode(elem);
 				if (editor)
 				{
 					if ((formValues) && (formValues[editor.name]))
 						editor.setValue(formValues[editor.name]);
-					else if ((tourapp.gui.defaultFormValues) && (tourapp.gui.defaultFormValues[editor.name]))
-						editor.setValue(tourapp.gui.defaultFormValues[editor.name]);
+					else if ((jbundle.gui.defaultFormValues) && (jbundle.gui.defaultFormValues[editor.name]))
+						editor.setValue(jbundle.gui.defaultFormValues[editor.name]);
 					else
 						editor.setValue("");
 				}
@@ -399,7 +399,7 @@ tourapp.gui = {
 	 * Clear all the data in this form and make sure the hidden objectID is cleared.
 	 */
 	clearFormData: function() {
-		tourapp.gui.setFormData(null);
+		jbundle.gui.setFormData(null);
 		if (document.getElementById('objectID'))
 			document.getElementById('objectID').value = "";
 	},
@@ -409,7 +409,7 @@ tourapp.gui = {
 	clearGridData: function(objectID) {
 		var tr = document.getElementById(objectID);
 		if (tr)
-			tourapp.gui.removeChildren(tr, true);
+			jbundle.gui.removeChildren(tr, true);
 	},
 	/**
 	 * Utility - Remove all children from this node.
@@ -431,7 +431,7 @@ tourapp.gui = {
 			var children = dom.childNodes;
 			for (var i = children.length-1; i >= 0; i--)
 			{
-				tourapp.gui.removeChildren(children[i], true);
+				jbundle.gui.removeChildren(children[i], true);
 			}
 		}
 		if (removeFromParent)
@@ -451,10 +451,10 @@ tourapp.gui = {
 	// Returns true if successful
 	displayApplet: function(command)
 	{
-		if (!tourapp.java)
+		if (!jbundle.java)
 			return false;	// No java.js
-		tourapp.gui.appletDisplayed = tourapp.java.displayApplet(command);
-		return tourapp.gui.appletDisplayed;
+		jbundle.gui.appletDisplayed = jbundle.java.displayApplet(command);
+		return jbundle.gui.appletDisplayed;
 	},
 	appletDisplayed: false
 };

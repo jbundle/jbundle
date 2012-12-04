@@ -6,7 +6,7 @@
 <jnlp spec="1.0+" codebase="$$context">
   <information>
     <title><xsl:apply-templates select="full-screen/content-area/data/heading/file/JnlpFile/JnlpFile.Title"/></title>
-    <vendor>tourapp.com</vendor>
+    <vendor>jbundle.com</vendor>
     <homepage href="index.html"/>
     <description kind="one-line"><xsl:apply-templates select="full-screen/content-area/data/heading/file/JnlpFile/JnlpFile.Description"/></description>
     <description kind="short"><xsl:apply-templates select="full-screen/content-area/data/heading/file/JnlpFile/JnlpFile.ShortDesc"/></description>

@@ -59,7 +59,7 @@
         </xsl:variable>
         
 		<xsl:element name="a">
-			<xsl:attribute name="href"><xsl:value-of select="/full-screen/params/baseURL" />?command=Form&amp;record=com.tourapp.tour.booking.detail.db.BookingDetail&amp;objectID=<xsl:value-of select="*[name()='BookingDetail.ID']" /></xsl:attribute>
+			<xsl:attribute name="href"><xsl:value-of select="/full-screen/params/baseURL" />?command=Form&amp;record=com.jbundle.tour.booking.detail.db.BookingDetail&amp;objectID=<xsl:value-of select="*[name()='BookingDetail.ID']" /></xsl:attribute>
             <b>
 				<xsl:element name="img">
 					<xsl:attribute name="src"><xsl:value-of select="/full-screen/params/baseURL" />images/tour/buttons/<xsl:value-of select="$type" />.gif</xsl:attribute>

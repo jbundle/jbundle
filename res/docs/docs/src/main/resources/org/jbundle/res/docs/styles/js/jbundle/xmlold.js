@@ -1,27 +1,26 @@
 /**
  * Top level methods and vars.
  */
-if(!dojo._hasResource["tourapp.xml"]){
-dojo._hasResource["tourapp.xml"] = true;
-dojo.provide("tourapp.xml");
+if(!dojo._hasResource["jbundle.xml"]){
+dojo._hasResource["jbundle.xml"] = true;
+dojo.provide("jbundle.xml");
 
 dojo.require("dojox.data.dom");
 
 /**
  * Public Utilities.
  */
-tourapp.xml = {
+jbundle.xml = {
 	doXSLT: function(domToBeTransformed, xsltURI, domToAppendTo, handler)
 	{
-		new tourapp.xml.InsertTransformTo(domToBeTransformed, xsltURI, domToAppendTo, handler);
+		new jbundle.xml.InsertTransformTo(domToBeTransformed, xsltURI, domToAppendTo, handler);
 	},
 	InsertTransformTo: function(domToBeTransformed, xslUrl, elementToInsert, handler) {
 		  this.xslUrl = xslUrl;
-//		  this.xmlUrl = domToBeTransformed;
 		  this.handler = handler;
 		  this.xmlLoaded = this.xslLoaded = false;
 		  this.elementToInsert = elementToInsert;
-//		  this.load(domToBeTransformed, 'xml');
+//		  this.load(xmlUrl, 'xml');
 		  this.xml = domToBeTransformed;
 		  this.xmlLoaded = true;
 		  this.load(xslUrl, 'xsl');
@@ -29,7 +28,7 @@ tourapp.xml = {
 
 };
 
-	tourapp.xml.InsertTransformTo.prototype.load = function (url, propertyName) {
+	jbundle.xml.InsertTransformTo.prototype.load = function (url, propertyName) {
 	  var httpRequest = null;
 	  if (typeof XMLHttpRequest != 'undefined') {
 	    httpRequest = new XMLHttpRequest();
@@ -56,7 +55,7 @@ tourapp.xml = {
 	  }
 	};
 
-	tourapp.xml.InsertTransformTo.prototype.transformAndInsert = function () {
+	jbundle.xml.InsertTransformTo.prototype.transformAndInsert = function () {
 	  if (typeof XSLTProcessor != 'undefined') {
 	    var xsltProcessor = new XSLTProcessor();
 	    xsltProcessor.importStylesheet(this.xsl);

@@ -1,14 +1,14 @@
 /**
  * Top level methods and vars.
  */
-if(!dojo._hasResource["tourapp.classes"]){
-dojo._hasResource["tourapp.classes"] = true;
-dojo.provide("tourapp.classes");
+if(!dojo._hasResource["jbundle.classes"]){
+dojo._hasResource["jbundle.classes"] = true;
+dojo.provide("jbundle.classes");
 
 /**
  * Classes.
  */
-tourapp.classes = {
+jbundle.classes = {
 	// Top-level task(s)
 	Session: function(parentSession) {
 		if (parentSession)
@@ -17,8 +17,8 @@ tourapp.classes = {
 			parentSession.addChildSession(this);
 		}
 		this.childSessions = new Array();
-		this.localSessionID = tourapp.classes.nextLocalSessionID;
-		tourapp.classes.nextLocalSessionID++;
+		this.localSessionID = jbundle.classes.nextLocalSessionID;
+		jbundle.classes.nextLocalSessionID++;
 	},
 	// Send queue(s)
 	SendQueue: function(parentSession, queueName, queueType) {
@@ -26,8 +26,8 @@ tourapp.classes = {
 		this.queueName = queueName;
 		this.queueType = queueType;
 		parentSession.addChildSession(this);
-		this.localSessionID = tourapp.classes.nextLocalSessionID;
-		tourapp.classes.nextLocalSessionID++;
+		this.localSessionID = jbundle.classes.nextLocalSessionID;
+		jbundle.classes.nextLocalSessionID++;
 	},
 	// Receive queue(s)
 	ReceiveQueue: function(parentSession, queueName, queueType) {
@@ -36,16 +36,16 @@ tourapp.classes = {
 		this.queueType = queueType;
 		parentSession.addChildSession(this);
 		this.remoteFilters = new Object();
-		this.localSessionID = tourapp.classes.nextLocalSessionID;
-		tourapp.classes.nextLocalSessionID++;
+		this.localSessionID = jbundle.classes.nextLocalSessionID;
+		jbundle.classes.nextLocalSessionID++;
 	},
 	// Filters in this receive queue.
 	MessageFilter: function(parentSession, methodToCall) {
 		this.parentSession = parentSession;
 		this.methodToCall = methodToCall;
-		this.filterID = tourapp.classes.nextFilterID.toString();
-		parentSession.addMessageFilter(this, tourapp.classes.nextFilterID.toString());
-		tourapp.classes.nextFilterID++;
+		this.filterID = jbundle.classes.nextFilterID.toString();
+		parentSession.addMessageFilter(this, jbundle.classes.nextFilterID.toString());
+		jbundle.classes.nextFilterID++;
 	},
 	// Next unique local message filter ID
 	nextFilterID: 1,
@@ -71,25 +71,25 @@ tourapp.classes = {
 			return this.remoteFilters[filterID];
 	}
 };
-tourapp.classes.Session.prototype.getFullSessionID = tourapp.classes.getFullSessionID;
-tourapp.classes.Session.prototype.addMessageFilter = tourapp.classes.addMessageFilter;
-tourapp.classes.Session.prototype.getMessageFilter = tourapp.classes.getMessageFilter;
-tourapp.classes.Session.prototype.addChildSession = function(session) {
-	tourapp.getTaskSession().childSessions.push(session);
+jbundle.classes.Session.prototype.getFullSessionID = jbundle.classes.getFullSessionID;
+jbundle.classes.Session.prototype.addMessageFilter = jbundle.classes.addMessageFilter;
+jbundle.classes.Session.prototype.getMessageFilter = jbundle.classes.getMessageFilter;
+jbundle.classes.Session.prototype.addChildSession = function(session) {
+	jbundle.getTaskSession().childSessions.push(session);
 };
 // Get the remote send queue with this name and type
-tourapp.classes.Session.prototype.getSendQueue = function(queueName, queueType)
+jbundle.classes.Session.prototype.getSendQueue = function(queueName, queueType)
 {
 	if (queueName === undefined)
-		queueName = tourapp.TRX_SEND_QUEUE;
+		queueName = jbundle.TRX_SEND_QUEUE;
 	if (queueType === undefined)
-		queueType = tourapp.DEFAULT_QUEUE_TYPE;
-	var childSessions = tourapp.getTaskSession().childSessions;
+		queueType = jbundle.DEFAULT_QUEUE_TYPE;
+	var childSessions = jbundle.getTaskSession().childSessions;
 	if (childSessions)
 	{
 		for (var i = 0; i < childSessions.length; i++)
 		{
-			if (childSessions[i] instanceof tourapp.classes.SendQueue)
+			if (childSessions[i] instanceof jbundle.classes.SendQueue)
 				if (childSessions[i].queueName == queueName)
 					if (childSessions[i].queueType == queueType)
 						return childSessions[i];
@@ -97,18 +97,18 @@ tourapp.classes.Session.prototype.getSendQueue = function(queueName, queueType)
 	}
 };
 // Get the remote receive queue with this name and type
-tourapp.classes.Session.prototype.getReceiveQueue = function(queueName, queueType)
+jbundle.classes.Session.prototype.getReceiveQueue = function(queueName, queueType)
 {
 	if (queueName === undefined)
-		queueName = tourapp.TRX_RECEIVE_QUEUE;
+		queueName = jbundle.TRX_RECEIVE_QUEUE;
 	if (queueType === undefined)
-		queueType = tourapp.DEFAULT_QUEUE_TYPE;
-	var childSessions = tourapp.getTaskSession().childSessions;
+		queueType = jbundle.DEFAULT_QUEUE_TYPE;
+	var childSessions = jbundle.getTaskSession().childSessions;
 	if (childSessions)
 	{
 		for (var i = 0; i < childSessions.length; i++)
 		{
-			if (childSessions[i] instanceof tourapp.classes.ReceiveQueue)
+			if (childSessions[i] instanceof jbundle.classes.ReceiveQueue)
 				if (childSessions[i].queueName == queueName)
 					if (childSessions[i].queueType == queueType)
 						return childSessions[i];
@@ -116,7 +116,7 @@ tourapp.classes.Session.prototype.getReceiveQueue = function(queueName, queueTyp
 	}
 };
 // Lookup session by session ID
-tourapp.classes.Session.prototype.getSessionByFullSessionID = function(fullSessionID) {
+jbundle.classes.Session.prototype.getSessionByFullSessionID = function(fullSessionID) {
 	var sessionID = fullSessionID;
 	if (fullSessionID.indexOf("/") > 0)
 	{	// Next session
@@ -136,7 +136,7 @@ tourapp.classes.Session.prototype.getSessionByFullSessionID = function(fullSessi
 			return;	// No more children, Not found
 		for (var i = 0; i < this.childSessions.length; i++)
 		{
-			if (this.childSessions[i] instanceof tourapp.classes.Session)
+			if (this.childSessions[i] instanceof jbundle.classes.Session)
 			{
 				var session = this.childSessions[i].getSessionByFullSessionID(fullSessionID);
 				if (session)
@@ -152,14 +152,14 @@ tourapp.classes.Session.prototype.getSessionByFullSessionID = function(fullSessi
 	// Not found
 }
 // Lookup session by session ID
-tourapp.classes.Session.prototype.getSessionByLocalSessionID = function(localSessionID) {
+jbundle.classes.Session.prototype.getSessionByLocalSessionID = function(localSessionID) {
 	if (!this.childSessions)
 		return;	// No children, Not found
 	for (var i = 0; i < this.childSessions.length; i++)
 	{
 		if (this.childSessions[i].localSessionID == localSessionID)
 			return this.childSessions[i];
-		else if (this.childSessions[i] instanceof tourapp.classes.Session)
+		else if (this.childSessions[i] instanceof jbundle.classes.Session)
 		{	// Continue looking down the chain
 			var session = this.childSessions[i].getSessionByLocalSessionID(localSessionID);
 			if (session)
@@ -168,14 +168,14 @@ tourapp.classes.Session.prototype.getSessionByLocalSessionID = function(localSes
 	}
 	// Not found
 }
-tourapp.classes.SendQueue.prototype.getFullSessionID = tourapp.classes.getFullSessionID;
-tourapp.classes.ReceiveQueue.prototype.addMessageFilter = tourapp.classes.addMessageFilter;
-tourapp.classes.ReceiveQueue.prototype.getMessageFilter = tourapp.classes.getMessageFilter;
-tourapp.classes.ReceiveQueue.prototype.getMessageFilterByRemoteID = function(remoteFilterID) {
+jbundle.classes.SendQueue.prototype.getFullSessionID = jbundle.classes.getFullSessionID;
+jbundle.classes.ReceiveQueue.prototype.addMessageFilter = jbundle.classes.addMessageFilter;
+jbundle.classes.ReceiveQueue.prototype.getMessageFilter = jbundle.classes.getMessageFilter;
+jbundle.classes.ReceiveQueue.prototype.getMessageFilterByRemoteID = function(remoteFilterID) {
 	for (var key in this.remoteFilters) {
     	if (this.remoteFilters[key].remoteFilterID == remoteFilterID)
     		return this.remoteFilters[key];
 	}
 };
-tourapp.classes.ReceiveQueue.prototype.getFullSessionID = tourapp.classes.getFullSessionID;
+jbundle.classes.ReceiveQueue.prototype.getFullSessionID = jbundle.classes.getFullSessionID;
 }

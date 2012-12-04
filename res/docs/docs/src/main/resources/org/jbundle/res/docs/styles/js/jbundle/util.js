@@ -1,9 +1,9 @@
 /**
  * Top level methods and vars.
  */
-if(!dojo._hasResource["tourapp.util"]){
-dojo._hasResource["tourapp.util"] = true;
-dojo.provide("tourapp.util");
+if(!dojo._hasResource["jbundle.util"]){
+dojo._hasResource["jbundle.util"] = true;
+dojo.provide("jbundle.util");
 
 dojo.require("dojox.data.dom");
 dojo.require("dojo.back");
@@ -11,26 +11,26 @@ dojo.require("dojo.back");
 /**
  * Public Utilities.
  */
-tourapp.util = {
+jbundle.util = {
 	// Initialize environment
 	init: function(user, password)
 	{
-		dojo.addOnUnload(tourapp.util, "free");
+		dojo.addOnUnload(jbundle.util, "free");
 	
 	  	if (djConfig.isDebug)
 		  	if (console)
 			  	console.log("init env");
-	  	tourapp.gEnvState = true;
+	  	jbundle.gEnvState = true;
 
-		tourapp.gTaskSession = new tourapp.classes.Session();
+		jbundle.gTaskSession = new jbundle.classes.Session();
 // For now, you'll have to start the queues manually
-//		tourapp.util.addSendQueue();
-//		tourapp.util.addReceiveQueue();
+//		jbundle.util.addSendQueue();
+//		jbundle.util.addReceiveQueue();
 		if (!user)
-			user = tourapp.util.getCookie("userid");
+			user = jbundle.util.getCookie("userid");
 		if (!password)
 			password = "";
-		htmlSession = tourapp.util.getCookie("JSESSIONID");
+		htmlSession = jbundle.util.getCookie("JSESSIONID");
 		if (!user)
 			if (htmlSession)
 				user = "";	// Special case - The html session is authenticated - need to re-sign on as anonymous
@@ -40,39 +40,39 @@ tourapp.util = {
 	  	var search = location.search;
 	  	if ((!user) || (user == ""))
 	  	{	// User passed in in URL
-	  		if (tourapp.util.getProperty(search, "user"))
-	  			user = tourapp.util.getProperty(search, "user");
+	  		if (jbundle.util.getProperty(search, "user"))
+	  			user = jbundle.util.getProperty(search, "user");
 	  	}
 		if (search)
 			if (search != "")
-				if (tourapp.util.getProperty(search, "menu") != null)
-					tourapp.util.lastCommand = search;	// Make sure it does the correct command.
+				if (jbundle.util.getProperty(search, "menu") != null)
+					jbundle.util.lastCommand = search;	// Make sure it does the correct command.
 	  	
-	  	tourapp.util.user = user;
-		tourapp.gui.handleCreateRemoteTaskLink = dojo.connect(tourapp.remote, "handleCreateRemoteTask", tourapp.util, "handleCreateRemoteTask");
+	  	jbundle.util.user = user;
+		jbundle.gui.handleCreateRemoteTaskLink = dojo.connect(jbundle.remote, "handleCreateRemoteTask", jbundle.util, "handleCreateRemoteTask");
 
-	  	tourapp.remote.createRemoteTask(user, password);
+	  	jbundle.remote.createRemoteTask(user, password);
 	  	
 	  	if (pathname)
-	  		if (tourapp.SERVER_PATH == "")
+	  		if (jbundle.SERVER_PATH == "")
 	  	{	// Nail down the host name, so call won't mistakenly call relative to .js directories
 	  		if (pathname.lastIndexOf("/") != -1)
 	  			pathname = pathname.substring(0, pathname.lastIndexOf("/"));
 	  		pathname = pathname + "/";
-	  		tourapp.SERVER_PATH = pathname;
+	  		jbundle.SERVER_PATH = pathname;
 	  	}
 	  	var command = window.location.search;
-		var bookmarkId = tourapp.util.getCommandFromHash(window.location.hash);
+		var bookmarkId = jbundle.util.getCommandFromHash(window.location.hash);
 		if ((command) && (bookmarkId))
 			command = command + '&' + bookmarkId;
 		else if (bookmarkId)
 			command = bookmarkId;
 		if (!command)
-			command = tourapp.util.DEFAULT_MENU;
+			command = jbundle.util.DEFAULT_MENU;
 		if (user == '')
-			if (command != tourapp.util.DEFAULT_MENU)
-				if (tourapp.util.getProperty(command, "menu") != null)
-					tourapp.util.lastCommand = command;	// Special case
+			if (command != jbundle.util.DEFAULT_MENU)
+				if (jbundle.util.getProperty(command, "menu") != null)
+					jbundle.util.lastCommand = command;	// Special case
 		if (!user)
 			if (host)
 			{
@@ -88,13 +88,13 @@ tourapp.util = {
 		if (bookmarkId && (bookmarkId.indexOf("?") == 0))
 		{	//If we have a bookmark, load that as the initial state.
 			command = bookmarkId;
-			if (command != tourapp.util.DEFAULT_MENU)
-				tourapp.util.lastCommand = command;
+			if (command != jbundle.util.DEFAULT_MENU)
+				jbundle.util.lastCommand = command;
 		} else {
 			// Nothing special to do on initial page load
 		}
 		dojo.addOnLoad(function(){
-			var appState = new tourapp.util.ApplicationState(command, bookmarkId, null);
+			var appState = new jbundle.util.ApplicationState(command, bookmarkId, null);
 			dojo.back.setInitialState(appState);
 		});
 	},
@@ -105,52 +105,52 @@ tourapp.util = {
 	// Special handler to sign on user after create initial task.
 	handleCreateRemoteTask: function(data, ioArgs)
 	{
-		dojo.disconnect(tourapp.util.handleCreateRemoteTaskLink);
-		if (tourapp.util.user != null)
+		dojo.disconnect(jbundle.util.handleCreateRemoteTaskLink);
+		if (jbundle.util.user != null)
 		{
-			tourapp.util.saveUser = null;	// Don't change cookie
-			tourapp.gui.handleLoginLink = dojo.connect(tourapp.remote, "handleLogin", tourapp.gui, "handleLogin");
-			tourapp.util.handleLoginLink = dojo.connect(tourapp.remote, "handleLogin", tourapp.util, "doLoginCommand");
-			tourapp.remote.login(tourapp.getTaskSession(), tourapp.util.user);
+			jbundle.util.saveUser = null;	// Don't change cookie
+			jbundle.gui.handleLoginLink = dojo.connect(jbundle.remote, "handleLogin", jbundle.gui, "handleLogin");
+			jbundle.util.handleLoginLink = dojo.connect(jbundle.remote, "handleLogin", jbundle.util, "doLoginCommand");
+			jbundle.remote.login(jbundle.getTaskSession(), jbundle.util.user);
 		}
-		if (!tourapp.util.user)
+		if (!jbundle.util.user)
 		{
 			var action = "Login";
-			tourapp.gui.changeUser(null);
-			tourapp.gui.changeButton(dijit.byId(tourapp.gui.LOGOUT_DESC), tourapp.gui.LOGIN_DESC, action);	// Could be either
-			tourapp.gui.changeButton(dijit.byId(tourapp.gui.LOGIN_DESC), tourapp.gui.LOGIN_DESC, action);
+			jbundle.gui.changeUser(null);
+			jbundle.gui.changeButton(dijit.byId(jbundle.gui.LOGOUT_DESC), jbundle.gui.LOGIN_DESC, action);	// Could be either
+			jbundle.gui.changeButton(dijit.byId(jbundle.gui.LOGIN_DESC), jbundle.gui.LOGIN_DESC, action);
 		}
 	},
 	// Free the environment
 	free: function()
 	{
-	  	tourapp.gEnvState = false;	// Ignore the errors (from canceling the receive loop)
-		if (tourapp.gTaskSession)
-			tourapp.remote.freeRemoteSession(tourapp.gTaskSession);
+	  	jbundle.gEnvState = false;	// Ignore the errors (from canceling the receive loop)
+		if (jbundle.gTaskSession)
+			jbundle.remote.freeRemoteSession(jbundle.gTaskSession);
 	},
 	// Make a remote session
 	makeRemoteSession: function(sessionClassName)
 	{
-		var session = new tourapp.classes.Session(tourapp.getTaskSession());
+		var session = new jbundle.classes.Session(jbundle.getTaskSession());
 		session.sessionClassName = sessionClassName;
 		if (session.parentSession.sessionID)	// Only add the physical session if the parent session is set up, otherwise the handler will set it up later
-			tourapp.remote.makeRemoteSession(session);
+			jbundle.remote.makeRemoteSession(session);
 		return session;
 	},
 	// Login
 	login: function(user, password)
 	{
-		tourapp.remote.login(tourapp.getTaskSession(), user, password);
+		jbundle.remote.login(jbundle.getTaskSession(), user, password);
 	},
 	// Logout
 	logout: function()
 	{
-		tourapp.util.setCookie("userid", null);	// Clear cookie
-		tourapp.gui.handleLoginLink = dojo.connect(tourapp.remote, "handleLogin", tourapp.gui, "handleLogin");
-		tourapp.remote.login(tourapp.getTaskSession(), null, null);
+		jbundle.util.setCookie("userid", null);	// Clear cookie
+		jbundle.gui.handleLoginLink = dojo.connect(jbundle.remote, "handleLogin", jbundle.gui, "handleLogin");
+		jbundle.remote.login(jbundle.getTaskSession(), null, null);
 
-		tourapp.util.lastCommand = "?menu=";
-		tourapp.util.handleLoginLink = dojo.connect(tourapp.remote, "handleLogin", tourapp.util, "doLoginCommand");
+		jbundle.util.lastCommand = "?menu=";
+		jbundle.util.handleLoginLink = dojo.connect(jbundle.remote, "handleLogin", jbundle.util, "doLoginCommand");
 	},
 	// Add a new send message queue
 	addSendQueue: function(filter)
@@ -158,14 +158,14 @@ tourapp.util = {
 		if (!filter)
 			filter = new Object();
 		if (filter.queueName == null)
-			filter.queueName = tourapp.TRX_SEND_QUEUE;
+			filter.queueName = jbundle.TRX_SEND_QUEUE;
 		if (filter.queueType == null)
-			filter.queueType = tourapp.DEFAULT_QUEUE_TYPE;
-		if (tourapp.getTaskSession().getSendQueue(filter.queueName, filter.queueType))
+			filter.queueType = jbundle.DEFAULT_QUEUE_TYPE;
+		if (jbundle.getTaskSession().getSendQueue(filter.queueName, filter.queueType))
 			return;	// The queue already exists.
-		var sendQueue = new tourapp.classes.SendQueue(tourapp.getTaskSession(), filter.queueName, filter.queueType);
-		if (tourapp.getTaskSession().sessionID)	// Only add if the remote task session exists (otherwise this will be called automatically)
-			tourapp.remote.createRemoteSendQueue(sendQueue);
+		var sendQueue = new jbundle.classes.SendQueue(jbundle.getTaskSession(), filter.queueName, filter.queueType);
+		if (jbundle.getTaskSession().sessionID)	// Only add if the remote task session exists (otherwise this will be called automatically)
+			jbundle.remote.createRemoteSendQueue(sendQueue);
 		return sendQueue;
 	},
 	// Add a new receive message queue
@@ -174,49 +174,49 @@ tourapp.util = {
 		if (!filter)
 			filter = new Object();
 		if (filter.queueName == null)
-			filter.queueName = tourapp.TRX_RECEIVE_QUEUE;
+			filter.queueName = jbundle.TRX_RECEIVE_QUEUE;
 		if (filter.queueType == null)
-			filter.queueType = tourapp.DEFAULT_QUEUE_TYPE;
-		if (tourapp.getTaskSession().getReceiveQueue(filter.queueName, filter.queueType))
+			filter.queueType = jbundle.DEFAULT_QUEUE_TYPE;
+		if (jbundle.getTaskSession().getReceiveQueue(filter.queueName, filter.queueType))
 			return;	// The queue already exists.
-	  	var receiveQueue = new tourapp.classes.ReceiveQueue(tourapp.getTaskSession(), filter.queueName, filter.queueType);
-		if (tourapp.getTaskSession().sessionID)	// Only add if the remote task session exists (otherwise this will be called automatically)
-			tourapp.remote.createRemoteReceiveQueue(receiveQueue);
+	  	var receiveQueue = new jbundle.classes.ReceiveQueue(jbundle.getTaskSession(), filter.queueName, filter.queueType);
+		if (jbundle.getTaskSession().sessionID)	// Only add if the remote task session exists (otherwise this will be called automatically)
+			jbundle.remote.createRemoteReceiveQueue(receiveQueue);
 		return receiveQueue;
 	},
 	// Send a message
 	sendMessage: function(message)
 	{
 		if (message.queueName == null)
-			message.queueName = tourapp.TRX_SEND_QUEUE;
+			message.queueName = jbundle.TRX_SEND_QUEUE;
 		if (message.queueType == null)
-			message.queueType = tourapp.DEFAULT_QUEUE_TYPE;
-		var sendQueue = tourapp.getTaskSession().getSendQueue(message.queueName, message.queueType);
+			message.queueType = jbundle.DEFAULT_QUEUE_TYPE;
+		var sendQueue = jbundle.getTaskSession().getSendQueue(message.queueName, message.queueType);
 		if (!sendQueue)
-			sendQueue = tourapp.util.addSendQueue(message);
-		tourapp.remote.sendMessage(sendQueue, message.data);
+			sendQueue = jbundle.util.addSendQueue(message);
+		jbundle.remote.sendMessage(sendQueue, message.data);
 	},
 	// Add a message listener to this receive queue
 	addMessageListener: function(filter)
 	{
 		if (filter.queueName == null)
-			filter.queueName = tourapp.TRX_RECEIVE_QUEUE;
+			filter.queueName = jbundle.TRX_RECEIVE_QUEUE;
 		if (filter.queueType == null)
-			filter.queueType = tourapp.DEFAULT_QUEUE_TYPE;
-		var receiveQueue = tourapp.getTaskSession().getReceiveQueue(filter.queueName, filter.queueType);
+			filter.queueType = jbundle.DEFAULT_QUEUE_TYPE;
+		var receiveQueue = jbundle.getTaskSession().getReceiveQueue(filter.queueName, filter.queueType);
 		if (!receiveQueue)
-			receiveQueue = tourapp.util.addReceiveQueue(filter);
-		var messageFilter = new tourapp.classes.MessageFilter(receiveQueue, filter.onMessage);
+			receiveQueue = jbundle.util.addReceiveQueue(filter);
+		var messageFilter = new jbundle.classes.MessageFilter(receiveQueue, filter.onMessage);
 		if (receiveQueue.sessionID)	// Only add the physical remote filter if the receive queue is set up, otherwise the filter will be set up later
-			tourapp.remote.addRemoteMessageFilter(messageFilter);
+			jbundle.remote.addRemoteMessageFilter(messageFilter);
 	},
 	/*
 	 * Display an error message.
 	 */
 	displayErrorMessage: function(message)
 	{
-		if (tourapp.gui)
-			tourapp.gui.displayErrorMessage(message);
+		if (jbundle.gui)
+			jbundle.gui.displayErrorMessage(message);
 		else
 			alert(message);	// Note: Do something else here.
 	},
@@ -227,21 +227,21 @@ tourapp.util = {
 		{
 			var command = link.href;
 			if (command)
-				return tourapp.util.doCommand(command);	// Link handled, don't follow link
+				return jbundle.util.doCommand(command);	// Link handled, don't follow link
 		}
 		return true;	// Link not handled by me, so follow link
 	},
 	// Do this screen link command
 	doLink: function(command)
 	{
-		tourapp.util.doCommand(command);
+		jbundle.util.doCommand(command);
 	},
 	// Do this screen button command
 	doButton: function(command)
 	{
 		if (command.indexOf("?") == -1)
 			command = "command=" + command;
-		tourapp.util.doCommand(command);
+		jbundle.util.doCommand(command);
 		return false;	// This tells form not to submit.
 	},
 	// Last command
@@ -257,75 +257,75 @@ tourapp.util = {
 			decode = true;
 		if (decode)
 			command = decodeURI(command);
-		if ((command.indexOf("Login") != -1) || (tourapp.util.getProperty(command, "user") == ''))
+		if ((command.indexOf("Login") != -1) || (jbundle.util.getProperty(command, "user") == ''))
 		{
-			var user = tourapp.util.getProperty(command, "user");
+			var user = jbundle.util.getProperty(command, "user");
 			if (user == "")
 				user = null;
 			if (user == null)
 			{
-				if (tourapp.getTaskSession().security)
-					if (tourapp.getTaskSession().security.userProperties)
-						if (tourapp.getTaskSession().security.userProperties.user)
-							user = tourapp.getTaskSession().security.userProperties.user;
+				if (jbundle.getTaskSession().security)
+					if (jbundle.getTaskSession().security.userProperties)
+						if (jbundle.getTaskSession().security.userProperties.user)
+							user = jbundle.getTaskSession().security.userProperties.user;
 				if ((user == "1") || (user == ""))
 					user = null;
 			}
 			if (user == null)
-				tourapp.gui.displayLogonDialog();
+				jbundle.gui.displayLogonDialog();
 			else
-				tourapp.util.logout();
+				jbundle.util.logout();
 		}
 		else if (command.indexOf("preferences=") != -1)
 		{
-			var navmenus = tourapp.util.getProperty(command, "navmenus");
+			var navmenus = jbundle.util.getProperty(command, "navmenus");
 			if (navmenus)
-				tourapp.gui.changeNavMenus(navmenus);
+				jbundle.gui.changeNavMenus(navmenus);
 		}
-		else if (tourapp.util.getProperty(command, "help") != null)
+		else if (jbundle.util.getProperty(command, "help") != null)
 		{
-			if (tourapp.util.lastCommand)
-				if (tourapp.util.getProperty(command, "class") != null)
-					command = tourapp.util.lastCommand + "&help=";
-			tourapp.util.doScreen(command, addHistory);
+			if (jbundle.util.lastCommand)
+				if (jbundle.util.getProperty(command, "class") != null)
+					command = jbundle.util.lastCommand + "&help=";
+			jbundle.util.doScreen(command, addHistory);
 		}
-		else if (((tourapp.util.getProperty(command, "screen") != null)
-			|| (tourapp.util.getProperty(command, "menu") != null)
-			|| (tourapp.util.getProperty(command, "xml") != null)
-			|| (tourapp.util.getProperty(command, "record") != null))
-			&& (tourapp.util.getProperty(command, "applet") == null))
+		else if (((jbundle.util.getProperty(command, "screen") != null)
+			|| (jbundle.util.getProperty(command, "menu") != null)
+			|| (jbundle.util.getProperty(command, "xml") != null)
+			|| (jbundle.util.getProperty(command, "record") != null))
+			&& (jbundle.util.getProperty(command, "applet") == null))
 		{
-			if ((tourapp.util.getProperty(command, "user") != null)
-				&& (tourapp.util.getProperty(command, "user").length > 0)
-				&& ((tourapp.util.user == null) || (tourapp.util.user.length == 0) || (tourapp.util.user != tourapp.util.getProperty(command, "user"))))
+			if ((jbundle.util.getProperty(command, "user") != null)
+				&& (jbundle.util.getProperty(command, "user").length > 0)
+				&& ((jbundle.util.user == null) || (jbundle.util.user.length == 0) || (jbundle.util.user != jbundle.util.getProperty(command, "user"))))
 			{	// Special case - sign on before doing command.
-				var user = tourapp.util.getProperty(command, "user");
-				var password = tourapp.util.getProperty(command, "auth");
+				var user = jbundle.util.getProperty(command, "user");
+				var password = jbundle.util.getProperty(command, "auth");
 
-				tourapp.gui.handleLoginLink = dojo.connect(tourapp.remote, "handleLogin", tourapp.gui, "handleLogin");
-				tourapp.util.lastCommand = command;
-				tourapp.util.handleLoginLink = dojo.connect(tourapp.remote, "handleLogin", tourapp.util, "doLoginCommand");
-				tourapp.remote.login(tourapp.getTaskSession(), user, password);
+				jbundle.gui.handleLoginLink = dojo.connect(jbundle.remote, "handleLogin", jbundle.gui, "handleLogin");
+				jbundle.util.lastCommand = command;
+				jbundle.util.handleLoginLink = dojo.connect(jbundle.remote, "handleLogin", jbundle.util, "doLoginCommand");
+				jbundle.remote.login(jbundle.getTaskSession(), user, password);
 			}
 			else
 			{
-				tourapp.util.lastCommand = command;	// TODO (don) This logic is very weak
-				tourapp.util.doScreen(command, addHistory);
+				jbundle.util.lastCommand = command;	// TODO (don) This logic is very weak
+				jbundle.util.doScreen(command, addHistory);
 			}
 		}
-		else if (tourapp.util.getProperty(command, "command"))
+		else if (jbundle.util.getProperty(command, "command"))
 		{
-			tourapp.util.doLocalCommand(command, addHistory);
+			jbundle.util.doLocalCommand(command, addHistory);
 		}
-		else if (tourapp.util.getProperty(command, "applet") != null)
+		else if (jbundle.util.getProperty(command, "applet") != null)
 		{
 			javaApplet = null;
-			if (tourapp.getTaskSession().security != null)	// Signed on
-				javaApplet = tourapp.getTaskSession().security.userProperties.javaApplet;
+			if (jbundle.getTaskSession().security != null)	// Signed on
+				javaApplet = jbundle.getTaskSession().security.userProperties.javaApplet;
 			if ((!javaApplet) || ((javaApplet.indexOf('J') == 0) || (javaApplet.indexOf('Y') == 0)))
 			{	// Display an applet
 				// Note: For now I do not render an applet page, I jump to a new applet page (Since I can't figure out how to run js in xsl)
-				if (tourapp.gui.displayApplet(command) == true)
+				if (jbundle.gui.displayApplet(command) == true)
 					return false;	// Success
 				// drop thru if not handled
 			}
@@ -344,10 +344,10 @@ tourapp.util = {
 	// After logging into a new account, process the command.
 	doLoginCommand: function()
 	{
-		dojo.disconnect(tourapp.util.handleLoginLink);
+		dojo.disconnect(jbundle.util.handleLoginLink);
 
-		var command = tourapp.util.lastCommand;
-		if (tourapp.util.getProperty(command, "user") != null)
+		var command = jbundle.util.lastCommand;
+		if (jbundle.util.getProperty(command, "user") != null)
 		{	// strip out user param
 			var iStart = command.indexOf("user=");
 			var iEnd = command.indexOf("&", iStart);
@@ -356,16 +356,16 @@ tourapp.util = {
 			else
 				command = command.substring(0, iStart - 1) + command.substring(iEnd);
 		}
-		tourapp.util.lastCommand = command;	// Make sure this is the 'last' command
+		jbundle.util.lastCommand = command;	// Make sure this is the 'last' command
 		if ((command) && (command != ""))
-			tourapp.util.doCommand(command, false, false);		
+			jbundle.util.doCommand(command, false, false);		
 	},
 	/*
 	 * Local commands are formatted commmand=xyz
 	 */
 	doLocalCommand: function(command, addHistory)
 	{
-		var commandTarget = tourapp.util.getProperty(command, "command");
+		var commandTarget = jbundle.util.getProperty(command, "command");
 		console.log("do local command: " + command);
 		if (commandTarget == "Back")
 		{
@@ -373,38 +373,38 @@ tourapp.util = {
 		}
 		else if (commandTarget == "Submit")
 		{
-			tourapp.util.submitData(commandTarget);
+			jbundle.util.submitData(commandTarget);
 		}
 		else if (commandTarget == "Reset")
 		{
-			tourapp.gui.clearFormData();
+			jbundle.gui.clearFormData();
 		}
 		else if (commandTarget == "Delete")
 		{
-			tourapp.util.deleteData(command);
+			jbundle.util.deleteData(command);
 		}
 		else if ((commandTarget == "FormLink")
 			|| (commandTarget == "Form")
 			|| (commandTarget == "Link"))
 		{
-			tourapp.util.doScreen(command, addHistory);
+			jbundle.util.doScreen(command, addHistory);
 		}
 		else
 		{
-			tourapp.util.submitData(commandTarget);
+			jbundle.util.submitData(commandTarget);
 		}
 	},
 	/**
 	 * Submit the form data to the screen.
 	 */
 	submitData: function(command) {
-		var messageFilter = new tourapp.classes.MessageFilter(tourapp.util.getAjaxSession(), tourapp.util.doRemoteSubmitCallback);
+		var messageFilter = new jbundle.classes.MessageFilter(jbundle.util.getAjaxSession(), jbundle.util.doRemoteSubmitCallback);
 		messageFilter.name = command;
-		messageFilter.properties = tourapp.gui.getFormData();
-		if (tourapp.util.getAjaxSession().sessionID)	// Only add the physical remote filter if the receive queue is set up, otherwise the filter will be set up later
+		messageFilter.properties = jbundle.gui.getFormData();
+		if (jbundle.util.getAjaxSession().sessionID)	// Only add the physical remote filter if the receive queue is set up, otherwise the filter will be set up later
 		{
-			tourapp.gui.waitCursor();
-			tourapp.remote.doRemoteAction(messageFilter);
+			jbundle.gui.waitCursor();
+			jbundle.remote.doRemoteAction(messageFilter);
 		}
 	},
 	/**
@@ -412,33 +412,33 @@ tourapp.util = {
 	 */
 	doRemoteSubmitCallback: function(data, ioArgs)
 	{
-		var bSuccess = tourapp.util.handleReturnData(data, ioArgs);
+		var bSuccess = jbundle.util.handleReturnData(data, ioArgs);
 		if (bSuccess == true)
-			tourapp.gui.clearFormData();
-		tourapp.gui.restoreCursor();
+			jbundle.gui.clearFormData();
+		jbundle.gui.restoreCursor();
 	},
 	/**
 	 * Submit the form data to the screen.
 	 */
 	deleteData: function(command) {
-		var messageFilter = new tourapp.classes.MessageFilter(tourapp.util.getAjaxSession(), tourapp.util.doRemoteDeleteCallback);
+		var messageFilter = new jbundle.classes.MessageFilter(jbundle.util.getAjaxSession(), jbundle.util.doRemoteDeleteCallback);
 		messageFilter.name = command;
-		if (tourapp.gui.isForm())
-			messageFilter.properties = tourapp.gui.getFormData(true);	// Hidden fields
-		if (tourapp.util.getAjaxSession().sessionID)	// Only add the physical remote filter if the receive queue is set up, otherwise the filter will be set up later
-			tourapp.remote.doRemoteAction(messageFilter);
+		if (jbundle.gui.isForm())
+			messageFilter.properties = jbundle.gui.getFormData(true);	// Hidden fields
+		if (jbundle.util.getAjaxSession().sessionID)	// Only add the physical remote filter if the receive queue is set up, otherwise the filter will be set up later
+			jbundle.remote.doRemoteAction(messageFilter);
 	},
 	/**
 	 * Handle the XML coming back from the menu action.
 	 */
 	doRemoteDeleteCallback: function(data, ioArgs)
 	{
-		var bSuccess = tourapp.util.handleReturnData(data, ioArgs);
+		var bSuccess = jbundle.util.handleReturnData(data, ioArgs);
 		if (bSuccess == true)
 		{
-			if (tourapp.gui.isForm())
+			if (jbundle.gui.isForm())
 			{
-				tourapp.gui.clearFormData();
+				jbundle.gui.clearFormData();
 			}
 			else
 			{
@@ -446,7 +446,7 @@ tourapp.util = {
 					if (ioArgs.args)
 						if (ioArgs.args.content)
 							if (ioArgs.args.content.name)
-				tourapp.gui.clearGridData(tourapp.util.getProperty(ioArgs.args.content.name, "objectID"));
+				jbundle.gui.clearGridData(jbundle.util.getProperty(ioArgs.args.content.name, "objectID"));
 			}
 		}
 	},
@@ -455,9 +455,9 @@ tourapp.util = {
 	 */
 	getAjaxSession: function()
 	{
-		if (!tourapp.util.jsSession)
-			tourapp.util.jsSession = tourapp.util.makeRemoteSession(".main.remote.AjaxScreenSession");
-		return tourapp.util.jsSession;
+		if (!jbundle.util.jsSession)
+			jbundle.util.jsSession = jbundle.util.makeRemoteSession(".main.remote.AjaxScreenSession");
+		return jbundle.util.jsSession;
 	},
 	jsSession: null,
 	/**
@@ -466,19 +466,19 @@ tourapp.util = {
 	doScreen: function(command, addHistory)
 	{
 		console.log("do screen: " + command);
-		var messageFilter = new tourapp.classes.MessageFilter(tourapp.util.getAjaxSession(), tourapp.util.doRemoteScreenActionCallback);
+		var messageFilter = new jbundle.classes.MessageFilter(jbundle.util.getAjaxSession(), jbundle.util.doRemoteScreenActionCallback);
 		messageFilter.bindArgs = {
 			addHistory: addHistory
 		};
 		messageFilter.name = "createScreen";
-		messageFilter.properties = tourapp.util.commandToProperties(command);
-		if (tourapp.util.getAjaxSession().sessionID)	// Only add the physical remote filter if the receive queue is set up, otherwise the filter will be set up later
-			tourapp.remote.doRemoteAction(messageFilter);
+		messageFilter.properties = jbundle.util.commandToProperties(command);
+		if (jbundle.util.getAjaxSession().sessionID)	// Only add the physical remote filter if the receive queue is set up, otherwise the filter will be set up later
+			jbundle.remote.doRemoteAction(messageFilter);
 	},
 	// Handle the XML coming back from the menu action
 	doRemoteScreenActionCallback: function(data, ioArgs)
 	{
-		tourapp.util.handleReturnData(data, ioArgs);
+		jbundle.util.handleReturnData(data, ioArgs);
 	},
 	// Handle the XML coming back from the menu action
 	// Return true if success (non-error return)
@@ -490,24 +490,24 @@ tourapp.util = {
 			if (info.length > 0)
 				if (info[0].parentNode == domToBeTransformed)
 		{
-			if (tourapp.util.checkCommand(info[0]))
+			if (jbundle.util.checkCommand(info[0]))
 				return true;
-			var infoLevel = tourapp.util.handleScreenInfoMessage(info[0]);
+			var infoLevel = jbundle.util.handleScreenInfoMessage(info[0]);
 			return (infoLevel != "error");	// Only return false if error level
 		}
 
 		var domToAppendTo = document.getElementById("content-area");
 		var contentParent = domToAppendTo.parentNode;
 		// First, delete all the old nodes
-		tourapp.gui.removeChildren(domToAppendTo, true);	// Note: I remove the node also since the replacement's root is <div id='content-area'>
+		jbundle.gui.removeChildren(domToAppendTo, true);	// Note: I remove the node also since the replacement's root is <div id='content-area'>
 		// Then, add the new nodes (via xslt)
-		var desc = tourapp.gui.changeTitleFromData(domToBeTransformed);
+		var desc = jbundle.gui.changeTitleFromData(domToBeTransformed);
 		if (ioArgs)
 			if (ioArgs.args.addHistory)
 		{
 			var command = ioArgs.args.content.name;
-			var bookmark = tourapp.util.propertiesToCommand(ioArgs.args.content.properties);
-			var appState = new tourapp.util.ApplicationState(command, bookmark, data);
+			var bookmark = jbundle.util.propertiesToCommand(ioArgs.args.content.properties);
+			var appState = new jbundle.util.ApplicationState(command, bookmark, data);
 			dojo.back.addToHistory(appState);
 		}
 		// Extract stylesheet name from XML
@@ -530,8 +530,8 @@ tourapp.util = {
 		}
 		if (xsltURI == null)
 			xsltURI = "docs/styles/xsl/ajax/base/menus-ajax.xsl";
-		xsltURI = tourapp.getServerPath(xsltURI);
-		tourapp.xml.doXSLT(domToBeTransformed, xsltURI, contentParent, tourapp.gui.fixNewDOM);
+		xsltURI = jbundle.getServerPath(xsltURI);
+		jbundle.xml.doXSLT(domToBeTransformed, xsltURI, contentParent, jbundle.gui.fixNewDOM);
 		return true;	// Success (so far)
 	},
 	// See if this status message contains a command
@@ -543,7 +543,7 @@ tourapp.util = {
 				command = infoDOM.getElementsByTagName("command")[0].firstChild.nodeValue;
 		if (command)
 		{
-			tourapp.util.doCommand(command);
+			jbundle.util.doCommand(command);
 			return true;
 		}
 		return false;	// No command in status text.
@@ -590,13 +590,13 @@ tourapp.util = {
 				infoText = "Access denied";
 		}
 		if ((error == AUTHENTICATION_REQUIRED) || (error == LOGIN_REQUIRED))
-			tourapp.gui.displayLogonDialog(null, null, infoText, tourapp.util.lastCommand);	// Repeat the last command
+			jbundle.gui.displayLogonDialog(null, null, infoText, jbundle.util.lastCommand);	// Repeat the last command
 		else if (error == ACCESS_DENIED)
-			tourapp.gui.displayErrorMessage(infoText);
+			jbundle.gui.displayErrorMessage(infoText);
 		else if (error == CREATE_USER_REQUIRED)
 			;	// ?
 		else
-			tourapp.gui.displayScreenInfoMessage(infoText, infoClass);
+			jbundle.gui.displayScreenInfoMessage(infoText, infoClass);
 		return infoClass;
 	},
 	// Convert this properties object to a command
@@ -687,7 +687,7 @@ tourapp.util = {
 	// Get this cookie.
 	getCookie: function(name)
 	{
-		var value = tourapp.util.getProperty(document.cookie, name);
+		var value = jbundle.util.getProperty(document.cookie, name);
 		if (value != null)
 			value = unescape(value);
 		return value;
@@ -707,41 +707,41 @@ tourapp.util = {
 	// Non-history hash change
 	doHashChange: function(command)
 	{
-		tourapp.util.doCommand(this.command, true, false);
+		jbundle.util.doCommand(this.command, true, false);
 	}
 };
 /*
 ApplicationState is an object that represents the application state.
 It will be given to dojo.undo.browser to represent the current application state.
 */
-tourapp.util.ApplicationState = function(screenCommand, bookmarkValue, stateData) {
+jbundle.util.ApplicationState = function(screenCommand, bookmarkValue, stateData) {
 	this.command = screenCommand;
 	this.data = stateData;
 	if (bookmarkValue)	// The browser URL to change
 		this.changeUrl = bookmarkValue;
 };
 
-tourapp.util.ApplicationState.prototype.back = function() {
-	if (tourapp.java)
-		if (tourapp.java.isJavaWindow())
-			tourapp.java.prepareWindowForApplet(false);		// Change from applet display
+jbundle.util.ApplicationState.prototype.back = function() {
+	if (jbundle.java)
+		if (jbundle.java.isJavaWindow())
+			jbundle.java.prepareWindowForApplet(false);		// Change from applet display
 	if (this.data)
-		tourapp.util.doRemoteScreenActionCallback(this.data);
+		jbundle.util.doRemoteScreenActionCallback(this.data);
 	else
-		tourapp.util.doCommand(this.command, true, false);
+		jbundle.util.doCommand(this.command, true, false);
 };
 
-tourapp.util.ApplicationState.prototype.forward = function() {
-	if (tourapp.java)
-		if (tourapp.java.isJavaWindow())
-			tourapp.java.prepareWindowForApplet(false);		// Change from applet display
+jbundle.util.ApplicationState.prototype.forward = function() {
+	if (jbundle.java)
+		if (jbundle.java.isJavaWindow())
+			jbundle.java.prepareWindowForApplet(false);		// Change from applet display
 	if (this.data)
-		tourapp.util.doRemoteScreenActionCallback(this.data);
+		jbundle.util.doRemoteScreenActionCallback(this.data);
 	else
-		tourapp.util.doCommand(this.command, true, false);
+		jbundle.util.doCommand(this.command, true, false);
 };
 
 
-dojo.addOnLoad(tourapp.util, "init");
+dojo.addOnLoad(jbundle.util, "init");
 
 }

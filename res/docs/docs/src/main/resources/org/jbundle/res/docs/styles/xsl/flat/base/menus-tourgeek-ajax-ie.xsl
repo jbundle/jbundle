@@ -113,7 +113,7 @@
 			<xsl:element name="a">
 				<xsl:attribute name="href">http://<xsl:value-of select="$domain"/></xsl:attribute>
 				<xsl:element name="img">
-					<xsl:attribute name="src">http://<xsl:value-of select="$domain"/>/com/tourapp/res/images/com/<xsl:value-of select="$name"/>/nameblack.gif</xsl:attribute>
+					<xsl:attribute name="src">http://<xsl:value-of select="$domain"/>/org/jbundle/res/images/com/<xsl:value-of select="$name"/>/nameblack.gif</xsl:attribute>
 					<xsl:attribute name="border">0</xsl:attribute>
 				</xsl:element>
 			</xsl:element>
@@ -391,7 +391,7 @@
 			<xsl:call-template name="html-head" />
 			<body class="tundra">
 				<script type="text/javascript" src="http://java.com/js/deployJava.js"></script>			
-				<script type="text/javascript">dojo.back.init(tourapp.java.doJavaBrowserHashChange);</script>
+				<script type="text/javascript">dojo.back.init(jbundle.java.doJavaBrowserHashChange);</script>
 				<xsl:apply-templates select="top-menu" />
 				<table id="top-table" cellspacing="0" cellpadding="0">
 					<tr valign="top">
@@ -455,15 +455,15 @@
 					</xsl:element>
 			</xsl:if>
 
-			<script src="docs/styles/js/tourapp/back.js" type="text/javascript"></script>
+			<script src="docs/styles/js/jbundle/back.js" type="text/javascript"></script>
 
-			<script src="docs/styles/js/tourapp/main.js" type="text/javascript"></script>
-			<script src="docs/styles/js/tourapp/classes.js" type="text/javascript"></script>
-			<script src="docs/styles/js/tourapp/remote.js" type="text/javascript"></script>
-			<script src="docs/styles/js/tourapp/gui.js" type="text/javascript"></script>
-			<script src="docs/styles/js/tourapp/xml.js" type="text/javascript"></script>
-			<script src="docs/styles/js/tourapp/util.js" type="text/javascript"></script>
-			<script src="docs/styles/js/tourapp/java.js" type="text/javascript"></script>
+			<script src="docs/styles/js/jbundle/main.js" type="text/javascript"></script>
+			<script src="docs/styles/js/jbundle/classes.js" type="text/javascript"></script>
+			<script src="docs/styles/js/jbundle/remote.js" type="text/javascript"></script>
+			<script src="docs/styles/js/jbundle/gui.js" type="text/javascript"></script>
+			<script src="docs/styles/js/jbundle/xml.js" type="text/javascript"></script>
+			<script src="docs/styles/js/jbundle/util.js" type="text/javascript"></script>
+			<script src="docs/styles/js/jbundle/java.js" type="text/javascript"></script>
 			<script src="docs/styles/js/sha/sha1.js" type="text/javascript"></script>
 
 			<script type="text/javascript">
@@ -500,7 +500,7 @@
 			</xsl:if>
 			<xsl:if test="$link!=''">
 				<xsl:attribute name="onClick">
-					tourapp.util.doButton('<xsl:value-of select="$link"/>');
+					jbundle.util.doButton('<xsl:value-of select="$link"/>');
 				</xsl:attribute>
 			</xsl:if>
  			<xsl:attribute name="dojoType">dijit.form.Button</xsl:attribute>
@@ -559,7 +559,7 @@
 			</xsl:if>
 			<xsl:if test="$link!=''">
 				<xsl:attribute name="onClick">
-					tourapp.util.doLink('<xsl:value-of select="$link"/>');
+					jbundle.util.doLink('<xsl:value-of select="$link"/>');
 				</xsl:attribute>
 			</xsl:if>
  			<xsl:attribute name="dojoType">dijit.form.Button</xsl:attribute>
@@ -617,7 +617,7 @@
 			</xsl:if>
 			<xsl:if test="$link!=''">
 				<xsl:attribute name="onClick">
-					tourapp.util.doLink('<xsl:value-of select="$link"/>');
+					jbundle.util.doLink('<xsl:value-of select="$link"/>');
 				</xsl:attribute>
 			</xsl:if>
  			<xsl:attribute name="dojoType">dijit.form.Button</xsl:attribute>

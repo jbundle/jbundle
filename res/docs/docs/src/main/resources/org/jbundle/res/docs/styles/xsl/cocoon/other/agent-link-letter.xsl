@@ -18,7 +18,7 @@
 	<xsl:template name="cover-letter">
         <table>
         <tr>
-        <td><img src="http://www.tourapp.com/images/coolart/javacup.gif" /></td>
+        <td><img src="http://www.jbundle.com/images/coolart/javacup.gif" /></td>
         <td vertical-align="bottom"><b>ABC Tour Operator<br/>
         1234 First Street<br/>
         Los Angeles, CA 90012</b></td>
@@ -42,20 +42,20 @@
         Blah blah blah blah blah blah blah blah blah blah. Blah blah blah blah blah blah blah blah blah blah.<p/>
         To view our proposed itinerary click this line:<p/>
 		<xsl:element name="a">
-			<xsl:attribute name="href">http://www.tourapp.com/tourapp.xml?screen=org.jbundle.tour.booking.itin.ItineraryReportScreen&amp;forms=display&amp;template=cover-detailed&amp;command=Submit&amp;Booking.ID=<xsl:value-of select="Booking.ID" /></xsl:attribute>
+			<xsl:attribute name="href">http://www.jbundle.org/jbundle.xml?screen=org.jbundle.tour.booking.itin.ItineraryReportScreen&amp;forms=display&amp;template=cover-detailed&amp;command=Submit&amp;Booking.ID=<xsl:value-of select="Booking.ID" /></xsl:attribute>
             <xsl:value-of select="Tour.Description" />
         </xsl:element>
         <p/>
         To view our proposed itinerary click this line:<p/>
 		<xsl:element name="a">
-			<xsl:attribute name="href">http://www.tourapp.com/tourapp.xml?screen=org.jbundle.tour.booking.itin.ItineraryReportScreen&amp;forms=display&amp;template=itinerary-fo&amp;command=Submit&amp;Booking.ID=<xsl:value-of select="Booking.ID" /></xsl:attribute>
+			<xsl:attribute name="href">http://www.jbundle.org/jbundle.xml?screen=org.jbundle.tour.booking.itin.ItineraryReportScreen&amp;forms=display&amp;template=itinerary-fo&amp;command=Submit&amp;Booking.ID=<xsl:value-of select="Booking.ID" /></xsl:attribute>
             <xsl:value-of select="Tour.Description" />
         </xsl:element>
         (you must have Adobe Acrobat on your system)
         <p/>
         To view or change your itinerary click this line:<p/>
 		<xsl:element name="a">
-			<xsl:attribute name="href">http://www.tourapp.com/tourapp?applet=org.jbundle.thin.base.screen.BaseApplet&amp;jnlpjars=classes%2Fthinbase&amp;user=travelagent&amp;screen=.thin.app.booking.entry.tourappScreen&amp;background=backgrounds%2Fworldmapalpha.gif&amp;jnlpextensions=docs%2Fjnlp%2Fthin%2Cdocs%2Fjnlp%2Fthintour%2Cdocs%2Fjnlp%2Fresource&amp;backgroundcolor=%23eeeeff&amp;objectID=<xsl:value-of select="Booking.ID" /></xsl:attribute>
+			<xsl:attribute name="href">http://www.jbundle.org/jbundle?applet=org.jbundle.thin.base.screen.BaseApplet&amp;jnlpjars=classes%2Fthinbase&amp;user=travelagent&amp;screen=.thin.app.booking.entry.tourappScreen&amp;background=backgrounds%2Fworldmapalpha.gif&amp;jnlpextensions=docs%2Fjnlp%2Fthin%2Cdocs%2Fjnlp%2Fthintour%2Cdocs%2Fjnlp%2Fresource&amp;backgroundcolor=%23eeeeff&amp;objectID=<xsl:value-of select="Booking.ID" /></xsl:attribute>
             <xsl:value-of select="Tour.Description" />
         </xsl:element>
         (you must have Java on your system)
