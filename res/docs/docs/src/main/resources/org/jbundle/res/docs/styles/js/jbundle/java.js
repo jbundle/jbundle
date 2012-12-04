@@ -143,7 +143,7 @@ jbundle.java = {
 		
 		jbundle.java.prepareWindowForApplet(true);
 		
-		var html = jbundle.java.runApplet(attributes, params, '1.6');
+		var html = jbundle.java.getAppletHtml(attributes, params, '1.6');
 		domToAppendTo.innerHTML = html;
 		jbundle.java.pushBrowserHistory(command);
 		return true;
@@ -246,9 +246,27 @@ jbundle.java = {
 		return command;
 	},
     /**
-     * Same as deployJava, except I add to a string instead of doing document.write(xx).
+     * Similar to deployJava, except I pass the complete command.
      */
-    runApplet: function(attributes, parameters, minimumVersion) {
+    runAppletWithCommand: function(command) {
+		if (!command)
+			return false;
+		var params = jbundle.util.commandToProperties(command);
+
+		var attributes = jbundle.java.getAppletAttributes(params);
+		var jnlp = jbundle.java.getJnlpURL(attributes, params);
+		if (!params.jnlp_href)
+			params['jnlp_href'] = jnlp;
+		
+		deployJava.runApplet(attributes, params, '1.6');
+		jbundle.java.pushBrowserHistory(command);
+		return true;
+    },
+    /**
+     * Same as deployJava, except I add to a string instead of doing document.write(xx).
+     * NOTE: This method only works with the jbundle.gui code.
+     */
+    getAppletHtml: function(attributes, parameters, minimumVersion) {
         if (minimumVersion == 'undefined' || minimumVersion == null) {
             minimumVersion = '1.1';
         }
@@ -280,7 +298,7 @@ jbundle.java = {
             }
         } else {
             if (deployJava.debug) {
-                alert('Invalid minimumVersion argument to runApplet():' + 
+                alert('Invalid minimumVersion argument to getAppletHtml():' + 
                       minimumVersion);
             }
         }
