@@ -444,7 +444,7 @@
 			<style type="text/css">
 		        @import "docs/styles/js/dijit/themes/tundra/tundra.css";
 			</style>
-			<link rel="stylesheet" type="text/css" href="docs/styles/css/style.css" title="basicstyle" />
+			<link rel="stylesheet" type="text/css" href="org/jbundle/res/docs/styles/css/style.css" title="basicstyle" />
 			<xsl:if test="/full-screen/content-area/Menus/Params/properties/entry[@key='css']!=''">
 					<xsl:element name="link">
 					<xsl:attribute name="rel">stylesheet</xsl:attribute>
@@ -454,15 +454,15 @@
 					</xsl:element>
 			</xsl:if>
 
-			<script src="docs/styles/js/jbundle/back.js" type="text/javascript"></script>
+			<script src="org/jbundle/res/docs/styles/js/jbundle/back.js" type="text/javascript"></script>
 
-			<script src="docs/styles/js/jbundle/main.js" type="text/javascript"></script>
-			<script src="docs/styles/js/jbundle/classes.js" type="text/javascript"></script>
-			<script src="docs/styles/js/jbundle/remote.js" type="text/javascript"></script>
-			<script src="docs/styles/js/jbundle/gui.js" type="text/javascript"></script>
-			<script src="docs/styles/js/jbundle/xml.js" type="text/javascript"></script>
-			<script src="docs/styles/js/jbundle/util.js" type="text/javascript"></script>
-			<script src="docs/styles/js/jbundle/java.js" type="text/javascript"></script>
+			<script src="org/jbundle/res/docs/styles/js/jbundle/main.js" type="text/javascript"></script>
+			<script src="org/jbundle/res/docs/styles/js/jbundle/classes.js" type="text/javascript"></script>
+			<script src="org/jbundle/res/docs/styles/js/jbundle/remote.js" type="text/javascript"></script>
+			<script src="org/jbundle/res/docs/styles/js/jbundle/gui.js" type="text/javascript"></script>
+			<script src="org/jbundle/res/docs/styles/js/jbundle/xml.js" type="text/javascript"></script>
+			<script src="org/jbundle/res/docs/styles/js/jbundle/util.js" type="text/javascript"></script>
+			<script src="org/jbundle/res/docs/styles/js/jbundle/java.js" type="text/javascript"></script>
 			<script src="docs/styles/js/sha/sha1.js" type="text/javascript"></script>
 
 			<script type="text/javascript">

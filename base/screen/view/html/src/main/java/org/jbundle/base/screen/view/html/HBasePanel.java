@@ -468,14 +468,14 @@ public class HBasePanel extends HScreenField
         if ((strHTMLStart == null) || (strHTMLStart.length() == 0))
             strHTMLStart = "<html>\n" +
                 "<head>\n" +
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"docs/styles/css/style.css\" title=\"basicstyle\">";
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"org/jbundle/res/docs/styles/css/style.css\" title=\"basicstyle\">";
         out.println(strHTMLStart);
         String strStyleParam = this.getProperty("style");           // Menu page
         if (strStyleParam != null) if (strStyleParam.length() > 0)
         {   // Include style
             out.println("<style type=\"text/css\">");
             out.println("<!--");
-            out.println("@import url(\"docs/styles/css/" + strStyleParam + ".css\");");
+            out.println("@import url(\"org/jbundle/res/docs/styles/css/" + strStyleParam + ".css\");");
             out.println("-->");
             out.println("</style>");
         }

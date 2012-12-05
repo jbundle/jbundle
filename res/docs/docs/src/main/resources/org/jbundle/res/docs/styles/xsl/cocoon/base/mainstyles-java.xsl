@@ -10,7 +10,7 @@
 	<xsl:template match="full-screen">
 		<html>
 			<head>
-				<link rel="stylesheet" type="text/css" href="docs/styles/css/style.css" title="basicstyle" />
+				<link rel="stylesheet" type="text/css" href="org/jbundle/res/docs/styles/css/style.css" title="basicstyle" />
 				<title>
 					<xsl:value-of select="title"/>
 				</title>

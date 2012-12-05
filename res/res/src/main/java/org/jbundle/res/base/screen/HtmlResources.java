@@ -86,7 +86,7 @@ public class HtmlResources extends ListResourceBundle
         "<h1><menutitle/></h1>"},
     {"htmlHeaderStart", "<html>" + "\n" +
         "<head>" + "\n" +
-        "<link rel=\"stylesheet\" type=\"text/css\" href=\"docs/styles/css/style.css\" title=\"basicstyle\">" + "\n" +
+        "<link rel=\"stylesheet\" type=\"text/css\" href=\"org/jbundle/res/docs/styles/css/style.css\" title=\"basicstyle\">" + "\n" +
         "<link rel=\"shortcut icon\" href=\"images/com/favicon.ico\" type=\"image/x-icon\">"},
     {"htmlHelp", "<table border=\"0\" cellpadding=\"5\" width=\"100%\">" + "\n" +
         "<tr>" + "\n" +

@@ -90,7 +90,7 @@
 	<!-- HTML Heading area -->
 	<xsl:template name="html-head">
 		<head>
-			<link rel="stylesheet" type="text/css" href="docs/styles/css/style.css" title="basicstyle" />
+			<link rel="stylesheet" type="text/css" href="org/jbundle/res/docs/styles/css/style.css" title="basicstyle" />
 			<xsl:if test="/full-screen/content-area/Menus/Params/properties/entry[@key='css']!=''">
 					<xsl:element name="link">
 					<xsl:attribute name="rel">stylesheet</xsl:attribute>

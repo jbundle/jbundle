@@ -17,32 +17,26 @@
   </properties>  
 
   <build>
-    <resources>
-      <resource>
-       <directory>${basedir}/target/flat</directory>
-         <includes>
-           <include>**/**</include>
-         </includes>
-      </resource>
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>docs/jnlp/**</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-        <filtering>false</filtering>
-        <excludes>
-          <exclude>${resourceLocation}/docs/jnlp/**</exclude>
-          <exclude>${resourceLocation}/docs/styles/xsl/ajax/base/**</exclude>   <!-- These are set up in the ant script -->
-          <exclude>${resourceLocation}/docs/styles/xsl/cocoon/all/**</exclude>
-        </excludes>
-      </resource>
-    </resources>
-    
     <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Export-Package>
+                ${project.artifactId}.*;version=${project.version},
+            </Export-Package>
+            <Import-Package>
+                *;resolution:=optional,
+                org.jbundle.res.docs.styles;resolution:=optional,
+            </Import-Package>
+            <Bundle-Version>${project.version}</Bundle-Version>
+          </instructions>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -129,6 +123,39 @@
         </executions>
       </plugin>
     </plugins>
+
+    <resources>
+      <resource>
+       <directory>${basedir}/target/flat</directory>
+         <includes>
+           <include>**/**</include>
+         </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>docs/jnlp/**</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>${resourceLocation}/docs/jnlp/**</exclude>
+          <exclude>${resourceLocation}/docs/styles/xsl/ajax/base/**</exclude>   <!-- These are set up in the ant script -->
+          <exclude>${resourceLocation}/docs/styles/xsl/cocoon/all/**</exclude>
+        </excludes>
+      </resource>
+    </resources>
   </build>
+
+  <dependencies>
+      <dependency>
+        <groupId>org.jbundle.util.osgi</groupId>
+        <artifactId>org.jbundle.res.docs.styles</artifactId>
+        <version>${jbundleOsgiWebStartVersionRange}</version>
+      </dependency>
+  </dependencies>
 
 </project>
