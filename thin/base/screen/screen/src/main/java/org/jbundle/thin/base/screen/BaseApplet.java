@@ -50,7 +50,6 @@ import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.thin.base.screen.browser.BrowserManager;
 import org.jbundle.thin.base.screen.comp.ChangePasswordDialog;
 import org.jbundle.thin.base.screen.comp.JStatusbar;
 import org.jbundle.thin.base.screen.comp.JTiledImage;
@@ -66,6 +65,7 @@ import org.jbundle.thin.base.util.ThinMenuConstants;
 import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.thin.base.util.base64.Base64;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
+import org.jbundle.util.osgi.webstart.browser.BrowserManager;
 
 /**
  * The base class for all Applets and stand alone (applet) tasks.

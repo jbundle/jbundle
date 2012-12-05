@@ -33,7 +33,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.jbundle.model.App;
-import org.jbundle.model.util.url.UrlUtil;
+import org.jbundle.util.osgi.webstart.util.UrlUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;

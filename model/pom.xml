@@ -20,5 +20,13 @@
   	<module>main</module>
   	<module>app</module>
   </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle.util.osgi</groupId>
+      <artifactId>org.jbundle.util.osgi.webstart.util</artifactId>
+      <version>${jbundleOsgiWebStartVersionRange}</version>
+    </dependency>
+  </dependencies>
   
 </project>
