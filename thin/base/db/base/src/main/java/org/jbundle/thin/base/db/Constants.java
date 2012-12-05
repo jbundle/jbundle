@@ -179,7 +179,6 @@ public interface Constants extends Constant
      * The default servlet.
      */
     public static final String DEFAULT_SERVLET = "app";
-    public static final String WEBSTART_SERVLET = "webstart";
     public static final String DATA_SERVLET = "tourdata";	// Data such as jnlp, table, etc.
     public static final String AUTO_SERVLET = "tourauto";	// Auto redirect based on browser
     public static final String DEFAULT_XHTML_SERVLET = "appxhtml";

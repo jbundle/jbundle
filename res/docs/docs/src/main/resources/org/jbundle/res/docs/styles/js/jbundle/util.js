@@ -40,12 +40,12 @@ jbundle.util = {
 	  	var search = location.search;
 	  	if ((!user) || (user == ""))
 	  	{	// User passed in in URL
-	  		if (jbundle.util.getProperty(search, "user"))
-	  			user = jbundle.util.getProperty(search, "user");
+	  		if (jbundle.java.getProperty(search, "user"))
+	  			user = jbundle.java.getProperty(search, "user");
 	  	}
 		if (search)
 			if (search != "")
-				if (jbundle.util.getProperty(search, "menu") != null)
+				if (jbundle.java.getProperty(search, "menu") != null)
 					jbundle.util.lastCommand = search;	// Make sure it does the correct command.
 	  	
 	  	jbundle.util.user = user;
@@ -62,7 +62,7 @@ jbundle.util = {
 	  		jbundle.SERVER_PATH = pathname;
 	  	}
 	  	var command = window.location.search;
-		var bookmarkId = jbundle.util.getCommandFromHash(window.location.hash);
+		var bookmarkId = jbundle.java.getCommandFromHash(window.location.hash);
 		if ((command) && (bookmarkId))
 			command = command + '&' + bookmarkId;
 		else if (bookmarkId)
@@ -71,7 +71,7 @@ jbundle.util = {
 			command = jbundle.util.DEFAULT_MENU;
 		if (user == '')
 			if (command != jbundle.util.DEFAULT_MENU)
-				if (jbundle.util.getProperty(command, "menu") != null)
+				if (jbundle.java.getProperty(command, "menu") != null)
 					jbundle.util.lastCommand = command;	// Special case
 		if (!user)
 			if (host)
@@ -257,9 +257,9 @@ jbundle.util = {
 			decode = true;
 		if (decode)
 			command = decodeURI(command);
-		if ((command.indexOf("Login") != -1) || (jbundle.util.getProperty(command, "user") == ''))
+		if ((command.indexOf("Login") != -1) || (jbundle.java.getProperty(command, "user") == ''))
 		{
-			var user = jbundle.util.getProperty(command, "user");
+			var user = jbundle.java.getProperty(command, "user");
 			if (user == "")
 				user = null;
 			if (user == null)
@@ -278,29 +278,29 @@ jbundle.util = {
 		}
 		else if (command.indexOf("preferences=") != -1)
 		{
-			var navmenus = jbundle.util.getProperty(command, "navmenus");
+			var navmenus = jbundle.java.getProperty(command, "navmenus");
 			if (navmenus)
 				jbundle.gui.changeNavMenus(navmenus);
 		}
-		else if (jbundle.util.getProperty(command, "help") != null)
+		else if (jbundle.java.getProperty(command, "help") != null)
 		{
 			if (jbundle.util.lastCommand)
-				if (jbundle.util.getProperty(command, "class") != null)
+				if (jbundle.java.getProperty(command, "class") != null)
 					command = jbundle.util.lastCommand + "&help=";
 			jbundle.util.doScreen(command, addHistory);
 		}
-		else if (((jbundle.util.getProperty(command, "screen") != null)
-			|| (jbundle.util.getProperty(command, "menu") != null)
-			|| (jbundle.util.getProperty(command, "xml") != null)
-			|| (jbundle.util.getProperty(command, "record") != null))
-			&& (jbundle.util.getProperty(command, "applet") == null))
+		else if (((jbundle.java.getProperty(command, "screen") != null)
+			|| (jbundle.java.getProperty(command, "menu") != null)
+			|| (jbundle.java.getProperty(command, "xml") != null)
+			|| (jbundle.java.getProperty(command, "record") != null))
+			&& (jbundle.java.getProperty(command, "applet") == null))
 		{
-			if ((jbundle.util.getProperty(command, "user") != null)
-				&& (jbundle.util.getProperty(command, "user").length > 0)
-				&& ((jbundle.util.user == null) || (jbundle.util.user.length == 0) || (jbundle.util.user != jbundle.util.getProperty(command, "user"))))
+			if ((jbundle.java.getProperty(command, "user") != null)
+				&& (jbundle.java.getProperty(command, "user").length > 0)
+				&& ((jbundle.util.user == null) || (jbundle.util.user.length == 0) || (jbundle.util.user != jbundle.java.getProperty(command, "user"))))
 			{	// Special case - sign on before doing command.
-				var user = jbundle.util.getProperty(command, "user");
-				var password = jbundle.util.getProperty(command, "auth");
+				var user = jbundle.java.getProperty(command, "user");
+				var password = jbundle.java.getProperty(command, "auth");
 
 				jbundle.gui.handleLoginLink = dojo.connect(jbundle.remote, "handleLogin", jbundle.gui, "handleLogin");
 				jbundle.util.lastCommand = command;
@@ -313,11 +313,11 @@ jbundle.util = {
 				jbundle.util.doScreen(command, addHistory);
 			}
 		}
-		else if (jbundle.util.getProperty(command, "command"))
+		else if (jbundle.java.getProperty(command, "command"))
 		{
 			jbundle.util.doLocalCommand(command, addHistory);
 		}
-		else if (jbundle.util.getProperty(command, "applet") != null)
+		else if (jbundle.java.getProperty(command, "applet") != null)
 		{
 			javaApplet = null;
 			if (jbundle.getTaskSession().security != null)	// Signed on
@@ -347,7 +347,7 @@ jbundle.util = {
 		dojo.disconnect(jbundle.util.handleLoginLink);
 
 		var command = jbundle.util.lastCommand;
-		if (jbundle.util.getProperty(command, "user") != null)
+		if (jbundle.java.getProperty(command, "user") != null)
 		{	// strip out user param
 			var iStart = command.indexOf("user=");
 			var iEnd = command.indexOf("&", iStart);
@@ -365,7 +365,7 @@ jbundle.util = {
 	 */
 	doLocalCommand: function(command, addHistory)
 	{
-		var commandTarget = jbundle.util.getProperty(command, "command");
+		var commandTarget = jbundle.java.getProperty(command, "command");
 		console.log("do local command: " + command);
 		if (commandTarget == "Back")
 		{
@@ -446,7 +446,7 @@ jbundle.util = {
 					if (ioArgs.args)
 						if (ioArgs.args.content)
 							if (ioArgs.args.content.name)
-				jbundle.gui.clearGridData(jbundle.util.getProperty(ioArgs.args.content.name, "objectID"));
+				jbundle.gui.clearGridData(jbundle.java.getProperty(ioArgs.args.content.name, "objectID"));
 			}
 		}
 	},
@@ -471,7 +471,7 @@ jbundle.util = {
 			addHistory: addHistory
 		};
 		messageFilter.name = "createScreen";
-		messageFilter.properties = jbundle.util.commandToProperties(command);
+		messageFilter.properties = jbundle.java.commandToProperties(command);
 		if (jbundle.util.getAjaxSession().sessionID)	// Only add the physical remote filter if the receive queue is set up, otherwise the filter will be set up later
 			jbundle.remote.doRemoteAction(messageFilter);
 	},
@@ -506,7 +506,7 @@ jbundle.util = {
 			if (ioArgs.args.addHistory)
 		{
 			var command = ioArgs.args.content.name;
-			var bookmark = jbundle.util.propertiesToCommand(ioArgs.args.content.properties);
+			var bookmark = jbundle.java.propertiesToCommand(ioArgs.args.content.properties);
 			var appState = new jbundle.util.ApplicationState(command, bookmark, data);
 			dojo.back.addToHistory(appState);
 		}
@@ -599,45 +599,6 @@ jbundle.util = {
 			jbundle.gui.displayScreenInfoMessage(infoText, infoClass);
 		return infoClass;
 	},
-	// Convert this properties object to a command
-	propertiesToCommand: function(properties)
-	{
-		var command = "?";
-		if (properties)
-		{
-			if (typeof(properties) == 'string')
-				if (properties.length > 1)
-				{
-					if (!properties.substring(0, 1) != "(")
-						properties = "(" + properties + ")";
-					properties = eval(properties);
-				}
-			for (var name in properties)
-			{
-				if (command.length > 1)
-					command += "&";
-				command += name + "=" + escape(properties[name]);
-			}
-		}
-		return command;
-	},
-	// Convert this command string to a properties object.
-	commandToProperties: function(command, properties)
-	{
-		if (!properties)
-			properties = {};
-		var commandArray = command.split(/[;&?]/);
-		for (var i = 0; i < commandArray.length; i++)
-		{
-			var thisCommand = commandArray[i];
-			while ((thisCommand.charAt(0) == ' ') || (thisCommand.charAt(0) == '?'))
-				thisCommand = thisCommand.substring(1, thisCommand.length);
-			var equals = thisCommand.indexOf('=');
-			if (equals != -1)	// Always
-				properties[thisCommand.substring(0, equals)] = unescape(thisCommand.substring(equals+1, thisCommand.length));
-		}
-		return properties;
-	},
 	// Convert this array to an xml string
 	propertiesToXML: function(properties)
 	{
@@ -649,26 +610,6 @@ jbundle.util = {
 			xml = xml + '<' + key + '>' + properties[key] + '</' + key + '>\n';
 		}
 		return xml;
-	},
-	// Get this property from this command string
-	getProperty: function(command, key)
-	{
-		var nameEQ = key.toUpperCase() + "=";
-		if (command == null)
-			return null;
-		if (command.indexOf("?") != -1)
-			if ((command.indexOf("?") < command.indexOf("&") || (command.indexOf("&") == -1)))
-				command = command.substring(command.indexOf("?") + 1);
-		var ca = command.split(/[;&]/);
-		for (var i = 0; i < ca.length; i++)
-		{
-			var c = ca[i];
-			while ((c.charAt(0) == ' ') || (c.charAt(0) == '?'))
-				c = c.substring(1, c.length);
-			if (c.toUpperCase().indexOf(nameEQ) == 0)
-				return unescape(c.substring(nameEQ.length, c.length));
-		}
-		return null;
 	},
 	// Set this cookie (if value=null, delete the cookie)
 	setCookie: function(name, value, days)
@@ -687,22 +628,10 @@ jbundle.util = {
 	// Get this cookie.
 	getCookie: function(name)
 	{
-		var value = jbundle.util.getProperty(document.cookie, name);
+		var value = jbundle.java.getProperty(document.cookie, name);
 		if (value != null)
 			value = unescape(value);
 		return value;
-	},
-	// Remove the hash mark
-	getCommandFromHash: function(hash)
-	{
-		if (hash)
-			if (hash.length > 0)
-		{
-			hash = unescape(hash);
-			if (hash.substring(0, 1) == '#')
-				hash = hash.substring(1);
-		}
-		return hash;
 	},
 	// Non-history hash change
 	doHashChange: function(command)

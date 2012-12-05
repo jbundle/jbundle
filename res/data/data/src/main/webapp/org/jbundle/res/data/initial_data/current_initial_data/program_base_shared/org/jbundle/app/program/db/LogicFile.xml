@@ -2512,8 +2512,7 @@ else if (strType.equalsIgnoreCase(DBParams.APPLET))
     if ((strLink == null) || (strLink.length() == 0))
         strParams = Utility.addURLParam(null, strType, DBParams.BASE_APPLET); // Default command
     if (strParams.indexOf(DBConstants.DEFAULT_SERVLET) == 0)
-        strParams = strParams.substring(DBConstants.WEBSTART_SERVLET.length());
-    strParams = DBConstants.WEBSTART_SERVLET + strParams;   // Make sure applets don't go through cocoon
+        strParams = strParams.substring(DBConstants.DEFAULT_SERVLET.length());
 }
 else
 { // Default is okay

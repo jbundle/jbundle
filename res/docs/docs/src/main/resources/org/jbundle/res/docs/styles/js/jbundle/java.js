@@ -59,7 +59,7 @@ jbundle.java = {
 	doJavaBrowserHashChange: function(command)
 	{
 		if (jbundle.util)
-			if (jbundle.util.getProperty(command, "applet") == null)
+			if (jbundle.java.getProperty(command, "applet") == null)
 			{
 				if (jbundle.java.isJavaWindow())
 					jbundle.java.prepareWindowForApplet(false);
@@ -84,7 +84,8 @@ jbundle.java = {
 	 */
 	pushBrowserHistory: function(command, title)
 	{
-		dojo.back.addToHistory(new jbundle.java.State(command));
+		if (dojo.back)
+			dojo.back.addToHistory(new jbundle.java.State(command));
 		if (title)
 			document.title = title;
 		if (jbundle.debug == true)
@@ -129,7 +130,7 @@ jbundle.java = {
 	{
 		if (!command)
 			return false;
-		var params = jbundle.util.commandToProperties(command);
+		var params = jbundle.java.commandToProperties(command);
 
 		var domToAppendTo = document.getElementById("content-area");
 		// First, delete all the old nodes
@@ -164,7 +165,8 @@ jbundle.java = {
 			if (document.body.parentNode.className != "java")
 				jbundle.java.oldClassName = document.body.parentNode.className;
 			document.body.parentNode.className="java";	// For firefox html.class
-			jbundle.gui.changeTheTitle("Java Window");
+			if (jbundle.gui)
+				jbundle.gui.changeTheTitle("Java Window");
 		}
 		else
 		{
@@ -242,24 +244,42 @@ jbundle.java = {
 		if (!jnlp.applet)
 				if (attributes['code'])
 					jnlp['appletClass'] = attributes['code'];
-		var command = attributes.codebase + jbundle.java.SERVLET_NAME + jbundle.util.propertiesToCommand(jnlp);
+		var command = attributes.codebase + jbundle.java.SERVLET_NAME + jbundle.java.propertiesToCommand(jnlp);
 		return command;
+	},
+	// Get this param from the browser url
+	getParam: function ( name )
+	{ // Thanks netlobo
+	  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+	  var regexS = "[\\?&]"+name+"=([^&#]*)";
+	  var regex = new RegExp( regexS );
+	  var results = regex.exec( window.location.href );
+	  if( results == null )
+	    return "";
+	  else
+	    return results[1];
 	},
     /**
      * Similar to deployJava, except I pass the complete command.
      */
-    runAppletWithCommand: function(command) {
+    runAppletWithCommand: function(command, hash) {
+		if ((hash != null) && (hash.length > 0))
+		{
+			if (command == null)
+				command = "";
+			command = command + "&" + jbundle.java.getCommandFromHash(hash);
+		}
 		if (!command)
 			return false;
-		var params = jbundle.util.commandToProperties(command);
+		var params = jbundle.java.commandToProperties(command);
 
 		var attributes = jbundle.java.getAppletAttributes(params);
 		var jnlp = jbundle.java.getJnlpURL(attributes, params);
 		if (!params.jnlp_href)
 			params['jnlp_href'] = jnlp;
 		
+		jbundle.java.prepareWindowForApplet(true);	// Set java flag to 'true'
 		deployJava.runApplet(attributes, params, '1.6');
-		jbundle.java.pushBrowserHistory(command);
 		return true;
     },
     /**
@@ -329,6 +349,65 @@ jbundle.java = {
         s += '<' + '/' + 'applet' + '>';
         return s;
     },
+	// Convert this properties object to a command
+	propertiesToCommand: function(properties)
+	{
+		var command = "?";
+		if (properties)
+		{
+			if (typeof(properties) == 'string')
+				if (properties.length > 1)
+				{
+					if (!properties.substring(0, 1) != "(")
+						properties = "(" + properties + ")";
+					properties = eval(properties);
+				}
+			for (var name in properties)
+			{
+				if (command.length > 1)
+					command += "&";
+				command += name + "=" + escape(properties[name]);
+			}
+		}
+		return command;
+	},
+	// Convert this command string to a properties object.
+	commandToProperties: function(command, properties)
+	{
+		if (!properties)
+			properties = {};
+		var commandArray = command.split(/[;&?]/);
+		for (var i = 0; i < commandArray.length; i++)
+		{
+			var thisCommand = commandArray[i];
+			while ((thisCommand.charAt(0) == ' ') || (thisCommand.charAt(0) == '?'))
+				thisCommand = thisCommand.substring(1, thisCommand.length);
+			var equals = thisCommand.indexOf('=');
+			if (equals != -1)	// Always
+				properties[thisCommand.substring(0, equals)] = unescape(thisCommand.substring(equals+1, thisCommand.length));
+		}
+		return properties;
+	},
+	// Get this property from this command string
+	getProperty: function(command, key)
+	{
+		var nameEQ = key.toUpperCase() + "=";
+		if (command == null)
+			return null;
+		if (command.indexOf("?") != -1)
+			if ((command.indexOf("?") < command.indexOf("&") || (command.indexOf("&") == -1)))
+				command = command.substring(command.indexOf("?") + 1);
+		var ca = command.split(/[;&]/);
+		for (var i = 0; i < ca.length; i++)
+		{
+			var c = ca[i];
+			while ((c.charAt(0) == ' ') || (c.charAt(0) == '?'))
+				c = c.substring(1, c.length);
+			if (c.toUpperCase().indexOf(nameEQ) == 0)
+				return unescape(c.substring(nameEQ.length, c.length));
+		}
+		return null;
+	},
 	// Remove the hash mark
 	getCommandFromHash: function(hash)
 	{
