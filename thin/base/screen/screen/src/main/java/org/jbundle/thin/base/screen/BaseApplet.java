@@ -202,9 +202,9 @@ public class BaseApplet extends JApplet
             String strInitialCommand = this.getInitialCommand(true);
             if ((strInitialCommand != null) && (strInitialCommand.length() > 0))
             	Util.parseArgs(mapInitialCommand, strInitialCommand);
-            BrowserManager bm = new BrowserManager(this, mapInitialCommand);	// This will throw an exception if there is a problem
+            BrowserManager bm = new BrowserManager(this, mapInitialCommand);	// This will throw an exception if there is a no browser
             this.setBrowserManager(bm);
-        } catch (Exception ex)  { // Ignore if no browser stuff
+        } catch (Exception ex)  { // Ignore if no browser
         }
         if (m_application.getProperty("hash") != null)
         {	// Special case - html hash params get added (and override) initial params

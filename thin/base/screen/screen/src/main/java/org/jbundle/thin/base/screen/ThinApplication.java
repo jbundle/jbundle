@@ -3,16 +3,10 @@
  */
 package org.jbundle.thin.base.screen;
 
-import java.net.URL;
-import java.util.Hashtable;
 import java.util.Map;
 
 import org.jbundle.model.message.MessageManager;
-import org.jbundle.model.screen.BaseAppletReference;
-import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.util.Application;
-import org.jbundle.thin.base.util.ThinMenuConstants;
 import org.jbundle.thin.base.util.message.RemoteMessageManager;
 
 public class ThinApplication extends Application {

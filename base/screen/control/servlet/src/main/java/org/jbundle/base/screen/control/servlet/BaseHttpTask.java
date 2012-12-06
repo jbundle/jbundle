@@ -455,8 +455,8 @@ public class BaseHttpTask extends Object
      */
     public void stopTask()
     {
-        Utility.getLogger().warning("error: stop() can never be called for a Servlet");
-        new Exception().printStackTrace();
+        Utility.getLogger().info("error: stop() should not be called for a Servlet");
+        //new Exception().printStackTrace();    // It is possible on OSGi shutdown
     }
     /**
      * Is this task currently involved in computations?
