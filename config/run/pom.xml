@@ -17,6 +17,7 @@
     <jbundlePackageExport> <!-- Note: Eventually I need to move screen.control here -->
       org.jbundle.base.screen.control.swing.activator.*;version=${project.version},
     </jbundlePackageExport>
+        <projectname>tour</projectname>
   </properties>
   
   <build>
@@ -109,6 +110,87 @@
 	    </plugins>
 	  </build>
     </profile>
+    
+    
+    
+        <profile>
+            <id>dev</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>run</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <mainClass>org.jbundle.Main</mainClass>
+                            <arguments>
+                                <argument>background=backgrounds/worldmapalpha.gif</argument>
+                                <argument>backgroundcolor=#EEEEFF</argument>
+                                <!-- argument>connectionType=proxy</argument> <argument>remotehost=${jbundle.server}</argument> 
+                                    <argument>codebase=${jbundle.codebase}</argument **standalone** -->
+                                <argument>jmsserver=false</argument>
+                                <argument>databaseproduct=${jbundle.db.databaseproduct}</argument>
+		                <argument>local=Jdbc</argument>
+		                <argument>remote=Jdbc</argument>
+		                <argument>table=Jdbc</argument>
+                                <argument>dbSuffix=_${projectname}</argument>
+                                <argument>mainSharedDBName=main_base</argument>
+                                <argument>programSharedDBName=program_${projectname}</argument>
+                                <argument>record=${record}</argument>
+                                <argument>screen=${screen}</argument>
+                                <argument>menu=${menu}</argument>
+                                </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>tour</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>run</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <mainClass>org.jbundle.Main</mainClass>
+                            <arguments>
+                                <argument>background=backgrounds/worldmapalpha.gif</argument>
+                                <argument>backgroundcolor=#EEEEFF</argument>
+                                <!-- argument>connectionType=proxy</argument> <argument>remotehost=${jbundle.server}</argument> 
+                                    <argument>codebase=${jbundle.codebase}</argument **standalone** -->
+                                <argument>jmsserver=false</argument>
+                                <argument>databaseproduct=${jbundle.db.databaseproduct}</argument>
+		                <argument>local=Jdbc</argument>
+		                <argument>remote=Jdbc</argument>
+		                <argument>table=Jdbc</argument>
+                                <argument>dbSuffix=_${projectname}</argument>
+                                <argument>mainSharedDBName=main_${projectname}</argument>
+                                <argument>programSharedDBName=program_${projectname}</argument>
+                                <argument>record=${record}</argument>
+                                <argument>screen=${screen}</argument>
+                                <argument>menu=${menu}</argument>
+                                </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
   </profiles>
 
   <dependencies>
