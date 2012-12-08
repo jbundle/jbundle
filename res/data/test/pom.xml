@@ -21,7 +21,7 @@
   <build>
     <resources>
       <resource>
-        <directory>src/main/webapp</directory>
+        <directory>src/main/resources</directory>
         <filtering>false</filtering>
         <includes>
           <include>org/jbundle/res/data/initial_data/**</include>
