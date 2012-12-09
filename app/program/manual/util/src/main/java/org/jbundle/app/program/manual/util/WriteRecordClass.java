@@ -488,8 +488,7 @@ public class WriteRecordClass extends WriteSharedClass
         m_StreamOut.setTabs(-1);
         m_StreamOut.writeit("}\n");
 
-        if ((strDatabaseName != null) && (strDatabaseName.length() > 0))
-            this.writeFields(strClassName, strDatabaseName, strDBType, recClassInfo, recFileHdr, recFieldData, fieldIterator);
+        this.writeFields(strClassName, strDatabaseName, strDBType, recClassInfo, recFileHdr, recFieldData, fieldIterator);
         
         m_MethodNameList.removeAllElements();
         this.writeClassMethods(CodeType.THIN);
@@ -534,13 +533,16 @@ public class WriteRecordClass extends WriteSharedClass
             m_StreamOut.writeit("\treturn (m_tableName == null) ? " + strClassName + "." + this.convertNameToConstant(strClassName) + "_FILE : super.getTableNames(bAddQuotes);\n");
             m_StreamOut.writeit("}\n");
         }
-        m_StreamOut.writeit("/**\n");
-        m_StreamOut.writeit(" *\tGet the Database Name.\n");
-        m_StreamOut.writeit(" */\n");
-        m_StreamOut.writeit("public String getDatabaseName()\n");
-        m_StreamOut.writeit("{\n");
-        m_StreamOut.writeit("\treturn \"" + strDatabaseName + "\";\n");
-        m_StreamOut.writeit("}\n");
+        if ((strDatabaseName != null) && (strDatabaseName.length() > 0))
+        {
+            m_StreamOut.writeit("/**\n");
+            m_StreamOut.writeit(" *\tGet the Database Name.\n");
+            m_StreamOut.writeit(" */\n");
+            m_StreamOut.writeit("public String getDatabaseName()\n");
+            m_StreamOut.writeit("{\n");
+            m_StreamOut.writeit("\treturn \"" + strDatabaseName + "\";\n");
+            m_StreamOut.writeit("}\n");
+        }
         
         m_StreamOut.writeit("/**\n");
         m_StreamOut.writeit(" *\tIs this a local (vs remote) file?.\n");
@@ -679,15 +681,13 @@ public class WriteRecordClass extends WriteSharedClass
                 else if (recFileHdr.getField(FileHdr.TYPE).toString().indexOf("MAPPED") == -1)
                     dBFileName = strRecordClass;  // Default file name (unless mapped)
 
-                if ((dBFileName != null) && (dBFileName.length() > 0))
+                //m_StreamOut.writeit("\npublic static final String k" + strRecordClass + "File = \"" + dBFileName + "\";\n");
+                if (!this.readThisMethod("getTableNames"))
                 {
-                    //m_StreamOut.writeit("\npublic static final String k" + strRecordClass + "File = \"" + dBFileName + "\";\n");
-                    if (!this.readThisMethod("getTableNames"))
-                    {
-                    	this.writeMethodInterface(null, "getTableNames", "String", "boolean bAddQuotes", "", "Get the table name.", null);
-                    	m_StreamOut.writeit("\treturn (m_tableName == null) ? Record.formatTableNames(" + this.convertNameToConstant(strRecordClass + "File") + ", bAddQuotes) : super.getTableNames(bAddQuotes);\n}\n");
-                    }
+                	this.writeMethodInterface(null, "getTableNames", "String", "boolean bAddQuotes", "", "Get the table name.", null);
+                	m_StreamOut.writeit("\treturn (m_tableName == null) ? Record.formatTableNames(" + this.convertNameToConstant(strRecordClass + "File") + ", bAddQuotes) : super.getTableNames(bAddQuotes);\n}\n");
                 }
+
                 String recordName = recFileHdr.getField(FileHdr.FILE_REC_CALLED).getString();    // Description of a record
                 String databaseName = recFileHdr.getField(FileHdr.DATABASE_NAME).getString(); // Database name
                 String strDBType = recFileHdr.getField(FileHdr.TYPE).getString(); // Is Remote file?

@@ -11,7 +11,7 @@
 #Sun Nov 22 12:25:08 PST 2009
 programSharedDBName=program_test
 mainUserDBName=main
-dbSuffix=_test
+systemname=_test
 archiveFolder=/home/don/temp/archive/test
 process=.program.util.ExportRecordsToXmlProcess
 mode=export
@@ -34,7 +34,7 @@ project=Test
 programSharedDBName=program_test
 locale=es
 mainUserDBName=main
-dbSuffix=_test
+systemname=_test
 archiveFolder=/home/don/temp/archive/test_es
 process=.program.util.ExportRecordsToXmlProcess
 mode=export

@@ -186,7 +186,7 @@ public class ImportXMLScanListener extends BaseScanListener
             }
             if (!databaseName.endsWith(recordDBName))
             {
-                this.getTask().setProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX, suffix);
+                this.getTask().setProperty(DBConstants.SYSTEM_NAME, suffix);
                 databaseName = databaseName.substring(0, databaseName.lastIndexOf('_'));
             }
         }
@@ -213,7 +213,7 @@ public class ImportXMLScanListener extends BaseScanListener
         this.saveOldProperty(oldProperties, record.getDatabaseName() + BaseDatabase.DBSHARED_PARAM_SUFFIX);
         this.saveOldProperty(oldProperties, record.getDatabaseName() + BaseDatabase.DBUSER_PARAM_SUFFIX);
         this.saveOldProperty(oldProperties, DBConstants.DB_USER_PREFIX);
-        this.saveOldProperty(oldProperties, DBConstants.SUB_SYSTEM_LN_SUFFIX);
+        this.saveOldProperty(oldProperties, DBConstants.SYSTEM_NAME);
         this.saveOldProperty(oldProperties, DBParams.LANGUAGE);
     }
     /**
@@ -231,7 +231,7 @@ public class ImportXMLScanListener extends BaseScanListener
         this.restoreOldProperty(oldProperties, record.getDatabaseName() + BaseDatabase.DBSHARED_PARAM_SUFFIX);
         this.restoreOldProperty(oldProperties, record.getDatabaseName() + BaseDatabase.DBUSER_PARAM_SUFFIX);
         this.restoreOldProperty(oldProperties, DBConstants.DB_USER_PREFIX);
-        this.restoreOldProperty(oldProperties, DBConstants.SUB_SYSTEM_LN_SUFFIX);
+        this.restoreOldProperty(oldProperties, DBConstants.SYSTEM_NAME);
         this.restoreOldProperty(oldProperties, DBParams.LANGUAGE);
     }
     /**

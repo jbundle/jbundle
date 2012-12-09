@@ -18,6 +18,7 @@ import java.util.Vector;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
@@ -219,26 +220,77 @@ public class BaseDatabase extends Object
 	                if (this.getProperty(DBConstants.DB_USER_PREFIX) != null)
 	                    if (!m_strDbName.equalsIgnoreCase(this.getProperty(SQLParams.INTERNAL_DB_NAME)))
 	                        if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.USER_DATA)
-	                    		strDbName = this.getProperty(DBConstants.DB_USER_PREFIX) + strDbName;    // User prefix - Only for user data
-	                if (this.getProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX) != null)
+	                    		strDbName = Utility.addToPath(this.getProperty(DBConstants.DB_USER_PREFIX), strDbName, DB_NAME_SEPARATOR);    // User prefix - Only for user data
+	                if (getSystemSuffix() != null)
 	                    if (!m_strDbName.equalsIgnoreCase(this.getProperty(SQLParams.INTERNAL_DB_NAME)))
+	                    {
 	                        if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.USER_DATA)
-	                        	strDbName = strDbName + this.getProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX);	 // System suffix
+	                        	strDbName = Utility.addToPath(strDbName, getSystemSuffix(), DB_NAME_SEPARATOR);	 // System suffix
+	                        else if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.SHARED_DATA)
+	                        {  // The shared database name is never changed, EXCEPT if the mode is set. Then there are a few exceptions
+	                            if ((this.getProperty(DBConstants.MODE) == null) || (this.getProperty(DBConstants.MODE).equalsIgnoreCase(RUN_MODE)))
+                                {  // Default = Regular (run) mode
+                                    if ((DEV_DATABASE.equalsIgnoreCase(m_strDbName)) || (MAIN_DATABASE.equalsIgnoreCase(m_strDbName)))
+                                        strDbName = Utility.addToPath(strDbName, getSystemSuffix(), DB_NAME_SEPARATOR);  // Add System suffix
+                                }
+                                else
+                                {   // Development mode
+                                    if (this.getProperty(DBConstants.MODE).length() >= 3)
+	                                    if (this.getProperty(DBConstants.MODE).substring(0, 3).equalsIgnoreCase(DEVELOPMENT_MODE))
+	                                {
+	                                    if (DEV_DATABASE.equalsIgnoreCase(m_strDbName))
+                                            strDbName = Utility.addToPath(strDbName, getSystemSuffix(), DB_NAME_SEPARATOR);  // System suffix	                                        
+	                                    if (MAIN_DATABASE.equalsIgnoreCase(m_strDbName))
+	                                        strDbName = Utility.addToPath(strDbName, DEV_MAIN_SUFFIX, DB_NAME_SEPARATOR);  // Development menus
+	                                }
+                                }
+	                        }
+	                    }
                 }
 //x                if (this.getLocale() != null) //**THIS IS DONE IN makeDBLocale**
 //x                	if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.SHARED_DATA)
 //x                		if (this.getLocale() != this.getProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX))
 //x                			strDbName = strDbName + '_' + this.getLocale();
                 if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.USER_DATA)
-                    strDbName = strDbName + USER_SUFFIX;
+                    strDbName = Utility.addToPath(strDbName, USER_SUFFIX, DB_NAME_SEPARATOR);
                 else if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.SHARED_DATA)
-                    strDbName = strDbName + SHARED_SUFFIX;
+                    strDbName = Utility.addToPath(strDbName, SHARED_SUFFIX, DB_NAME_SEPARATOR);
             }
         }
         return strDbName;
     }
     public static final String USER_SUFFIX = "_user";
     public static final String SHARED_SUFFIX = "_shared";
+    public static final String DEFAULT_SYSTEM_SUFFIX = "_tour";
+    public static final String DEVELOPMENT_MODE = "dev";    // Development
+    //public static final String OVERRIDE_MODE = "ove";     // Override
+    public static final String RUN_MODE = "run";            // Run
+    public static final String DEV_DATABASE = "program";
+    public static final String MAIN_DATABASE = "main";
+    public static final String DEV_MAIN_SUFFIX = "_base";
+    public static final char DB_NAME_SEPARATOR = '_';
+    /**
+     * Get the system suffix, fix it and return it.
+     * @return
+     */
+    private String getSystemSuffix()
+    {
+        String suffix = this.getProperty(DBConstants.SYSTEM_NAME);
+        if (suffix == null)
+            suffix = DEFAULT_SYSTEM_SUFFIX;
+        for (int i = suffix.length() - 2; i > 0; i--)
+        {   // Only use last word
+            if (!Character.isLetterOrDigit(suffix.charAt(i)))
+            {
+                suffix = suffix.substring(i + 1); // Typical to pass groupId
+                break;
+            }
+        }
+        if (suffix.length() > 0)
+            if (Character.isLetterOrDigit(suffix.charAt(0)))
+                suffix = "_" + suffix;
+        return suffix;
+    }
     /**
      * Get the database locale.
      * @return
@@ -460,7 +512,7 @@ public class BaseDatabase extends Object
         String strValue = null;
         if (m_properties != null)
             strValue = (String)m_properties.get(strProperty);
-        if (strValue == null)	// || (strValue.length() == 0)) [db must be able to set to BLANK to override dbSuffix property]
+        if (strValue == null)	// || (strValue.length() == 0)) [db must be able to set to BLANK to override systemname property]
             strValue = m_databaseOwner.getProperty(strProperty);
         return strValue;
     }
@@ -544,7 +596,8 @@ public class BaseDatabase extends Object
             properties = new Hashtable<String,Object>();
         BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.CREATE_DB_IF_NOT_FOUND);
         BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.DB_USER_PREFIX);
-        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.SUB_SYSTEM_LN_SUFFIX);
+        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.SYSTEM_NAME);
+        BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.MODE);
         BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.LOAD_INITIAL_DATA);
         BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.ARCHIVE_FOLDER);
         BaseDatabase.addDBProperty(properties, propertyOwner, otherProperties, DBConstants.USER_ARCHIVE_FOLDER);
@@ -666,7 +719,8 @@ public class BaseDatabase extends Object
             properties.remove(BASE_DATABASE);
             properties.remove(SQLParams.JDBC_DRIVER_PARAM);
             properties.put(DBConstants.DB_USER_PREFIX, DBConstants.BLANK);
-            properties.put(DBConstants.SUB_SYSTEM_LN_SUFFIX, DBConstants.BLANK);
+            properties.put(DBConstants.SYSTEM_NAME, DBConstants.BLANK);
+            properties.put(DBConstants.MODE, DBConstants.BLANK);
             m_databaseBase = (BaseDatabase)m_databaseOwner.getDatabase(this.getProperty(BASE_DATABASE), this.getDatabaseType() & DBConstants.TABLE_MASK, properties);
         }
 

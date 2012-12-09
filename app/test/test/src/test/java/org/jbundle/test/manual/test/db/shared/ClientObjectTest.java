@@ -59,7 +59,7 @@ public class ClientObjectTest extends ObjectTest
      */
     public String[] fixArgs(String[] args)
     {
-    	String[] argsBase = {"dbSuffix=_test", "mainUserDBName=main", "programSharedDBName=program_test"};
+    	String[] argsBase = {"systemname=_test", "mainUserDBName=main", "programSharedDBName=program_test"};
     	String[] argsNew = new String[args.length + argsBase.length];
     	for (int i= 0; i < argsBase.length; i++)
     	{

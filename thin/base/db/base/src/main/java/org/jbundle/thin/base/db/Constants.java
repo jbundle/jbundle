@@ -179,8 +179,6 @@ public interface Constants extends Constant
      * The default servlet.
      */
     public static final String DEFAULT_SERVLET = "app";
-    public static final String DATA_SERVLET = "tourdata";	// Data such as jnlp, table, etc.
-    public static final String AUTO_SERVLET = "tourauto";	// Auto redirect based on browser
     public static final String DEFAULT_XHTML_SERVLET = "appxhtml";
     /**
      * User database/system prefix.
@@ -189,7 +187,8 @@ public interface Constants extends Constant
     /**
      * For now the sub-system/demo system is the dbPrefix (I may want to change this later).
      */
-    public static final String SUB_SYSTEM_LN_SUFFIX = "dbSuffix";
+    public static final String SYSTEM_NAME = "systemname";
+    public static final String MODE = "mode";  // (run), dev, override
     // Time to wait for new services to come up (30 seconds in 3 second intervals)
     public static final int WAIT_INTERVALS = 10;
     public static final int WAIT_INTERVAL_TIME_MS = 3000;

@@ -2514,7 +2514,7 @@
 <entry key="programSharedDBName">program_base</entry>
 <entry key="mainUserDBName">main</entry>
 <entry key="mainSharedDBName">main_base</entry>
-<entry key="dbSuffix">_base</entry>
+<entry key="systemname">_base</entry>
 <entry key="background">backgrounds/worldmapalpha.gif</entry>
 <entry key="backgroundcolor">#CCFFCC</entry>
 <entry key="menu">Development</entry>
@@ -2565,7 +2565,7 @@
 <entry key="programSharedDBName">program_test</entry>
 <entry key="mainUserDBName">main</entry>
 <entry key="mainSharedDBName">main_base</entry>
-<entry key="dbSuffix">_test</entry>
+<entry key="systemname">_test</entry>
 <entry key="background"/>
 <entry key="backgroundcolor">#CCFFFF</entry>
 <entry key="menu">Development</entry>
@@ -2707,7 +2707,7 @@
 <entry key="programSharedDBName">program_base</entry>
 <entry key="mainUserDBName">main</entry>
 <entry key="mainSharedDBName">main_base</entry>
-<entry key="dbSuffix">_base</entry>
+<entry key="systemname">_base</entry>
 <entry key="local">Jdbc</entry>
 <entry key="table">Jdbc</entry>
 <entry key="remote">Jdbc</entry>
@@ -2735,7 +2735,7 @@
 <entry key="background"/>
 <entry key="remote">Jdbc</entry>
 <entry key="menu">Development</entry>
-<entry key="dbSuffix">_app</entry>
+<entry key="systemname">_app</entry>
 <entry key="programSharedDBName">program_app</entry>
 <entry key="mainSharedDBName">main_base</entry>
 <entry key="mainUserDBName">main</entry>
@@ -2764,7 +2764,7 @@
 <entry key="background"/>
 <entry key="remote">Jdbc</entry>
 <entry key="menu">Development</entry>
-<entry key="dbSuffix">_test</entry>
+<entry key="systemname">_test</entry>
 <entry key="programSharedDBName">program_test</entry>
 <entry key="mainSharedDBName">main_base</entry>
 <entry key="mainUserDBName">main</entry>
@@ -2808,7 +2808,7 @@
 <comment>Field properties</comment>
 <entry key="programSharedDBName">program_test</entry>
 <entry key="mainUserDBName">main</entry>
-<entry key="dbSuffix">_test</entry>
+<entry key="systemname">_test</entry>
 <entry key="background"/>
 <entry key="backgroundcolor">#CCFFFF</entry>
 <entry key="menu">test</entry>
@@ -2904,7 +2904,7 @@
 <comment>Field properties</comment>
 <entry key="programSharedDBName">program_test</entry>
 <entry key="mainUserDBName">main</entry>
-<entry key="dbSuffix">_test</entry>
+<entry key="systemname">_test</entry>
 <entry key="background">backgrounds/worldmapalpha.gif</entry>
 <entry key="backgroundcolor">#EEEEFF</entry>
 <entry key="menu">Thin</entry>

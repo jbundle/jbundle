@@ -486,9 +486,13 @@ public class TopScreen extends BasePanel
         if (string != null)
             application.setProperty(DBParams.TRAILERS, string);
 
-        string = this.getProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX);
+        string = this.getProperty(DBConstants.SYSTEM_NAME);
         if (string != null)
-            application.setProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX, string);
+            application.setProperty(DBConstants.SYSTEM_NAME, string);
+
+        string = this.getProperty(DBConstants.MODE);
+        if (string != null)
+            application.setProperty(DBConstants.MODE, string);
 
         string = this.getProperty(DBParams.LANGUAGE);
         if (bSetDefault)

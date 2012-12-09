@@ -219,8 +219,9 @@ public class FieldList extends Object
      */
     public /*?abstract*/ String getDatabaseName()
     {
-        return null;    // Override this!
+        return DEFAULT_DB_NAME;    // Override this!
     }
+    public static final String DEFAULT_DB_NAME = "default";
     /**
      *  Is this a local (vs remote) file?.
      * @return The database type.

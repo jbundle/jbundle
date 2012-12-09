@@ -872,7 +872,8 @@ public class JdbcDatabase extends BaseDatabase
             properties.remove(BASE_DATABASE);
             properties.put(BASE_DATABASE_JDBC_DRIVER, properties.remove(SQLParams.JDBC_DRIVER_PARAM));
             properties.put(DBConstants.DB_USER_PREFIX, DBConstants.BLANK);
-            properties.put(DBConstants.SUB_SYSTEM_LN_SUFFIX, DBConstants.BLANK);
+            properties.put(DBConstants.SYSTEM_NAME, DBConstants.BLANK);
+            properties.put(DBConstants.MODE, DBConstants.BLANK);
             m_databaseBase = (BaseDatabase)m_databaseOwner.getDatabase(this.getProperty(BASE_DATABASE), this.getDatabaseType() & DBConstants.TABLE_MASK, properties);
         }
     }

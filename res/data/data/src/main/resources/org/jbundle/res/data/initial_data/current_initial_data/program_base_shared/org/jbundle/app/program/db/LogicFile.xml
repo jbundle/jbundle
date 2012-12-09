@@ -27128,7 +27128,7 @@ record.setEnableFieldListeners(false);]]></LogicSource>
   - sourcePrefix + sourceDir = Target dir
   Database mods (standard):
   - dbPrefix - User file prefix
-  - dbSuffix - User file suffix
+  - systemname - User file suffix
   - locale - Localization filter (language)
  Filters:
    - package - Package regex

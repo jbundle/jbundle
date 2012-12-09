@@ -900,7 +900,7 @@ public class Record extends FieldList
      */
     public String getDatabaseName()
     {
-        return Constants.BLANK;   // ****Override this****
+        return DEFAULT_DB_NAME;   // ****Override this****
     }
     /**
      * Get the database type.

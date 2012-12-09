@@ -252,7 +252,7 @@ public class TaskSession extends BaseTaskSession
                 if ((key.endsWith(BaseDatabase.DBSHARED_PARAM_SUFFIX))
             		|| (key.endsWith(BaseDatabase.DBUSER_PARAM_SUFFIX))
                     || (DBConstants.DB_USER_PREFIX.equals(key))
-                        || (DBConstants.SUB_SYSTEM_LN_SUFFIX.equals(key)))
+                        || (DBConstants.SYSTEM_NAME.equals(key)))
                 {
                     if (oldProperties == databaseOwner.getProperties())
                     {   // Return the old properties

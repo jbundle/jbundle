@@ -3613,7 +3613,7 @@ sourceDir=initial_data/current_initial_data
 programSharedDBName=program_base
 mainSharedDBName=main_base
 sourcePrefix=/home/don/workspace/workspace/jbundle/jbundle/res/data/data/src/main/webapp/org/jbundle/res/data
-dbSuffix=_base
+systemname=_base
 ]]></Properties>
 		<Command>Z</Command>
 		<Source/>
@@ -3647,7 +3647,7 @@ package=org.jbundle.app.program.*
 #Wed Jun 22 15:22:24 PDT 2011
 programSharedDBName=program_app
 package=org.jbundle.app.program.*
-dbSuffix=_app
+systemname=_app
 sourcePrefix=/home/don/workspace/workspace/jbundle/jbundle/res/data/src/main/webapp/org/jbundle/res/data
 ]]></Properties>
 		<Command>Z</Command>
@@ -3666,7 +3666,7 @@ sourcePrefix=/home/don/workspace/workspace/jbundle/jbundle/res/data/src/main/web
 #Wed Jun 22 15:22:34 PDT 2011
 programSharedDBName=program_test
 package=org.jbundle.app.program.*
-dbSuffix=_test
+systemname=_test
 sourcePrefix=/home/don/workspace/workspace/jbundle/jbundle/res/data/src/main/webapp/org/jbundle/res/data
 ]]></Properties>
 		<Command>Z</Command>
@@ -3733,7 +3733,7 @@ sourcePrefix=/home/don/workspace/workspace/jbundle/jbundle/res/data/src/main/web
 #Thu Jun 23 05:01:26 PDT 2011
 locale=es
 programSharedDBName=program_test
-dbSuffix=_test
+systemname=_test
 language=es
 ]]></Properties>
 		<Command>Z</Command>

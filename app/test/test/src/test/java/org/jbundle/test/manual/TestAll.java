@@ -33,7 +33,7 @@ public class TestAll extends Object {
      */
     public static String[] fixArgs(String[] args)
     {
-    	// "dbSuffix=_test", 
+    	// "systemname=_test", 
     	// "remotehost=linux-laptop",
     	String[] argsBase = {/*"databaseproduct=mysql", */ "mainUserDBName=main", "programSharedDBName=program_test", "connectionType=proxy", "codebase=localhost:8181", "remotehost=localhost"};
     	String[] argsNew = new String[args.length + argsBase.length];

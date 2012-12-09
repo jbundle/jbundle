@@ -165,10 +165,13 @@ public class BaseMenuParser extends XMLParser
         strParam = this.getRecordOwner().getProperty(DBParams.TRAILERS);
         if (strParam != null)
             strLink = Utility.addURLParam(strLink, DBParams.TRAILERS, strParam);
-        strParam = this.getRecordOwner().getProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX);
+        strParam = this.getRecordOwner().getProperty(DBConstants.SYSTEM_NAME);
         if (strParam != null)
-            strLink = Utility.addURLParam(strLink, DBConstants.SUB_SYSTEM_LN_SUFFIX, strParam);
-        
+            strLink = Utility.addURLParam(strLink, DBConstants.SYSTEM_NAME, strParam);
+        strParam = this.getRecordOwner().getProperty(DBConstants.MODE);
+        if (strParam != null)
+            strLink = Utility.addURLParam(strLink, DBConstants.MODE, strParam);
+         
         out.print(strLink);
     }
     /**

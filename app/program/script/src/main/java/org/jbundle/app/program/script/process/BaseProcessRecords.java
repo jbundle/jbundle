@@ -81,7 +81,7 @@ public class BaseProcessRecords extends BaseProcess
      *   - sourcePrefix + sourceDir = Target dir
      *   Database mods (standard):
      *   - dbPrefix - User file prefix
-     *   - dbSuffix - User file suffix
+     *   - systemname - User file suffix
      *   - locale - Localization filter (language)
      *  Filters:
      *    - package - Package regex
@@ -130,7 +130,7 @@ public class BaseProcessRecords extends BaseProcess
             archiveFolder = this.getProperty(ConvertCode.SOURCE_DIR);
         
         String strPrefix = this.getProperty(DBConstants.DB_USER_PREFIX);
-        String strSuffix = this.getProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX);
+        String strSuffix = this.getProperty(DBConstants.SYSTEM_NAME);
         String strLocale = this.getProperty("locale");  // DBParams.LANGUAGE);  // Don't use language, must specify locale
         
         Map<String,Object> appProperties = new HashMap<String,Object>();
@@ -141,7 +141,7 @@ public class BaseProcessRecords extends BaseProcess
         if (strPrefix != null)
             this.getTask().getApplication().setProperty(DBConstants.DB_USER_PREFIX, strPrefix);
         if (strSuffix != null)
-            this.getTask().getApplication().setProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX, strSuffix);
+            this.getTask().getApplication().setProperty(DBConstants.SYSTEM_NAME, strSuffix);
         if (strLocale != null)
             this.getTask().getApplication().setProperty(DBParams.LANGUAGE, strLocale);
         for (String key : this.getProperties().keySet())

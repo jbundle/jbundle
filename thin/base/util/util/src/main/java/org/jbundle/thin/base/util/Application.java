@@ -1252,7 +1252,7 @@ public class Application extends Object
      */
     public String addUserParamsToURL(String strURL)
     {
-        strURL = Util.addURLParam(strURL, Constants.SUB_SYSTEM_LN_SUFFIX, this.getProperty(Constants.SUB_SYSTEM_LN_SUFFIX), false);
+        strURL = Util.addURLParam(strURL, Constants.SYSTEM_NAME, this.getProperty(Constants.SYSTEM_NAME), false);
         strURL = Util.addURLParam(strURL, Params.USER_ID, this.getProperty(Params.USER_ID));
         if (this.getProperty(Params.AUTH_TOKEN) != null)
             strURL = Util.addURLParam(strURL, Params.AUTH_TOKEN, this.getProperty(Params.AUTH_TOKEN));

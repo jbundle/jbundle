@@ -56,16 +56,31 @@ public class Util extends UrlUtil
      */
     public static String addToPath(String basePath, String fileName)
     {
-        String strFileSeparator = System.getProperty("file.separator");
-        char chFileSeparator = '/';
-        if ((strFileSeparator != null) && (strFileSeparator.length() == 1))
-            chFileSeparator = strFileSeparator.charAt(0);
+        return Util.addToPath(basePath, fileName, '\0');
+    }
+    /**
+     * Add this param to this path.
+     * @param strOldURL The original URL to add this param to.
+     * @param strParam The parameter to add.
+     * @param strData The data this parameter is set to.
+     * @param bAddIfNull Add an empty param if the data is null?
+     * @return The new URL string.
+     */
+    public static String addToPath(String basePath, String fileName, char chFileSeparator)
+    {
+        if (chFileSeparator == '\0')
+        {
+            String strFileSeparator = System.getProperty("file.separator");
+            chFileSeparator = '/';
+            if ((strFileSeparator != null) && (strFileSeparator.length() == 1))
+                chFileSeparator = strFileSeparator.charAt(0);
+        }
         StringBuilder sb = new StringBuilder();
         if (basePath != null)
             sb.append(basePath);
         if (sb.length() > 0)
-        	if (sb.charAt(sb.length() - 1) != chFileSeparator)
-        		sb.append(chFileSeparator);
+            if (sb.charAt(sb.length() - 1) != chFileSeparator)
+                sb.append(chFileSeparator);
         if (fileName != null)
         {
             if ((fileName.length() > 0) && (fileName.charAt(0) == chFileSeparator) && (sb.length() > 0))

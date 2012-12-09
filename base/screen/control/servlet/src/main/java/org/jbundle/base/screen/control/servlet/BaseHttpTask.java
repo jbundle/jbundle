@@ -703,7 +703,8 @@ public class BaseHttpTask extends Object
             {   // Move these params to the application
                 if ((key.endsWith(BaseDatabase.DBSHARED_PARAM_SUFFIX))
             		|| (key.endsWith(BaseDatabase.DBUSER_PARAM_SUFFIX))
-                    || (key.equals(DBConstants.SUB_SYSTEM_LN_SUFFIX)))
+                    || (key.equals(DBConstants.MODE))
+                    || (key.equals(DBConstants.SYSTEM_NAME)))
                 		properties.put(key, propRequest.get(key));
             }
         }        
