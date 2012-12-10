@@ -205,7 +205,7 @@ public class MainApplication extends BaseApplication
     public int login(Task task, String strUserName, String strPassword, String strDomain)
     {
         boolean bCreateServer = false;
-        if (this.getProperty(DBParams.REMOTE_HOST) != null)
+        if ((this.getProperty(DBParams.REMOTE_HOST) != null) && (this.getProperty(DBParams.REMOTE_HOST).length() > 0))
             bCreateServer = true;
         org.jbundle.thin.base.remote.RemoteTask remoteTask = (org.jbundle.thin.base.remote.RemoteTask)this.getRemoteTask(null, strUserName, bCreateServer);
         if (remoteTask != null)

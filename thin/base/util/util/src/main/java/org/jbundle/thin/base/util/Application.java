@@ -109,7 +109,6 @@ public class Application extends Object
     /**
      * Remote connection types.
      */
-    public static final String CONNECTION_TYPE = "connectionType";
 //x    public static final int RMI = 1;
     public static final int PROXY = 2;
     public static final int LOCAL_SERVICE = 3;	// OSGi service
@@ -158,7 +157,7 @@ public class Application extends Object
             Class.forName("javax.jnlp.PersistenceService"); // Test if this exists
             this.setMuffinManager(new MuffinManager(this));
             if (this.getMuffinManager().isServiceAvailable())
-                if (this.getProperty(Params.REMOTE_HOST) == null)
+                if ((this.getProperty(Params.REMOTE_HOST) == null) || (this.getProperty(Params.REMOTE_HOST).length() == 0))
                     this.setProperty(Params.REMOTE_HOST, this.getAppServerName());
         } catch (Exception ex)  { // Test for JNLP
         }
@@ -489,7 +488,7 @@ public class Application extends Object
         if (this.getMuffinManager() != null)
             if (this.getMuffinManager().isServiceAvailable())
                 iConnectionType = PROXY;    // HACK - Webstart gives a warning when using RMI
-        String strConnectionType = this.getProperty(CONNECTION_TYPE);
+        String strConnectionType = this.getProperty(Params.CONNECTION_TYPE);
         if (strConnectionType != null)
         {
             if ("proxy".equalsIgnoreCase(strConnectionType))
@@ -934,7 +933,7 @@ public class Application extends Object
     public int login(Task task, String strUserName, String strPassword, String strDomain)
     {
         boolean bCreateServer = false;
-        if (this.getProperty(Params.REMOTE_HOST) != null)
+        if ((this.getProperty(Params.REMOTE_HOST) != null) && (this.getProperty(Params.REMOTE_HOST).length() > 0))
             bCreateServer = true;
         org.jbundle.thin.base.remote.RemoteTask remoteTask = (org.jbundle.thin.base.remote.RemoteTask)this.getRemoteTask(null, strUserName, bCreateServer);
         if (remoteTask == null)
