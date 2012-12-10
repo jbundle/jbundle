@@ -47,7 +47,7 @@ public interface Params extends Param
     /**
      * Set this to "true" to make the application service the incoming external JMS requests.
      */
-    public static final String JMSSERVER = "jmsserver";
+    public static final String MESSAGE_SERVER = "messageserver";
     /**
      * Background image.
      */

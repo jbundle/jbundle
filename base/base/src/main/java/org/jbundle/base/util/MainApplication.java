@@ -584,7 +584,7 @@ public class MainApplication extends BaseApplication
      */
     public MessageManager getMessageManager()
     {
-    	if (DBConstants.FALSE.equalsIgnoreCase(this.getProperty(DBParams.JMSSERVER)))
+    	if (DBConstants.FALSE.equalsIgnoreCase(this.getProperty(DBParams.MESSAGE_SERVER)))
     		return this.getMessageManager(false);
     	else
     		return this.getMessageManager(true);

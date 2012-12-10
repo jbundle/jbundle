@@ -30,7 +30,7 @@ public class DbTest {
 
     }
 
-    static String[] defaultargs = { "databaseproduct=derby", "remote=Jdbc", "local=Jdbc", "table=Jdbc", "jmsserver=true" };
+    static String[] defaultargs = { "databaseproduct=derby", "remote=Jdbc", "local=Jdbc", "table=Jdbc", "messageserver=true" };
 
     public static final void main(String[] args) {
         DbTest pwd = new DbTest();

@@ -99,7 +99,7 @@ public class RemoteSessionServer extends RemoteObject
      * <br/>remoteappname=[appname]             // remote RMI app server name (defaults to appserver) (msgapp for the messageapp)
      * <br/>lockprovider=[appname]            // remote RMI lock server name (defaults to lockserver)
      * <br/>appname=[appname]                 // My RMI app name (clients contact me with this app name)
-     * <br/>jmsserver=[true|(false)]          // Am I the XML web server?
+     * <br/>messageserver=[true|(false)]          // Am I the XML web server?
      */
     public static void main(String[] args)
     {

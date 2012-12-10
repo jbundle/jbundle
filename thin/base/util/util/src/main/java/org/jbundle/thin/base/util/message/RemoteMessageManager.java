@@ -87,7 +87,7 @@ public class RemoteMessageManager extends ThinMessageManager
         {
             synchronized (app)
             {
-                if ((app == null) || (!Constants.TRUE.equalsIgnoreCase(app.getProperty(Params.JMSSERVER))))
+                if ((app == null) || (!Constants.TRUE.equalsIgnoreCase(app.getProperty(Params.MESSAGE_SERVER))))
                     m_messageManager = new RemoteMessageManager(app, strParams, properties);
                 else
                     m_messageManager = new ThinMessageManager(app, strParams, properties);

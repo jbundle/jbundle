@@ -71,7 +71,7 @@ public abstract class BaseMessageServiceActivator extends BaseThickActivator
         properties = addConfigProperty(properties, DBParams.REMOTE, DBParams.JDBC);
         properties = addConfigProperty(properties, DBParams.TABLE, DBParams.JDBC);
         properties = addConfigProperty(properties, Params.APP_NAME, Params.DEFAULT_REMOTE_APP);
-        properties = addConfigProperty(properties, Params.JMSSERVER, DBConstants.TRUE);
+        properties = addConfigProperty(properties, Params.MESSAGE_SERVER, DBConstants.TRUE);
         properties = addConfigProperty(properties, DBParams.FREEIFDONE, Constants.FALSE);   // Don't free when only the last app is running.
         properties = addConfigProperty(properties, MessageConstants.MESSAGE_FILTER, MessageConstants.TREE_FILTER);  // Default for a server
         return properties;

@@ -54,7 +54,7 @@ public class MessageApplication extends BaseApplication
     /**
      * Initializes the MainApplication.
      * Usually you pass the object that wants to use this sesssion.
-     * <p />Note: This will setup all the JMS servers if jmsserver=true.
+     * <p />Note: This will setup all the JMS servers if messageserver=true.
      * For example, the applet or MainApplication.
      * @param env Environment is ignored in the thin context.
      * @param strURL The application parameters as a URL.

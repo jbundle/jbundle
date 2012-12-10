@@ -62,7 +62,7 @@ public class MessageInfoApplication extends MessageApplication
         //?    this.free();    // Don't start this application (It's already running somewhere)
         //?    return;
         }
-        if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty(DBParams.JMSSERVER)))
+        if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty(DBParams.MESSAGE_SERVER)))
         {
             Map<String,Object> propProcess = new Hashtable<String,Object>();
             propProcess.put(DBParams.PROCESS, MessageInitialProcess.class.getName());
