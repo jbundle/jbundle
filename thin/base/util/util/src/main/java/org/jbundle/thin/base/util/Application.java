@@ -630,7 +630,7 @@ public class Application extends Object
                     urlCodeBase = this.getMuffinManager().getCodeBase();
         }
         String strCodeBase = this.getProperty(Params.CODEBASE);
-        if ((strCodeBase != null) && (strCodeBase.length() > 0))
+        if ((strCodeBase != null) && (strCodeBase.length() > 0) && (Character.isLetter(strCodeBase.charAt(0))))
         {   // If they explicitly specify a codebase, use it.
             try {
                 URL newUrlCodeBase = new URL(strCodeBase);
@@ -646,6 +646,8 @@ public class Application extends Object
                 }
             }
         }
+        else
+            strCodeBase = null;
         if (urlCodeBase == null)
         {
             if ((strCodeBase == null) || (strCodeBase.length() == 0))

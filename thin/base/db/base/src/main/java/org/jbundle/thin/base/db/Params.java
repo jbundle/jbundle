@@ -27,13 +27,16 @@ public interface Params extends Param
      */
     public static final String NONE = "none";
     /**
+     * RMI Server name and port number (if not the RMI port 1099).
+     */
+    public static final String REMOTE_HOST = "remotehost";
+    /**
      * For standalone apps, you need to know where your resources are.
      */
     public static final String CODEBASE = "codebase";
     /**
-     * RMI Server name and port number (if not the RMI port 1099).
+     * Type of connection to remote host: proxy (http), rmi, OSGi, etc
      */
-    public static final String REMOTE_HOST = "remotehost";
     public static final String CONNECTION_TYPE = "connectionType";
     /**
      * The default RMI resource name.
