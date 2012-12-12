@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jbundle.config</groupId>
+        <artifactId>jbundle-parent</artifactId>
+        <version>1.2.5-SNAPSHOT</version>
+    </parent>
+
+    <groupId>${groupId}</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>${version}</version>
+
+    <packaging>bundle</packaging>
+    <name>Basic application</name>
+
+    <properties>
+        <systemname>${project.groupId}</systemname>
+    </properties>
+    
+    <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+          </resource>
+        </resources>
+    </build>
+          
+    <dependencies>
+        <dependency>
+            <groupId>org.jbundle.config.dep</groupId>
+            <artifactId>jbundle-config-dep-all</artifactId>
+            <version>${jbundleVersion}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+
+</project>
