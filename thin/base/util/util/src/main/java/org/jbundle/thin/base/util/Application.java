@@ -560,7 +560,13 @@ public class Application extends Object
         {
             URL urlCodeBase = this.getCodeBase();
             if (urlCodeBase != null)
+            {
                 strServer = urlCodeBase.getHost();
+                int port = urlCodeBase.getPort();
+                if ((port != -1) && (port != 80))
+                    if (!strServer.contains(":"))
+                        strServer = strServer + ':' + port;
+            }
         }
         return strServer;
     }
