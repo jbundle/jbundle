@@ -16953,7 +16953,7 @@ if ((strID != null) && (strID.length() > 0))
 //?    this.free();    // Don't start this application (It's already running somewhere)
 //?    return;
 }
-if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty(DBParams.JMSSERVER)))
+if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty(DBParams.MESSAGE_SERVER)))
 {
     Map<String,Object> propProcess = new Hashtable<String,Object>();
     propProcess.put(DBParams.PROCESS, MessageInitialProcess.class.getName());
@@ -27177,7 +27177,7 @@ if (archiveFolder == null)
     archiveFolder = this.getProperty(ConvertCode.SOURCE_DIR);
 
 String strPrefix = this.getProperty(DBConstants.DB_USER_PREFIX);
-String strSuffix = this.getProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX);
+String strSuffix = this.getProperty(DBConstants.SYSTEM_NAME);
 String strLocale = this.getProperty("locale");  // DBParams.LANGUAGE);  // Don't use language, must specify locale
 
 Map<String,Object> appProperties = new HashMap<String,Object>();
@@ -27188,7 +27188,7 @@ if (archiveFolder != null)
 if (strPrefix != null)
     this.getTask().getApplication().setProperty(DBConstants.DB_USER_PREFIX, strPrefix);
 if (strSuffix != null)
-    this.getTask().getApplication().setProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX, strSuffix);
+    this.getTask().getApplication().setProperty(DBConstants.SYSTEM_NAME, strSuffix);
 if (strLocale != null)
     this.getTask().getApplication().setProperty(DBParams.LANGUAGE, strLocale);
 for (String key : this.getProperties().keySet())
@@ -30199,7 +30199,7 @@ if (!databaseName.endsWith(recordDBName))
     }
     if (!databaseName.endsWith(recordDBName))
     {
-    	this.getTask().setProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX, suffix);
+    	this.getTask().setProperty(DBConstants.SYSTEM_NAME, suffix);
     	databaseName = databaseName.substring(0, databaseName.lastIndexOf('_'));
     }
 }
@@ -30242,7 +30242,7 @@ return databaseName;]]></LogicSource>
 		<LogicSource><![CDATA[this.saveOldProperty(oldProperties, record.getDatabaseName() + BaseDatabase.DBSHARED_PARAM_SUFFIX);
 this.saveOldProperty(oldProperties, record.getDatabaseName() + BaseDatabase.DBUSER_PARAM_SUFFIX);
 this.saveOldProperty(oldProperties, DBConstants.DB_USER_PREFIX);
-this.saveOldProperty(oldProperties, DBConstants.SUB_SYSTEM_LN_SUFFIX);
+this.saveOldProperty(oldProperties, DBConstants.SYSTEM_NAME);
 this.saveOldProperty(oldProperties, DBParams.LANGUAGE);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -30276,7 +30276,7 @@ this.saveOldProperty(oldProperties, DBParams.LANGUAGE);]]></LogicSource>
 		<LogicSource><![CDATA[this.restoreOldProperty(oldProperties, record.getDatabaseName() + BaseDatabase.DBSHARED_PARAM_SUFFIX);
 this.restoreOldProperty(oldProperties, record.getDatabaseName() + BaseDatabase.DBUSER_PARAM_SUFFIX);
 this.restoreOldProperty(oldProperties, DBConstants.DB_USER_PREFIX);
-this.restoreOldProperty(oldProperties, DBConstants.SUB_SYSTEM_LN_SUFFIX);
+this.restoreOldProperty(oldProperties, DBConstants.SYSTEM_NAME);
 this.restoreOldProperty(oldProperties, DBParams.LANGUAGE);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -32080,7 +32080,7 @@ try {
     app.init(env, props, null); // Default application (with params).
     if (service == null)
         service = new RemoteSessionServer(app, null, props);
-//            app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
+//            app.setProperty(DBParams.MESSAGE_SERVER, DBConstants.TRUE);
 //            app.getMessageManager(true);
     return service;    // Doesn't create environment
 } catch (RemoteException e) {

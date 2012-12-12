@@ -488,7 +488,15 @@ public class WriteRecordClass extends WriteSharedClass
         m_StreamOut.setTabs(-1);
         m_StreamOut.writeit("}\n");
 
-        this.writeFields(strClassName, strDatabaseName, strDBType, recClassInfo, recFileHdr, recFieldData, fieldIterator);
+        recFileHdr.getField(FileHdr.FILE_NAME).setString(strClassName);
+        recFileHdr.setKeyArea(FileHdr.FILE_NAME_KEY);
+	try {
+        boolean bFileType = (recFileHdr.seek("="));
+        if (bFileType) // Is there a file with this name?
+            this.writeFields(strClassName, strDatabaseName, strDBType, recClassInfo, recFileHdr, recFieldData, fieldIterator);
+	} catch (DBException ex) {
+		ex.printStackTrace();
+	}
         
         m_MethodNameList.removeAllElements();
         this.writeClassMethods(CodeType.THIN);

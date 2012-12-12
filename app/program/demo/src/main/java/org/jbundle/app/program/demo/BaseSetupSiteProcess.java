@@ -160,7 +160,7 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
             recMenus.getField(Menus.SEQUENCE).setValue(100);
             
             // Create customized xslt stylesheet
-            String homeDir = System.getProperty("user.home") + File.separator + ".tourapp";
+            String homeDir = System.getProperty("user.home") + File.separator + ".jbundle";
             recMenus.getField(Menus.CODE).setString((String)menusMessageData.get(MenusMessageData.DOMAIN_NAME));
         
             String fullSitePrefix = (String)menusMessageData.get(MenusMessageData.SITE_PREFIX);

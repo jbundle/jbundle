@@ -86,7 +86,7 @@ public class MessageServerActivator extends BaseRemoteSessionActivator
             app.init(env, props, null); // Default application (with params).
             if (service == null)
                 service = new RemoteSessionServer(app, null, props);
-        //            app.setProperty(DBParams.JMSSERVER, DBConstants.TRUE);
+        //            app.setProperty(DBParams.MESSAGE_SERVER, DBConstants.TRUE);
         //            app.getMessageManager(true);
             return service;    // Doesn't create environment
         } catch (RemoteException e) {

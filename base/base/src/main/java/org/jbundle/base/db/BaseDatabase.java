@@ -249,7 +249,7 @@ public class BaseDatabase extends Object
                 }
 //x                if (this.getLocale() != null) //**THIS IS DONE IN makeDBLocale**
 //x                	if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.SHARED_DATA)
-//x                		if (this.getLocale() != this.getProperty(DBConstants.SUB_SYSTEM_LN_SUFFIX))
+//x                		if (this.getLocale() != this.getProperty(DBConstants.SYSTEM_NAME))
 //x                			strDbName = strDbName + '_' + this.getLocale();
                 if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.USER_DATA)
                     strDbName = Utility.addToPath(strDbName, USER_SUFFIX, DB_NAME_SEPARATOR);
