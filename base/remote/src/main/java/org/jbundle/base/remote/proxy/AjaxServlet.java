@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.jbundle.base.remote.proxy.transport.AjaxProxyTask;
 import org.jbundle.base.remote.proxy.transport.ProxyTask;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
-import org.jbundle.base.screen.control.servlet.BasicServlet.SERVLET_TYPE;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
 
 

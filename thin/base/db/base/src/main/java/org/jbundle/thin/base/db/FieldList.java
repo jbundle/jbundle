@@ -233,7 +233,7 @@ public class FieldList extends Object
      */
     public /**?abstract*/ int getDatabaseType()
     {
-        return Constants.USER_DATA;   // Override this!
+        return Constants.USER_DATA | Constants.REMOTE;   // Override this!
     }
     /**
      * Get the table for this record.

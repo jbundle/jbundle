@@ -689,8 +689,8 @@ public class WriteRecordClass extends WriteSharedClass
                 else if (recFileHdr.getField(FileHdr.TYPE).toString().indexOf("MAPPED") == -1)
                     dBFileName = strRecordClass;  // Default file name (unless mapped)
 
-                //m_StreamOut.writeit("\npublic static final String k" + strRecordClass + "File = \"" + dBFileName + "\";\n");
-                if (!this.readThisMethod("getTableNames"))
+                if ((dBFileName != null) && (dBFileName.length() > 0))
+                    if (!this.readThisMethod("getTableNames"))
                 {
                 	this.writeMethodInterface(null, "getTableNames", "String", "boolean bAddQuotes", "", "Get the table name.", null);
                 	m_StreamOut.writeit("\treturn (m_tableName == null) ? Record.formatTableNames(" + this.convertNameToConstant(strRecordClass + "File") + ", bAddQuotes) : super.getTableNames(bAddQuotes);\n}\n");

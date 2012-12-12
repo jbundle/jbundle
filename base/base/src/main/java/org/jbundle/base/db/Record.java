@@ -909,7 +909,7 @@ public class Record extends FieldList
      */
     public int getDatabaseType()
     {
-        return DBConstants.USER_DATA;
+        return super.getDatabaseType();
     }
     /**
      * Is this a new - refreshed record?

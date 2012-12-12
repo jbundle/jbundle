@@ -85,8 +85,8 @@ public interface Constants extends Constant
     public static final int AFTER_DELETE_TYPE = SELECT_TYPE + 1;
     public static final int AFTER_ADD_TYPE = AFTER_DELETE_TYPE + 1;
         // Table types
-    public static final int USER_DATA = 16;         // Domain User specific data
-    public static final int SHARED_DATA = 0;        // Data shared between all users
+    public static final int USER_DATA = 16;         // User specific data (Normal data)
+    public static final int SHARED_DATA = 0;        // Data shared between all users (Lookup tables, etc)
     //v Moved down to Constants
     //vpublic static final int LOCAL = 0;              // Local user or shared data (typically shared)
     //vpublic static final int REMOTE = 1;             // Remote user data (always user data)

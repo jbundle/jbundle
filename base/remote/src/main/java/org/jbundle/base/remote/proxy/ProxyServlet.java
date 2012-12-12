@@ -24,9 +24,7 @@ import org.jbundle.base.remote.proxy.transport.EncodedProxyTask;
 import org.jbundle.base.remote.proxy.transport.ProxyTask;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
 import org.jbundle.base.screen.control.servlet.ServletTask;
-import org.jbundle.model.RecordOwnerParent;
 import org.jbundle.model.Task;
-import org.jbundle.model.db.Rec;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
 
