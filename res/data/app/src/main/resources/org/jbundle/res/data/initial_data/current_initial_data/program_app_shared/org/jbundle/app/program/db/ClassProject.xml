@@ -21,28 +21,6 @@
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
-	<ClassProject ID="3">
-		<LastChanged>2012-03-26T05:34:40</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>db</Name>
-		<ParentFolderID>9</ParentFolderID>
-		<Sequence/>
-		<Comment/>
-		<Code/>
-		<Description>Contact sample application</Description>
-		<SystemClasses/>
-		<PackageName/>
-		<ProjectPath/>
-		<InterfacePackage/>
-		<InterfaceProjectPath>model</InterfaceProjectPath>
-		<ThinPackage/>
-		<ThinProjectPath>thin</ThinProjectPath>
-		<ResourcePackage/>
-		<ResProjectPath>res</ResProjectPath>
-		<Properties/>
-		<ArtifactId/>
-		<GroupId/>
-	</ClassProject>
 	<ClassProject ID="4">
 		<LastChanged>2011-03-10T07:32:49</LastChanged>
 		<Deleted>N</Deleted>
@@ -109,28 +87,6 @@
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
-	<ClassProject ID="7">
-		<LastChanged>2011-03-10T07:31:43</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>contact</Name>
-		<ParentFolderID>16,777,309</ParentFolderID>
-		<Sequence/>
-		<Comment/>
-		<Code/>
-		<Description>Contact app</Description>
-		<SystemClasses/>
-		<PackageName/>
-		<ProjectPath/>
-		<InterfacePackage/>
-		<InterfaceProjectPath/>
-		<ThinPackage/>
-		<ThinProjectPath/>
-		<ResourcePackage/>
-		<ResProjectPath/>
-		<Properties/>
-		<ArtifactId/>
-		<GroupId/>
-	</ClassProject>
 	<ClassProject ID="8">
 		<LastChanged>2012-07-05T09:23:15</LastChanged>
 		<Deleted>N</Deleted>
@@ -149,50 +105,6 @@
 		<ThinProjectPath/>
 		<ResourcePackage/>
 		<ResProjectPath/>
-		<Properties/>
-		<ArtifactId/>
-		<GroupId/>
-	</ClassProject>
-	<ClassProject ID="9">
-		<LastChanged>2012-03-26T05:29:07</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>contact</Name>
-		<ParentFolderID>7</ParentFolderID>
-		<Sequence/>
-		<Comment/>
-		<Code/>
-		<Description>Contact project</Description>
-		<SystemClasses/>
-		<PackageName>.app.contact</PackageName>
-		<ProjectPath/>
-		<InterfacePackage>.app.contact</InterfacePackage>
-		<InterfaceProjectPath/>
-		<ThinPackage>.app.contact</ThinPackage>
-		<ThinProjectPath/>
-		<ResourcePackage>.app.contact</ResourcePackage>
-		<ResProjectPath/>
-		<Properties/>
-		<ArtifactId/>
-		<GroupId/>
-	</ClassProject>
-	<ClassProject ID="10">
-		<LastChanged>2012-03-26T05:37:24</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>screen</Name>
-		<ParentFolderID>9</ParentFolderID>
-		<Sequence/>
-		<Comment/>
-		<Code/>
-		<Description>Contact screens</Description>
-		<SystemClasses/>
-		<PackageName/>
-		<ProjectPath/>
-		<InterfacePackage/>
-		<InterfaceProjectPath/>
-		<ThinPackage/>
-		<ThinProjectPath/>
-		<ResourcePackage/>
-		<ResProjectPath>res</ResProjectPath>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>

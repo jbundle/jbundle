@@ -17,7 +17,7 @@
     <jbundlePackageExport> <!-- Note: Eventually I need to move screen.control here -->
       org.jbundle.base.screen.control.swing.activator.*;version=${project.version},
     </jbundlePackageExport>
-        <projectname>tour</projectname>
+        <projectName>tour</projectName>
   </properties>
   
   <build>

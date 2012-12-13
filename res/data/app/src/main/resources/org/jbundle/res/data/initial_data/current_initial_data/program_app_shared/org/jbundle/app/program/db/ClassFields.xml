@@ -29,21 +29,6 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="888">
-		<LastChanged>2009-02-12T14:49:27</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>ContactScreen</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>Contact</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="891">
 		<LastChanged>2009-02-12T14:49:27</LastChanged>
 		<Deleted>N</Deleted>
@@ -337,36 +322,6 @@
 		<ClassFieldClass>PictureGridScreen</ClassFieldClass>
 		<ClassFieldSequence>1,010</ClassFieldSequence>
 		<ClassFieldName>PICTURE_GRID_SCREEN_CLASS</ClassFieldName>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue>DISPLAY_MODE</ClassFieldInitialValue>
-		<ClassFieldsType>S</ClassFieldsType>
-		<IncludeScope>4</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="3479">
-		<LastChanged>2012-01-15T12:08:16</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Contact</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ContactScreen</ClassFieldClass>
-		<ClassFieldSequence>1,000</ClassFieldSequence>
-		<ClassFieldName>CONTACT_SCREEN_CLASS</ClassFieldName>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue>MAINT_MODE</ClassFieldInitialValue>
-		<ClassFieldsType>S</ClassFieldsType>
-		<IncludeScope>4</IncludeScope>
-	</ClassFields>
-	<ClassFields ID="3480">
-		<LastChanged>2012-01-15T12:08:16</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Contact</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>ContactGridScreen</ClassFieldClass>
-		<ClassFieldSequence>1,010</ClassFieldSequence>
-		<ClassFieldName>CONTACT_GRID_SCREEN_CLASS</ClassFieldName>
 		<ClassFieldDesc/>
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
