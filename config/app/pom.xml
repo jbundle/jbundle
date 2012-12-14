@@ -9,15 +9,14 @@
     <version>0.8.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.jbundle.config.run</artifactId>
+  <artifactId>org.jbundle.config.app</artifactId>
   <packaging>pom</packaging>
-  <name>jbundle-config-run</name>
+  <name>jbundle-config-app</name>
 
   <properties>
     <jbundlePackageExport> <!-- Note: Eventually I need to move screen.control here -->
       org.jbundle.base.screen.control.swing.activator.*;version=${project.version},
     </jbundlePackageExport>
-        <projectName>tour</projectName>
   </properties>
   
   <build>
