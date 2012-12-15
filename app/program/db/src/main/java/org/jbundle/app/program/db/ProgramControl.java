@@ -110,41 +110,45 @@ public class ProgramControl extends ControlRecord
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 6)
+            field = new StringField(this, RESOURCES_DIRECTORY, Constants.DEFAULT_FIELD_LENGTH, null, "src/main/resources");
+        if (iFieldSeq == 7)
         {
             field = new StringField(this, CLASS_DIRECTORY, 127, null, "target/classes/");
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == 7)
+        if (iFieldSeq == 8)
         {
             field = new StringField(this, ARCHIVE_DIRECTORY, 127, null, "src/main/resources/");
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == 8)
-            field = new ResourceTypeField(this, RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 9)
-            field = new ResourceTypeField(this, CLASS_RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new StringField(this, DEV_ARCHIVE_DIRECTORY, Constants.DEFAULT_FIELD_LENGTH, null, "src/main/resources");
         if (iFieldSeq == 10)
-            field = new StringField(this, PACKAGE_NAME, 40, null, null);
+            field = new ResourceTypeField(this, RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 11)
+            field = new ResourceTypeField(this, CLASS_RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 12)
+            field = new StringField(this, PACKAGE_NAME, 40, null, null);
+        if (iFieldSeq == 13)
         {
             field = new StringField(this, INTERFACE_PACKAGE, Constants.DEFAULT_FIELD_LENGTH, null, ".model");
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == 12)
+        if (iFieldSeq == 14)
         {
             field = new StringField(this, THIN_PACKAGE, 40, null, ".thin");
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == 13)
+        if (iFieldSeq == 15)
         {
             field = new StringField(this, RESOURCE_PACKAGE, 40, null, ".res");
             field.addListener(new InitOnceFieldHandler(null));
         }
-        if (iFieldSeq == 14)
-            field = new DateTimeField(this, LAST_PACKAGE_UPDATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
-        if (iFieldSeq == 15)
-            field = new StringField(this, PACKAGES_BASE_PATH, 128, null, null);
         if (iFieldSeq == 16)
+            field = new DateTimeField(this, LAST_PACKAGE_UPDATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
+        if (iFieldSeq == 17)
+            field = new StringField(this, PACKAGES_BASE_PATH, 128, null, null);
+        if (iFieldSeq == 18)
             field = new StringField(this, PACKAGES_PATH, 128, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);

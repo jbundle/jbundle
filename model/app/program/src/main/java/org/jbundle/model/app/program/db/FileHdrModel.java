@@ -20,8 +20,6 @@ public interface FileHdrModel extends Rec
     public static final String FILE_NOTES = "FileNotes";
     public static final String DATABASE_NAME = "DatabaseName";
     public static final String FILE_REC_CALLED = "FileRecCalled";
-    public static final String DISPLAY_CLASS = "DisplayClass";
-    public static final String MAINT_CLASS = "MaintClass";
 
     public static final String FILE_NAME_KEY = "FileName";
     public static final String FILE_HDR_SCREEN_CLASS = "org.jbundle.app.program.screen.FileHdrScreen";

@@ -16,8 +16,10 @@ public interface ProgramControlModel extends Rec
     public static final String PROJECT_NAME = "ProjectName";
     public static final String BASE_DIRECTORY = "BaseDirectory";
     public static final String SOURCE_DIRECTORY = "SourceDirectory";
+    public static final String RESOURCES_DIRECTORY = "ResourcesDirectory";
     public static final String CLASS_DIRECTORY = "ClassDirectory";
     public static final String ARCHIVE_DIRECTORY = "ArchiveDirectory";
+    public static final String DEV_ARCHIVE_DIRECTORY = "DevArchiveDirectory";
     public static final String RESOURCE_TYPE = "ResourceType";
     public static final String CLASS_RESOURCE_TYPE = "ClassResourceType";
     public static final String PACKAGE_NAME = "PackageName";

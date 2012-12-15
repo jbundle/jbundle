@@ -131,10 +131,6 @@ public class FileHdr extends VirtualRecord
             field = new StringField(this, DATABASE_NAME, 20, null, null);
         if (iFieldSeq == 9)
             field = new StringField(this, FILE_REC_CALLED, 40, null, null);
-        if (iFieldSeq == 10)
-            field = new StringField(this, DISPLAY_CLASS, 40, null, null);
-        if (iFieldSeq == 11)
-            field = new StringField(this, MAINT_CLASS, 40, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);
         return field;
