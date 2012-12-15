@@ -52,15 +52,15 @@ public class WriteClass extends BaseProcess
      */
     protected Includes m_IncludeNameList = null;
     /**
-     *
+     * List of all methods written for this class so far
      */
-    protected NameList m_MethodNameList = null;        // List of all methods written for this class so far
+    protected NameList m_MethodNameList = null;
     /**
-     *
+     * Field helper
      */
     protected GetFieldData m_BasedFieldHelper = null;
     /**
-     *
+     * Method helper
      */
     protected GetMethodInfo m_MethodHelper = null;
 

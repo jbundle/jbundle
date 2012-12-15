@@ -277,7 +277,12 @@ public class ClassProject extends Folder
         }
         String strSourcePath = null;
         if (sourcePath)
+        {
             strSourcePath = recProgramControl.getField(ProgramControl.SOURCE_DIRECTORY).toString();
+            if (codeType == CodeType.RESOURCE_PROPERTIES)
+                if (!recProgramControl.getField(ProgramControl.RESOURCES_DIRECTORY).isNull())
+                    strSourcePath = recProgramControl.getField(ProgramControl.RESOURCES_DIRECTORY).toString();
+        }
         else
             strSourcePath = recProgramControl.getField(ProgramControl.CLASS_DIRECTORY).toString();
         if ((this.getEditMode() == DBConstants.EDIT_CURRENT) || (this.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
