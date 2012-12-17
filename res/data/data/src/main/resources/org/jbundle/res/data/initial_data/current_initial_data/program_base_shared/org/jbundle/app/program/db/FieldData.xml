@@ -17,7 +17,7 @@
 		<FieldFileName>Person</FieldFileName>
 		<FieldSeqNo>30</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
-		<DataClass>String</DataClass>
+		<DataClass/>
 		<Hidden/>
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
