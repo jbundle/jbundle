@@ -75,7 +75,7 @@ public interface ProxyConstants
     public static final String TYPE = "type";
     public static final String SESSION_CLASS_NAME = "sessionClassName";
     
-    public static final String MODE = "mode";
+    public static final String OPEN_MODE = "openmode";
     public static final String DIRECTION = "direction";
     public static final String FIELDS = "fields";
     public static final String POSITION = "position";

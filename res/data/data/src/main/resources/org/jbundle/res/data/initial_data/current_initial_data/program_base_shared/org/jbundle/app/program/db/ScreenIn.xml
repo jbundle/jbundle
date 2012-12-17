@@ -630,7 +630,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutGridScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>10</ScreenItemNumber>
-		<ScreenFileName>Layout</ScreenFileName>
+		<ScreenFileName>Layouts</ScreenFileName>
 		<ScreenFieldName>Sequence</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -648,7 +648,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutGridScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>20</ScreenItemNumber>
-		<ScreenFileName>Layout</ScreenFileName>
+		<ScreenFileName>Layouts</ScreenFileName>
 		<ScreenFieldName>Name</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -666,7 +666,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutGridScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>30</ScreenItemNumber>
-		<ScreenFileName>Layout</ScreenFileName>
+		<ScreenFileName>Layouts</ScreenFileName>
 		<ScreenFieldName>Type</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -684,7 +684,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>10</ScreenItemNumber>
-		<ScreenFileName>Layout</ScreenFileName>
+		<ScreenFileName>Layouts</ScreenFileName>
 		<ScreenFieldName>Name</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -702,7 +702,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>20</ScreenItemNumber>
-		<ScreenFileName>Layout</ScreenFileName>
+		<ScreenFileName>Layouts</ScreenFileName>
 		<ScreenFieldName>Type</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -720,7 +720,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>30</ScreenItemNumber>
-		<ScreenFileName>Layout</ScreenFileName>
+		<ScreenFileName>Layouts</ScreenFileName>
 		<ScreenFieldName>FieldValue</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -738,7 +738,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>40</ScreenItemNumber>
-		<ScreenFileName>Layout</ScreenFileName>
+		<ScreenFileName>Layouts</ScreenFileName>
 		<ScreenFieldName>ReturnsValue</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -756,7 +756,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>50</ScreenItemNumber>
-		<ScreenFileName>Layout</ScreenFileName>
+		<ScreenFileName>Layouts</ScreenFileName>
 		<ScreenFieldName>Max</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -774,7 +774,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>60</ScreenItemNumber>
-		<ScreenFileName>Layout</ScreenFileName>
+		<ScreenFileName>Layouts</ScreenFileName>
 		<ScreenFieldName>Sequence</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -792,7 +792,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>70</ScreenItemNumber>
-		<ScreenFileName>Layout</ScreenFileName>
+		<ScreenFileName>Layouts</ScreenFileName>
 		<ScreenFieldName>Comment</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>

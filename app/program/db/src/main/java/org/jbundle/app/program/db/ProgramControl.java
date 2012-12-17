@@ -110,7 +110,7 @@ public class ProgramControl extends ControlRecord
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 6)
-            field = new StringField(this, RESOURCES_DIRECTORY, Constants.DEFAULT_FIELD_LENGTH, null, "src/main/resources");
+            field = new StringField(this, RESOURCES_DIRECTORY, 127, null, "src/main/resources/");
         if (iFieldSeq == 7)
         {
             field = new StringField(this, CLASS_DIRECTORY, 127, null, "target/classes/");

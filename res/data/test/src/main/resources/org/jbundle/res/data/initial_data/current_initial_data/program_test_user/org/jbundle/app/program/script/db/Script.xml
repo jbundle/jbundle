@@ -14,7 +14,7 @@ mainUserDBName=main
 systemname=_test
 archiveFolder=/home/don/temp/archive/test
 process=.program.util.ExportRecordsToXmlProcess
-mode=export
+transferMode=export
 project=Test
 ]]></Properties>
 		<Command>R</Command>
@@ -37,7 +37,7 @@ mainUserDBName=main
 systemname=_test
 archiveFolder=/home/don/temp/archive/test_es
 process=.program.util.ExportRecordsToXmlProcess
-mode=export
+transferMode=export
 project=Test
 ]]></Properties>
 		<Command>R</Command>

@@ -101,7 +101,7 @@ public class ImportXMLScanListener extends BaseScanListener
         String databaseName = null;
         Map<String,String> oldProperties = new HashMap<String,String>();
         
-        if (className.endsWith("DatabaseInfo"))
+        if (className.endsWith(DatabaseInfo.DATABASE_INFO_FILE))
         {
             record = new DatabaseInfo();
             databaseName = this.getDatabaseInfoDatabaseName(className);
@@ -160,7 +160,7 @@ public class ImportXMLScanListener extends BaseScanListener
             databaseName = databaseName.substring(0, databaseName.length() - BaseDatabase.USER_SUFFIX.length());
         String recordDBName = record.getDatabaseName();
         if (record instanceof DatabaseInfo)
-            recordDBName = "DatabaseInfo";
+            recordDBName = DatabaseInfo.DATABASE_INFO_FILE;
         if (!databaseName.startsWith(recordDBName))
         { // Typically user name
             this.getTask().setProperty(DBConstants.DB_USER_PREFIX, databaseName.substring(0, databaseName.indexOf('_')));
@@ -197,7 +197,7 @@ public class ImportXMLScanListener extends BaseScanListener
      */
     private String getDatabaseInfoDatabaseName(String className)
     {
-        String databaseName = className.substring(0, className.length() - 1 - "DatabaseInfo".length());
+        String databaseName = className.substring(0, className.length() - 1 - DatabaseInfo.DATABASE_INFO_FILE.length());
         databaseName = databaseName.substring(databaseName.lastIndexOf('.') + 1);
         if (databaseName.endsWith(BaseDatabase.SHARED_SUFFIX))
             databaseName = databaseName.substring(0, databaseName.length() - BaseDatabase.SHARED_SUFFIX.length());

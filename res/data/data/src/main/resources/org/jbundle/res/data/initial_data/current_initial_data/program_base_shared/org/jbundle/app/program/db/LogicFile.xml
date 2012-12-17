@@ -810,7 +810,7 @@ dateChangedHandler.setOnFieldChange(true);]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778031">
-		<LastChanged>2012-11-01T11:44:06</LastChanged>
+		<LastChanged>2012-12-15T16:30:51</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>70</Sequence>
 		<MethodName>addToolbars</MethodName>
@@ -847,10 +847,10 @@ strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ExportRecordsToXmlScreen.c
 strJob = Utility.addURLParam(strJob, "newwindow", DBConstants.TRUE);    // Screen class
 strJob = Utility.addURLParam(strJob, ConvertCode.DIR_PREFIX, Utility.addToPath(((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath(), this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.ARCHIVE_DIRECTORY).toString()));    // Screen class
 new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Export", "Export", strJob, null);
-strJob = Utility.addURLParam(strJob, "mode", "import");
+strJob = Utility.addURLParam(strJob, ExportRecordsToXmlProcess.TRANSFER_MODE, ExportRecordsToXmlProcess.IMPORT);
 new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Import", "Import", strJob, null);
 
-//new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Maintenance", MenuConstants.FORM, "?screen=" + org.jbundle.app.program.access.AccessGridScreen.class.getName(), null);
+new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Maintenance", MenuConstants.FORM, "?screen=" + org.jbundle.app.program.access.AccessGridScreen.class.getName(), null);
 strJob = null;
 strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
 strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ".app.program.manual.util.process.CopyHelpInfo");    // Screen class
@@ -2001,7 +2001,7 @@ this.getMainRecord().getField(KeyInfo.KEY_NUMBER).addListener(fieldBeh);
 		<LogicDescription/>
 		<MethodReturns/>
 		<MethodInterface/>
-		<MethodClassName>Layout</MethodClassName>
+		<MethodClassName>Layouts</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
     screen = Record.makeNewScreen(LAYOUT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
@@ -2109,7 +2109,7 @@ else
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>LayoutGridScreen</MethodClassName>
-		<LogicSource>return new Layout(this);</LogicSource>
+		<LogicSource>return new Layouts(this);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2146,10 +2146,10 @@ if (out == null)
 	bFirstTime = true;
 	if (recLayout == null)
 	{
-		recLayout = new Layout((Record.findRecordOwner(null)));
+		recLayout = new Layouts((Record.findRecordOwner(null)));
 		bNewRecord = true;
 	}
-	recLayout.getField(Layout.ID).setValue(1);
+	recLayout.getField(Layouts.ID).setValue(1);
 	try	{
 		if (!recLayout.seek("="))
 		{	// Error - top level not found?
@@ -2158,7 +2158,7 @@ if (out == null)
 		ex.printStackTrace();
 		return;
 	}
-	String strFileName = recLayout.getField(Layout.NAME).toString() + ".idl";
+	String strFileName = recLayout.getField(Layouts.NAME).toString() + ".idl";
 	try	{
 		FileOutputStream outStream = new FileOutputStream(strFileName);
 		BufferedOutputStream buffOut = new BufferedOutputStream(outStream);
@@ -2205,12 +2205,12 @@ if (bNewRecord)
 		<MethodInterface>Record recLayout, PrintWriter out, int iIndents, String strEnd</MethodInterface>
 		<MethodClassName>LayoutPrint</MethodClassName>
 		<LogicSource><![CDATA[// Print out the current record
-String strName = recLayout.getField(Layout.NAME).toString();
-String strType = recLayout.getField(Layout.TYPE).toString();
-String strValue = recLayout.getField(Layout.FIELD_VALUE).toString();
-String strReturns = recLayout.getField(Layout.RETURNS_VALUE).toString();
-String strMax = recLayout.getField(Layout.MAX).toString();
-String strDescription = recLayout.getField(Layout.COMMENT).toString();
+String strName = recLayout.getField(Layouts.NAME).toString();
+String strType = recLayout.getField(Layouts.TYPE).toString();
+String strValue = recLayout.getField(Layouts.FIELD_VALUE).toString();
+String strReturns = recLayout.getField(Layouts.RETURNS_VALUE).toString();
+String strMax = recLayout.getField(Layouts.MAX).toString();
+String strDescription = recLayout.getField(Layouts.COMMENT).toString();
 boolean bLoop = false;
 if ((strType.equalsIgnoreCase("module")) ||
 	(strType.equalsIgnoreCase("enum")) ||
@@ -2224,8 +2224,8 @@ if (bLoop)
 	if (strType.equalsIgnoreCase("enum"))
 		strEndLoop = null;
 	this.println(out, "{", null, iIndents, "");
-	Layout recLayoutLoop = new Layout(recLayout.findRecordOwner());
-	recLayoutLoop.setKeyArea(Layout.PARENT_FOLDER_ID_KEY);
+	Layouts recLayoutLoop = new Layouts(recLayout.findRecordOwner());
+	recLayoutLoop.setKeyArea(Layouts.PARENT_FOLDER_ID_KEY);
 	recLayoutLoop.addListener(new SubFileFilter(recLayout));
 	try	{
 		boolean bFirstLoop = true;
@@ -2297,7 +2297,7 @@ else
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>LayoutScreen</MethodClassName>
-		<LogicSource>return new Layout(this);</LogicSource>
+		<LogicSource>return new Layouts(this);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -26932,7 +26932,7 @@ return false;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784934">
-		<LastChanged>2012-06-26T19:01:06</LastChanged>
+		<LastChanged>2012-12-16T09:02:34</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>processThisRecord</MethodName>
@@ -26943,15 +26943,15 @@ return false;]]></LogicSource>
 		<LogicSource><![CDATA[if (record == null)
     return false;
 boolean bPhysicalName = true;
-if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty("useDatabaseName")))
+if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty(USE_DATABASE_NAME)))
     bPhysicalName = false;
 String strFilename = record.getArchiveFilename(bPhysicalName);
 if (this.getProperty(ConvertCode.DIR_PREFIX) != null)
     strFilename = Utility.addToPath(this.getProperty(ConvertCode.DIR_PREFIX), strFilename);
 
-String strMode = this.getProperty("mode");
+String strMode = this.getProperty(TRANSFER_MODE);
 boolean bExport = true;
-if (strMode != null) if (strMode.equalsIgnoreCase("import"))
+if (strMode != null) if (strMode.equalsIgnoreCase(IMPORT))
     bExport = false;
 if (bExport)
 {
@@ -26964,10 +26964,12 @@ if (bExport)
         } catch (DBException e) {
             return false; // Record doesn't exist
         }
-        if (this.getProperty("locale") != null)
+        if (this.getProperty(LOCALE) != null)
         {
-            if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty("locale").toString()))
+            if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
                 return false;     // If locale is set, only do locale tables
+            if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
+                return false;     // This is a special file type
         }
     }
 }
@@ -26975,10 +26977,12 @@ else
 { // Import must have file.
     if (!(new File(strFilename).exists()))
         return false;
-        if (this.getProperty("locale") != null)
+        if (this.getProperty(LOCALE) != null)
         {
-            if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty("locale").toString()))
+            if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
                 return false;     // If locale is set, only do locale tables
+            if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
+                return false;     // This is a special file type
         }
 }
 XmlInOut xml = new XmlInOut(this, null, null);    //0 v
@@ -27231,7 +27235,7 @@ this.getTask().getApplication().setProperty(DBConstants.BASE_TABLE_ONLY, oldBase
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784948">
-		<LastChanged>2012-01-29T08:57:31</LastChanged>
+		<LastChanged>2012-12-16T10:39:46</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>processAllRecords</MethodName>
@@ -27254,6 +27258,8 @@ try   {
         if (!recFileHdr.isPhysicalFile())
             continue;
         if (recFileHdr.getField(FileHdr.DATABASE_NAME).isNull())
+            continue;
+        if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(recFileHdr.getField(FileHdr.DATABASE_NAME).toString()))
             continue;
 
         recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
@@ -27301,7 +27307,7 @@ try   {
                 if (strClassPackage != null)
                     if (!strClassPackage.matches(strPackage))
                         continue;
-            if (!"DatabaseInfo".equalsIgnoreCase(strRecord))
+            if (!DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(strRecord))
                 continue;   // Hack
             if ("USER_DATA".equalsIgnoreCase(this.getProperty("type")))
                continue;       // User data doesn't have database info
@@ -27334,7 +27340,7 @@ return;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784949">
-		<LastChanged>2012-06-26T19:02:54</LastChanged>
+		<LastChanged>2012-12-15T16:36:41</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>90</Sequence>
 		<MethodName>getThisRecord</MethodName>
@@ -27349,15 +27355,15 @@ Record record = Record.makeRecordFromClassName(strRecordClass, this, false, true
 if (record == null)
     return null;
 
-String strMode = this.getProperty("mode");
+String strMode = this.getProperty(ExportRecordsToXmlProcess.TRANSFER_MODE);
 boolean bExport = false;
-if (strMode != null) if (strMode.equalsIgnoreCase("export"))
+if (strMode != null) if (strMode.equalsIgnoreCase(ExportRecordsToXmlProcess.EXPORT))
     bExport = true;
 
 if (bExport)
     record.setOpenMode(record.getOpenMode() | DBConstants.OPEN_DONT_CREATE);
 
-//if (this.getProperty("locale") != null)
+//if (this.getProperty(ExportRecordsToXmlProcess.LOCALE) != null)
 //    if (this.getRecord(FileHdr.FILE_HDR_FILE).getEditMode() == DBConstants.EDIT_CURRENT)
 //        strDBName = this.getRecord(FileHdr.FILE_HDR_FILE).getField(FileHdr.DATABASE_NAME).toString() + '_' + this.getProperty("locale");
 if (strDBName != null)
@@ -27665,7 +27671,7 @@ return screen;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784965">
-		<LastChanged>2012-10-27T21:37:08</LastChanged>
+		<LastChanged>2012-12-15T05:50:08</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>getFileName</MethodName>
@@ -27685,8 +27691,8 @@ if (recProgramControl == null)
 String packagePath = DBConstants.BLANK;
 if (strPackage != null)
 {
-	strPackage = this.getFullPackage(codeType, strPackage);
-	packagePath = strPackage.replace('.', '/') + "/";
+    strPackage = this.getFullPackage(codeType, strPackage);
+    packagePath = strPackage.replace('.', '/') + "/";
 }
 
 String strFileRoot = DBConstants.BLANK;
@@ -27698,7 +27704,12 @@ if (fullPath)
 }
 String strSourcePath = null;
 if (sourcePath)
+{
     strSourcePath = recProgramControl.getField(ProgramControl.SOURCE_DIRECTORY).toString();
+    if (codeType == CodeType.RESOURCE_PROPERTIES)
+        if (!recProgramControl.getField(ProgramControl.RESOURCES_DIRECTORY).isNull())
+            strSourcePath = recProgramControl.getField(ProgramControl.RESOURCES_DIRECTORY).toString();
+}
 else
     strSourcePath = recProgramControl.getField(ProgramControl.CLASS_DIRECTORY).toString();
 if ((this.getEditMode() == DBConstants.EDIT_CURRENT) || (this.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
@@ -27716,9 +27727,9 @@ if ((this.getEditMode() == DBConstants.EDIT_CURRENT) || (this.getEditMode() == D
 }
 
 if (strFileName == null)
-	strFileName = DBConstants.BLANK;
+    strFileName = DBConstants.BLANK;
 if (strFileName.length() > 0)
-	if (strFileName.indexOf(".") == -1)
+    if (strFileName.indexOf(".") == -1)
 {
     if (codeType == CodeType.RESOURCE_PROPERTIES)
         strFileName = strFileName + ".properties";
@@ -30089,7 +30100,7 @@ return super.filterFile(file);]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785065">
-		<LastChanged>2011-12-06T08:33:35</LastChanged>
+		<LastChanged>2012-12-16T08:55:58</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>moveThisFile</MethodName>
@@ -30106,7 +30117,7 @@ Record record = null;
 String databaseName = null;
 Map<String,String> oldProperties = new HashMap<String,String>();
 
-if (className.endsWith("DatabaseInfo"))
+if (className.endsWith(DatabaseInfo.DATABASE_INFO_FILE))
 {
 	record = new DatabaseInfo();
 	databaseName = this.getDatabaseInfoDatabaseName(className);
@@ -30157,7 +30168,7 @@ record.free();]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785066">
-		<LastChanged>2010-12-03T03:55:14</LastChanged>
+		<LastChanged>2012-12-16T08:57:48</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>40</Sequence>
 		<MethodName>fixDatabaseName</MethodName>
@@ -30173,7 +30184,7 @@ else if (databaseName.endsWith(BaseDatabase.USER_SUFFIX))
 	databaseName = databaseName.substring(0, databaseName.length() - BaseDatabase.USER_SUFFIX.length());
 String recordDBName = record.getDatabaseName();
 if (record instanceof DatabaseInfo)
-	recordDBName = "DatabaseInfo";
+	recordDBName = DatabaseInfo.DATABASE_INFO_FILE;
 if (!databaseName.startsWith(recordDBName))
 {	// Typically user name
 	this.getTask().setProperty(DBConstants.DB_USER_PREFIX, databaseName.substring(0, databaseName.indexOf('_')));
@@ -30210,7 +30221,7 @@ return databaseName;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785067">
-		<LastChanged>2010-05-25T14:57:41</LastChanged>
+		<LastChanged>2012-12-16T08:57:11</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>50</Sequence>
 		<MethodName>getDatabaseInfoDatabaseName</MethodName>
@@ -30218,7 +30229,7 @@ return databaseName;]]></LogicSource>
 		<MethodReturns>String</MethodReturns>
 		<MethodInterface>String className</MethodInterface>
 		<MethodClassName>ImportXMLScanListener</MethodClassName>
-		<LogicSource><![CDATA[String databaseName = className.substring(0, className.length() - 1 - "DatabaseInfo".length());
+		<LogicSource><![CDATA[String databaseName = className.substring(0, className.length() - 1 - DatabaseInfo.DATABASE_INFO_FILE.length());
 databaseName = databaseName.substring(databaseName.lastIndexOf('.') + 1);
 if (databaseName.endsWith(BaseDatabase.SHARED_SUFFIX))
 	databaseName = databaseName.substring(0, databaseName.length() - BaseDatabase.SHARED_SUFFIX.length());

@@ -229,7 +229,7 @@
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>LayoutScreen</ClassInfoClassName>
 		<ClassInfoID/>
-		<ClassFieldClass>Layout</ClassFieldClass>
+		<ClassFieldClass>Layouts</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -274,7 +274,7 @@
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>LayoutPrint</ClassInfoClassName>
 		<ClassInfoID/>
-		<ClassFieldClass>Layout</ClassFieldClass>
+		<ClassFieldClass>Layouts</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -394,7 +394,7 @@
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>LayoutGridScreen</ClassInfoClassName>
 		<ClassInfoID/>
-		<ClassFieldClass>Layout</ClassFieldClass>
+		<ClassFieldClass>Layouts</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -11288,7 +11288,7 @@
 	<ClassFields ID="16782515">
 		<LastChanged>2012-01-15T11:32:37</LastChanged>
 		<Deleted>N</Deleted>
-		<ClassInfoClassName>Layout</ClassInfoClassName>
+		<ClassInfoClassName>Layouts</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>LayoutScreen</ClassFieldClass>
 		<ClassFieldSequence>1,000</ClassFieldSequence>
@@ -11303,7 +11303,7 @@
 	<ClassFields ID="16782516">
 		<LastChanged>2012-01-15T11:32:37</LastChanged>
 		<Deleted>N</Deleted>
-		<ClassInfoClassName>Layout</ClassInfoClassName>
+		<ClassInfoClassName>Layouts</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>LayoutGridScreen</ClassFieldClass>
 		<ClassFieldSequence>1,010</ClassFieldSequence>
@@ -13234,5 +13234,80 @@
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782651">
+		<LastChanged>2012-12-15T16:26:35</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsToXmlProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>10</ClassFieldSequence>
+		<ClassFieldName>TRANSFER_MODE</ClassFieldName>
+		<ClassFieldDesc>Import or Export</ClassFieldDesc>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"transferMode"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782652">
+		<LastChanged>2012-12-15T16:26:43</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsToXmlProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>20</ClassFieldSequence>
+		<ClassFieldName>IMPORT</ClassFieldName>
+		<ClassFieldDesc>Import</ClassFieldDesc>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"import"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782653">
+		<LastChanged>2012-12-15T16:26:54</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsToXmlProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>30</ClassFieldSequence>
+		<ClassFieldName>EXPORT</ClassFieldName>
+		<ClassFieldDesc>Export</ClassFieldDesc>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"export"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782654">
+		<LastChanged>2012-12-15T16:27:06</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsToXmlProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>40</ClassFieldSequence>
+		<ClassFieldName>LOCALE</ClassFieldName>
+		<ClassFieldDesc>Locale</ClassFieldDesc>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"locale"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782655">
+		<LastChanged>2012-12-15T16:27:17</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsToXmlProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>60</ClassFieldSequence>
+		<ClassFieldName>USE_DATABASE_NAME</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"useDatabaseName"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
 	</ClassFields>
 </file>

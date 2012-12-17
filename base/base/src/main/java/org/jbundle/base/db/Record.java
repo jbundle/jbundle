@@ -69,6 +69,7 @@ import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
+import org.jbundle.thin.main.db.DatabaseInfo;
 import org.jbundle.util.osgi.BundleConstants;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
@@ -3357,8 +3358,8 @@ public class Record extends FieldList
     			tableDomain = DBConstants.BLANK;
         strArchiveFolder = Utility.replace(strArchiveFolder, "{domain}", tableDomain.replace('.', chFileSeparator));
         String strPackage = this.getClass().getName();
-        if (strPackage.endsWith("DatabaseInfo"))
-            strPackage = "DatabaseInfo";
+        if (strPackage.endsWith(DatabaseInfo.DATABASE_INFO_FILE))
+            strPackage = DatabaseInfo.DATABASE_INFO_FILE;
         String strDBName = this.getTable().getDatabase().getDatabaseName(bPhysicalName);
         if (bPhysicalName == false)
         {

@@ -33,6 +33,11 @@ import org.jbundle.base.db.xmlutil.*;
  */
 public class ExportRecordsToXmlProcess extends BaseProcessRecords
 {
+    public static final String TRANSFER_MODE = "transferMode";
+    public static final String IMPORT = "import";
+    public static final String EXPORT = "export";
+    public static final String LOCALE = "locale";
+    public static final String USE_DATABASE_NAME = "useDatabaseName";
     /**
      * Default constructor.
      */
@@ -78,15 +83,15 @@ public class ExportRecordsToXmlProcess extends BaseProcessRecords
         if (record == null)
             return false;
         boolean bPhysicalName = true;
-        if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty("useDatabaseName")))
+        if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty(USE_DATABASE_NAME)))
             bPhysicalName = false;
         String strFilename = record.getArchiveFilename(bPhysicalName);
         if (this.getProperty(ConvertCode.DIR_PREFIX) != null)
             strFilename = Utility.addToPath(this.getProperty(ConvertCode.DIR_PREFIX), strFilename);
         
-        String strMode = this.getProperty("mode");
+        String strMode = this.getProperty(TRANSFER_MODE);
         boolean bExport = true;
-        if (strMode != null) if (strMode.equalsIgnoreCase("import"))
+        if (strMode != null) if (strMode.equalsIgnoreCase(IMPORT))
             bExport = false;
         if (bExport)
         {
@@ -99,10 +104,12 @@ public class ExportRecordsToXmlProcess extends BaseProcessRecords
                 } catch (DBException e) {
                     return false; // Record doesn't exist
                 }
-                if (this.getProperty("locale") != null)
+                if (this.getProperty(LOCALE) != null)
                 {
-                    if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty("locale").toString()))
+                    if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
                         return false;     // If locale is set, only do locale tables
+                    if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
+                        return false;     // This is a special file type
                 }
             }
         }
@@ -110,10 +117,12 @@ public class ExportRecordsToXmlProcess extends BaseProcessRecords
         { // Import must have file.
             if (!(new File(strFilename).exists()))
                 return false;
-                if (this.getProperty("locale") != null)
+                if (this.getProperty(LOCALE) != null)
                 {
-                    if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty("locale").toString()))
+                    if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
                         return false;     // If locale is set, only do locale tables
+                    if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
+                        return false;     // This is a special file type
                 }
         }
         XmlInOut xml = new XmlInOut(this, null, null);    //0 v

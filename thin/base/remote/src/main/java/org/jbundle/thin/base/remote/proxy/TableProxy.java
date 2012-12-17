@@ -65,7 +65,7 @@ public class TableProxy extends SessionProxy
     {
         BaseTransport  transport = this.createProxyTransport(OPEN);
         transport.addParam(KEY, strKeyArea);
-        transport.addParam(MODE, iOpenMode);
+        transport.addParam(OPEN_MODE, iOpenMode);
         transport.addParam(DIRECTION, bDirection);
         transport.addParam(FIELDS, strFields);
         transport.addParam(INITIAL_KEY, objInitialKey);
@@ -85,7 +85,7 @@ public class TableProxy extends SessionProxy
     {
         BaseTransport transport = this.createProxyTransport(ADD);
         transport.addParam(DATA, data);
-        transport.addParam(MODE, iOpenMode);
+        transport.addParam(OPEN_MODE, iOpenMode);
         Object strReturn = transport.sendMessageAndGetReply();
         Object objReturn = transport.convertReturnObject(strReturn);
         return this.checkDBException(objReturn);
@@ -106,7 +106,7 @@ public class TableProxy extends SessionProxy
     public int edit(int iOpenMode) throws DBException, RemoteException
     {
         BaseTransport transport = this.createProxyTransport(EDIT);
-        transport.addParam(MODE, iOpenMode);
+        transport.addParam(OPEN_MODE, iOpenMode);
         Object strReturn = transport.sendMessageAndGetReply();
         Object objReturn = transport.convertReturnObject(strReturn);
         this.checkDBException(objReturn);
@@ -123,7 +123,7 @@ public class TableProxy extends SessionProxy
     {
         BaseTransport transport = this.createProxyTransport(SET);
         transport.addParam(DATA, data);
-        transport.addParam(MODE, iOpenMode);
+        transport.addParam(OPEN_MODE, iOpenMode);
         Object strReturn = transport.sendMessageAndGetReply();
         Object objReturn = transport.convertReturnObject(strReturn);
         this.checkDBException(objReturn);
@@ -137,7 +137,7 @@ public class TableProxy extends SessionProxy
     {
         BaseTransport transport = this.createProxyTransport(REMOVE);
         transport.addParam(DATA, data);
-        transport.addParam(MODE, iOpenMode);
+        transport.addParam(OPEN_MODE, iOpenMode);
         Object strReturn = transport.sendMessageAndGetReply();
         Object objReturn = transport.convertReturnObject(strReturn);
         this.checkDBException(objReturn);
@@ -174,7 +174,7 @@ public class TableProxy extends SessionProxy
         if (strSeekSign == null)
             strSeekSign = Constants.EQUALS;
         transport.addParam(SIGN, strSeekSign);
-        transport.addParam(MODE, iOpenMode);
+        transport.addParam(OPEN_MODE, iOpenMode);
         transport.addParam(KEY, strKeyArea);
         transport.addParam(FIELDS, strFields);
         transport.addParam(KEY_DATA, objKeyData);
@@ -193,7 +193,7 @@ public class TableProxy extends SessionProxy
     {
         BaseTransport transport = this.createProxyTransport(DO_SET_HANDLE);
         transport.addParam(BOOKMARK, bookmark);
-        transport.addParam(MODE, iOpenMode);
+        transport.addParam(OPEN_MODE, iOpenMode);
         transport.addParam(FIELDS, strFields);
         transport.addParam(TYPE, iHandleType);
         transport.sendMessageAndGetReply();

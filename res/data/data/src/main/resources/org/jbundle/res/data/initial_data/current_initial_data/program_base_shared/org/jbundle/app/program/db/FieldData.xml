@@ -1319,28 +1319,6 @@
 		<Hidden/>
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
-	<FieldData ID="16781645">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
-		<Deleted>N</Deleted>
-		<FieldName>MaintClass</FieldName>
-		<FieldClass>StringField</FieldClass>
-		<BaseFieldName/>
-		<DependentFieldName/>
-		<MinimumLength/>
-		<MaximumLength>40</MaximumLength>
-		<DefaultValue/>
-		<InitialValue/>
-		<FieldDescription>Maint Class</FieldDescription>
-		<FieldDescVertical/>
-		<FieldType/>
-		<FieldDimension>0</FieldDimension>
-		<FieldFileName>FileHdr</FieldFileName>
-		<FieldSeqNo>140</FieldSeqNo>
-		<FieldNotNull>N</FieldNotNull>
-		<DataClass/>
-		<Hidden/>
-		<IncludeScope>4</IncludeScope>
-	</FieldData>
 	<FieldData ID="16781646">
 		<LastChanged>2009-02-12T14:49:24</LastChanged>
 		<Deleted>N</Deleted>
@@ -1490,28 +1468,6 @@
 		<FieldDimension>0</FieldDimension>
 		<FieldFileName>FileHdr</FieldFileName>
 		<FieldSeqNo>70</FieldSeqNo>
-		<FieldNotNull>N</FieldNotNull>
-		<DataClass/>
-		<Hidden/>
-		<IncludeScope>4</IncludeScope>
-	</FieldData>
-	<FieldData ID="16781657">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
-		<Deleted>N</Deleted>
-		<FieldName>DisplayClass</FieldName>
-		<FieldClass>StringField</FieldClass>
-		<BaseFieldName/>
-		<DependentFieldName/>
-		<MinimumLength/>
-		<MaximumLength>40</MaximumLength>
-		<DefaultValue/>
-		<InitialValue/>
-		<FieldDescription>Display Class</FieldDescription>
-		<FieldDescVertical/>
-		<FieldType/>
-		<FieldDimension>0</FieldDimension>
-		<FieldFileName>FileHdr</FieldFileName>
-		<FieldSeqNo>130</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
 		<Hidden/>
@@ -3028,7 +2984,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>10</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3050,7 +3006,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3072,7 +3028,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>30</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3094,7 +3050,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>40</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3116,7 +3072,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>50</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3138,7 +3094,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>60</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3160,7 +3116,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>80</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3182,7 +3138,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>100</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3204,7 +3160,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>110</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3226,7 +3182,7 @@
 		<FieldDescVertical>Comment?</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>120</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3952,7 +3908,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>70</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3974,7 +3930,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layout</FieldFileName>
+		<FieldFileName>Layouts</FieldFileName>
 		<FieldSeqNo>130</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -9570,7 +9526,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784406">
-		<LastChanged>2012-10-27T21:38:40</LastChanged>
+		<LastChanged>2012-12-15T05:08:35</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ArchiveDirectory</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -9580,8 +9536,8 @@
 		<MaximumLength>127</MaximumLength>
 		<DefaultValue>old</DefaultValue>
 		<InitialValue>"src/main/resources/"</InitialValue>
-		<FieldDescription>Default archive path (location for import and export)</FieldDescription>
-		<FieldDescVertical>Archive path</FieldDescVertical>
+		<FieldDescription>Full path to archive directory (location for import and export)</FieldDescription>
+		<FieldDescVertical>Archive dir</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension/>
 		<FieldFileName>ProgramControl</FieldFileName>
@@ -13750,7 +13706,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784896">
-		<LastChanged>2010-02-16T03:53:43</LastChanged>
+		<LastChanged>2012-12-15T05:05:05</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ClassDirectory</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -13760,7 +13716,7 @@
 		<MaximumLength>127</MaximumLength>
 		<DefaultValue>old</DefaultValue>
 		<InitialValue>"target/classes/"</InitialValue>
-		<FieldDescription>Class directory (relative to project root)</FieldDescription>
+		<FieldDescription>Class path (relative to project root)</FieldDescription>
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension/>
@@ -14140,6 +14096,50 @@
 		<FieldDimension/>
 		<FieldFileName>FieldTypeField</FieldFileName>
 		<FieldSeqNo/>
+		<FieldNotNull/>
+		<DataClass/>
+		<Hidden/>
+		<IncludeScope>4</IncludeScope>
+	</FieldData>
+	<FieldData ID="16784914">
+		<LastChanged>2012-12-15T05:09:43</LastChanged>
+		<Deleted>N</Deleted>
+		<FieldName>DevArchiveDirectory</FieldName>
+		<FieldClass>StringField</FieldClass>
+		<BaseFieldName/>
+		<DependentFieldName/>
+		<MinimumLength/>
+		<MaximumLength/>
+		<DefaultValue/>
+		<InitialValue>"src/main/resources"</InitialValue>
+		<FieldDescription>Full path to development archive directory (location for import and export)</FieldDescription>
+		<FieldDescVertical>Dev arch. dir</FieldDescVertical>
+		<FieldType/>
+		<FieldDimension/>
+		<FieldFileName>ProgramControl</FieldFileName>
+		<FieldSeqNo>55</FieldSeqNo>
+		<FieldNotNull/>
+		<DataClass/>
+		<Hidden/>
+		<IncludeScope>4</IncludeScope>
+	</FieldData>
+	<FieldData ID="16784915">
+		<LastChanged>2012-12-16T10:31:09</LastChanged>
+		<Deleted>N</Deleted>
+		<FieldName>ResourcesDirectory</FieldName>
+		<FieldClass>StringField</FieldClass>
+		<BaseFieldName/>
+		<DependentFieldName/>
+		<MinimumLength/>
+		<MaximumLength>127</MaximumLength>
+		<DefaultValue/>
+		<InitialValue>"src/main/resources/"</InitialValue>
+		<FieldDescription>Resources path (relative to project root)</FieldDescription>
+		<FieldDescVertical>Resources path</FieldDescVertical>
+		<FieldType/>
+		<FieldDimension/>
+		<FieldFileName>ProgramControl</FieldFileName>
+		<FieldSeqNo>32</FieldSeqNo>
 		<FieldNotNull/>
 		<DataClass/>
 		<Hidden/>

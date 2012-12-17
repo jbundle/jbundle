@@ -192,6 +192,8 @@ public class BaseProcessRecords extends BaseProcess
                     continue;
                 if (recFileHdr.getField(FileHdr.DATABASE_NAME).isNull())
                     continue;
+                if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(recFileHdr.getField(FileHdr.DATABASE_NAME).toString()))
+                    continue;
         
                 recClassInfo.setKeyArea(ClassInfo.CLASS_NAME_KEY);
                 recClassInfo.getField(ClassInfo.CLASS_NAME).setString(strRecord);
@@ -238,7 +240,7 @@ public class BaseProcessRecords extends BaseProcess
                         if (strClassPackage != null)
                             if (!strClassPackage.matches(strPackage))
                                 continue;
-                    if (!"DatabaseInfo".equalsIgnoreCase(strRecord))
+                    if (!DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(strRecord))
                         continue;   // Hack
                     if ("USER_DATA".equalsIgnoreCase(this.getProperty("type")))
                        continue;       // User data doesn't have database info
@@ -278,15 +280,15 @@ public class BaseProcessRecords extends BaseProcess
         if (record == null)
             return null;
         
-        String strMode = this.getProperty("mode");
+        String strMode = this.getProperty(ExportRecordsToXmlProcess.TRANSFER_MODE);
         boolean bExport = false;
-        if (strMode != null) if (strMode.equalsIgnoreCase("export"))
+        if (strMode != null) if (strMode.equalsIgnoreCase(ExportRecordsToXmlProcess.EXPORT))
             bExport = true;
         
         if (bExport)
             record.setOpenMode(record.getOpenMode() | DBConstants.OPEN_DONT_CREATE);
         
-        //if (this.getProperty("locale") != null)
+        //if (this.getProperty(ExportRecordsToXmlProcess.LOCALE) != null)
         //    if (this.getRecord(FileHdr.FILE_HDR_FILE).getEditMode() == DBConstants.EDIT_CURRENT)
         //        strDBName = this.getRecord(FileHdr.FILE_HDR_FILE).getField(FileHdr.DATABASE_NAME).toString() + '_' + this.getProperty("locale");
         if (strDBName != null)

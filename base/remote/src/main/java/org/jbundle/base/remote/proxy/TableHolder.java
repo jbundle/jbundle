@@ -66,7 +66,7 @@ public class TableHolder extends SessionHolder
             if (OPEN.equals(strCommand))
             {
                 String strKeyArea = this.getNextStringParam(in, KEY, properties);
-                int iOpenMode = this.getNextIntParam(in, MODE, properties);
+                int iOpenMode = this.getNextIntParam(in, OPEN_MODE, properties);
                 boolean bDirection = this.getNextBooleanParam(in, DIRECTION, properties);
                 String strFields = this.getNextStringParam(in, FIELDS, properties);
                 Object objInitialKey = this.getNextObjectParam(in, INITIAL_KEY, properties);
@@ -77,26 +77,26 @@ public class TableHolder extends SessionHolder
             else if (ADD.equals(strCommand))
             {
                 Object objData = this.getNextObjectParam(in, DATA, properties);
-                int iOpenMode = this.getNextIntParam(in, MODE, properties);
+                int iOpenMode = this.getNextIntParam(in, OPEN_MODE, properties);
                 Object objReturn = ((RemoteTable)m_remoteObject).add(objData, iOpenMode);
                 this.setReturnObject(out, objReturn);
             }
             else if (EDIT.equals(strCommand))
             {
-                int iOpenMode = this.getNextIntParam(in, MODE, properties);
+                int iOpenMode = this.getNextIntParam(in, OPEN_MODE, properties);
                 int iErrorCode = ((RemoteTable)m_remoteObject).edit(iOpenMode);
                 this.setReturnObject(out, new Integer(iErrorCode));
             }
             else if (SET.equals(strCommand))
             {
                 Object objData = this.getNextObjectParam(in, DATA, properties);
-                int iOpenMode = this.getNextIntParam(in, MODE, properties);
+                int iOpenMode = this.getNextIntParam(in, OPEN_MODE, properties);
                 ((RemoteTable)m_remoteObject).set(objData, iOpenMode);
             }
             else if (REMOVE.equals(strCommand))
             {
                 Object objData = this.getNextObjectParam(in, DATA, properties);
-                int iOpenMode = this.getNextIntParam(in, MODE, properties);
+                int iOpenMode = this.getNextIntParam(in, OPEN_MODE, properties);
                 ((RemoteTable)m_remoteObject).remove(objData, iOpenMode);
             }
             else if (DO_MOVE.equals(strCommand))
@@ -109,7 +109,7 @@ public class TableHolder extends SessionHolder
             else if (SEEK.equals(strCommand))
             {
                 String strSeekSign = this.getNextStringParam(in, SIGN, properties);
-                int iOpenMode = this.getNextIntParam(in, MODE, properties);
+                int iOpenMode = this.getNextIntParam(in, OPEN_MODE, properties);
                 String strKeyArea = this.getNextStringParam(in, KEY, properties);
                 String strFields = this.getNextStringParam(in, FIELDS, properties);
                 Object objKeyData = this.getNextObjectParam(in, KEY_DATA, properties);
@@ -119,7 +119,7 @@ public class TableHolder extends SessionHolder
             else if (DO_SET_HANDLE.equals(strCommand))
             {
                 Object bookmark = this.getNextObjectParam(in, BOOKMARK, properties);
-                int iOpenMode = this.getNextIntParam(in, MODE, properties);
+                int iOpenMode = this.getNextIntParam(in, OPEN_MODE, properties);
                 String strFields = this.getNextStringParam(in, FIELDS, properties);
                 int iHandleType = this.getNextIntParam(in, TYPE, properties);
                 Object objReturn = ((RemoteTable)m_remoteObject).doSetHandle(bookmark, iOpenMode, strFields, iHandleType);

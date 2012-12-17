@@ -146,7 +146,7 @@
 	<KeyInfo ID="16777442">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
 		<Deleted>N</Deleted>
-		<KeyFilename>Layout</KeyFilename>
+		<KeyFilename>Layouts</KeyFilename>
 		<KeyNumber>1</KeyNumber>
 		<KeyField1>ID</KeyField1>
 		<KeyField2/>
@@ -164,7 +164,7 @@
 	<KeyInfo ID="16777443">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
 		<Deleted>N</Deleted>
-		<KeyFilename>Layout</KeyFilename>
+		<KeyFilename>Layouts</KeyFilename>
 		<KeyNumber>2</KeyNumber>
 		<KeyField1>ParentFolderID</KeyField1>
 		<KeyField2>Sequence</KeyField2>

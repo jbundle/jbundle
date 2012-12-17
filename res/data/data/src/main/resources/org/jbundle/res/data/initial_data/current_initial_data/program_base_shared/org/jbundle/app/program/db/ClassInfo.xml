@@ -255,7 +255,7 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777479">
-		<LastChanged>2012-11-29T18:31:22</LastChanged>
+		<LastChanged>2012-12-15T16:30:58</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassInfoScreen</ClassName>
 		<BaseClassName>DetailScreen</BaseClassName>
@@ -714,7 +714,7 @@
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777583">
-		<LastChanged>2012-07-18T23:41:02</LastChanged>
+		<LastChanged>2012-12-15T05:04:19</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>FileHdr</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
@@ -7675,7 +7675,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779196">
-		<LastChanged>2012-07-18T23:40:53</LastChanged>
+		<LastChanged>2012-12-16T10:32:04</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ProgramControl</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>
@@ -10171,7 +10171,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779617">
-		<LastChanged>2012-07-18T23:50:52</LastChanged>
+		<LastChanged>2012-12-15T05:50:13</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassProject</ClassName>
 		<BaseClassName>Folder</BaseClassName>
@@ -10256,7 +10256,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779627">
-		<LastChanged>2012-01-11T05:16:16</LastChanged>
+		<LastChanged>2012-12-16T08:59:27</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>DatabaseInfo</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>
@@ -10426,7 +10426,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779641">
-		<LastChanged>2010-02-05T11:20:01</LastChanged>
+		<LastChanged>2012-12-16T10:40:02</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseProcessRecords</ClassName>
 		<BaseClassName>BaseProcess</BaseClassName>
@@ -10443,7 +10443,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779642">
-		<LastChanged>2010-02-05T11:20:01</LastChanged>
+		<LastChanged>2012-12-16T09:02:58</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ExportRecordsToXmlProcess</ClassName>
 		<BaseClassName>BaseProcessRecords</BaseClassName>
@@ -10903,7 +10903,7 @@ then display the menu.</ClassExplain>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779671">
-		<LastChanged>2010-05-25T14:53:35</LastChanged>
+		<LastChanged>2012-12-16T08:58:03</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ImportXMLScanListener</ClassName>
 		<BaseClassName>BaseScanListener</BaseClassName>
@@ -11563,12 +11563,12 @@ previous date was oem]]></ClassDesc>
 	<ClassInfo ID="16779711">
 		<LastChanged>2012-07-18T23:42:08</LastChanged>
 		<Deleted>N</Deleted>
-		<ClassName>Layout</ClassName>
+		<ClassName>Layouts</ClassName>
 		<BaseClassName>Folder</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
-		<ClassSourceFile>Layout</ClassSourceFile>
+		<ClassSourceFile>Layouts</ClassSourceFile>
 		<ClassType>Record</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>

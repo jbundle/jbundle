@@ -1,5 +1,5 @@
 /**
- * @(#)Layout.
+ * @(#)Layouts.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -13,28 +13,28 @@ import org.jbundle.thin.base.db.*;
 import org.jbundle.thin.main.db.*;
 import org.jbundle.model.app.program.db.*;
 
-public class Layout extends Folder
-    implements LayoutModel
+public class Layouts extends Folder
+    implements LayoutsModel
 {
     private static final long serialVersionUID = 1L;
 
 
-    public Layout()
+    public Layouts()
     {
         super();
     }
-    public Layout(Object recordOwner)
+    public Layouts(Object recordOwner)
     {
         this();
         this.init(recordOwner);
     }
-    public static final String LAYOUT_FILE = "Layout";
+    public static final String LAYOUTS_FILE = "Layouts";
     /**
      *  Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Layout.LAYOUT_FILE : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Layouts.LAYOUTS_FILE : super.getTableNames(bAddQuotes);
     }
     /**
      *  Get the Database Name.

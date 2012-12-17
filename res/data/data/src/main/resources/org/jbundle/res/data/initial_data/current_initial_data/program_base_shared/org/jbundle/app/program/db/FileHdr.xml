@@ -9,8 +9,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled>Field</FileRecCalled>
-		<DisplayClass>ClassFieldsGridScreen</DisplayClass>
-		<MaintClass>ClassFieldsScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777274">
 		<LastChanged>2010-02-03T11:11:38</LastChanged>
@@ -22,8 +20,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled>Class</FileRecCalled>
-		<DisplayClass>ClassInfoGridScreen</DisplayClass>
-		<MaintClass>ClassInfoScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777294">
 		<LastChanged>2009-10-14T20:59:28</LastChanged>
@@ -35,8 +31,6 @@
 		<FileNotes>Yes</FileNotes>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled>Field</FileRecCalled>
-		<DisplayClass>FieldDataGridScreen</DisplayClass>
-		<MaintClass>FieldDataScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777295">
 		<LastChanged>2009-10-14T20:59:50</LastChanged>
@@ -48,8 +42,6 @@
 		<FileNotes>Yes</FileNotes>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled>File</FileRecCalled>
-		<DisplayClass/>
-		<MaintClass>FileHdrScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777312">
 		<LastChanged>2009-10-14T21:00:10</LastChanged>
@@ -61,21 +53,17 @@
 		<FileNotes>Yes</FileNotes>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled>Key</FileRecCalled>
-		<DisplayClass>KeyInfoGridScreen</DisplayClass>
-		<MaintClass>KeyInfoScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777318">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
 		<Deleted>N</Deleted>
-		<FileName>Layout</FileName>
+		<FileName>Layouts</FileName>
 		<FileDesc>Layout for Corba</FileDesc>
-		<FileMainFilename>Layout</FileMainFilename>
+		<FileMainFilename>Layouts</FileMainFilename>
 		<Type>REMOTE | USER_DATA</Type>
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled>Layout</FileRecCalled>
-		<DisplayClass>LayoutGridScreen</DisplayClass>
-		<MaintClass>LayoutScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777319">
 		<LastChanged>2009-10-14T21:00:28</LastChanged>
@@ -87,8 +75,6 @@
 		<FileNotes>Yes</FileNotes>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled>Logic</FileRecCalled>
-		<DisplayClass>LogicFileGridScreen</DisplayClass>
-		<MaintClass>LogicFileScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777323">
 		<LastChanged>2009-11-18T15:15:39</LastChanged>
@@ -100,8 +86,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>Menu</FileRecCalled>
-		<DisplayClass>MenuScreen</DisplayClass>
-		<MaintClass>MenuScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777324">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -113,8 +97,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>Message</FileRecCalled>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777351">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -126,8 +108,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled>Registration</FileRecCalled>
-		<DisplayClass>RegistrationGridScreen</DisplayClass>
-		<MaintClass>RegistrationScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777361">
 		<LastChanged>2009-10-14T21:00:44</LastChanged>
@@ -139,8 +119,6 @@
 		<FileNotes>Yes</FileNotes>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled>Screen</FileRecCalled>
-		<DisplayClass>ScreenInGridScreen</DisplayClass>
-		<MaintClass>ScreenInScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777393">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -152,8 +130,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>User</FileRecCalled>
-		<DisplayClass>UserInfoGridScreen</DisplayClass>
-		<MaintClass>UserEntryScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777398">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -165,8 +141,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>User Registration</FileRecCalled>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777403">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -178,8 +152,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled>Class Resource</FileRecCalled>
-		<DisplayClass>ClassResourceGridScreen</DisplayClass>
-		<MaintClass>ClassResourceScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777404">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -191,8 +163,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>Folder</FileRecCalled>
-		<DisplayClass>FolderGridScreen</DisplayClass>
-		<MaintClass>FolderScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777405">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -204,8 +174,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777409">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -217,8 +185,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777413">
 		<LastChanged>2012-01-15T11:00:27</LastChanged>
@@ -230,8 +196,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>Appointment</FileRecCalled>
-		<DisplayClass>AppointmentGridScreen</DisplayClass>
-		<MaintClass>AppointmentScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777414">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -243,8 +207,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>Entry</FileRecCalled>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777415">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -256,8 +218,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>Anniversary</FileRecCalled>
-		<DisplayClass>AnnivMasterGridScreen</DisplayClass>
-		<MaintClass>AnnivMasterScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777416">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -269,8 +229,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>Interval</FileRecCalled>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777454">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -282,8 +240,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>Message detail specifications</FileRecCalled>
-		<DisplayClass>MessageDetailGridScreen</DisplayClass>
-		<MaintClass>MessageDetailScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777455">
 		<LastChanged>2010-03-18T16:00:48</LastChanged>
@@ -295,8 +251,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777456">
 		<LastChanged>2009-11-18T21:45:18</LastChanged>
@@ -308,8 +262,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777457">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -321,8 +273,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>MessageInfoGridScreen</DisplayClass>
-		<MaintClass>MessageInfoScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777458">
 		<LastChanged>2009-11-18T21:45:20</LastChanged>
@@ -334,8 +284,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777459">
 		<LastChanged>2009-07-11T03:18:19</LastChanged>
@@ -347,8 +295,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>Message</FileRecCalled>
-		<DisplayClass>MessageLogGridScreen</DisplayClass>
-		<MaintClass>MessageLogScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777468">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -360,8 +306,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>ScriptScreen</DisplayClass>
-		<MaintClass>ScriptGridScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777469">
 		<LastChanged>2009-10-14T20:58:47</LastChanged>
@@ -373,8 +317,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>ClassIncludesGridScreen</DisplayClass>
-		<MaintClass>ClassIncludesScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777470">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -386,8 +328,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>PackagesGridScreen</DisplayClass>
-		<MaintClass>PackagesScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777471">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -399,8 +339,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777473">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -412,8 +350,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>JnlpFileGridScreen</DisplayClass>
-		<MaintClass>JnlpFileScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777486">
 		<LastChanged>2009-11-18T21:45:31</LastChanged>
@@ -425,8 +361,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777487">
 		<LastChanged>2009-11-18T21:45:34</LastChanged>
@@ -438,8 +372,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777488">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -451,8 +383,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>MessageProcessInfoGridScreen</DisplayClass>
-		<MaintClass>MessageProcessInfoScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777489">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -464,8 +394,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>MessageTransportInfoGridScreen</DisplayClass>
-		<MaintClass>MessageTransportInfoScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777490">
 		<LastChanged>2009-11-18T21:45:35</LastChanged>
@@ -477,8 +405,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777491">
 		<LastChanged>2009-11-18T21:45:38</LastChanged>
@@ -490,8 +416,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777514">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -503,8 +427,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>ResourceScreen</DisplayClass>
-		<MaintClass>ResourceGridScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777517">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -516,8 +438,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled>Issue</FileRecCalled>
-		<DisplayClass>IssueGridScreen</DisplayClass>
-		<MaintClass>IssueScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777518">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -529,8 +449,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>ProjectGridScreen</DisplayClass>
-		<MaintClass>ProjectScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777520">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -542,8 +460,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777521">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -555,8 +471,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777522">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -568,8 +482,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777525">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -581,8 +493,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777526">
 		<LastChanged>2009-02-12T17:56:50</LastChanged>
@@ -594,8 +504,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777527">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -607,8 +515,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>IssueHistoryGridScreen</DisplayClass>
-		<MaintClass>IssueHistoryScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777528">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -620,8 +526,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>ProjectTaskGridScreen</DisplayClass>
-		<MaintClass>ProjectTaskScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777529">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -633,8 +537,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777530">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -646,8 +548,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>ProjectTaskPredecessorGridScreen</DisplayClass>
-		<MaintClass>ProjectTaskPredecessorScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777531">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -659,8 +559,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777532">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -672,8 +570,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>Properties</FileRecCalled>
-		<DisplayClass>PropertiesInputGridScreen</DisplayClass>
-		<MaintClass>PropertiesInputGridScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777534">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -685,8 +581,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777535">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -698,8 +592,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777536">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -711,8 +603,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled>Queue</FileRecCalled>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777547">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -724,8 +614,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>UserGroupGridScreen</DisplayClass>
-		<MaintClass>UserGroupScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777548">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -737,8 +625,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass>UserResourceGridScreen</DisplayClass>
-		<MaintClass>UserResourceScreen</MaintClass>
 	</FileHdr>
 	<FileHdr ID="16777549">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -750,8 +636,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777550">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -763,8 +647,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777551">
 		<LastChanged>2009-07-11T03:18:58</LastChanged>
@@ -776,8 +658,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777552">
 		<LastChanged>2009-11-18T21:46:24</LastChanged>
@@ -789,8 +669,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777556">
 		<LastChanged>2009-10-14T20:57:30</LastChanged>
@@ -802,8 +680,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777557">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -815,8 +691,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777561">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -828,8 +702,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777568">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
@@ -841,8 +713,6 @@
 		<FileNotes>Empty as in 'no fields'</FileNotes>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777572">
 		<LastChanged>2009-11-18T23:05:40</LastChanged>
@@ -854,8 +724,6 @@
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777573">
 		<LastChanged>2012-08-29T14:10:59</LastChanged>
@@ -867,8 +735,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777574">
 		<LastChanged>2012-01-11T05:52:11</LastChanged>
@@ -880,8 +746,6 @@
 		<FileNotes>This table can be in any database</FileNotes>
 		<DatabaseName>DatabaseInfo</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777575">
 		<LastChanged>2010-02-19T12:39:04</LastChanged>
@@ -893,8 +757,6 @@
 		<FileNotes/>
 		<DatabaseName>main</DatabaseName>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 	<FileHdr ID="16777576">
 		<LastChanged>2012-11-01T16:41:21</LastChanged>
@@ -906,7 +768,5 @@
 		<FileNotes/>
 		<DatabaseName/>
 		<FileRecCalled/>
-		<DisplayClass/>
-		<MaintClass/>
 	</FileHdr>
 </file>

@@ -1,5 +1,5 @@
 /**
- * @(#)Layout.
+ * @(#)Layouts.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -25,24 +25,24 @@ import org.jbundle.main.db.*;
 import org.jbundle.model.app.program.db.*;
 
 /**
- *  Layout - .
+ *  Layouts - .
  */
-public class Layout extends Folder
-     implements LayoutModel
+public class Layouts extends Folder
+     implements LayoutsModel
 {
     private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
      */
-    public Layout()
+    public Layouts()
     {
         super();
     }
     /**
      * Constructor.
      */
-    public Layout(RecordOwner screen)
+    public Layouts(RecordOwner screen)
     {
         this();
         this.init(screen);
@@ -59,7 +59,7 @@ public class Layout extends Folder
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(LAYOUT_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(LAYOUTS_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.

@@ -53,6 +53,7 @@ import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
 import org.jbundle.thin.base.thread.AutoTask;
 import org.jbundle.thin.base.util.Application;
+import org.jbundle.thin.main.db.DatabaseInfo;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -317,7 +318,7 @@ public class XmlInOut extends BaseProcess
             else if (databaseName.endsWith(BaseDatabase.SHARED_SUFFIX))
                 databaseName = databaseName.substring(0, databaseName.length() - BaseDatabase.SHARED_SUFFIX.length());
         }
-        if (!"DatabaseInfo".equalsIgnoreCase(strRecordClassName))
+        if (!DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(strRecordClassName))
         {
         	BaseDatabase database = null;
             if ((databaseName != null) && (databaseName.length() > 0))
