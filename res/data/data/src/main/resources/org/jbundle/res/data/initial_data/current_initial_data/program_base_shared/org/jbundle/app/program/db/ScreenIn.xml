@@ -630,7 +630,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutGridScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>10</ScreenItemNumber>
-		<ScreenFileName>Layouts</ScreenFileName>
+		<ScreenFileName>Layout</ScreenFileName>
 		<ScreenFieldName>Sequence</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -648,7 +648,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutGridScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>20</ScreenItemNumber>
-		<ScreenFileName>Layouts</ScreenFileName>
+		<ScreenFileName>Layout</ScreenFileName>
 		<ScreenFieldName>Name</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -666,7 +666,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutGridScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>30</ScreenItemNumber>
-		<ScreenFileName>Layouts</ScreenFileName>
+		<ScreenFileName>Layout</ScreenFileName>
 		<ScreenFieldName>Type</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -684,7 +684,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>10</ScreenItemNumber>
-		<ScreenFileName>Layouts</ScreenFileName>
+		<ScreenFileName>Layout</ScreenFileName>
 		<ScreenFieldName>Name</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -702,7 +702,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>20</ScreenItemNumber>
-		<ScreenFileName>Layouts</ScreenFileName>
+		<ScreenFileName>Layout</ScreenFileName>
 		<ScreenFieldName>Type</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -720,7 +720,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>30</ScreenItemNumber>
-		<ScreenFileName>Layouts</ScreenFileName>
+		<ScreenFileName>Layout</ScreenFileName>
 		<ScreenFieldName>FieldValue</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -738,7 +738,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>40</ScreenItemNumber>
-		<ScreenFileName>Layouts</ScreenFileName>
+		<ScreenFileName>Layout</ScreenFileName>
 		<ScreenFieldName>ReturnsValue</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -751,13 +751,13 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenControlType/>
 	</ScreenIn>
 	<ScreenIn ID="16778384">
-		<LastChanged>2009-02-12T14:49:22</LastChanged>
+		<LastChanged>2012-12-17T09:51:42</LastChanged>
 		<Deleted>N</Deleted>
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>50</ScreenItemNumber>
-		<ScreenFileName>Layouts</ScreenFileName>
-		<ScreenFieldName>Max</ScreenFieldName>
+		<ScreenFileName>Layout</ScreenFileName>
+		<ScreenFieldName>Maximum</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
 		<ScreenGroup/>
@@ -774,7 +774,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>60</ScreenItemNumber>
-		<ScreenFileName>Layouts</ScreenFileName>
+		<ScreenFileName>Layout</ScreenFileName>
 		<ScreenFieldName>Sequence</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>
@@ -792,7 +792,7 @@ for (int fieldSeq = query.getFieldSeq(FieldData.MINIMUM_LENGTH); fieldSeq <= que
 		<ScreenInProgName>LayoutScreen</ScreenInProgName>
 		<ScreenOutNumber>0</ScreenOutNumber>
 		<ScreenItemNumber>70</ScreenItemNumber>
-		<ScreenFileName>Layouts</ScreenFileName>
+		<ScreenFileName>Layout</ScreenFileName>
 		<ScreenFieldName>Comment</ScreenFieldName>
 		<ScreenRow>0</ScreenRow>
 		<ScreenCol>0</ScreenCol>

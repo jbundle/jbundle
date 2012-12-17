@@ -21,8 +21,8 @@ public interface LayoutModel extends FolderModel
     public static final String TYPE = "Type";
     public static final String FIELD_VALUE = "FieldValue";
     public static final String RETURNS_VALUE = "ReturnsValue";
-    public static final String MAX = "Max";
-    public static final String SYSTEM = "System";
+    public static final String MAXIMUM = "Maximum";
+    public static final String SYSTEM_NAME = "SystemName";
     public static final String COMMENTS = "Comments";
     public static final String LAYOUT_SCREEN_CLASS = "org.jbundle.app.program.screen.LayoutScreen";
     public static final String LAYOUT_GRID_SCREEN_CLASS = "org.jbundle.app.program.screen.LayoutGridScreen";

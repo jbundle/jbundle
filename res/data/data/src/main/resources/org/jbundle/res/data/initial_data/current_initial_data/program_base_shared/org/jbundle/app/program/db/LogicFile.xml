@@ -2001,7 +2001,7 @@ this.getMainRecord().getField(KeyInfo.KEY_NUMBER).addListener(fieldBeh);
 		<LogicDescription/>
 		<MethodReturns/>
 		<MethodInterface/>
-		<MethodClassName>Layouts</MethodClassName>
+		<MethodClassName>Layout</MethodClassName>
 		<LogicSource><![CDATA[ScreenParent screen = null;
 if ((iDocMode & ScreenConstants.DOC_MODE_MASK) == ScreenConstants.DETAIL_MODE)
     screen = Record.makeNewScreen(LAYOUT_GRID_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
@@ -2109,7 +2109,7 @@ else
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>LayoutGridScreen</MethodClassName>
-		<LogicSource>return new Layouts(this);</LogicSource>
+		<LogicSource>return new Layout(this);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -2146,10 +2146,10 @@ if (out == null)
 	bFirstTime = true;
 	if (recLayout == null)
 	{
-		recLayout = new Layouts((Record.findRecordOwner(null)));
+		recLayout = new Layout((Record.findRecordOwner(null)));
 		bNewRecord = true;
 	}
-	recLayout.getField(Layouts.ID).setValue(1);
+	recLayout.getField(Layout.ID).setValue(1);
 	try	{
 		if (!recLayout.seek("="))
 		{	// Error - top level not found?
@@ -2158,7 +2158,7 @@ if (out == null)
 		ex.printStackTrace();
 		return;
 	}
-	String strFileName = recLayout.getField(Layouts.NAME).toString() + ".idl";
+	String strFileName = recLayout.getField(Layout.NAME).toString() + ".idl";
 	try	{
 		FileOutputStream outStream = new FileOutputStream(strFileName);
 		BufferedOutputStream buffOut = new BufferedOutputStream(outStream);
@@ -2196,7 +2196,7 @@ if (bNewRecord)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778594">
-		<LastChanged>2012-01-26T23:22:44</LastChanged>
+		<LastChanged>2012-12-17T09:54:50</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>110</Sequence>
 		<MethodName>printIt</MethodName>
@@ -2205,12 +2205,12 @@ if (bNewRecord)
 		<MethodInterface>Record recLayout, PrintWriter out, int iIndents, String strEnd</MethodInterface>
 		<MethodClassName>LayoutPrint</MethodClassName>
 		<LogicSource><![CDATA[// Print out the current record
-String strName = recLayout.getField(Layouts.NAME).toString();
-String strType = recLayout.getField(Layouts.TYPE).toString();
-String strValue = recLayout.getField(Layouts.FIELD_VALUE).toString();
-String strReturns = recLayout.getField(Layouts.RETURNS_VALUE).toString();
-String strMax = recLayout.getField(Layouts.MAX).toString();
-String strDescription = recLayout.getField(Layouts.COMMENT).toString();
+String strName = recLayout.getField(Layout.NAME).toString();
+String strType = recLayout.getField(Layout.TYPE).toString();
+String strValue = recLayout.getField(Layout.FIELD_VALUE).toString();
+String strReturns = recLayout.getField(Layout.RETURNS_VALUE).toString();
+String strMax = recLayout.getField(Layout.MAXIMUM).toString();
+String strDescription = recLayout.getField(Layout.COMMENT).toString();
 boolean bLoop = false;
 if ((strType.equalsIgnoreCase("module")) ||
 	(strType.equalsIgnoreCase("enum")) ||
@@ -2224,8 +2224,8 @@ if (bLoop)
 	if (strType.equalsIgnoreCase("enum"))
 		strEndLoop = null;
 	this.println(out, "{", null, iIndents, "");
-	Layouts recLayoutLoop = new Layouts(recLayout.findRecordOwner());
-	recLayoutLoop.setKeyArea(Layouts.PARENT_FOLDER_ID_KEY);
+	Layout recLayoutLoop = new Layout(recLayout.findRecordOwner());
+	recLayoutLoop.setKeyArea(Layout.PARENT_FOLDER_ID_KEY);
 	recLayoutLoop.addListener(new SubFileFilter(recLayout));
 	try	{
 		boolean bFirstLoop = true;
@@ -2297,7 +2297,7 @@ else
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>LayoutScreen</MethodClassName>
-		<LogicSource>return new Layouts(this);</LogicSource>
+		<LogicSource>return new Layout(this);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>

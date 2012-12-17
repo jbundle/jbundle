@@ -1,5 +1,5 @@
 /**
- * @(#)Layouts.
+ * @(#)Layout.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -13,28 +13,28 @@ import org.jbundle.thin.base.db.*;
 import org.jbundle.thin.main.db.*;
 import org.jbundle.model.app.program.db.*;
 
-public class Layouts extends Folder
-    implements LayoutsModel
+public class Layout extends Folder
+    implements LayoutModel
 {
     private static final long serialVersionUID = 1L;
 
 
-    public Layouts()
+    public Layout()
     {
         super();
     }
-    public Layouts(Object recordOwner)
+    public Layout(Object recordOwner)
     {
         this();
         this.init(recordOwner);
     }
-    public static final String LAYOUTS_FILE = "Layouts";
+    public static final String LAYOUT_FILE = "Layout";
     /**
      *  Get the table name.
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Layouts.LAYOUTS_FILE : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Layout.LAYOUT_FILE : super.getTableNames(bAddQuotes);
     }
     /**
      *  Get the Database Name.
@@ -75,9 +75,9 @@ public class Layouts extends Folder
         field = new FieldInfo(this, TYPE, 50, null, null);
         field = new FieldInfo(this, FIELD_VALUE, 255, null, null);
         field = new FieldInfo(this, RETURNS_VALUE, 50, null, null);
-        field = new FieldInfo(this, MAX, 10, null, null);
+        field = new FieldInfo(this, MAXIMUM, 10, null, null);
         field.setDataClass(Integer.class);
-        field = new FieldInfo(this, SYSTEM, 30, null, null);
+        field = new FieldInfo(this, SYSTEM_NAME, 30, null, null);
         field = new FieldInfo(this, COMMENTS, 10, null, null);
         field.setDataClass(Boolean.class);
     }

@@ -999,7 +999,7 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777695">
-		<LastChanged>2010-02-05T11:19:48</LastChanged>
+		<LastChanged>2012-12-17T09:54:56</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>LayoutPrint</ClassName>
 		<BaseClassName>Object</BaseClassName>
@@ -3268,7 +3268,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778167">
-		<LastChanged>2010-02-05T11:19:50</LastChanged>
+		<LastChanged>2012-12-17T09:51:55</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>LayoutScreen</ClassName>
 		<BaseClassName>FolderScreen</BaseClassName>
@@ -11563,12 +11563,12 @@ previous date was oem]]></ClassDesc>
 	<ClassInfo ID="16779711">
 		<LastChanged>2012-07-18T23:42:08</LastChanged>
 		<Deleted>N</Deleted>
-		<ClassName>Layouts</ClassName>
+		<ClassName>Layout</ClassName>
 		<BaseClassName>Folder</BaseClassName>
 		<ClassDesc/>
 		<ClassProjectID>16,777,328</ClassProjectID>
 		<ClassPackage>.db</ClassPackage>
-		<ClassSourceFile>Layouts</ClassSourceFile>
+		<ClassSourceFile>Layout</ClassSourceFile>
 		<ClassType>Record</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>

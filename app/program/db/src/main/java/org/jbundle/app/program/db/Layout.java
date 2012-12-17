@@ -1,5 +1,5 @@
 /**
- * @(#)Layouts.
+ * @(#)Layout.
  * Copyright © 2012 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
@@ -25,24 +25,24 @@ import org.jbundle.main.db.*;
 import org.jbundle.model.app.program.db.*;
 
 /**
- *  Layouts - .
+ *  Layout - .
  */
-public class Layouts extends Folder
-     implements LayoutsModel
+public class Layout extends Folder
+     implements LayoutModel
 {
     private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor.
      */
-    public Layouts()
+    public Layout()
     {
         super();
     }
     /**
      * Constructor.
      */
-    public Layouts(RecordOwner screen)
+    public Layout(RecordOwner screen)
     {
         this();
         this.init(screen);
@@ -59,7 +59,7 @@ public class Layouts extends Folder
      */
     public String getTableNames(boolean bAddQuotes)
     {
-        return (m_tableName == null) ? Record.formatTableNames(LAYOUTS_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
+        return (m_tableName == null) ? Record.formatTableNames(LAYOUT_FILE, bAddQuotes) : super.getTableNames(bAddQuotes);
     }
     /**
      * Get the name of a single record.
@@ -134,9 +134,9 @@ public class Layouts extends Folder
         if (iFieldSeq == 10)
             field = new StringField(this, RETURNS_VALUE, 50, null, null);
         if (iFieldSeq == 11)
-            field = new IntegerField(this, MAX, Constants.DEFAULT_FIELD_LENGTH, null, null);
+            field = new IntegerField(this, MAXIMUM, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 12)
-            field = new StringField(this, SYSTEM, 30, null, null);
+            field = new StringField(this, SYSTEM_NAME, 30, null, null);
         if (iFieldSeq == 13)
             field = new BooleanField(this, COMMENTS, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)

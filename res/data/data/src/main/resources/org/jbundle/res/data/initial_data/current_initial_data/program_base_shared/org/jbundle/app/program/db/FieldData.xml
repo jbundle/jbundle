@@ -17,7 +17,7 @@
 		<FieldFileName>Person</FieldFileName>
 		<FieldSeqNo>30</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
-		<DataClass/>
+		<DataClass>String</DataClass>
 		<Hidden/>
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
@@ -3006,7 +3006,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layouts</FieldFileName>
+		<FieldFileName>Layout</FieldFileName>
 		<FieldSeqNo>20</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3028,7 +3028,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layouts</FieldFileName>
+		<FieldFileName>Layout</FieldFileName>
 		<FieldSeqNo>30</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3050,7 +3050,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layouts</FieldFileName>
+		<FieldFileName>Layout</FieldFileName>
 		<FieldSeqNo>40</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3072,7 +3072,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layouts</FieldFileName>
+		<FieldFileName>Layout</FieldFileName>
 		<FieldSeqNo>50</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3080,9 +3080,9 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16782812">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-12-17T09:43:38</LastChanged>
 		<Deleted>N</Deleted>
-		<FieldName>Max</FieldName>
+		<FieldName>Maximum</FieldName>
 		<FieldClass>IntegerField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
@@ -3094,7 +3094,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layouts</FieldFileName>
+		<FieldFileName>Layout</FieldFileName>
 		<FieldSeqNo>60</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3116,7 +3116,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layouts</FieldFileName>
+		<FieldFileName>Layout</FieldFileName>
 		<FieldSeqNo>80</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3138,7 +3138,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layouts</FieldFileName>
+		<FieldFileName>Layout</FieldFileName>
 		<FieldSeqNo>100</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3146,9 +3146,9 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16782817">
-		<LastChanged>2009-02-12T14:49:24</LastChanged>
+		<LastChanged>2012-12-17T09:43:55</LastChanged>
 		<Deleted>N</Deleted>
-		<FieldName>System</FieldName>
+		<FieldName>SystemName</FieldName>
 		<FieldClass>StringField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
@@ -3160,7 +3160,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layouts</FieldFileName>
+		<FieldFileName>Layout</FieldFileName>
 		<FieldSeqNo>110</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3182,7 +3182,7 @@
 		<FieldDescVertical>Comment?</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layouts</FieldFileName>
+		<FieldFileName>Layout</FieldFileName>
 		<FieldSeqNo>120</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3908,7 +3908,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layouts</FieldFileName>
+		<FieldFileName>Layout</FieldFileName>
 		<FieldSeqNo>70</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>
@@ -3930,7 +3930,7 @@
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension>0</FieldDimension>
-		<FieldFileName>Layouts</FieldFileName>
+		<FieldFileName>Layout</FieldFileName>
 		<FieldSeqNo>130</FieldSeqNo>
 		<FieldNotNull>N</FieldNotNull>
 		<DataClass/>

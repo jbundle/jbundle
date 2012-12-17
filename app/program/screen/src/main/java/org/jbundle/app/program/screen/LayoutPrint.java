@@ -57,10 +57,10 @@ public class LayoutPrint extends Object
             bFirstTime = true;
             if (recLayout == null)
             {
-                recLayout = new Layouts((Record.findRecordOwner(null)));
+                recLayout = new Layout((Record.findRecordOwner(null)));
                 bNewRecord = true;
             }
-            recLayout.getField(Layouts.ID).setValue(1);
+            recLayout.getField(Layout.ID).setValue(1);
             try   {
                 if (!recLayout.seek("="))
                 { // Error - top level not found?
@@ -69,7 +69,7 @@ public class LayoutPrint extends Object
                 ex.printStackTrace();
                 return;
             }
-            String strFileName = recLayout.getField(Layouts.NAME).toString() + ".idl";
+            String strFileName = recLayout.getField(Layout.NAME).toString() + ".idl";
             try   {
                 FileOutputStream outStream = new FileOutputStream(strFileName);
                 BufferedOutputStream buffOut = new BufferedOutputStream(outStream);
@@ -93,12 +93,12 @@ public class LayoutPrint extends Object
     public void printIt(Record recLayout, PrintWriter out, int iIndents, String strEnd)
     {
         // Print out the current record
-        String strName = recLayout.getField(Layouts.NAME).toString();
-        String strType = recLayout.getField(Layouts.TYPE).toString();
-        String strValue = recLayout.getField(Layouts.FIELD_VALUE).toString();
-        String strReturns = recLayout.getField(Layouts.RETURNS_VALUE).toString();
-        String strMax = recLayout.getField(Layouts.MAX).toString();
-        String strDescription = recLayout.getField(Layouts.COMMENT).toString();
+        String strName = recLayout.getField(Layout.NAME).toString();
+        String strType = recLayout.getField(Layout.TYPE).toString();
+        String strValue = recLayout.getField(Layout.FIELD_VALUE).toString();
+        String strReturns = recLayout.getField(Layout.RETURNS_VALUE).toString();
+        String strMax = recLayout.getField(Layout.MAXIMUM).toString();
+        String strDescription = recLayout.getField(Layout.COMMENT).toString();
         boolean bLoop = false;
         if ((strType.equalsIgnoreCase("module")) ||
             (strType.equalsIgnoreCase("enum")) ||
@@ -112,8 +112,8 @@ public class LayoutPrint extends Object
             if (strType.equalsIgnoreCase("enum"))
                 strEndLoop = null;
             this.println(out, "{", null, iIndents, "");
-            Layouts recLayoutLoop = new Layouts(recLayout.findRecordOwner());
-            recLayoutLoop.setKeyArea(Layouts.PARENT_FOLDER_ID_KEY);
+            Layout recLayoutLoop = new Layout(recLayout.findRecordOwner());
+            recLayoutLoop.setKeyArea(Layout.PARENT_FOLDER_ID_KEY);
             recLayoutLoop.addListener(new SubFileFilter(recLayout));
             try   {
                 boolean bFirstLoop = true;

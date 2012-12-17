@@ -229,7 +229,7 @@
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>LayoutScreen</ClassInfoClassName>
 		<ClassInfoID/>
-		<ClassFieldClass>Layouts</ClassFieldClass>
+		<ClassFieldClass>Layout</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -274,7 +274,7 @@
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>LayoutPrint</ClassInfoClassName>
 		<ClassInfoID/>
-		<ClassFieldClass>Layouts</ClassFieldClass>
+		<ClassFieldClass>Layout</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -394,7 +394,7 @@
 		<Deleted>N</Deleted>
 		<ClassInfoClassName>LayoutGridScreen</ClassInfoClassName>
 		<ClassInfoID/>
-		<ClassFieldClass>Layouts</ClassFieldClass>
+		<ClassFieldClass>Layout</ClassFieldClass>
 		<ClassFieldSequence>0</ClassFieldSequence>
 		<ClassFieldName/>
 		<ClassFieldDesc/>
@@ -11288,7 +11288,7 @@
 	<ClassFields ID="16782515">
 		<LastChanged>2012-01-15T11:32:37</LastChanged>
 		<Deleted>N</Deleted>
-		<ClassInfoClassName>Layouts</ClassInfoClassName>
+		<ClassInfoClassName>Layout</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>LayoutScreen</ClassFieldClass>
 		<ClassFieldSequence>1,000</ClassFieldSequence>
@@ -11303,7 +11303,7 @@
 	<ClassFields ID="16782516">
 		<LastChanged>2012-01-15T11:32:37</LastChanged>
 		<Deleted>N</Deleted>
-		<ClassInfoClassName>Layouts</ClassInfoClassName>
+		<ClassInfoClassName>Layout</ClassInfoClassName>
 		<ClassInfoID/>
 		<ClassFieldClass>LayoutGridScreen</ClassFieldClass>
 		<ClassFieldSequence>1,010</ClassFieldSequence>

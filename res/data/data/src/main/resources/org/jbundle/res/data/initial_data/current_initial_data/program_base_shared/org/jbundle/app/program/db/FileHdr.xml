@@ -57,9 +57,9 @@
 	<FileHdr ID="16777318">
 		<LastChanged>2009-02-12T14:49:30</LastChanged>
 		<Deleted>N</Deleted>
-		<FileName>Layouts</FileName>
+		<FileName>Layout</FileName>
 		<FileDesc>Layout for Corba</FileDesc>
-		<FileMainFilename>Layouts</FileMainFilename>
+		<FileMainFilename>Layout</FileMainFilename>
 		<Type>REMOTE | USER_DATA</Type>
 		<FileNotes/>
 		<DatabaseName>program</DatabaseName>

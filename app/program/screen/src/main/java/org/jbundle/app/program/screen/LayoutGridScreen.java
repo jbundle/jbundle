@@ -74,7 +74,7 @@ public class LayoutGridScreen extends FolderGridScreen
      */
     public Record openMainRecord()
     {
-        return new Layouts(this);
+        return new Layout(this);
     }
     /**
      * Add the navigation button(s) to the left of the grid row.
@@ -97,9 +97,9 @@ public class LayoutGridScreen extends FolderGridScreen
      */
     public void setupSFields()
     {
-        this.getRecord(Layouts.LAYOUTS_FILE).getField(Layouts.SEQUENCE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(Layouts.LAYOUTS_FILE).getField(Layouts.NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
-        this.getRecord(Layouts.LAYOUTS_FILE).getField(Layouts.TYPE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(Layout.LAYOUT_FILE).getField(Layout.SEQUENCE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(Layout.LAYOUT_FILE).getField(Layout.NAME).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
+        this.getRecord(Layout.LAYOUT_FILE).getField(Layout.TYPE).setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, ScreenConstants.DEFAULT_DISPLAY);
     }
     /**
      * Make a sub-screen.
