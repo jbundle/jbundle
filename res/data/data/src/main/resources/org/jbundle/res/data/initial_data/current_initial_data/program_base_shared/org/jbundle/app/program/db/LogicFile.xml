@@ -810,7 +810,7 @@ dateChangedHandler.setOnFieldChange(true);]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778031">
-		<LastChanged>2012-12-15T16:30:51</LastChanged>
+		<LastChanged>2012-12-18T18:11:26</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>70</Sequence>
 		<MethodName>addToolbars</MethodName>
@@ -841,17 +841,11 @@ pJavaButton.setClassInfo((ClassInfo)mainFile);
 //new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "File header", MenuConstants.FORM, "?screen=" + FileHdrScreen.class.getName(), null);
 new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Database info", MenuConstants.FORM, "?screen=" + DatabaseInfoScreen.class.getName(), null);
 //new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Layout", MenuConstants.FORM, "?screen=" + LayoutScreen.class.getName(), null);
-String strJob = null;
-strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
-strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ExportRecordsToXmlScreen.class.getName());    // Screen class
-strJob = Utility.addURLParam(strJob, "newwindow", DBConstants.TRUE);    // Screen class
-strJob = Utility.addURLParam(strJob, ConvertCode.DIR_PREFIX, Utility.addToPath(((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath(), this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.ARCHIVE_DIRECTORY).toString()));    // Screen class
-new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Export", "Export", strJob, null);
-strJob = Utility.addURLParam(strJob, ExportRecordsToXmlProcess.TRANSFER_MODE, ExportRecordsToXmlProcess.IMPORT);
-new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Import", "Import", strJob, null);
+
+new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, field, ScreenConstants.DEFAULT_DISPLAY, null, "Import/Export", "Export", "10", null);
 
 new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Maintenance", MenuConstants.FORM, "?screen=" + org.jbundle.app.program.access.AccessGridScreen.class.getName(), null);
-strJob = null;
+String strJob = null;
 strJob = Utility.addURLParam(strJob, DBParams.TASK, DBConstants.SAPPLET); // Screen class
 strJob = Utility.addURLParam(strJob, DBParams.SCREEN, ".app.program.manual.util.process.CopyHelpInfo");    // Screen class
 new SCannedBox(toolbar.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), toolbar, null, ScreenConstants.DEFAULT_DISPLAY, null, "Scan Help", MenuConstants.RUN, strJob, null);
@@ -3512,7 +3506,7 @@ If there was a field specified, return the value, otherwise just return a count 
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16779115">
-		<LastChanged>2012-10-31T11:07:08</LastChanged>
+		<LastChanged>2012-12-18T18:02:35</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>getSubScreen</MethodName>
@@ -3542,6 +3536,8 @@ case 8:
     return new ClassIssueGridScreen(null, screenLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 case 9:
     return new FileHdrScreen(null, screenLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+case 10:
+    return new ExportRecordsScreen(null, screenLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
 }
 return null;]]></LogicSource>
 		<LogicThrows/>
@@ -26932,7 +26928,7 @@ return false;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784934">
-		<LastChanged>2012-12-16T09:02:34</LastChanged>
+		<LastChanged>2012-12-18T22:33:50</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>processThisRecord</MethodName>
@@ -26955,35 +26951,37 @@ if (strMode != null) if (strMode.equalsIgnoreCase(IMPORT))
     bExport = false;
 if (bExport)
 {
-    if ((record.getOpenMode() & DBConstants.OPEN_DONT_CREATE) == DBConstants.OPEN_DONT_CREATE)
-    {   // Make sure the record exists
-        try {
-            record.open();
-            record.hasNext();
-            record.close();
-        } catch (DBException e) {
-            return false; // Record doesn't exist
-        }
-        if (this.getProperty(LOCALE) != null)
-        {
-            if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
-                return false;     // If locale is set, only do locale tables
-            if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
-                return false;     // This is a special file type
-        }
+    int oldOpenMode = record.getOpenMode();
+    record.setOpenMode(oldOpenMode & ~DBConstants.OPEN_DONT_CREATE);
+    // Make sure the record exists
+    try {
+        record.open();
+        if (!record.hasNext())
+            if (!DBConstants.TRUE.equalsIgnoreCase(this.getProperty("importEmptyFiles")))
+                return false;   // Skip empty files (default)
+        record.close();
+    } catch (DBException e) {
+        return false; // Record doesn't exist
+    }
+    if (this.getProperty(LOCALE) != null)
+    {
+        if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
+            return false;     // If locale is set, only do locale tables
+        if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
+            return false;     // This is a special file type
     }
 }
 else
 { // Import must have file.
     if (!(new File(strFilename).exists()))
         return false;
-        if (this.getProperty(LOCALE) != null)
-        {
-            if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
-                return false;     // If locale is set, only do locale tables
-            if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
-                return false;     // This is a special file type
-        }
+    if (this.getProperty(LOCALE) != null)
+    {
+        if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
+            return false;     // If locale is set, only do locale tables
+        if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
+            return false;     // This is a special file type
+    }
 }
 XmlInOut xml = new XmlInOut(this, null, null);    //0 v
 boolean bSuccess = false;
@@ -29788,7 +29786,7 @@ return super.checkSecurity();           // If you override this class, use the s
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785048">
-		<LastChanged>2010-04-23T14:23:06</LastChanged>
+		<LastChanged>2012-12-18T22:32:57</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>110</Sequence>
 		<MethodName>patternToRegex</MethodName>
@@ -29798,7 +29796,8 @@ return super.checkSecurity();           // If you override this class, use the s
 		<MethodClassName>BaseProcessRecords</MethodClassName>
 		<LogicSource><![CDATA[if (string != null)
     if (!string.contains("["))
-        if (!string.contains("{"))  // If it has one of these, it probably is a regex.
+         if (!string.contains("{"))  // If it has one of these, it probably is a regex already.
+             if (!string.contains("\\."))
 {
     string = string.replace(".", "\\.");
     string = string.replace("*", ".*");
@@ -33316,5 +33315,50 @@ return createScreenComponent(ScreenModel.CHECK_BOX, itsLocation, targetScreen, c
 		<Protection/>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785207">
+		<LastChanged>2012-12-18T18:14:22</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ExportRecordsScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785208">
+		<LastChanged>2012-12-18T18:14:53</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>addToolbars</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ExportRecordsScreen</MethodClassName>
+		<LogicSource>return null;</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785209">
+		<LastChanged>2012-12-18T21:41:58</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>80</Sequence>
+		<MethodName>addScreenRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ExportRecordsScreen</MethodClassName>
+		<LogicSource>return new ClassInfoScreenRecord(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
 	</LogicFile>
 </file>

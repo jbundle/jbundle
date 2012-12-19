@@ -33,6 +33,7 @@ public class ClassInfoScreenRecord extends ScreenRecord
     public static final String CLASS_PROJECT_ID = "ClassProjectID";
     public static final String NAME = "Name";
     public static final String PACKAGE = "Package";
+    public static final String INCLUDE_EMPTY_FILES = "IncludeEmptyFiles";
     /**
      * Default constructor.
      */
@@ -69,6 +70,8 @@ public class ClassInfoScreenRecord extends ScreenRecord
             field = new StringField(this, NAME, 10, null, null);
         if (iFieldSeq == 2)
             field = new StringField(this, PACKAGE, 20, null, null);
+        if (iFieldSeq == 3)
+            field = new BooleanField(this, INCLUDE_EMPTY_FILES, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);
         return field;

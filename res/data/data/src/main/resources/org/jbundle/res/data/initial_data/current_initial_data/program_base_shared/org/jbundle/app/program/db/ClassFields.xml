@@ -13310,4 +13310,94 @@
 		<ClassFieldsType>N</ClassFieldsType>
 		<IncludeScope>4</IncludeScope>
 	</ClassFields>
+	<ClassFields ID="16782656">
+		<LastChanged>2012-12-18T18:15:35</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ClassInfo</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782657">
+		<LastChanged>2012-12-18T18:17:52</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ExportRecordsToXmlScreen</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782658">
+		<LastChanged>2012-12-18T18:40:45</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ConvertCode</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782659">
+		<LastChanged>2012-12-18T21:30:19</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>10</ClassFieldSequence>
+		<ClassFieldName>SYSTEM_PACKAGE_FILTER</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"org\\.jbundle\\.app\\.program\\..*|org\\.jbundle\\.main\\..*"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782660">
+		<LastChanged>2012-12-18T21:30:40</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>20</ClassFieldSequence>
+		<ClassFieldName>NON_SYSTEM_PACKAGE_FILTER</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"^(?:(?!" + SYSTEM_PACKAGE_FILTER + ").).*"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782661">
+		<LastChanged>2012-12-18T21:31:02</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ProcessRunnerTask</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
 </file>

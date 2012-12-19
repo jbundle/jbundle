@@ -14102,14 +14102,14 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784914">
-		<LastChanged>2012-12-15T05:09:43</LastChanged>
+		<LastChanged>2012-12-18T22:24:11</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>DevArchiveDirectory</FieldName>
 		<FieldClass>StringField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength/>
+		<MaximumLength>127</MaximumLength>
 		<DefaultValue/>
 		<InitialValue>"src/main/resources"</InitialValue>
 		<FieldDescription>Full path to development archive directory (location for import and export)</FieldDescription>
@@ -14144,5 +14144,27 @@
 		<DataClass/>
 		<Hidden/>
 		<IncludeScope>4</IncludeScope>
+	</FieldData>
+	<FieldData ID="16784916">
+		<LastChanged>2012-12-18T21:21:31</LastChanged>
+		<Deleted>N</Deleted>
+		<FieldName>IncludeEmptyFiles</FieldName>
+		<FieldClass>BooleanField</FieldClass>
+		<BaseFieldName/>
+		<DependentFieldName/>
+		<MinimumLength/>
+		<MaximumLength/>
+		<DefaultValue/>
+		<InitialValue/>
+		<FieldDescription/>
+		<FieldDescVertical/>
+		<FieldType/>
+		<FieldDimension/>
+		<FieldFileName>ClassInfoScreenRecord</FieldFileName>
+		<FieldSeqNo>40</FieldSeqNo>
+		<FieldNotNull/>
+		<DataClass/>
+		<Hidden/>
+		<IncludeScope>1</IncludeScope>
 	</FieldData>
 </file>

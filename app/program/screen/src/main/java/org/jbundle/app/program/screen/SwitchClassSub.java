@@ -78,6 +78,8 @@ public class SwitchClassSub extends SwitchSubScreenHandler
             return new ClassIssueGridScreen(null, screenLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
         case 9:
             return new FileHdrScreen(null, screenLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
+        case 10:
+            return new ExportRecordsScreen(null, screenLocation, parentScreen, null, ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties);
         }
         return null;
     }

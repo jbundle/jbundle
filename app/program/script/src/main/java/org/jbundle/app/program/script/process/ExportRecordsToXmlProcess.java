@@ -95,35 +95,37 @@ public class ExportRecordsToXmlProcess extends BaseProcessRecords
             bExport = false;
         if (bExport)
         {
-            if ((record.getOpenMode() & DBConstants.OPEN_DONT_CREATE) == DBConstants.OPEN_DONT_CREATE)
-            {   // Make sure the record exists
-                try {
-                    record.open();
-                    record.hasNext();
-                    record.close();
-                } catch (DBException e) {
-                    return false; // Record doesn't exist
-                }
-                if (this.getProperty(LOCALE) != null)
-                {
-                    if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
-                        return false;     // If locale is set, only do locale tables
-                    if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
-                        return false;     // This is a special file type
-                }
+            int oldOpenMode = record.getOpenMode();
+            record.setOpenMode(oldOpenMode & ~DBConstants.OPEN_DONT_CREATE);
+            // Make sure the record exists
+            try {
+                record.open();
+                if (!record.hasNext())
+                    if (!DBConstants.TRUE.equalsIgnoreCase(this.getProperty("importEmptyFiles")))
+                        return false;   // Skip empty files (default)
+                record.close();
+            } catch (DBException e) {
+                return false; // Record doesn't exist
+            }
+            if (this.getProperty(LOCALE) != null)
+            {
+                if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
+                    return false;     // If locale is set, only do locale tables
+                if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
+                    return false;     // This is a special file type
             }
         }
         else
         { // Import must have file.
             if (!(new File(strFilename).exists()))
                 return false;
-                if (this.getProperty(LOCALE) != null)
-                {
-                    if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
-                        return false;     // If locale is set, only do locale tables
-                    if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
-                        return false;     // This is a special file type
-                }
+            if (this.getProperty(LOCALE) != null)
+            {
+                if (!record.getTable().getDatabase().getDatabaseName(false).endsWith("_" + this.getProperty(LOCALE).toString()))
+                    return false;     // If locale is set, only do locale tables
+                if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(record.getTable().getDatabase().getDatabaseName(false)))
+                    return false;     // This is a special file type
+            }
         }
         XmlInOut xml = new XmlInOut(this, null, null);    //0 v
         boolean bSuccess = false;

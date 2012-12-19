@@ -7,7 +7,7 @@
 		<SourceDirectory>src/main/java/</SourceDirectory>
 		<ClassDirectory>target/classes/</ClassDirectory>
 		<ArchiveDirectory>workspace/workspace/jbundle/jbundle/res/data/data/src/main/resources</ArchiveDirectory>
-		<DevArchiveDirectory>workspace/workspace/jbundle/jbundle/res/data/dev/src/main/resources</DevArchiveDirectory>
+		<DevArchiveDirectory>workspace/workspace/jbundle/jbundle/res/data/data/src/main/resources</DevArchiveDirectory>
 		<ResourceType>Properties</ResourceType>
 		<ClassResourceType>ListResourceBundle</ClassResourceType>
 		<PackageName/>

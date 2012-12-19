@@ -366,7 +366,8 @@ public class BaseProcessRecords extends BaseProcess
     {
         if (string != null)
             if (!string.contains("["))
-                if (!string.contains("{"))  // If it has one of these, it probably is a regex.
+                 if (!string.contains("{"))  // If it has one of these, it probably is a regex already.
+                     if (!string.contains("\\."))
         {
             string = string.replace(".", "\\.");
             string = string.replace("*", ".*");
