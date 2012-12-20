@@ -100,7 +100,7 @@ public class ExportRecordsToXmlProcess extends BaseProcessRecords
             // Make sure the record exists
             try {
                 record.open();
-                if (!record.hasNext())
+                if ((record.getEditMode() != DBConstants.EDIT_CURRENT) && (!record.hasNext()))  // Control file would read current
                     if (!DBConstants.TRUE.equalsIgnoreCase(this.getProperty("importEmptyFiles")))
                         return false;   // Skip empty files (default)
                 record.close();

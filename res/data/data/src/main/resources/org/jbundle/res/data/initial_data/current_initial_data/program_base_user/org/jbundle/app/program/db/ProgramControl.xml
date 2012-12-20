@@ -5,6 +5,7 @@
 		<ProjectName>jbundle</ProjectName>
 		<BaseDirectory>${user.home}/</BaseDirectory>
 		<SourceDirectory>src/main/java/</SourceDirectory>
+		<ResourcesDirectory>src/main/resources/</ResourcesDirectory>
 		<ClassDirectory>target/classes/</ClassDirectory>
 		<ArchiveDirectory>workspace/workspace/jbundle/jbundle/res/data/data/src/main/resources</ArchiveDirectory>
 		<DevArchiveDirectory>workspace/workspace/jbundle/jbundle/res/data/data/src/main/resources</DevArchiveDirectory>
