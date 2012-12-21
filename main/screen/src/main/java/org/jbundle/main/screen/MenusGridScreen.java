@@ -30,6 +30,7 @@ import org.jbundle.main.db.*;
  */
 public class MenusGridScreen extends FolderGridScreen
 {
+    protected App oldApp = null;
     /**
      * Default constructor.
      */
@@ -55,6 +56,7 @@ public class MenusGridScreen extends FolderGridScreen
      */
     public void init(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
+        oldApp = null;
         super.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
@@ -65,6 +67,46 @@ public class MenusGridScreen extends FolderGridScreen
     {
         this();
         this.init(recHeader, record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
+    }
+    /**
+     * GetDatabaseOwner Method.
+     */
+    public DatabaseOwner getDatabaseOwner()
+    {
+        String databaseName = this.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
+        if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
+        {
+            Task task = this.getTask();
+            oldApp = task.getApplication();
+            Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
+            
+            BaseDatabase.addDBProperties(properties, this, null);
+            properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
+            properties.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
+        
+            Environment env = ((BaseApplication)oldApp).getEnvironment();
+            BaseApplication newApp = new MainApplication(env, properties, null);
+            oldApp.removeTask(task);
+            newApp.addTask(task, null);
+            task.setApplication(newApp);
+        
+            return newApp;
+        }
+        return super.getDatabaseOwner();
+    }
+    /**
+     * Free Method.
+     */
+    public void free()
+    {
+        if (oldApp != null)
+        {
+            Task task = this.getTask();
+            task.getApplication().removeTask(task);
+            oldApp.addTask(task, null);
+            task.setApplication(oldApp);            
+        }
+        super.free();
     }
     /**
      * Override this to open the main file.

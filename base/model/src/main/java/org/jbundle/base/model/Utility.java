@@ -603,8 +603,8 @@ public class Utility extends ThinUtil
             appProperties = Utility.putAllIfNew(new HashMap<String, Object>(), appProperties);
             if (appProperties.get(Params.APP_NAME) != null)
                 appProperties.remove(Params.APP_NAME);
-            if (appProperties.get(Params.MESSAGE_SERVER) != null)
-                appProperties.remove(Params.MESSAGE_SERVER);
+            //if (appProperties.get(Params.MESSAGE_SERVER) != null)
+            //    appProperties.remove(Params.MESSAGE_SERVER);
             if (appProperties.get(DBParams.FREEIFDONE) != null)
                 appProperties.remove(DBParams.FREEIFDONE);
             if (appProperties.get(MessageConstants.MESSAGE_FILTER) != null)

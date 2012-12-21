@@ -542,24 +542,34 @@ public class BaseScreen extends BasePanel
                 if (fldMain != null)
                     fldMain.getReference();   // This should read the header record.
             }
-            else if (((recHeader.getEditMode() == Constants.EDIT_ADD) || (recHeader.getEditMode() == Constants.EDIT_NONE)) && (strBookmark == null))
+            else if ((recHeader.getEditMode() == Constants.EDIT_ADD) || (recHeader.getEditMode() == Constants.EDIT_NONE))
             {   // You can't have a new record as the header, you must write/refresh so your secondary file can reference the header record.
-            	if (recHeader.isModified())
-            	{
-	                try {
-	                    recHeader.add();
-	                    Object bookmark = recHeader.getLastModified(DBConstants.BOOKMARK_HANDLE);
-	                    recHeader.setHandle(bookmark, DBConstants.BOOKMARK_HANDLE);
-                        recHeader.edit();
-	                } catch (DBException ex)    {
-	                    ex.printStackTrace();
-	                }
-            	}
-            	else
-            	{
-                    if (fldMain != null)
-                    	fldMain.getReference();   // This should read the header record.
-            	}
+                if (strBookmark == null)
+                {
+                	if (recHeader.isModified())
+                	{
+    	                try {
+    	                    recHeader.add();
+    	                    Object bookmark = recHeader.getLastModified(DBConstants.BOOKMARK_HANDLE);
+    	                    recHeader.setHandle(bookmark, DBConstants.BOOKMARK_HANDLE);
+                            recHeader.edit();
+    	                } catch (DBException ex)    {
+    	                    ex.printStackTrace();
+    	                }
+                	}
+                	else
+                	{
+                        if (fldMain != null)
+                        	fldMain.getReference();   // This should read the header record.
+                	}
+                }
+                else
+                {   // Header record does not exist, at least set the key so you can display the detail
+                    boolean[] listenerState = recHeader.setEnableListeners(false);
+                    recHeader.getCounterField().setString(strBookmark);
+                    recHeader.getCounterField().setModified(false);
+                    recHeader.setEnableListeners(listenerState);
+                }
             }
         }
         // Update the header record if it changes.

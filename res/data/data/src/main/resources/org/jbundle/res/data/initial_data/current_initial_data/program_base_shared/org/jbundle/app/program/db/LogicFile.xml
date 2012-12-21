@@ -4571,7 +4571,7 @@ return screen;]]></LogicSource>
 	<LogicFile ID="16779608">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
 		<Deleted>N</Deleted>
-		<Sequence>20</Sequence>
+		<Sequence>50</Sequence>
 		<MethodName>openMainRecord</MethodName>
 		<LogicDescription/>
 		<MethodReturns/>
@@ -4601,7 +4601,7 @@ return screen;]]></LogicSource>
 	<LogicFile ID="16779611">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
 		<Deleted>N</Deleted>
-		<Sequence>20</Sequence>
+		<Sequence>50</Sequence>
 		<MethodName>openMainRecord</MethodName>
 		<LogicDescription/>
 		<MethodReturns/>
@@ -33385,5 +33385,117 @@ return strProcess;]]></LogicSource>
 		<Protection/>
 		<CopyFrom/>
 		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785211">
+		<LastChanged>2012-12-21T10:44:11</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>getDatabaseOwner</MethodName>
+		<LogicDescription/>
+		<MethodReturns>DatabaseOwner</MethodReturns>
+		<MethodInterface/>
+		<MethodClassName>MenusGridScreen</MethodClassName>
+		<LogicSource><![CDATA[String databaseName = this.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
+if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
+{
+    Task task = this.getTask();
+    oldApp = task.getApplication();
+    Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
+    
+    BaseDatabase.addDBProperties(properties, this, null);
+    properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
+    properties.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
+
+    Environment env = ((BaseApplication)oldApp).getEnvironment();
+    BaseApplication newApp = new MainApplication(env, properties, null);
+    oldApp.removeTask(task);
+    newApp.addTask(task, null);
+    task.setApplication(newApp);
+
+    return newApp;
+}
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785212">
+		<LastChanged>2012-12-21T09:59:27</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>free</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>MenusGridScreen</MethodClassName>
+		<LogicSource><![CDATA[if (oldApp != null)
+{
+    Task task = this.getTask();
+    task.getApplication().removeTask(task);
+    oldApp.addTask(task, null);
+    task.setApplication(oldApp);            
+}
+super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785213">
+		<LastChanged>2012-12-21T10:43:46</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>getDatabaseOwner</MethodName>
+		<LogicDescription/>
+		<MethodReturns>DatabaseOwner</MethodReturns>
+		<MethodInterface/>
+		<MethodClassName>MenusScreen</MethodClassName>
+		<LogicSource><![CDATA[String databaseName = this.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
+if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
+{
+    Task task = this.getTask();
+    oldApp = task.getApplication();
+    Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
+    
+    BaseDatabase.addDBProperties(properties, this, null);
+    properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
+    properties.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
+
+    Environment env = ((BaseApplication)oldApp).getEnvironment();
+    BaseApplication newApp = new MainApplication(env, properties, null);
+    oldApp.removeTask(task);
+    newApp.addTask(task, null);
+    task.setApplication(newApp);
+
+    return newApp;
+}
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785214">
+		<LastChanged>2012-12-21T10:01:14</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>30</Sequence>
+		<MethodName>free</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>MenusScreen</MethodClassName>
+		<LogicSource><![CDATA[if (oldApp != null)
+{
+    Task task = this.getTask();
+    task.getApplication().removeTask(task);
+    oldApp.addTask(task, null);
+    task.setApplication(oldApp);            
+}
+super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 </file>

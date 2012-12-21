@@ -13400,4 +13400,34 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>4</IncludeScope>
 	</ClassFields>
+	<ClassFields ID="16782662">
+		<LastChanged>2012-12-21T10:00:24</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>MenusScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>App</ClassFieldClass>
+		<ClassFieldSequence>10</ClassFieldSequence>
+		<ClassFieldName>oldApp</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>F</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782663">
+		<LastChanged>2012-12-21T10:02:17</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>MenusGridScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>App</ClassFieldClass>
+		<ClassFieldSequence>10</ClassFieldSequence>
+		<ClassFieldName>oldApp</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>F</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
 </file>
