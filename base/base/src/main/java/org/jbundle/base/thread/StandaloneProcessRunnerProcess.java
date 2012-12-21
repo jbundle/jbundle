@@ -21,6 +21,8 @@ import org.jbundle.thin.base.util.Application;
  */
 public class StandaloneProcessRunnerProcess extends BaseProcess
 {
+    public static final String STANDALONE_PROCESS = "standaloneProcess";
+
     /**
      * Constructor.
      */
@@ -42,7 +44,7 @@ public class StandaloneProcessRunnerProcess extends BaseProcess
     public void run()
     {
     	Map<String,Object> properties = this.getProperties();
-        String process = this.getProperty("standaloneProcess");
+        String process = this.getProperty(STANDALONE_PROCESS);
         properties.put(DBParams.PROCESS, process);
         Environment env = new Environment(properties);
         MainApplication app = new MainApplication(env, properties, null);

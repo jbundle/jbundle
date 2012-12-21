@@ -6716,7 +6716,7 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenControlType/>
 	</ScreenIn>
 	<ScreenIn ID="16781438">
-		<LastChanged>2012-12-18T21:29:32</LastChanged>
+		<LastChanged>2012-12-20T16:28:32</LastChanged>
 		<Deleted>N</Deleted>
 		<ScreenInProgName>ExportRecordsScreen</ScreenInProgName>
 		<ScreenOutNumber/>
@@ -6729,19 +6729,19 @@ new SEditText(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants
 		<ScreenPhysicalNum/>
 		<ScreenLocation/>
 		<ScreenFieldDesc/>
-		<ScreenText><![CDATA[String strJob = null;
-strJob = Utility.addURLParam(strJob, DBParams.PROCESS, ExportRecordsToXmlProcess.class.getName());
-strJob = Utility.addURLParam(strJob, DBParams.TASK, ProcessRunnerTask.class.getName()); // Screen class
-strJob = Utility.addURLParam(strJob, ConvertCode.DIR_PREFIX, Utility.addToPath(((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath(), this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.ARCHIVE_DIRECTORY).toString()));
+		<ScreenText><![CDATA[String strProcess = copyProcessParams();
+strProcess = Utility.addURLParam(strProcess, DBParams.PROCESS, StandaloneProcessRunnerProcess.class.getName());
+strProcess = Utility.addURLParam(strProcess, StandaloneProcessRunnerProcess.STANDALONE_PROCESS, ExportRecordsToXmlProcess.class.getName());
+strProcess = Utility.addURLParam(strProcess, DBParams.TASK, ProcessRunnerTask.class.getName()); // Screen class
+strProcess = Utility.addURLParam(strProcess, ClassInfoScreenRecord.INCLUDE_EMPTY_FILES, this.getRecord(ClassInfoScreenRecord.CLASS_INFO_SCREEN_RECORD_FILE).getField(ClassInfoScreenRecord.INCLUDE_EMPTY_FILES).toString());
+
+String strJob = Utility.addURLParam(strProcess, ConvertCode.DIR_PREFIX, Utility.addToPath(((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath(), this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.ARCHIVE_DIRECTORY).toString()));
 strJob = Utility.addURLParam(strJob, "package", NON_SYSTEM_PACKAGE_FILTER);
-strJob = Utility.addURLParam(strJob, ClassInfoScreenRecord.INCLUDE_EMPTY_FILES, this.getRecord(ClassInfoScreenRecord.CLASS_INFO_SCREEN_RECORD_FILE).getField(ClassInfoScreenRecord.INCLUDE_EMPTY_FILES).toString());
 new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, null, ScreenConstants.DEFAULT_DISPLAY, null, "Export", "Export", strJob, null);
 strJob = Utility.addURLParam(strJob, ExportRecordsToXmlProcess.TRANSFER_MODE, ExportRecordsToXmlProcess.IMPORT);
 new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, null, ScreenConstants.DEFAULT_DISPLAY, null, "Import", "Import", strJob, null);
-strJob = null;
-strJob = Utility.addURLParam(strJob, DBParams.PROCESS, ExportRecordsToXmlProcess.class.getName());
-strJob = Utility.addURLParam(strJob, DBParams.TASK, ProcessRunnerTask.class.getName()); // Screen class
-strJob = Utility.addURLParam(strJob, ConvertCode.DIR_PREFIX, Utility.addToPath(((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath(), this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.DEV_ARCHIVE_DIRECTORY).toString()));
+
+strJob = Utility.addURLParam(strProcess, ConvertCode.DIR_PREFIX, Utility.addToPath(((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath(), this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.DEV_ARCHIVE_DIRECTORY).toString()));
 strJob = Utility.addURLParam(strJob, "package", SYSTEM_PACKAGE_FILTER);
 strJob = Utility.addURLParam(strJob, ClassInfoScreenRecord.INCLUDE_EMPTY_FILES, this.getRecord(ClassInfoScreenRecord.CLASS_INFO_SCREEN_RECORD_FILE).getField(ClassInfoScreenRecord.INCLUDE_EMPTY_FILES).toString());
 new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, null, ScreenConstants.DEFAULT_DISPLAY, null, "Export System Files", "Export", strJob, null);

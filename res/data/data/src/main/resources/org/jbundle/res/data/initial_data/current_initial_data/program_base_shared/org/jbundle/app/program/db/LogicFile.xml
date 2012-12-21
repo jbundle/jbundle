@@ -33361,4 +33361,29 @@ return createScreenComponent(ScreenModel.CHECK_BOX, itsLocation, targetScreen, c
 		<CopyFrom/>
 		<IncludeScope>4</IncludeScope>
 	</LogicFile>
+	<LogicFile ID="16785210">
+		<LastChanged>2012-12-20T16:27:38</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>150</Sequence>
+		<MethodName>copyProcessParams</MethodName>
+		<LogicDescription/>
+		<MethodReturns>String</MethodReturns>
+		<MethodInterface/>
+		<MethodClassName>ExportRecordsScreen</MethodClassName>
+		<LogicSource><![CDATA[String strProcess = null;
+strProcess = Utility.addURLParam(strProcess, DBParams.LOCAL, this.getProperty(DBParams.LOCAL));
+strProcess = Utility.addURLParam(strProcess, DBParams.REMOTE, this.getProperty(DBParams.REMOTE));
+strProcess = Utility.addURLParam(strProcess, DBParams.TABLE, this.getProperty(DBParams.TABLE));
+strProcess = Utility.addURLParam(strProcess, DBParams.MESSAGE_SERVER, this.getProperty(DBParams.MESSAGE_SERVER));
+strProcess = Utility.addURLParam(strProcess, DBParams.CONNECTION_TYPE, this.getProperty(DBParams.CONNECTION_TYPE));
+strProcess = Utility.addURLParam(strProcess, DBParams.REMOTE_HOST, this.getProperty(DBParams.REMOTE_HOST));
+strProcess = Utility.addURLParam(strProcess, DBParams.CODEBASE, this.getProperty(DBParams.CODEBASE));
+strProcess = Utility.addURLParam(strProcess, SQLParams.DATABASE_PRODUCT_PARAM, this.getProperty(SQLParams.DATABASE_PRODUCT_PARAM));
+strProcess = Utility.addURLParam(strProcess, DBConstants.SYSTEM_NAME, this.getProperty(DBConstants.SYSTEM_NAME));
+return strProcess;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
 </file>

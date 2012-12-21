@@ -14146,7 +14146,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784916">
-		<LastChanged>2012-12-18T21:21:31</LastChanged>
+		<LastChanged>2012-12-20T16:31:17</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>IncludeEmptyFiles</FieldName>
 		<FieldClass>BooleanField</FieldClass>
@@ -14156,8 +14156,8 @@
 		<MaximumLength/>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription/>
-		<FieldDescVertical/>
+		<FieldDescription>Include empty files?</FieldDescription>
+		<FieldDescVertical>Empty files?</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension/>
 		<FieldFileName>ClassInfoScreenRecord</FieldFileName>
