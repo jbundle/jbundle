@@ -33391,7 +33391,7 @@ return strProcess;]]></LogicSource>
 		<IncludeScope>4</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785211">
-		<LastChanged>2012-12-21T10:44:11</LastChanged>
+		<LastChanged>2012-12-24T13:01:10</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>20</Sequence>
 		<MethodName>getDatabaseOwner</MethodName>
@@ -33399,11 +33399,12 @@ return strProcess;]]></LogicSource>
 		<MethodReturns>DatabaseOwner</MethodReturns>
 		<MethodInterface/>
 		<MethodClassName>MenusGridScreen</MethodClassName>
-		<LogicSource><![CDATA[String databaseName = this.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
+		<LogicSource><![CDATA[Task task = this.getTask();
+App app = task.getApplication();
+String databaseName = app.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
 if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
 {
-    Task task = this.getTask();
-    oldApp = task.getApplication();
+    oldApp = app;
     Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
     
     BaseDatabase.addDBProperties(properties, this, null);

@@ -73,11 +73,12 @@ public class MenusGridScreen extends FolderGridScreen
      */
     public DatabaseOwner getDatabaseOwner()
     {
-        String databaseName = this.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
+        Task task = this.getTask();
+        App app = task.getApplication();
+        String databaseName = app.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
         if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
         {
-            Task task = this.getTask();
-            oldApp = task.getApplication();
+            oldApp = app;
             Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
             
             BaseDatabase.addDBProperties(properties, this, null);
