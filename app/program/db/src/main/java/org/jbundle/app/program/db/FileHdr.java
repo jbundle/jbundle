@@ -163,6 +163,8 @@ public class FileHdr extends VirtualRecord
         String strFileType = this.getField(FileHdr.TYPE).toString();
         if (strFileType == null)
             return false;
+        if (strFileType.length() == 0)
+            strFileType = DBParams.REMOTE;  // Default type
         strFileType = strFileType.toUpperCase();
         boolean bPhysicalFile = false;
         if (strFileType.indexOf(DBParams.LOCAL.toUpperCase()) != -1)

@@ -27,6 +27,7 @@ import org.jbundle.app.program.db.*;
 import org.jbundle.app.program.script.process.*;
 import org.jbundle.app.program.manual.convert.*;
 import org.jbundle.base.thread.*;
+import java.io.*;
 
 /**
  *  ExportRecordsScreen - .
@@ -86,13 +87,20 @@ public class ExportRecordsScreen extends BaseScreen
         strProcess = Utility.addURLParam(strProcess, DBParams.TASK, ProcessRunnerTask.class.getName()); // Screen class
         strProcess = Utility.addURLParam(strProcess, ClassInfoScreenRecord.INCLUDE_EMPTY_FILES, this.getRecord(ClassInfoScreenRecord.CLASS_INFO_SCREEN_RECORD_FILE).getField(ClassInfoScreenRecord.INCLUDE_EMPTY_FILES).toString());
         
-        String strJob = Utility.addURLParam(strProcess, ConvertCode.DIR_PREFIX, Utility.addToPath(((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath(), this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.ARCHIVE_DIRECTORY).toString()));
+        String basePath = ((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath();
+        String path = this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.ARCHIVE_DIRECTORY).toString();
+        if ((!path.startsWith("/")) && (!path.startsWith(File.separator)))
+            path = Utility.addToPath(basePath, path);
+        String strJob = Utility.addURLParam(strProcess, ConvertCode.DIR_PREFIX, path);
         strJob = Utility.addURLParam(strJob, "package", NON_SYSTEM_PACKAGE_FILTER);
         new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, null, ScreenConstants.DEFAULT_DISPLAY, null, "Export", "Export", strJob, null);
         strJob = Utility.addURLParam(strJob, ExportRecordsToXmlProcess.TRANSFER_MODE, ExportRecordsToXmlProcess.IMPORT);
         new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, null, ScreenConstants.DEFAULT_DISPLAY, null, "Import", "Import", strJob, null);
         
-        strJob = Utility.addURLParam(strProcess, ConvertCode.DIR_PREFIX, Utility.addToPath(((ProgramControl)this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE)).getBasePath(), this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.DEV_ARCHIVE_DIRECTORY).toString()));
+        path = this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE).getField(ProgramControl.DEV_ARCHIVE_DIRECTORY).toString();
+        if ((!path.startsWith("/")) && (!path.startsWith(File.separator)))
+            path = Utility.addToPath(basePath, path);
+        strJob = Utility.addURLParam(strProcess, ConvertCode.DIR_PREFIX, path);
         strJob = Utility.addURLParam(strJob, "package", SYSTEM_PACKAGE_FILTER);
         strJob = Utility.addURLParam(strJob, ClassInfoScreenRecord.INCLUDE_EMPTY_FILES, this.getRecord(ClassInfoScreenRecord.CLASS_INFO_SCREEN_RECORD_FILE).getField(ClassInfoScreenRecord.INCLUDE_EMPTY_FILES).toString());
         new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.ANCHOR_DEFAULT), this, null, ScreenConstants.DEFAULT_DISPLAY, null, "Export System Files", "Export", strJob, null);

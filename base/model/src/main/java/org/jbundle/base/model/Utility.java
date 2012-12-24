@@ -210,6 +210,18 @@ public class Utility extends ThinUtil
      */
     public static StringBuilder replaceResources(StringBuilder sb, ResourceBundle reg, Map<String, Object> map, PropertyOwner propertyOwner)
     {
+        return Utility.replaceResources(sb, reg, map, propertyOwner, false);
+    }
+    /**
+     * Replace the {} resources in this string.
+     * Typically either reg or map are non-null (the null one is ignored)
+     * @param reg A resource bundle
+     * @param map A map of key/values
+     * @param strResource
+     * @return
+     */
+    public static StringBuilder replaceResources(StringBuilder sb, ResourceBundle reg, Map<String, Object> map, PropertyOwner propertyOwner, boolean systemProperties)
+    {
     	boolean bDoubleBraces = false;
         int index = 0;
         while (index < sb.length())
@@ -242,6 +254,12 @@ public class Utility extends ThinUtil
                 if (string == null)
                     string = propertyOwner.getProperty(strKey);
             if (string == null)
+                if (systemProperties)
+                    try {
+                        string = System.getProperty(strKey);
+                    } catch (Exception e) { // Ignore (security) errors
+                    }
+            if (string == null)
                 string = strKey;    // Never
             sb.replace(iStartBrace, iEndBrace + 1, string);
             index = index + string.length();
@@ -272,10 +290,21 @@ public class Utility extends ThinUtil
      */
     public static String replaceResources(String string, ResourceBundle reg, Map<String, Object> map, PropertyOwner propertyOwner)
     {
+        return Utility.replaceResources(string, reg, map, propertyOwner, false);
+    }
+    /**
+     * Replace the {} resources in this string.
+     * @param reg
+     * @param map A map of key/values
+     * @param strResource
+     * @return
+     */
+    public static String replaceResources(String string, ResourceBundle reg, Map<String, Object> map, PropertyOwner propertyOwner, boolean systemProperties)
+    {
         if (string != null)
             if (string.indexOf('{') == -1)
                 return string;
-        return Utility.replaceResources(new StringBuilder(string), reg, map, propertyOwner).toString();
+        return Utility.replaceResources(new StringBuilder(string), reg, map, propertyOwner, systemProperties).toString();
     }
     /**
      * A utility method to get an UTF-8 Input stream from a string.

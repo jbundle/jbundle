@@ -17,6 +17,7 @@
   <modules>
     <module>program</module>
     <module>test</module>
+    <module>tools</module>
   </modules>
 
 </project>

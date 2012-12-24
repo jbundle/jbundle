@@ -101,28 +101,28 @@ public class ProgramControl extends ControlRecord
             field = new StringField(this, PROJECT_NAME, 30, null, null);
         if (iFieldSeq == 4)
         {
-            field = new StringField(this, BASE_DIRECTORY, 127, null, "${user.home}/");
+            field = new PropertiesStringField(this, BASE_DIRECTORY, 100, null, "${user.home}/");
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 5)
         {
-            field = new StringField(this, SOURCE_DIRECTORY, 127, null, "src/main/java/");
+            field = new StringField(this, SOURCE_DIRECTORY, 100, null, "src/main/java/");
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 6)
-            field = new StringField(this, RESOURCES_DIRECTORY, 127, null, "src/main/resources/");
+            field = new StringField(this, RESOURCES_DIRECTORY, 100, null, "src/main/resources/");
         if (iFieldSeq == 7)
         {
-            field = new StringField(this, CLASS_DIRECTORY, 127, null, "target/classes/");
+            field = new StringField(this, CLASS_DIRECTORY, 100, null, "target/classes/");
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 8)
         {
-            field = new StringField(this, ARCHIVE_DIRECTORY, 127, null, "src/main/resources/");
+            field = new PropertiesStringField(this, ARCHIVE_DIRECTORY, 100, null, "${user.dir}/src/main/resources/");
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 9)
-            field = new StringField(this, DEV_ARCHIVE_DIRECTORY, 127, null, "src/main/resources");
+            field = new PropertiesStringField(this, DEV_ARCHIVE_DIRECTORY, 100, null, "${user.dir}/src/main/resources/");
         if (iFieldSeq == 10)
             field = new ResourceTypeField(this, RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 11)
@@ -147,9 +147,9 @@ public class ProgramControl extends ControlRecord
         if (iFieldSeq == 16)
             field = new DateTimeField(this, LAST_PACKAGE_UPDATE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 17)
-            field = new StringField(this, PACKAGES_BASE_PATH, 128, null, null);
+            field = new StringField(this, PACKAGES_BASE_PATH, 100, null, null);
         if (iFieldSeq == 18)
-            field = new StringField(this, PACKAGES_PATH, 128, null, null);
+            field = new StringField(this, PACKAGES_PATH, 100, null, null);
         if (field == null)
             field = super.setupField(iFieldSeq);
         return field;
@@ -183,7 +183,8 @@ public class ProgramControl extends ControlRecord
             {
                 super.doNewRecord(bDisplayOption);
                 
-                BaseField field = this.getOwner().getField(ProgramControl.BASE_DIRECTORY);
+                PropertiesStringField field = (PropertiesStringField)this.getOwner().getField(ProgramControl.BASE_DIRECTORY);
+                field.enableConversion = false;
                 if (!field.isModified())
                     if (field.getDefault().equals(field.getData()))
                 {
@@ -207,6 +208,7 @@ public class ProgramControl extends ControlRecord
                         // Ignore (default is fine)
                     }
                 }
+                field.enableConversion = true;
             }
         });
     }

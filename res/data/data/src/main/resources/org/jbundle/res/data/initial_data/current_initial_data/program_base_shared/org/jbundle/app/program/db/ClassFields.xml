@@ -13430,4 +13430,34 @@
 		<ClassFieldsType>F</ClassFieldsType>
 		<IncludeScope>4</IncludeScope>
 	</ClassFields>
+	<ClassFields ID="16782664">
+		<LastChanged>2012-12-23T12:47:57</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>PropertiesStringField</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>boolean</ClassFieldClass>
+		<ClassFieldSequence>10</ClassFieldSequence>
+		<ClassFieldName>enableConversion</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>true</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782665">
+		<LastChanged>2012-12-23T14:51:54</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ExportRecordsScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>java.io</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>P</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
 </file>

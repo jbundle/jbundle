@@ -28681,7 +28681,7 @@ new ProgramControl(this);]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785001">
-		<LastChanged>2012-10-30T20:55:25</LastChanged>
+		<LastChanged>2012-12-23T14:03:44</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>20</Sequence>
 		<MethodName>addMasterListeners</MethodName>
@@ -28698,7 +28698,8 @@ this.addListener(new FileListener()
     {
         super.doNewRecord(bDisplayOption);
         
-        BaseField field = this.getOwner().getField(ProgramControl.BASE_DIRECTORY);
+        PropertiesStringField field = (PropertiesStringField)this.getOwner().getField(ProgramControl.BASE_DIRECTORY);
+        field.enableConversion = false;
         if (!field.isModified())
             if (field.getDefault().equals(field.getData()))
         {
@@ -28722,6 +28723,7 @@ this.addListener(new FileListener()
                 // Ignore (default is fine)
             }
         }
+        field.enableConversion = true;
     }
 });]]></LogicSource>
 		<LogicThrows/>
@@ -33497,5 +33499,39 @@ super;]]></LogicSource>
 		<Protection/>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785215">
+		<LastChanged>2012-12-23T12:45:50</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PropertiesStringField</MethodClassName>
+		<LogicSource><![CDATA[enableConversion = false;
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785216">
+		<LastChanged>2012-12-23T13:22:33</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>doGetData</MethodName>
+		<LogicDescription/>
+		<MethodReturns>Object</MethodReturns>
+		<MethodInterface/>
+		<MethodClassName>PropertiesStringField</MethodClassName>
+		<LogicSource><![CDATA[String data = (String)super;
+if (enableConversion)
+    data = Utility.replaceResources(data, null, null, this.getRecord().getRecordOwner(), true);
+return data;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
 	</LogicFile>
 </file>
