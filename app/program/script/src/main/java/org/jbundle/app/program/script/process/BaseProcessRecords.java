@@ -190,8 +190,8 @@ public class BaseProcessRecords extends BaseProcess
                     continue;
                 if (!recFileHdr.isPhysicalFile())
                     continue;
-                //if (recFileHdr.getField(FileHdr.DATABASE_NAME).isNull())
-                //    continue;
+                //xif (recFileHdr.getField(FileHdr.DATABASE_NAME).isNull())
+                //x    continue;
                 if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(recFileHdr.getField(FileHdr.DATABASE_NAME).toString()))
                     continue;
         

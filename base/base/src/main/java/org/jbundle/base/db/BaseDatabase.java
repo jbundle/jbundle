@@ -228,7 +228,7 @@ public class BaseDatabase extends Object
 	                        	strDbName = Utility.addToPath(strDbName, getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), DB_NAME_SEPARATOR);	 // System suffix
 	                        else if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.SHARED_DATA)
 	                        {  // The shared database name is never changed, EXCEPT if the mode is set. Then there are a few exceptions
-	                            if ((this.getProperty(DBConstants.MODE) == null) || (this.getProperty(DBConstants.MODE).equalsIgnoreCase(RUN_MODE)))
+	                            if ((this.getProperty(DBConstants.MODE) == null) || (this.getProperty(DBConstants.MODE).length() == 0) || (this.getProperty(DBConstants.MODE).equalsIgnoreCase(RUN_MODE)))
                                 {  // Default = Regular (run) mode
                                     if ((DEV_DATABASE.equalsIgnoreCase(m_strDbName)) || (MAIN_DATABASE.equalsIgnoreCase(m_strDbName)))
                                         strDbName = Utility.addToPath(strDbName, getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), DB_NAME_SEPARATOR);  // Add System suffix

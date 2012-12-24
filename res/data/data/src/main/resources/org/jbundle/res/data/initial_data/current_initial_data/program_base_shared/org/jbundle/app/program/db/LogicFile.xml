@@ -8526,7 +8526,7 @@ fldProperties.addListener(listener);]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16782052">
-		<LastChanged>2012-01-26T23:22:45</LastChanged>
+		<LastChanged>2012-12-24T09:44:33</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>isPhysicalFile</MethodName>
@@ -8537,6 +8537,8 @@ fldProperties.addListener(listener);]]></LogicSource>
 		<LogicSource><![CDATA[String strFileType = this.getField(FileHdr.TYPE).toString();
 if (strFileType == null)
     return false;
+if (strFileType.length() == 0)
+    strFileType = DBParams.REMOTE;  // Default type
 strFileType = strFileType.toUpperCase();
 boolean bPhysicalFile = false;
 if (strFileType.indexOf(DBParams.LOCAL.toUpperCase()) != -1)
@@ -26928,7 +26930,7 @@ return false;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784934">
-		<LastChanged>2012-12-18T22:33:50</LastChanged>
+		<LastChanged>2012-12-24T09:46:29</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>processThisRecord</MethodName>
@@ -26956,7 +26958,7 @@ if (bExport)
     // Make sure the record exists
     try {
         record.open();
-        if (!record.hasNext())
+        if ((record.getEditMode() != DBConstants.EDIT_CURRENT) && (!record.hasNext()))  // Control file would read current
             if (!DBConstants.TRUE.equalsIgnoreCase(this.getProperty("importEmptyFiles")))
                 return false;   // Skip empty files (default)
         record.close();
@@ -27233,7 +27235,7 @@ this.getTask().getApplication().setProperty(DBConstants.BASE_TABLE_ONLY, oldBase
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784948">
-		<LastChanged>2012-12-16T10:39:46</LastChanged>
+		<LastChanged>2012-12-24T09:45:33</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>processAllRecords</MethodName>
@@ -27255,8 +27257,8 @@ try   {
             continue;
         if (!recFileHdr.isPhysicalFile())
             continue;
-        if (recFileHdr.getField(FileHdr.DATABASE_NAME).isNull())
-            continue;
+        //xif (recFileHdr.getField(FileHdr.DATABASE_NAME).isNull())
+        //x    continue;
         if (DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(recFileHdr.getField(FileHdr.DATABASE_NAME).toString()))
             continue;
 
