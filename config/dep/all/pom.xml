@@ -82,7 +82,7 @@
     <!-- dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.view.swing</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
+      <version>${jbundleSwingVersionRange}</version>
     </dependency -->
     <!-- dependency>
       <groupId>org.jbundle.base.screen</groupId>
