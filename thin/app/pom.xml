@@ -15,7 +15,6 @@
   <name>jbundle-thin-app-reactor - Thin app parent</name>
 
   <modules>
-    <module>calendar</module>
     <module>program</module>
   </modules>
 
