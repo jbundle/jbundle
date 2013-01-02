@@ -322,7 +322,7 @@ public class WriteClass extends BaseProcess
 
             if (codeType == CodeType.THICK)
             {
-                m_StreamOut.writeit("import java.awt.*;\n"); //j Temp
+                //m_StreamOut.writeit("import java.awt.*;\n"); //j Temp
                 m_StreamOut.writeit("import java.util.*;\n\n");    //j Temp
 
                 m_IncludeNameList.addPackage(DBConstants.ROOT_PACKAGE + "base.db");        // Don't include this!!!

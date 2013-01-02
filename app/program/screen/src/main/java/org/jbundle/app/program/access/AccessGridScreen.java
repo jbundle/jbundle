@@ -5,7 +5,6 @@
  */
 package org.jbundle.app.program.access;
 
-import java.awt.*;
 import java.util.*;
 
 import org.jbundle.base.db.*;

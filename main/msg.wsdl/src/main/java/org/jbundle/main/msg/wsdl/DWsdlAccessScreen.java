@@ -5,7 +5,6 @@
  */
 package org.jbundle.main.msg.wsdl;
 
-import java.awt.*;
 import java.util.*;
 
 import org.jbundle.base.db.*;
@@ -45,7 +44,7 @@ public class DWsdlAccessScreen extends DDataAccessScreen
     /**
      * DWsdlAccessScreen Method.
      */
-    public DWsdlAccessScreen(ScreenField model,boolean bEditableControl)
+    public DWsdlAccessScreen(ScreenField model, boolean bEditableControl)
     {
         this();
         this.init(model, bEditableControl);
@@ -53,7 +52,7 @@ public class DWsdlAccessScreen extends DDataAccessScreen
     /**
      * Initialize class fields.
      */
-    public void init(ScreenField model,boolean bEditableControl)
+    public void init(ScreenField model, boolean bEditableControl)
     {
         super.init(model, bEditableControl);
     }

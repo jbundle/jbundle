@@ -5,7 +5,6 @@
  */
 package org.jbundle.main.schedule.app;
 
-import java.awt.*;
 import java.util.*;
 
 import org.jbundle.base.db.*;
