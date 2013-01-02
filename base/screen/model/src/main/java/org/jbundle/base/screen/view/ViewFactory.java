@@ -146,46 +146,47 @@ public class ViewFactory extends Object
     }
     /**
      * Give the model name, return the view name.
-     * @param strModelClassName The model name.
+     * @param modelClassName The model name.
      * @return The view name for this model.
      */
-    public String getViewClassNameFromModelClassName(String strModelClassName)
+    public String getViewClassNameFromModelClassName(String modelClassName)
     {
-        if (!strModelClassName.startsWith(SCREEN_MODEL_PACKAGE))
-            return null;    // Must be one of my native screen models. (Override to change!)
-        String strPackagePrefix = DBConstants.BLANK;
-        int iLastDot = strModelClassName.lastIndexOf('.');
+        String packageRoot = SCREEN_VIEW_PACKAGE;
+        String packagePrefix = DBConstants.BLANK;
+        int iLastDot = modelClassName.lastIndexOf('.');
         if (iLastDot != -1)
         {
-            int iModelEnd = strModelClassName.lastIndexOf(SCREEN_MODEL_PACKAGE);
+            if (!modelClassName.startsWith(SCREEN_MODEL_PACKAGE))
+                packageRoot = modelClassName.substring(0, iLastDot + 1);
+            int iModelEnd = modelClassName.lastIndexOf(SCREEN_MODEL_PACKAGE);
             if (iModelEnd != -1)
             {
                 iModelEnd += SCREEN_MODEL_PACKAGE.length();
                 if (iModelEnd < iLastDot)
-                    strPackagePrefix = strModelClassName.substring(iModelEnd, iLastDot);
+                    packagePrefix = modelClassName.substring(iModelEnd, iLastDot);
             }
-            strModelClassName = strModelClassName.substring(iLastDot + 1);
+            modelClassName = modelClassName.substring(iLastDot + 1);
         }
-        return this.assembleViewClassName(strPackagePrefix, strModelClassName);
+        return this.assembleViewClassName(packageRoot, packagePrefix, modelClassName);
     }
     /**
      * Give the model name, return the view name.
-     * @param strPackagePrefix The prefix package to place before the class name (if any).
-     * @param strModelClassName The Model's class name.
+     * @param packagePrefix The prefix package to place before the class name (if any).
+     * @param modelClassName The Model's class name.
      * @return The class name for the view.
      */
-    public String assembleViewClassName(String strPackagePrefix, String strModelClassName)
+    public String assembleViewClassName(String packageRoot, String packagePrefix, String modelClassName)
     {
-        if (strModelClassName.length() > 1)
-            if (Character.isUpperCase(strModelClassName.charAt(1)))
-                if (strModelClassName.charAt(0) == 'S')
-                    strModelClassName = strModelClassName.substring(1);
+        if (modelClassName.length() > 1)
+            if (Character.isUpperCase(modelClassName.charAt(1)))
+                if (modelClassName.charAt(0) == 'S')
+                    modelClassName = modelClassName.substring(1);
         String strViewDir = this.getViewSubpackage();
         char chViewPrefix = this.getViewPrefix();
-        if (strPackagePrefix.length() > 0)
-            strPackagePrefix += '.';
-        strModelClassName = SCREEN_VIEW_PACKAGE + strViewDir + '.' + strPackagePrefix + chViewPrefix + strModelClassName;
-        return strModelClassName;
+        if (packagePrefix.length() > 0)
+            packagePrefix += '.';
+        modelClassName = packageRoot + strViewDir + '.' + packagePrefix + chViewPrefix + modelClassName;
+        return modelClassName;
     }
     /**
      * Get the view subpackage name (such as swing/xml/etc.).

@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.MissingResourceException;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -24,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.Popup;
 
 import org.jbundle.model.Freeable;
+import org.jbundle.model.util.Colors;
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.util.calendarpanel.PopupPanel;
 import org.jbundle.thin.base.screen.menu.JUnderlinedButton;
@@ -77,6 +79,13 @@ public class JBasePopupPanel extends JPanel
     public JComponent createComponentButton(String strProductType, BaseApplet applet)
     {
         ProductTypeInfo productType = ProductTypeInfo.getProductType(strProductType);
+        if (productType == null)
+        {
+            ImageIcon icon = null;
+            if (applet != null)
+                icon = applet.loadImageIcon(strProductType, null);
+            productType = new ProductTypeInfo(strProductType, icon, icon, 0x00c0c0c0, Colors.NULL);
+        }
         JUnderlinedButton button = new JUnderlinedButton(productType.getDescription(), productType.getStartIcon());
 
         String strLink = strProductType;

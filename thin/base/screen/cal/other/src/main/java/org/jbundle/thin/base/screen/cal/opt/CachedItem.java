@@ -5,8 +5,6 @@ package org.jbundle.thin.base.screen.cal.opt;
 
 import java.util.Date;
 
-import javax.swing.ImageIcon;
-
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.screen.cal.popup.ProductTypeInfo;
 import org.jbundle.thin.base.util.Application;

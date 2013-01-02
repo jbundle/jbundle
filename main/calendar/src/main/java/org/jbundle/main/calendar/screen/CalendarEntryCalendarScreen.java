@@ -5,28 +5,30 @@
  */
 package org.jbundle.main.calendar.screen;
 
-import java.awt.*;
-import java.util.*;
+import java.util.Map;
 
-import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
-import org.jbundle.base.db.filter.*;
-import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
-import org.jbundle.base.screen.model.*;
-import org.jbundle.base.screen.model.util.*;
-import org.jbundle.base.model.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
-import org.jbundle.model.db.*;
-import org.jbundle.model.screen.*;
-import org.jbundle.main.calendar.db.*;
-import org.jbundle.util.calendarpanel.model.*;
-import org.jbundle.base.screen.model.calendar.*;
-import javax.swing.*;
+import org.jbundle.base.db.Record;
+import org.jbundle.base.db.event.FreeOnFreeHandler;
+import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.BooleanField;
+import org.jbundle.base.field.convert.MultipleTableFieldConverter;
+import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.ResourceConstants;
+import org.jbundle.base.model.ScreenConstants;
+import org.jbundle.base.screen.model.BasePanel;
+import org.jbundle.base.screen.model.CalendarScreen;
+import org.jbundle.base.screen.model.SCannedBox;
+import org.jbundle.base.screen.model.ScreenField;
+import org.jbundle.base.screen.model.ToolScreen;
+import org.jbundle.base.screen.model.util.ScreenLocation;
+import org.jbundle.base.util.BaseApplication;
+import org.jbundle.main.calendar.db.AnnivMaster;
+import org.jbundle.main.calendar.db.Appointment;
+import org.jbundle.main.calendar.db.CalendarEntry;
+import org.jbundle.main.calendar.db.CalendarEntryTypeField;
+import org.jbundle.model.db.Rec;
+import org.jbundle.thin.base.db.Converter;
+import org.jbundle.util.calendarpanel.model.CalendarItem;
 
 /**
  *  CalendarEntryCalendarScreen - Calendar entry screen.
