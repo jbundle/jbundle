@@ -5,7 +5,6 @@
  */
 package org.jbundle.app.program.project.db;
 
-import java.awt.*;
 import java.util.*;
 
 import org.jbundle.base.db.*;
@@ -67,17 +66,14 @@ public class ColorField extends IntegerField
     /**
      * SetColor Method.
      */
-    public int setColor(Color color, boolean bDisplayOption, int iMoveMode)
+    public int setColor(int color, boolean bDisplayOption, int iMoveMode)
     {
-        Integer intColor = null;
-        if (color != null)
-            intColor = new Integer(color.getRGB());
-        return this.setData(intColor, bDisplayOption, iMoveMode);
+        return this.setData(color, bDisplayOption, iMoveMode);
     }
     /**
      * SetColor Method.
      */
-    public int setColor(Color color)
+    public int setColor(int color)
     {
         return this.setColor(color, true, DBConstants.SCREEN_MOVE);
     }

@@ -5,7 +5,6 @@
  */
 package org.jbundle.main.calendar.db;
 
-import java.awt.*;
 import java.util.*;
 
 import org.jbundle.base.db.*;
@@ -219,9 +218,9 @@ public class CalendarEntry extends VirtualRecord
     /**
      * Get the icon for the screen display.
      */
-    public ImageIcon getStartIcon()
+    public Object getStartIcon()
     {
-        ImageIcon iconStart = null;
+        Object iconStart = null;
         Record recCalendarCategory = ((ReferenceField)this.getField(CalendarEntry.CALENDAR_CATEGORY_ID)).getReference();
         if ((recCalendarCategory == null) || (recCalendarCategory.getEditMode() != DBConstants.EDIT_CURRENT))
             if (this.getField(Anniversary.ANNIV_MASTER_ID) instanceof ReferenceField)
@@ -231,7 +230,7 @@ public class CalendarEntry extends VirtualRecord
         //        recCalendarCategory = ((ReferenceField)recAnnivMaster.getField(AnnivMaster.CALENDAR_CATEGORY_ID)).getReference();
         }
         if ((recCalendarCategory != null) && (recCalendarCategory.getEditMode() == DBConstants.EDIT_CURRENT))
-            iconStart = (ImageIcon)new ImageIcon((Image)((ImageField)recCalendarCategory.getField(CalendarCategory.ICON)).getImage().getImage());
+            iconStart = ((ImageField)recCalendarCategory.getField(CalendarCategory.ICON)).getImage().getImage();
         if (iconStart == null)
         {
             if (this.getTask() instanceof BaseApplet)

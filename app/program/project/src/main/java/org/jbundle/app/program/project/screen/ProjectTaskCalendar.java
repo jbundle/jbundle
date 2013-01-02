@@ -5,7 +5,6 @@
  */
 package org.jbundle.app.program.project.screen;
 
-import java.awt.*;
 import java.util.*;
 
 import org.jbundle.base.db.*;
@@ -151,7 +150,7 @@ public class ProjectTaskCalendar extends CalendarScreen
                     field = (ImageField)recProjectControl.getField(fieldSeq);
                 if (field.isNull())
                     return super.getIcon(iIconType);
-                return new ImageIcon((Image)field.getImage().getImage());
+                return field.getImage().getImage();
             }
             public int getHighlightColor()
             {
