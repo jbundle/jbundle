@@ -157,7 +157,7 @@ public class ViewFactory extends Object
         if (iLastDot != -1)
         {
             if (!modelClassName.startsWith(SCREEN_MODEL_PACKAGE))
-                packageRoot = modelClassName.substring(0, iLastDot + 1);
+                packageRoot = modelClassName.substring(0, iLastDot) + ".view.";
             int iModelEnd = modelClassName.lastIndexOf(SCREEN_MODEL_PACKAGE);
             if (iModelEnd != -1)
             {

@@ -47,13 +47,13 @@
     </profile>
   </profiles>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.jbundle.config.dep</groupId>
-			<artifactId>jbundle-config-dep-all</artifactId>
-			<version>${jbundleVersion}</version>
-			<type>pom</type>
-		</dependency>
-	</dependencies>
+  <dependencies>
+    <dependency>
+	<groupId>org.jbundle.config.dep</groupId>
+	<artifactId>jbundle-config-dep-all</artifactId>
+	<version>${jbundleVersion}</version>
+	<type>pom</type>
+    </dependency>
+  </dependencies>
 
 </project>
