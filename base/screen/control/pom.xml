@@ -17,7 +17,7 @@
     <!-- module>cocoon</module -->
     <module>servlet</module>
     <module>xslservlet</module>
-    <module>swing</module>
+    <!-- module>swing</module -->
   </modules>
   
 </project>
