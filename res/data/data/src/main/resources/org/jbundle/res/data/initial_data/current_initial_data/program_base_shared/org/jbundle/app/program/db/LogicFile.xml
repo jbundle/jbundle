@@ -6077,13 +6077,13 @@ Display the headers, etc. then:
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16780259">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2013-01-02T10:47:32</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>10</Sequence>
 		<MethodName>ScreenFieldViewAdapter</MethodName>
 		<LogicDescription/>
 		<MethodReturns/>
-		<MethodInterface>ScreenField model,boolean bEditableControl</MethodInterface>
+		<MethodInterface>ScreenField model, boolean bEditableControl</MethodInterface>
 		<MethodClassName>ScreenFieldViewAdapter</MethodClassName>
 		<LogicSource/>
 		<LogicThrows/>
@@ -13401,7 +13401,7 @@ this.getMainRecord().addListener(new FileFilter(null)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783174">
-		<LastChanged>2012-07-05T20:19:23</LastChanged>
+		<LastChanged>2013-01-02T11:28:05</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>90</Sequence>
 		<MethodName>getCalendarItem</MethodName>
@@ -13423,7 +13423,7 @@ this.getMainRecord().addListener(new FileFilter(null)
             field = (ImageField)recProjectControl.getField(fieldSeq);
         if (field.isNull())
             return super.getIcon(iIconType);
-        return new ImageIcon((Image)field.getImage().getImage());
+        return field.getImage().getImage();
     }
     public int getHighlightColor()
     {
@@ -13635,31 +13635,28 @@ return ((Integer)this.getData()).intValue();]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783181">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2013-01-02T11:26:07</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>60</Sequence>
 		<MethodName>setColor</MethodName>
 		<LogicDescription/>
 		<MethodReturns>int</MethodReturns>
-		<MethodInterface>Color color, boolean bDisplayOption, int iMoveMode</MethodInterface>
+		<MethodInterface>int color, boolean bDisplayOption, int iMoveMode</MethodInterface>
 		<MethodClassName>ColorField</MethodClassName>
-		<LogicSource><![CDATA[Integer intColor = null;
-if (color != null)
-    intColor = new Integer(color.getRGB());
-return this.setData(intColor, bDisplayOption, iMoveMode);]]></LogicSource>
+		<LogicSource>return this.setData(color, bDisplayOption, iMoveMode);</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783182">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2013-01-02T11:26:16</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>65</Sequence>
 		<MethodName>setColor*2</MethodName>
 		<LogicDescription/>
 		<MethodReturns>int</MethodReturns>
-		<MethodInterface>Color color</MethodInterface>
+		<MethodInterface>int color</MethodInterface>
 		<MethodClassName>ColorField</MethodClassName>
 		<LogicSource>return this.setColor(color, true, DBConstants.SCREEN_MOVE);</LogicSource>
 		<LogicThrows/>
@@ -16808,15 +16805,15 @@ return properties;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783598">
-		<LastChanged>2012-07-05T20:20:04</LastChanged>
+		<LastChanged>2013-01-02T11:19:28</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>90</Sequence>
 		<MethodName>getStartIcon</MethodName>
 		<LogicDescription>Get the icon for the screen display</LogicDescription>
-		<MethodReturns>ImageIcon</MethodReturns>
+		<MethodReturns>Object</MethodReturns>
 		<MethodInterface/>
 		<MethodClassName>CalendarEntry</MethodClassName>
-		<LogicSource><![CDATA[ImageIcon iconStart = null;
+		<LogicSource><![CDATA[Object iconStart = null;
 Record recCalendarCategory = ((ReferenceField)this.getField(CalendarEntry.CALENDAR_CATEGORY_ID)).getReference();
 if ((recCalendarCategory == null) || (recCalendarCategory.getEditMode() != DBConstants.EDIT_CURRENT))
     if (this.getField(Anniversary.ANNIV_MASTER_ID) instanceof ReferenceField)
@@ -16826,7 +16823,7 @@ if ((recCalendarCategory == null) || (recCalendarCategory.getEditMode() != DBCon
 //        recCalendarCategory = ((ReferenceField)recAnnivMaster.getField(AnnivMaster.CALENDAR_CATEGORY_ID)).getReference();
 }
 if ((recCalendarCategory != null) && (recCalendarCategory.getEditMode() == DBConstants.EDIT_CURRENT))
-    iconStart = (ImageIcon)new ImageIcon((Image)((ImageField)recCalendarCategory.getField(CalendarCategory.ICON)).getImage().getImage());
+    iconStart = ((ImageField)recCalendarCategory.getField(CalendarCategory.ICON)).getImage().getImage();
 if (iconStart == null)
 {
     if (this.getTask() instanceof BaseApplet)

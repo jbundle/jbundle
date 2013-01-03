@@ -7702,21 +7702,6 @@
 		<ClassFieldsType>C</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
-	<ClassFields ID="16782236">
-		<LastChanged>2010-04-09T21:20:44</LastChanged>
-		<Deleted>N</Deleted>
-		<ClassInfoClassName>Packages</ClassInfoClassName>
-		<ClassInfoID/>
-		<ClassFieldClass>org.jbundle.app.program.manual</ClassFieldClass>
-		<ClassFieldSequence>0</ClassFieldSequence>
-		<ClassFieldName/>
-		<ClassFieldDesc/>
-		<ClassFieldProtect/>
-		<ClassFieldInitial/>
-		<ClassFieldInitialValue/>
-		<ClassFieldsType>I</ClassFieldsType>
-		<IncludeScope>1</IncludeScope>
-	</ClassFields>
 	<ClassFields ID="16782237">
 		<LastChanged>2009-04-25T07:15:07</LastChanged>
 		<Deleted>N</Deleted>

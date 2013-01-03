@@ -3421,7 +3421,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778196">
-		<LastChanged>2010-02-05T11:20:58</LastChanged>
+		<LastChanged>2013-01-02T11:23:18</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>CalendarEntry</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
@@ -3821,7 +3821,7 @@ the LOOKUP_REQUIRED can be changed to LOOKUP_SCHEDULED.</ClassExplain>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778268">
-		<LastChanged>2010-02-05T11:18:06</LastChanged>
+		<LastChanged>2013-01-02T10:47:52</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ScreenFieldViewAdapter</ClassName>
 		<BaseClassName>Object</BaseClassName>
@@ -5778,7 +5778,7 @@ If a message has a input screen associated with it, you may press the
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778842">
-		<LastChanged>2010-02-05T11:19:52</LastChanged>
+		<LastChanged>2013-01-02T09:16:37</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Packages</ClassName>
 		<BaseClassName>Folder</BaseClassName>
@@ -7467,7 +7467,7 @@ depending on the contact type.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779182">
-		<LastChanged>2010-02-05T11:19:57</LastChanged>
+		<LastChanged>2013-01-02T11:28:15</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ProjectTaskCalendar</ClassName>
 		<BaseClassName>CalendarScreen</BaseClassName>
@@ -7501,7 +7501,7 @@ depending on the contact type.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779184">
-		<LastChanged>2010-02-05T11:19:57</LastChanged>
+		<LastChanged>2013-01-02T11:27:38</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ColorField</ClassName>
 		<BaseClassName>IntegerField</BaseClassName>
