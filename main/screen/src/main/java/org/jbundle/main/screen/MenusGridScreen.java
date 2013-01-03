@@ -75,13 +75,13 @@ public class MenusGridScreen extends FolderGridScreen
         Task task = this.getTask();
         App app = task.getApplication();
         String databaseName = app.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
-        if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
+        if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
         {
             oldApp = app;
             Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
             
             BaseDatabase.addDBProperties(properties, this, null);
-            properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
+            properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
             properties.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
         
             Environment env = ((BaseApplication)oldApp).getEnvironment();

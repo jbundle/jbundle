@@ -221,17 +221,17 @@ public class BaseDatabase extends Object
 	                    if (!m_strDbName.equalsIgnoreCase(this.getProperty(SQLParams.INTERNAL_DB_NAME)))
 	                        if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.USER_DATA)
 	                    		strDbName = Utility.addToPath(this.getProperty(DBConstants.DB_USER_PREFIX), strDbName, DB_NAME_SEPARATOR);    // User prefix - Only for user data
-	                if (getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)) != null)
+	                if (Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)) != null)
 	                    if (!m_strDbName.equalsIgnoreCase(this.getProperty(SQLParams.INTERNAL_DB_NAME)))
 	                    {
 	                        if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.USER_DATA)
-	                        	strDbName = Utility.addToPath(strDbName, getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), DB_NAME_SEPARATOR);	 // System suffix
+	                        	strDbName = Utility.addToPath(strDbName, Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), DB_NAME_SEPARATOR);	 // System suffix
 	                        else if ((this.getDatabaseType() & DBConstants.TABLE_DATA_TYPE_MASK) == DBConstants.SHARED_DATA)
 	                        {  // The shared database name is never changed, EXCEPT if the mode is set. Then there are a few exceptions
 	                            if ((this.getProperty(DBConstants.MODE) == null) || (this.getProperty(DBConstants.MODE).length() == 0) || (this.getProperty(DBConstants.MODE).equalsIgnoreCase(RUN_MODE)))
                                 {  // Default = Regular (run) mode
                                     if ((DEV_DATABASE.equalsIgnoreCase(m_strDbName)) || (MAIN_DATABASE.equalsIgnoreCase(m_strDbName)))
-                                        strDbName = Utility.addToPath(strDbName, getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), DB_NAME_SEPARATOR);  // Add System suffix
+                                        strDbName = Utility.addToPath(strDbName, Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), DB_NAME_SEPARATOR);  // Add System suffix
                                 }
                                 else
                                 {   // Development mode
@@ -239,7 +239,7 @@ public class BaseDatabase extends Object
 	                                    if (this.getProperty(DBConstants.MODE).substring(0, 3).equalsIgnoreCase(DEVELOPMENT_MODE))
 	                                {
 	                                    if (DEV_DATABASE.equalsIgnoreCase(m_strDbName))
-                                            strDbName = Utility.addToPath(strDbName, getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), DB_NAME_SEPARATOR);  // System suffix	                                        
+                                            strDbName = Utility.addToPath(strDbName, Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), DB_NAME_SEPARATOR);  // System suffix	                                        
 	                                    if (MAIN_DATABASE.equalsIgnoreCase(m_strDbName))
 	                                        strDbName = Utility.addToPath(strDbName, DEV_MAIN_SUFFIX, DB_NAME_SEPARATOR);  // Development menus
 	                                }
@@ -261,7 +261,6 @@ public class BaseDatabase extends Object
     }
     public static final String USER_SUFFIX = "_user";
     public static final String SHARED_SUFFIX = "_shared";
-    public static final String DEFAULT_SYSTEM_SUFFIX = "_tour";
     public static final String DEVELOPMENT_MODE = "dev";    // Development
     //public static final String OVERRIDE_MODE = "ove";     // Override
     public static final String RUN_MODE = "run";            // Run
@@ -269,27 +268,6 @@ public class BaseDatabase extends Object
     public static final String MAIN_DATABASE = "main";
     public static final String DEV_MAIN_SUFFIX = "_base";
     public static final char DB_NAME_SEPARATOR = '_';
-    /**
-     * Get the system suffix, fix it and return it.
-     * @return
-     */
-    public static String getSystemSuffix(String suffix)
-    {
-        if (suffix == null)
-            suffix = DEFAULT_SYSTEM_SUFFIX;
-        for (int i = suffix.length() - 2; i > 0; i--)
-        {   // Only use last word
-            if (!Character.isLetterOrDigit(suffix.charAt(i)))
-            {
-                suffix = suffix.substring(i + 1); // Typical to pass groupId
-                break;
-            }
-        }
-        if (suffix.length() > 0)
-            if (Character.isLetterOrDigit(suffix.charAt(0)))
-                suffix = "_" + suffix;
-        return suffix;
-    }
     /**
      * Get the database locale.
      * @return

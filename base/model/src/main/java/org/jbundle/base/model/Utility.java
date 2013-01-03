@@ -860,4 +860,23 @@ public class Utility extends ThinUtil
         }
         return strServletName;
     }
+    public static final String DEFAULT_SYSTEM_SUFFIX = "tour";
+    /**
+     * Get the system suffix, fix it and return it.
+     * @return
+     */
+    public static String getSystemSuffix(String suffix)
+    {
+        if (suffix == null)
+            suffix = DEFAULT_SYSTEM_SUFFIX;
+        for (int i = suffix.length() - 2; i > 0; i--)
+        {   // Only use last word
+            if (!Character.isLetterOrDigit(suffix.charAt(i)))
+            {
+                suffix = suffix.substring(i + 1); // Typical to pass groupId
+                break;
+            }
+        }
+        return suffix;
+    }
 }
