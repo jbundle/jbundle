@@ -87,10 +87,10 @@ public class RemoteMessageManager extends ThinMessageManager
         {
             synchronized (app)
             {
-                if ((app == null) || (!Constants.TRUE.equalsIgnoreCase(app.getProperty(Params.MESSAGE_SERVER))))
-                    m_messageManager = new RemoteMessageManager(app, strParams, properties);
+                if ((app == null) || ((!Constants.TRUE.equalsIgnoreCase(app.getProperty(Params.MESSAGE_SERVER)))) && (!"local".equalsIgnoreCase(app.getProperty(Params.MESSAGE_SERVER))))
+                    m_messageManager = new RemoteMessageManager(app, strParams, properties);    // (remote)
                 else
-                    m_messageManager = new ThinMessageManager(app, strParams, properties);
+                    m_messageManager = new ThinMessageManager(app, strParams, properties);      // local
             }
         }
         return m_messageManager;

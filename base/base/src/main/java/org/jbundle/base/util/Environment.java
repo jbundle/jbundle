@@ -436,8 +436,9 @@ Utility.getLogger().info("removeApp: " + application);
                 //messageApplication = new MessageInfoApplication(this, properties, null);
                 if (this.getDefaultApplication() != null)
                     if (this.getDefaultApplication() != messageApplication)
-                        if (!DBConstants.TRUE.equalsIgnoreCase(messageApplication.getProperty(DBParams.MESSAGE_SERVER))) // JMSServer has no server
-                {
+                        if ((!DBConstants.TRUE.equalsIgnoreCase(messageApplication.getProperty(DBParams.MESSAGE_SERVER))) // JMSServer has no server
+                            && (!DBParams.LOCAL.equalsIgnoreCase(messageApplication.getProperty(DBParams.MESSAGE_SERVER))))
+                {   // (remote)
                     RemoteTask server = (RemoteTask)messageApplication.getRemoteTask(null);
                     RemoteTask appServer = (RemoteTask)this.getDefaultApplication().getRemoteTask(null, null, false);
                     if ((server != null) && (appServer != null))

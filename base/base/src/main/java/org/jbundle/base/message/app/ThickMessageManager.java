@@ -69,8 +69,9 @@ public class ThickMessageManager extends ThinMessageManager
                 bCreateIfNotFound = true;   // If you explicitly specify a remote server, create the server if new.
         if (((BaseApplication)this.getApplication()).getEnvironment().getDefaultApplication() != null)
             if (!MessageConstants.LOCAL_QUEUE.equalsIgnoreCase(strQueueType))
-                if (!DBConstants.TRUE.equalsIgnoreCase(this.getApplication().getProperty(DBParams.MESSAGE_SERVER)))  // Don't try to get a remote message server if I am the remote message server
-                    server = ((BaseApplication)this.getApplication()).getEnvironment().getDefaultApplication().getRemoteTask(null, null, bCreateIfNotFound);
+                if ((!DBConstants.TRUE.equalsIgnoreCase(this.getApplication().getProperty(DBParams.MESSAGE_SERVER)))  // Don't try to get a remote message server if I am the remote message server
+                    && (!DBParams.LOCAL.equalsIgnoreCase(this.getApplication().getProperty(DBParams.MESSAGE_SERVER))))
+                        server = ((BaseApplication)this.getApplication()).getEnvironment().getDefaultApplication().getRemoteTask(null, null, bCreateIfNotFound);    // (remote)
         // This assumes that I only have a server for client processes (Should be correct).
         if (server != null)
             return new org.jbundle.base.message.core.dual.DualMessageQueue(this, strQueueName, strQueueType); // Handle remote and local

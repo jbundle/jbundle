@@ -584,9 +584,9 @@ public class MainApplication extends BaseApplication
      */
     public MessageManager getMessageManager()
     {
+        boolean createMessageManager = true;
     	if (DBConstants.FALSE.equalsIgnoreCase(this.getProperty(DBParams.MESSAGE_SERVER)))
-    		return this.getMessageManager(false);
-    	else
-    		return this.getMessageManager(true);
+    	    createMessageManager = false;
+		return this.getMessageManager(createMessageManager);
     }
 }

@@ -48,7 +48,7 @@ public interface Params extends Param
      */
     public static final String REMOTE_MESSAGE_APP = REMOTE_SESSION_SERVER_CLASS;
     /**
-     * Set this to "true" to make the application service the incoming external JMS requests.
+     * true=message server, local=local messaging only, (remote)=remote and local messaging, false=No messaging
      */
     public static final String MESSAGE_SERVER = "messageserver";
     /**
