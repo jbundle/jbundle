@@ -1185,7 +1185,7 @@ public abstract class BaseTable extends FieldTable
                 bSuccess = xml.importXML(table, defaultFilename, inputStream);
             }
             if (!bSuccess)   
-                Utility.getLogger().warning("No initial data for: "
+                Utility.getLogger().info("No initial data for: "
                     + ((record.getRecordName().endsWith(TEMP_SUFFIX)) ? record.getRecordName().substring(0, record.getRecordName().length() - TEMP_SUFFIX.length()) : record.getRecordName())
                     + " from " + filename);
         } catch (Exception ex) {
