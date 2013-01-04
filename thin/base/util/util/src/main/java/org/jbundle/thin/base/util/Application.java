@@ -445,6 +445,9 @@ public class Application extends Object
             if (properties.get(Params.DOMAIN) == null)
             	if (this.getProperty(Params.DOMAIN) != null)
             		properties.put(Params.DOMAIN, this.getProperty(Params.DOMAIN));
+            if (properties.get(Constants.SYSTEM_NAME) == null)
+                if (this.getProperty(Constants.SYSTEM_NAME) != null)
+                    properties.put(Constants.SYSTEM_NAME, this.getProperty(Constants.SYSTEM_NAME));
             if (m_mainRemoteTask == null)
             {
                 ApplicationServer appServer = null;
