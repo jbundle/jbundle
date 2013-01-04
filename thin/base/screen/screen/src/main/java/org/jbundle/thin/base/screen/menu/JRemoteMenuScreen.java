@@ -91,7 +91,7 @@ public class JRemoteMenuScreen extends JBaseMenuScreen
                         this.addScreenControls(this);
                         this.validate();
                         this.repaint();
-                        if (properties.get(Params.SCREEN) == null)
+                        if ((properties.get(Params.SCREEN) == null) || (((String)properties.get(Params.SCREEN)).length() == 0))
                             strAction = strAction + '&' + Params.SCREEN + '=' + this.getClass().getName();
                         if (properties.get(Params.APPLET) == null)
                             strAction = strAction + '&' + Params.APPLET + '=';

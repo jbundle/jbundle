@@ -80,7 +80,7 @@ public class ThinApplet extends BaseApplet
     public boolean addSubPanels(Container parent)
     {
         String strScreen = this.getProperty(Params.SCREEN);
-        if (strScreen == null)
+        if ((strScreen == null) || (strScreen.length() == 0))
             this.setProperty(Params.SCREEN, INITIAL_SCREEN);
         boolean success = super.addSubPanels(parent);
         if (success)

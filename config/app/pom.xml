@@ -48,6 +48,14 @@
   </profiles>
 
   <dependencies>
+  
+    <dependency>
+      <groupId>org.jbundle.app.test</groupId>
+  <artifactId>org.jbundle.thin.app.test.manual</artifactId>
+    <version>0.8.0-SNAPSHOT</version>
+    </dependency>
+
+
     <dependency>
 	<groupId>org.jbundle.config.dep</groupId>
 	<artifactId>jbundle-config-dep-all</artifactId>

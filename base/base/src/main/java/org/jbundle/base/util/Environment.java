@@ -369,7 +369,7 @@ Utility.getLogger().info("removeApp: " + application);
 				    strAppSubSystem = Utility.getSystemSuffix(strAppSubSystem);
 				boolean bDBMatch = false;
 				if ((strAppDBPrefix == null) && (strDBPrefix == null))
-						bDBMatch = true;
+					bDBMatch = true;
 				if (strAppDBPrefix != null)
 					if (strAppDBPrefix.equalsIgnoreCase(strDBPrefix))
 						bDBMatch = true;
@@ -413,7 +413,8 @@ Utility.getLogger().info("removeApp: " + application);
 	            strDBPrefix = (String)properties.get(DBConstants.DB_USER_PREFIX);
             if ((properties != null) && (strSubSystem == null))
                 strSubSystem = (String)properties.get(DBConstants.SYSTEM_NAME);
-            strSubSystem = Utility.getSystemSuffix(strSubSystem);
+            if (strSubSystem != null)
+                strSubSystem = Utility.getSystemSuffix(strSubSystem);
 		}    			
 		MessageApp messageApplication = this.getMessageApplication(strDBPrefix, strSubSystem);
         if (bCreateIfNotFound)

@@ -1315,7 +1315,7 @@ public class BaseApplet extends JApplet
 	        if (this.getProperty(Params.USER_NAME) != null)
 	        	strCommand = Util.addURLParam(strCommand, Params.USER_NAME, this.getProperty(Params.USER_NAME));
 		}
-        if (this.getProperty(Params.SCREEN) != null)
+        if ((this.getProperty(Params.SCREEN) != null) && (this.getProperty(Params.SCREEN).length() > 0))
         	strCommand = Util.addURLParam(strCommand, Params.SCREEN, this.getProperty(Params.SCREEN));
         if (strCommand.length() == 0)
         {
