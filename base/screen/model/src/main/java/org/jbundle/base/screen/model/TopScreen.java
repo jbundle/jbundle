@@ -406,7 +406,7 @@ public class TopScreen extends BasePanel
         }
         else if ((iErrorCode == DBConstants.LOGIN_REQUIRED) || (iErrorCode == DBConstants.AUTHENTICATION_REQUIRED))
         {
-            Record record = Record.makeRecordFromClassName(UserInfoModel.THICK_CLASS, null);
+            Record record = Record.makeRecordFromClassName(UserInfoModel.THICK_CLASS, Utility.getRecordOwner(parentScreen));
             ScreenLocation itsLocation = this.getScreenLocation();
             int docMode = record.commandToDocType(UserInfoModel.LOGIN_SCREEN);
             Map<String,Object> properties = null;

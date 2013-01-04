@@ -2816,9 +2816,11 @@ public class Record extends FieldList
         Task task = super.getTask();   // Null
         if (task == null)
         {   // Look a little harder
-        	if (this.getTable().getDatabase().getDatabaseOwner() != null)
-        		if (((Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getDefaultApplication() != null)
-            task = ((BaseApplication)((Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getDefaultApplication()).getMainTask();
+            if (this.getTable() != null)
+                if (this.getTable().getDatabase() != null)
+                    if (this.getTable().getDatabase().getDatabaseOwner() != null)
+                        if (((Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getDefaultApplication() != null)
+                            task = ((BaseApplication)((Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getDefaultApplication()).getMainTask();
         }
         return task;
     }
