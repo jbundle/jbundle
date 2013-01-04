@@ -71,7 +71,8 @@ public class BaseHolder extends Object
             Utility.getLogger().info("Not all sub-sessions freed by client - I will free them");
             synchronized (this)
             {
-                for (String strID : m_mapChildHolders.keySet())
+                String[] keys = (String[])m_mapChildHolders.keySet().toArray(); // Since these are removed on free
+                for (String strID : keys)
                 {
                     BaseHolder baseHolder = (BaseHolder)m_mapChildHolders.get(strID);
                     baseHolder.free();  // Should be removed from collection.

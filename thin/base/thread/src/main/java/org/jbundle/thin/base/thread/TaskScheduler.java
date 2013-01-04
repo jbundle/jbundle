@@ -15,7 +15,6 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.logging.Level;
 
 import org.jbundle.model.App;
 import org.jbundle.model.Freeable;
@@ -127,6 +126,7 @@ public class TaskScheduler extends Object
      * Start this task running in this thread.
      * @param objJobDef The job to run in this thread.
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void runThread(Object objJobDef)
     {
         if (objJobDef instanceof Task)
@@ -168,7 +168,7 @@ public class TaskScheduler extends Object
                 ((Runnable)job).run();  // This should be okay, as I already have my own thread
             }
             else
-                Util.getLogger().warning("Illegal job type passed to TaskScheduler.");
+                Util.getLogger().warning("Illegal job type passed to TaskScheduler: " + job);
         }
         else if (objJobDef instanceof Runnable)
             ((Runnable)objJobDef).run();
