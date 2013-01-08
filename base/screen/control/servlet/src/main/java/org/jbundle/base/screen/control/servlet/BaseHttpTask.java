@@ -572,6 +572,11 @@ public class BaseHttpTask extends Object
             application = (ServletApplication)session.getAttribute(DBParams.APPLICATION);    // Get the currently instantiate app getValue(APPLICATION);  //
             if (application != null)
             { // Always
+                String systemName = BaseHttpTask.cleanParam(req.getParameterValues(DBConstants.SYSTEM_NAME), false, null);
+                if (systemName != null)
+                    if (!Utility.getSystemSuffix(systemName).equalsIgnoreCase(Utility.getSystemSuffix(application.getProperty(DBConstants.SYSTEM_NAME))))
+                        if (strUserNameOrID == null)
+                            strUserNameOrID = DBConstants.BLANK;    // Change in system name means new app.
                 if (strUserNameOrID != null)    // user= means new user
                 {
                     boolean bNewUser = false;
@@ -587,6 +592,9 @@ public class BaseHttpTask extends Object
                                     bNewUser = true;    // Supplying authentication = sign on to new
                         if ((!strUserNameOrID.equalsIgnoreCase(application.getProperty(DBParams.USER_NAME)))
                             && (!strUserNameOrID.equalsIgnoreCase(application.getProperty(DBParams.USER_ID))))
+                                bNewUser = true;
+                        if (systemName != null)
+                            if (!Utility.getSystemSuffix(systemName).equalsIgnoreCase(Utility.getSystemSuffix(application.getProperty(DBConstants.SYSTEM_NAME))))
                                 bNewUser = true;
                     }
                     if (bNewUser)
@@ -874,6 +882,9 @@ public class BaseHttpTask extends Object
         		strCodeBase = strCodeBase + System.getProperty("file.separator");
         if (strCodeBase != null)
             properties.put(Params.CODEBASE, strCodeBase);
+        String systemname = BaseHttpTask.getParam(req, DBConstants.SYSTEM_NAME);
+        if (systemname != null)
+            properties.put(DBConstants.SYSTEM_NAME, systemname);
         return properties;
     }
     /**
