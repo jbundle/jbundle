@@ -120,7 +120,7 @@ public class ExportRecordsScreen extends BaseScreen
         strProcess = Utility.addURLParam(strProcess, DBParams.REMOTE_HOST, this.getProperty(DBParams.REMOTE_HOST));
         strProcess = Utility.addURLParam(strProcess, DBParams.CODEBASE, this.getProperty(DBParams.CODEBASE));
         strProcess = Utility.addURLParam(strProcess, SQLParams.DATABASE_PRODUCT_PARAM, this.getProperty(SQLParams.DATABASE_PRODUCT_PARAM));
-        strProcess = Utility.addURLParam(strProcess, DBConstants.SYSTEM_NAME, this.getProperty(DBConstants.SYSTEM_NAME));
+        strProcess = Utility.addURLParam(strProcess, DBConstants.SYSTEM_NAME, this.getProperty(DBConstants.SYSTEM_NAME), false);
         return strProcess;
     }
     /**

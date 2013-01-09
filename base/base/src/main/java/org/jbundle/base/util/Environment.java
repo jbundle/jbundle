@@ -366,7 +366,7 @@ Utility.getLogger().info("removeApp: " + application);
 				String strAppDBPrefix = (messageAppProperties == null) ? null : (String)messageAppProperties.get(DBConstants.DB_USER_PREFIX);
 				String strAppSubSystem = (messageAppProperties == null) ? null : (String)messageAppProperties.get(DBConstants.SYSTEM_NAME);
 				if (strAppSubSystem != null)
-				    strAppSubSystem = Utility.getSystemSuffix(strAppSubSystem);
+				    strAppSubSystem = Utility.getSystemSuffix(strAppSubSystem, this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME));
 				boolean bDBMatch = false;
 				if ((strAppDBPrefix == null) && (strDBPrefix == null))
 					bDBMatch = true;
@@ -414,7 +414,7 @@ Utility.getLogger().info("removeApp: " + application);
             if ((properties != null) && (strSubSystem == null))
                 strSubSystem = (String)properties.get(DBConstants.SYSTEM_NAME);
             if (strSubSystem != null)
-                strSubSystem = Utility.getSystemSuffix(strSubSystem);
+                strSubSystem = Utility.getSystemSuffix(strSubSystem, this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME));
 		}    			
 		MessageApp messageApplication = this.getMessageApplication(strDBPrefix, strSubSystem);
         if (bCreateIfNotFound)

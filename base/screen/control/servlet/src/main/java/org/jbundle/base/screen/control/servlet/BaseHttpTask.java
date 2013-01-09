@@ -574,7 +574,7 @@ public class BaseHttpTask extends Object
             { // Always
                 String systemName = BaseHttpTask.cleanParam(req.getParameterValues(DBConstants.SYSTEM_NAME), false, null);
                 if (systemName != null)
-                    if (!Utility.getSystemSuffix(systemName).equalsIgnoreCase(Utility.getSystemSuffix(application.getProperty(DBConstants.SYSTEM_NAME))))
+                    if (!Utility.getSystemSuffix(systemName, application.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)).equalsIgnoreCase(Utility.getSystemSuffix(application.getProperty(DBConstants.SYSTEM_NAME), application.getProperty(DBConstants.DEFAULT_SYSTEM_NAME))))
                         if (strUserNameOrID == null)
                             strUserNameOrID = DBConstants.BLANK;    // Change in system name means new app.
                 if (strUserNameOrID != null)    // user= means new user
@@ -594,7 +594,7 @@ public class BaseHttpTask extends Object
                             && (!strUserNameOrID.equalsIgnoreCase(application.getProperty(DBParams.USER_ID))))
                                 bNewUser = true;
                         if (systemName != null)
-                            if (!Utility.getSystemSuffix(systemName).equalsIgnoreCase(Utility.getSystemSuffix(application.getProperty(DBConstants.SYSTEM_NAME))))
+                            if (!Utility.getSystemSuffix(systemName, application.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)).equalsIgnoreCase(Utility.getSystemSuffix(application.getProperty(DBConstants.SYSTEM_NAME), application.getProperty(DBConstants.DEFAULT_SYSTEM_NAME))))
                                 bNewUser = true;
                     }
                     if (bNewUser)
@@ -882,7 +882,7 @@ public class BaseHttpTask extends Object
         		strCodeBase = strCodeBase + System.getProperty("file.separator");
         if (strCodeBase != null)
             properties.put(Params.CODEBASE, strCodeBase);
-        String systemname = BaseHttpTask.getParam(req, DBConstants.SYSTEM_NAME);
+        String systemname = BaseHttpTask.getParam(req, DBConstants.SYSTEM_NAME, null);
         if (systemname != null)
             properties.put(DBConstants.SYSTEM_NAME, systemname);
         return properties;

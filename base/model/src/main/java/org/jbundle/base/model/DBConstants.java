@@ -134,6 +134,10 @@ public interface DBConstants extends Constants
      */
     public static final String LOAD_INITIAL_DATA = "loadInitialData";
     /**
+     * Default system name.
+     */
+    public static final String DEFAULT_SYSTEM_NAME = "defaultsystemname";
+    /**
      * Load initial data on table create.
      */
     public static final String ARCHIVE_FOLDER = "archiveFolder";

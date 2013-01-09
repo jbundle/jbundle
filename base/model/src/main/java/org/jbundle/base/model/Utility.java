@@ -865,10 +865,12 @@ public class Utility extends ThinUtil
      * Get the system suffix, fix it and return it.
      * @return
      */
-    public static String getSystemSuffix(String suffix)
+    public static String getSystemSuffix(String suffix, String defaultSuffix)
     {
+        if (defaultSuffix == null)
+            defaultSuffix = DEFAULT_SYSTEM_SUFFIX;
         if (suffix == null)
-            suffix = DEFAULT_SYSTEM_SUFFIX;
+            suffix = defaultSuffix;
         for (int i = suffix.length() - 2; i > 0; i--)
         {   // Only use last word
             if (!Character.isLetterOrDigit(suffix.charAt(i)))
