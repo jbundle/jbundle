@@ -11,7 +11,7 @@
 
   <artifactId>org.jbundle.model.app.program</artifactId>
   <packaging>bundle</packaging>
-  <name>jbundle-model-app-program - Record intefaces</name>
+  <name>jbundle-model-app-program - Record interfaces</name>
 
   <dependencies>
     <dependency>
