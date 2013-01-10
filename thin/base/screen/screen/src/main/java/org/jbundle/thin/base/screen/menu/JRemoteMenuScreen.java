@@ -93,8 +93,8 @@ public class JRemoteMenuScreen extends JBaseMenuScreen
                         this.repaint();
                         if ((properties.get(Params.SCREEN) == null) || (((String)properties.get(Params.SCREEN)).length() == 0))
                             strAction = strAction + '&' + Params.SCREEN + '=' + this.getClass().getName();
-                        if (properties.get(Params.APPLET) == null)
-                            strAction = strAction + '&' + Params.APPLET + '=';
+                        //xif (properties.get(Params.APPLET) == null)
+                        //x    strAction = strAction + '&' + Params.APPLET + '=';
                         this.getBaseApplet().pushHistory(strAction, ((iOptions & Constants.DONT_PUSH_TO_BROSWER) == Constants.PUSH_TO_BROSWER));    // This is the command to get to this screen (for the history).
                         return ((Boolean)bSuccess).booleanValue();
                     }
