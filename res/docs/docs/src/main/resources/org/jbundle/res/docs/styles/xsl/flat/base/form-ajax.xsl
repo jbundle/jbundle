@@ -455,8 +455,6 @@
 					</xsl:element>
 			</xsl:if>
 
-			<script src="org/jbundle/res/docs/styles/js/jbundle/back.js" type="text/javascript"></script>
-
 			<script src="org/jbundle/res/docs/styles/js/jbundle/main.js" type="text/javascript"></script>
 			<script src="org/jbundle/res/docs/styles/js/jbundle/classes.js" type="text/javascript"></script>
 			<script src="org/jbundle/res/docs/styles/js/jbundle/remote.js" type="text/javascript"></script>
