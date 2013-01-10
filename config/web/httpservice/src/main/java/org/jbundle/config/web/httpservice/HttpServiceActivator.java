@@ -54,6 +54,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             BaseServlet.JNLP_DOWNLOAD,
             BaseServlet.MESSAGE,
             BaseServlet.XMLWS,
+            BaseServlet.FAVICON,
             BaseServlet.ROOT,  // This must always be the LAST servlet declaration
     };
 
@@ -102,6 +103,13 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
                     || (BaseServlet.DOCS.equalsIgnoreCase(alias)))
             {
                 serviceTracker = new ResourceHttpServiceTracker(context, httpContext, properties);
+            }
+            if (BaseServlet.FAVICON.equalsIgnoreCase(alias))
+            {
+                servlet = new BaseOsgiServlet();
+                properties.put(BaseOsgiServlet.BASE_PATH, BaseServlet.JBUNDLE_RESOURCES + "/images/icons/");    // Prepend this to the path
+                ((BaseWebappServlet)servlet).init(context, servicePid, properties);
+                httpContext = new org.jbundle.util.webapp.base.FileHttpContext(servlet, context.getBundle());
             }
             if ((BaseServlet.JBUNDLE_RESOURCES.equalsIgnoreCase(alias)) 
                 || (BaseServlet.TOURAPP_RESOURCES.equalsIgnoreCase(alias)))

@@ -159,4 +159,5 @@ public class BaseServlet extends BaseWebappServlet
 	public static final String MESSAGE = "message";
 	public static final String WS = "ws";
 	public static final String XMLWS = "xmlws";
+	public static final String FAVICON = "favicon.ico";
 }
