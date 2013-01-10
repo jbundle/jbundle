@@ -109,7 +109,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
                 servlet = new BaseOsgiServlet();
                 properties.put(BaseOsgiServlet.BASE_PATH, alias + '/');    // Prepend this to the path
                 ((BaseWebappServlet)servlet).init(context, servicePid, properties);
-                httpContext = new org.jbundle.util.webapp.files.FileHttpContext(context.getBundle());
+                httpContext = new org.jbundle.util.webapp.base.FileHttpContext(servlet, context.getBundle());
             }
             if (BaseServlet.PROXY.equalsIgnoreCase(alias))
             {
