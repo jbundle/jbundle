@@ -1271,7 +1271,7 @@ public class BaseApplet extends JApplet
 			javaCommand = this.getInitialCommand(false);
 		Util.getLogger().info("doJavaBrowserBack " + this.cleanCommand(javaCommand));
 		System.out.println("=doJavaBrowserBack command=" + this.cleanCommand(javaCommand));
-		BaseApplet.handleAction(this.cleanCommand(command), this, this, Constants.DONT_PUSH_TO_BROSWER);
+		BaseApplet.handleAction(this.cleanCommand(javaCommand), this, this, Constants.DONT_PUSH_TO_BROSWER);
 	}
 	/**
 	 * Get the original screen params.
