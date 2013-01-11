@@ -1270,6 +1270,7 @@ public class BaseApplet extends JApplet
 		if ((javaCommand == null) || (javaCommand.length() == 0))
 			javaCommand = this.getInitialCommand(false);
 		Util.getLogger().info("=target command=" + this.cleanCommand(javaCommand));
+		System.out.println("=doJavaBrowserBack command=" + this.cleanCommand(javaCommand));
 		BaseApplet.handleAction(this.cleanCommand(command), this, this, Constants.DONT_PUSH_TO_BROSWER);
 		//x		this.doAction(this.cleanCommand(javaCommand), Constants.DONT_PUSH_TO_BROSWER);
 	}
@@ -1353,6 +1354,7 @@ public class BaseApplet extends JApplet
 			if (command.startsWith("#"))
 				command = command.substring(1);
 		Util.getLogger().info("Browser forward: java browser command=" + command + " = target: " + this.cleanCommand(command));
+        System.out.println("Browser forward: java browser command=" + command + " = target: " + this.cleanCommand(command));
 		BaseApplet.handleAction(this.cleanCommand(command), this, this, Constants.DONT_PUSH_TO_BROSWER);
 		//x		this.doAction(this.cleanCommand(command), Constants.DONT_PUSH_TO_BROSWER);
 	}
@@ -1366,6 +1368,7 @@ public class BaseApplet extends JApplet
 			if (command.startsWith("#"))
 				command = command.substring(1);
 		Util.getLogger().info("Browser hash change: java browser command=" + command + " = target: " + this.cleanCommand(command));
+		System.out.println("Browser hash change: java browser command=" + command + " = target: " + this.cleanCommand(command));
 		BaseApplet.handleAction(this.cleanCommand(command), this, this, Constants.DONT_PUSH_TO_BROSWER);
 //x		this.doAction(this.cleanCommand(command), Constants.DONT_PUSH_TO_BROSWER);
 	}
