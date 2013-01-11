@@ -73,14 +73,26 @@ public class NDatabase extends SDatabase
             strFilePathName = Util.addURLParam(strFilePathName, DATA_TYPE, "table");
             strFilePathName = Util.addURLParam(strFilePathName, RECORD_CLASS, record.getClass().getName());
             strFilePathName = Util.addURLParam(strFilePathName, TABLE_NAME, strTableName);
-            if (record.getOwner() instanceof RecordOwnerParent)
-                if (((RecordOwnerParent)record.getOwner()).getTask() != null)
-                    if (((RecordOwnerParent)record.getOwner()).getTask().getApplication() != null)
-                        if (((RecordOwnerParent)record.getOwner()).getTask().getApplication().getLanguage(true) != null)
-                            strFilePathName = Util.addURLParam(strFilePathName, Params.LANGUAGE, ((RecordOwnerParent)record.getOwner()).getTask().getApplication().getLanguage(true));
             App app = null;
             if (this.getPDatabaseParent() != null)
                 app = (App)this.getPDatabaseParent().getProperty(PhysicalDatabaseParent.APP);
+            if (app == null)
+                if (record.getOwner() instanceof RecordOwnerParent)
+                    if (((RecordOwnerParent)record.getOwner()).getTask() != null)
+                        if (((RecordOwnerParent)record.getOwner()).getTask().getApplication() != null)
+                            app = ((RecordOwnerParent)record.getOwner()).getTask().getApplication();
+            String systemName = null;
+            if (app != null)
+            {
+                strFilePathName = Util.addURLParam(strFilePathName, Params.LANGUAGE, app.getLanguage(true), false);
+                systemName = app.getProperty(Constants.SYSTEM_NAME);
+            }
+            if (systemName == null)
+                if (record.getTable() != null)
+                    if (record.getTable().getDatabase() != null)
+                        if (record.getTable().getDatabase().getDatabaseOwner() != null)
+                            systemName = record.getTable().getDatabase().getDatabaseOwner().getProperty(Constants.SYSTEM_NAME);
+            strFilePathName = Util.addURLParam(strFilePathName, Constants.SYSTEM_NAME, systemName, false);
             URL url = null;
             if (app == null)
             {
