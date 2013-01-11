@@ -54,7 +54,7 @@ public interface BaseAppletReference extends Task, Freeable {
      * NOTE: Do not use this method in most cases, use the method in BaseApplet.
      * @return The history command on top of the stack.
      */
-    public void popBrowserHistory(int quanityToPop, boolean bPushToBrowser, String browserTitle);
+    public void popBrowserHistory(int quanityToPop, boolean bPopFromBrowser, String browserTitle);
     /**
      * Display this URL in a web browser.
      * Uses the applet or jnlp context.

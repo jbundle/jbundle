@@ -1112,19 +1112,11 @@ public class BasePanel extends ScreenField
     				((BaseAppletReference)this.getAppletScreen().getTask()).pushBrowserHistory(strHistory, this.getTitle(), bPushToBrowser);    	// Let browser know about the new screen
     }
     /**
-     * Pop a command off the history stack.
-     * @return The command at the top of the history stack or null if empty.
-     */
-    public String popHistory()
-    {
-        return this.popHistory(1, true);
-    }
-    /**
      * Pop this command off the history stack.
      * NOTE: Do not use this method in most cases, use the method in BaseApplet.
      * @return The history command on top of the stack.
      */
-    public String popHistory(int quanityToPop, boolean bPushToBrowser)
+    public String popHistory(int quanityToPop, boolean bPopFromBrowser)
     {
         String strHistory = null;
         for (int i = 0; i < quanityToPop; i++)
@@ -1133,7 +1125,7 @@ public class BasePanel extends ScreenField
 	        if (m_vHistory != null) if (m_vHistory.size() > 0)
 	            strHistory = (String)m_vHistory.remove(m_vHistory.size() - 1);
         }
-        if (bPushToBrowser)
+        if (bPopFromBrowser)
         	if (this.getAppletScreen() != null) 
             	if (this.getAppletScreen().getTask() instanceof BaseAppletReference)
     				((BaseAppletReference)this.getAppletScreen().getTask()).popBrowserHistory(quanityToPop, strHistory != null, this.getTitle());    	// Let browser know about the new screen

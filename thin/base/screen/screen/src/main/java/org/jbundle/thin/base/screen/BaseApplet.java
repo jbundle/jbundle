@@ -66,6 +66,7 @@ import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.thin.base.util.base64.Base64;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.jbundle.util.osgi.webstart.browser.BrowserManager;
+import org.jbundle.util.osgi.webstart.browser.BrowserCallbacks;
 
 /**
  * The base class for all Applets and stand alone (applet) tasks.
@@ -81,7 +82,7 @@ import org.jbundle.util.osgi.webstart.browser.BrowserManager;
  * </pre>
  */
 public class BaseApplet extends JApplet
-    implements Task, SyncPage, BaseAppletReference
+    implements Task, SyncPage, BaseAppletReference, BrowserCallbacks
 {
 	private static final long serialVersionUID = 1L;
 
@@ -868,7 +869,7 @@ public class BaseApplet extends JApplet
         }
         if (Constants.HELP.equalsIgnoreCase(strAction))
         {
-            String strPrevAction = this.popHistory();   // Current screen
+            String strPrevAction = this.popHistory(1, true);   // Current screen
             this.pushHistory(strPrevAction, ((iOptions & Constants.DONT_PUSH_TO_BROSWER) == Constants.PUSH_TO_BROSWER));    // If top of stack, leave it alone.
             if ((strPrevAction != null)
                 && (strPrevAction.length() > 0)
@@ -1225,19 +1226,12 @@ public class BaseApplet extends JApplet
                 this.getBrowserManager().pushBrowserHistory(strHistory, browserTitle);     // Let browser know about the new screen
     }
     /**
-     * Pop a command off the history stack.
-     * @return The command at the top of the history stack or null if empty.
-     */
-    public String popHistory()
-    {
-        return this.popHistory(1, true);
-    }
-    /**
      * Pop this command off the history stack.
-     * NOTE: Do not use this method in most cases, use the method in BaseApplet.
-     * @return The history command on top of the stack.
+     * @param quanityToPop The number of commands to pop off the stack
+     * @param bPopFromBrowser Pop them off the browser stack also?
+     * NOTE: The params are different from the next call.
      */
-    public String popHistory(int quanityToPop, boolean bPushToBrowser)
+    public String popHistory(int quanityToPop, boolean bPopFromBrowser)
     {
         String strHistory = null;
         for (int i = 0; i < quanityToPop; i++)
@@ -1246,19 +1240,19 @@ public class BaseApplet extends JApplet
 	        if (m_vHistory != null) if (m_vHistory.size() > 0)
 	            strHistory = (String)m_vHistory.remove(m_vHistory.size() - 1);
         }
-        this.popBrowserHistory(quanityToPop, strHistory != null, this.getStatusText(Constants.INFORMATION));    	// Let browser know about the new screen
+        if (bPopFromBrowser)
+            this.popBrowserHistory(quanityToPop, strHistory != null, this.getStatusText(Constants.INFORMATION));    	// Let browser know about the new screen
         return strHistory;
     }
     /**
-     * Pop this command off the history stack.
-     * NOTE: Do not use this method in most cases, use the method in BaseApplet.
-     * @return The history command on top of the stack.
+     * Pop commands off the browser stack.
+     * @param quanityToPop The number of commands to pop off the stack
+     * @param bCommandHandledByJava If I say false, the browser will do a 'back', otherwise, it just pops to top command(s)
      */
-    public void popBrowserHistory(int quanityToPop, boolean bPushToBrowser, String browserTitle)
+    public void popBrowserHistory(int quanityToPop, boolean bCommandHandledByJava, String browserTitle)
     {
-        if (bPushToBrowser)
-            if (this.getBrowserManager() != null)
-                this.getBrowserManager().popBrowserHistory(quanityToPop, bPushToBrowser, this.getStatusText(Constants.INFORMATION));        // Let browser know about the new screen
+        if (this.getBrowserManager() != null)
+            this.getBrowserManager().popBrowserHistory(quanityToPop, bCommandHandledByJava, this.getStatusText(Constants.INFORMATION));        // Let browser know about the new screen
     }
     /**
      * The browser back button was pressed (Javascript called me).

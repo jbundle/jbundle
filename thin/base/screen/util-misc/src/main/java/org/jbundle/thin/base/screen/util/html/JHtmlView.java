@@ -135,8 +135,8 @@ public class JHtmlView extends JBaseHtmlView
     {
         if (Constants.BACK.equalsIgnoreCase(strAction))
         {
-            String strPrevAction = this.getBaseApplet().popHistory();   // Current screen
-            strAction = getBaseApplet().popHistory();   // Last screen
+            String strPrevAction = this.getBaseApplet().popHistory(1, true);   // Current screen
+            strAction = getBaseApplet().popHistory(1, true);   // Last screen
             if (strAction != null)
             {
                 if (!Constants.BACK.equalsIgnoreCase(strAction)) // Never (prevent endless recursion)
