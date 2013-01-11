@@ -1276,7 +1276,7 @@ public class BaseApplet extends JApplet
 		if ((javaCommand == null) || (javaCommand.length() == 0))
 			javaCommand = this.getInitialCommand(false);
 		Util.getLogger().info("=target command=" + this.cleanCommand(javaCommand));
-		BaseApplet.handleAction(this.cleanCommand(command), this, this, Constants.DONT_PUSH_TO_BROSWER);
+		BaseApplet.handleAction(this.cleanCommand(javaCommand), this, this, Constants.DONT_PUSH_TO_BROSWER);
 		//x		this.doAction(this.cleanCommand(javaCommand), Constants.DONT_PUSH_TO_BROSWER);
 	}
 	/**
