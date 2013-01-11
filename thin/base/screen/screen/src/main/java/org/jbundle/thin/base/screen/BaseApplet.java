@@ -1198,14 +1198,6 @@ public class BaseApplet extends JApplet
      * Push this command onto the history stack.
      * @param strHistory The history command to push onto the stack.
      */
-    public void pushHistory(String strHistory)
-    {
-        this.pushHistory(strHistory, true);
-    }
-    /**
-     * Push this command onto the history stack.
-     * @param strHistory The history command to push onto the stack.
-     */
     public void pushHistory(String strHistory, boolean bPushToBrowser)
     {
         if (m_vHistory == null)
