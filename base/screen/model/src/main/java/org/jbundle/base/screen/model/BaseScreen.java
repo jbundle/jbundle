@@ -198,7 +198,7 @@ public class BaseScreen extends BasePanel
         super.init((ScreenLocation)itsLocation, (BasePanel)parentScreen, (Converter)fieldConverter, iDisplayFieldDesc, properties);
         this.syncHeaderToMain();    // Read in the current (optional) Header record.
 
-        boolean bPushToBrowser = (iDisplayFieldDesc & ScreenConstants.DONT_PUSH_TO_BROSWER) == ScreenConstants.PUSH_TO_BROSWER;
+        boolean bPushToBrowser = (iDisplayFieldDesc & ScreenConstants.DONT_PUSH_TO_BROWSER) == ScreenConstants.PUSH_TO_BROWSER;
         if (parentScreen != null)
             ((BasePanel)parentScreen).pushHistory(this.getScreenURL(), bPushToBrowser);  // Push this screen onto history stack
     }
@@ -742,11 +742,11 @@ public class BaseScreen extends BasePanel
         {
             String strLastCommand = null;
             BasePanel parent = this.getParentScreen();
-            int iUseSameWindow = ScreenConstants.USE_SAME_WINDOW | ScreenConstants.PUSH_TO_BROSWER;
+            int iUseSameWindow = ScreenConstants.USE_SAME_WINDOW | ScreenConstants.PUSH_TO_BROWSER;
             if (parent != null)
             {
                 strLastCommand = parent.popHistory(1, false);
-                iUseSameWindow = ScreenConstants.USE_SAME_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER;
+                iUseSameWindow = ScreenConstants.USE_SAME_WINDOW | ScreenConstants.DONT_PUSH_TO_BROWSER;
             }
             else
                 strLastCommand = this.getScreenURL();
@@ -819,7 +819,7 @@ public class BaseScreen extends BasePanel
                 new MenuScreen(null, null, screenParent, null, ScreenConstants.MAINT_MODE, properties);
             }
             else
-                this.doCommand("?" +  DBParams.MENU + '=' + strMenu, this, ScreenConstants.USE_SAME_WINDOW | DBConstants.PUSH_TO_BROSWER);
+                this.doCommand("?" +  DBParams.MENU + '=' + strMenu, this, ScreenConstants.USE_SAME_WINDOW | DBConstants.PUSH_TO_BROWSER);
         }
         return true;   // Should always be successful        
     }

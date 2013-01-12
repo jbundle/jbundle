@@ -986,7 +986,7 @@ public class BasePanel extends ScreenField
             parent.pushHistory(this.getScreenURL(), false);    // This is the first screen in the stack
         }
         else
-            this.handleCommand(strLastCommand, this, ScreenConstants.USE_SAME_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER);     // Process the last command
+            this.handleCommand(strLastCommand, this, ScreenConstants.USE_SAME_WINDOW | ScreenConstants.DONT_PUSH_TO_BROWSER);     // Process the last command
         return true;    // Handled
     }
     /**
@@ -999,7 +999,7 @@ public class BasePanel extends ScreenField
         if ((strLastCommand == null) || (strLastCommand.length() == 0))
             return false; // Can't process this
         else
-            this.handleCommand(strLastCommand, this, ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER);        // Process the last command in a new window
+            this.handleCommand(strLastCommand, this, ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROWSER);        // Process the last command in a new window
         return true;    // Handled
     }
     /**
@@ -1009,7 +1009,7 @@ public class BasePanel extends ScreenField
     public boolean onNewWindow()
     {
         String strLastCommand = Utility.addURLParam(null, Params.MENU, Constant.BLANK);  //"?menu="; // Blank command = home
-        this.handleCommand(strLastCommand, this, ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER);        // Process the last ?menu= command in a new window
+        this.handleCommand(strLastCommand, this, ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROWSER);        // Process the last ?menu= command in a new window
         return true;    // Handled
     }
     /**
@@ -1031,7 +1031,7 @@ public class BasePanel extends ScreenField
 		if (count > 0)
 			screenParent.popHistory(count, true);		// Dump all browser history
         String strLastCommand = Utility.addURLParam(null, Params.MENU, Constant.BLANK);  //"?menu="; // Blank command = home
-        this.handleCommand(strLastCommand, this, ScreenConstants.USE_SAME_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER);     // Process the last command in this window
+        this.handleCommand(strLastCommand, this, ScreenConstants.USE_SAME_WINDOW | ScreenConstants.DONT_PUSH_TO_BROWSER);     // Process the last command in this window
         return true;    // Handled
     }
     /**

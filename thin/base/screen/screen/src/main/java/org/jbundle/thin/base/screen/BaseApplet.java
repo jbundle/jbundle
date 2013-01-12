@@ -67,6 +67,7 @@ import org.jbundle.thin.base.util.base64.Base64;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.jbundle.util.osgi.webstart.browser.BrowserManager;
 import org.jbundle.util.osgi.webstart.browser.BrowserCallbacks;
+import org.jbundle.util.osgi.webstart.util.UrlUtil;
 
 /**
  * The base class for all Applets and stand alone (applet) tasks.
@@ -216,7 +217,7 @@ public class BaseApplet extends JApplet
         	this.setProperties(properties);
         }
         m_parent = this.addBackground(this);
-        this.addSubPanels(m_parent);    // Add any sub-panels now
+        this.addSubPanels(m_parent, 0);    // Add any sub-panels now
 
         this.setupLookAndFeel(null);
         
@@ -316,9 +317,10 @@ public class BaseApplet extends JApplet
      * Add any applet sub-panel(s) now.
      * Usually, you override this, although for a simple screen, just pass a screen=class param.
      * @param parent The parent to add the new screen to.
+     * @param options TODO
      * @return true if success
      */
-    public boolean addSubPanels(Container parent)
+    public boolean addSubPanels(Container parent, int options)
     {
         if (parent == null)
             parent = m_parent;
@@ -328,7 +330,7 @@ public class BaseApplet extends JApplet
         {
             FieldList record = null;
             baseScreen.init(this, record);  // test
-            return this.changeSubScreen(parent, baseScreen, null);   // You must manually push the history command
+            return this.changeSubScreen(parent, baseScreen, null, options);   // You must manually push the history command
         }
         else
             Util.getLogger().warning("Screen class not found " + strScreen);
@@ -509,13 +511,14 @@ public class BaseApplet extends JApplet
         return this.setLastError(strDisplay);
     }
     /**
-     * 
+     * Change the sub-screen.
      * @param parent
      * @param baseScreen
      * @param strCommandToPush
+     * @param options
      * @return
      */
-    public boolean changeSubScreen(Container parent, JBasePanel baseScreen, String strCommandToPush)
+    public boolean changeSubScreen(Container parent, JBasePanel baseScreen, String strCommandToPush, int options)
     {
         if ((parent == null) || (parent == this))
             parent = m_parent;
@@ -554,7 +557,8 @@ public class BaseApplet extends JApplet
             if (strCommandToPush == null)
                 strCommandToPush = baseScreen.getScreenCommand();
             if (strCommandToPush != null)
-                this.pushHistory(strCommandToPush, false);
+                if ((options & Constants.DONT_PUSH_HISTORY) == 0)
+                    this.pushHistory(strCommandToPush, ((options & Constants.DONT_PUSH_TO_BROWSER) == 0));
         }
         
         return true;    // Success
@@ -860,7 +864,7 @@ public class BaseApplet extends JApplet
             }
             if (strAction != null)
             {
-            	iOptions = iOptions | Constants.DONT_PUSH_TO_BROSWER;	// Don't push the back command
+            	iOptions = iOptions | Constants.DONT_PUSH_TO_BROWSER;	// Don't push the back command
                 if (!Constants.BACK.equalsIgnoreCase(strAction)) // Never (prevent endless recursion)
                     return this.doAction(strAction, iOptions);
             }
@@ -870,7 +874,7 @@ public class BaseApplet extends JApplet
         if (Constants.HELP.equalsIgnoreCase(strAction))
         {
             String strPrevAction = this.popHistory(1, true);   // Current screen
-            this.pushHistory(strPrevAction, ((iOptions & Constants.DONT_PUSH_TO_BROSWER) == Constants.PUSH_TO_BROSWER));    // If top of stack, leave it alone.
+            this.pushHistory(strPrevAction, ((iOptions & Constants.DONT_PUSH_TO_BROWSER) == Constants.PUSH_TO_BROWSER));    // If top of stack, leave it alone.
             if ((strPrevAction != null)
                 && (strPrevAction.length() > 0)
                 && (strPrevAction.charAt(0) != '?'))
@@ -886,14 +890,12 @@ public class BaseApplet extends JApplet
             Util.parseArgs(properties, strAction);
             String strApplet = (String)properties.get(Params.APPLET);
             if (strApplet != null)
-                if ((strApplet.length() == 0)
-                    || (strAction.indexOf("BaseApplet") != -1))
             {
                 this.setProperties(properties);
-                if (!this.addSubPanels(null))
+                if (!this.addSubPanels(null, 0))
                 	return false;	// If error, return false
                 this.popHistory(1, false);      // Pop the default command, the action command is better.
-                this.pushHistory(strAction, ((iOptions & Constants.DONT_PUSH_TO_BROSWER) == Constants.PUSH_TO_BROSWER));    // This is the command to get to this screen (for the history).
+                this.pushHistory(UrlUtil.propertiesToUrl(properties), ((iOptions & Constants.DONT_PUSH_TO_BROWSER) == Constants.PUSH_TO_BROWSER));    // This is the command to get to this screen (for the history).
                 return true;	// Command handled
             }
         }
@@ -1202,8 +1204,12 @@ public class BaseApplet extends JApplet
     {
         if (m_vHistory == null)
             m_vHistory = new Vector<String>();
-        m_vHistory.addElement(strHistory);
         String strHelpURL = ThinUtil.fixDisplayURL(strHistory, true, true, true, this);
+        if (bPushToBrowser)
+            if ((strHistory != null) && (strHistory.length() > 0))
+                if (strHistory.indexOf(Params.APPLET + '=') == -1)
+            strHistory = UrlUtil.addURLParam(strHistory, Params.APPLET, this.getClass().getName()); // Adding &applet says this is a screen on not back/etc
+        m_vHistory.addElement(strHistory);
     	this.getApplication().showTheDocument(strHelpURL, this, ThinMenuConstants.HELP_WINDOW_CHANGE);
         this.pushBrowserHistory(strHistory, this.getStatusText(Constants.INFORMATION), bPushToBrowser);    	// Let browser know about the new screen
     }
@@ -1262,8 +1268,7 @@ public class BaseApplet extends JApplet
 		if ((javaCommand == null) || (javaCommand.length() == 0))
 			javaCommand = this.getInitialCommand(false);
 		Util.getLogger().info("doJavaBrowserBack " + this.cleanCommand(javaCommand));
-		System.out.println("=doJavaBrowserBack command=" + this.cleanCommand(javaCommand));
-		BaseApplet.handleAction(this.cleanCommand(javaCommand), this, this, Constants.DONT_PUSH_TO_BROSWER);
+		BaseApplet.handleAction(this.cleanCommand(javaCommand), this, this, Constants.DONT_PUSH_TO_BROWSER);
 	}
 	/**
 	 * Get the original screen params.
@@ -1319,21 +1324,14 @@ public class BaseApplet extends JApplet
 	{
 		if (command == null)
 			return command;
-		Map<String,Object> properties = new HashMap<String,Object>();
-		Util.parseArgs(properties, command);
+		Map<String,Object> properties = Util.parseArgs(null, command);
 		properties.remove(Params.APPLET);
 		properties.remove("code");
 		properties.remove("jnlpjars");
 		properties.remove("jnlpextensions");
 		properties.remove(ScreenUtil.BACKGROUND_COLOR);
 		properties.remove(Params.BACKGROUND);
-		command = Constants.BLANK;
-		for (String key : properties.keySet())
-		{
-			if (properties.get(key) != null)
-				command = Util.addURLParam(command, key, properties.get(key).toString());
-		}
-		return command;
+		return Util.propertiesToUrl(properties);
 	}
     /**
      * The browser back button was pressed (Javascript called me).
@@ -1345,8 +1343,7 @@ public class BaseApplet extends JApplet
 			if (command.startsWith("#"))
 				command = command.substring(1);
 		Util.getLogger().info("Browser forward: java browser command=" + command + " = target: " + this.cleanCommand(command));
-        System.out.println("Browser forward: java browser command=" + command + " = target: " + this.cleanCommand(command));
-		BaseApplet.handleAction(this.cleanCommand(command), this, this, Constants.DONT_PUSH_TO_BROSWER);
+ 		BaseApplet.handleAction(this.cleanCommand(command), this, this, Constants.DONT_PUSH_TO_BROWSER);
 	}
     /**
      * The browser hash value changed (Javascript called me).
@@ -1358,8 +1355,7 @@ public class BaseApplet extends JApplet
 			if (command.startsWith("#"))
 				command = command.substring(1);
 		Util.getLogger().info("Browser hash change: java browser command=" + command + " = target: " + this.cleanCommand(command));
-		System.out.println("Browser hash change: java browser command=" + command + " = target: " + this.cleanCommand(command));
-		BaseApplet.handleAction(this.cleanCommand(command), this, this, Constants.DONT_PUSH_TO_BROSWER);
+		BaseApplet.handleAction(this.cleanCommand(command), this, this, Constants.DONT_PUSH_TO_BROWSER);
 	}
     /**
      * Get the properties.
@@ -1394,6 +1390,9 @@ public class BaseApplet extends JApplet
         }
         if (this.getApplication() != null)
             strValue = this.getApplication().getProperty(strProperty);  // Try app
+        if (strValue == null)
+            if (Params.APPLET.equalsIgnoreCase(strProperty))
+                return this.getClass().getName();
         return strValue;
     }
     /**

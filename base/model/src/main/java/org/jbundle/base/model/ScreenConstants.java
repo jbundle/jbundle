@@ -38,11 +38,11 @@ public interface ScreenConstants //x extends JScreenConstants
 // Command options
 	public static final int USE_SAME_WINDOW = DBConstants.USE_SAME_WINDOW;
 	public static final int USE_NEW_WINDOW = DBConstants.USE_NEW_WINDOW;
-    public static final int PUSH_TO_BROSWER = DBConstants.PUSH_TO_BROSWER;
-    public static final int DONT_PUSH_TO_BROSWER = DBConstants.DONT_PUSH_TO_BROSWER;
+    public static final int PUSH_TO_BROWSER = DBConstants.PUSH_TO_BROWSER;
+    public static final int DONT_PUSH_TO_BROWSER = DBConstants.DONT_PUSH_TO_BROWSER;
 
     public static final int DISPLAY_MASK = 7;
-    public static final int SCREEN_TYPE_MASK = ~(DISPLAY_MASK | DONT_PUSH_TO_BROSWER | USE_NEW_WINDOW);
+    public static final int SCREEN_TYPE_MASK = ~(DISPLAY_MASK | DONT_PUSH_TO_BROWSER | USE_NEW_WINDOW);
     public static final int DOC_MODE_MASK = ~31;
 // GetNextLocation constants
     public static final short NEXT_LOGICAL = 1;

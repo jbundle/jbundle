@@ -29,6 +29,7 @@ import org.jbundle.thin.base.screen.landf.ScreenUtil;
 import org.jbundle.thin.base.screen.print.ScreenPrinter;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.base.util.ThinMenuConstants;
+import org.jbundle.util.osgi.webstart.util.UrlUtil;
 
 /**
  * My base screen.
@@ -107,9 +108,8 @@ public class JBasePanel extends JPanel
         this.freeSubComponents(this);
     }
     /**
-     * Initialize this class.
-     * @param parent Typically, you pass the BaseApplet as the parent.
-     * @param @record and the record or GridTableModel as the parent.
+     * Get the parent component for this panel.
+     * @return The parent component.
      */
     public Object getParentObject()
     {
@@ -171,7 +171,9 @@ public class JBasePanel extends JPanel
      */
     public String getScreenCommand()
     {
-        return "?" + Params.APPLET + "=&" + Params.SCREEN + '=' + this.getClass().getName();
+        String command = UrlUtil.addURLParam(null, Params.APPLET, (this.getBaseApplet() != null) ? this.getBaseApplet().getProperty(Params.APPLET) : null, true);
+        command = UrlUtil.addURLParam(command, Params.SCREEN, this.getClass().getName());
+        return command;
     }
     /**
      * Focus to the first field.
@@ -198,7 +200,7 @@ public class JBasePanel extends JPanel
                 strMessage = ((BaseAction)action).getActionKey();
         }
         if ((strMessage != null) && (strMessage.length() > 0))
-            this.handleAction(strMessage, this, 0);
+            BaseApplet.handleAction(strMessage, this, this, 0);
     }
     /**
      * Do some applet-wide action.
@@ -212,7 +214,7 @@ public class JBasePanel extends JPanel
      * Do not override this method, override the handleAction method in the JBasePanel.
      * @param strAction The command to pass to all the sub-JBasePanels.
      * @param source The source component
-     * @param iOptions TODO
+     * @param iOptions action options
      * @param parent The parent to start the sub-search from (non-inclusive).
      * @return true If handled.
      */
@@ -260,7 +262,7 @@ public class JBasePanel extends JPanel
      * Process this action.
      * Override this for functionality.
      * @param strAction The action command or message.
-     * @param iOptions TODO
+     * @param iOptions options
      * @return true if handled.
      */
     public boolean doAction(String strAction, int iOptions)

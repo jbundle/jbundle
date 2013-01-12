@@ -164,8 +164,8 @@ public interface Constants extends Constant
     // Command options
 	public static final int USE_SAME_WINDOW = 0;
 	public static final int USE_NEW_WINDOW = 1 << 29;	// 2^ 29
-    public static final int PUSH_TO_BROSWER = 0;
-    public static final int DONT_PUSH_TO_BROSWER = 1 << 30;	// 2 ^ 30
+    public static final int PUSH_TO_BROWSER = 0;
+    public static final int DONT_PUSH_TO_BROWSER = 1 << 30;	// 2 ^ 30
     public static final int DONT_PUSH_HISTORY = 1 << 28;	// 2 ^ 28
     /**
      * Login levels.

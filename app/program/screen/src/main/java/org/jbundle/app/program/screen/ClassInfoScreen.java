@@ -237,11 +237,11 @@ public class ClassInfoScreen extends DetailScreen
         
         if ((strCommand.indexOf("FileHdrScreen") != -1)
             || (strCommand.indexOf("LayoutScreen") != -1))
-                iCommandOptions = ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER;
+                iCommandOptions = ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROWSER;
         if ((strCommand.indexOf("ExportRecordsToXml") != -1)
             || (strCommand.indexOf("AccessGridScreen") != -1))
         {
-            iCommandOptions = ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER;
+            iCommandOptions = ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROWSER;
             strCommand = Utility.addURLParam(strCommand, DBParams.RECORD, this.getMainRecord().getField(ClassInfo.CLASS_NAME).toString());
             String packageName = ((ClassInfo)this.getMainRecord()).getPackageName(null);
             strCommand = Utility.addURLParam(strCommand, "package", packageName);

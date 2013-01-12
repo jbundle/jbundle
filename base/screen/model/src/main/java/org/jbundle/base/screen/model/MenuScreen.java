@@ -405,7 +405,7 @@ public class MenuScreen extends BaseMenuScreen
             //          Container control = (Container)this.getScreenFieldView().getControl();  // Redisplay
             //          control.validate();     // Re-layout the container
             //          control.repaint();      // Re-display this screen
-            this.getParentScreen().pushHistory(strCommand, ((iCommandOptions & DBConstants.DONT_PUSH_TO_BROSWER) == DBConstants.PUSH_TO_BROSWER));   // History of screens displayed
+            this.getParentScreen().pushHistory(strCommand, ((iCommandOptions & DBConstants.DONT_PUSH_TO_BROWSER) == DBConstants.PUSH_TO_BROWSER));   // History of screens displayed
             return bSuccess;
         }
         else

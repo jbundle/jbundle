@@ -53,14 +53,14 @@ public class ThinTestApplet extends BaseApplet
     /**
      * Add any applet sub-panel(s) now.
      */
-    public boolean addSubPanels(Container parent)
+    public boolean addSubPanels(Container parent, int options)
     {
         FieldList record = null;
         JScreen baseScreen = new TestThinScreen(this, record);
 
-        boolean success = super.addSubPanels(parent);
+        boolean success = super.addSubPanels(parent, options);
         if (success)
-        	success = this.changeSubScreen(parent, baseScreen, null);
+        	success = this.changeSubScreen(parent, baseScreen, null, options);
         return success;
     }
     /**

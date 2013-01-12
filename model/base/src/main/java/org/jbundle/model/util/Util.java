@@ -605,7 +605,7 @@ public class Util extends UrlUtil
                try {
 	               // Request that every detail gets logged.
 //                 m_logger.setLevel(Level.OFF);
-//                 m_logger.setLevel(Level.ALL);
+//                   m_logger.setLevel(Level.ALL);
 	               m_logger.setLevel(Level.WARNING);        	   
                } catch (java.security.AccessControlException ex)    {
             	   ex.printStackTrace();	// Never

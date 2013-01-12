@@ -60,7 +60,7 @@ public class CalendarTestApplet extends BaseApplet
     /**
      * Add any applet sub-panel(s) now.
      */
-    public boolean addSubPanels(Container parent)
+    public boolean addSubPanels(Container parent, int options)
     {
         parent.setLayout(new BoxLayout(parent, BoxLayout.X_AXIS));
         JScrollPane scroller = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED );

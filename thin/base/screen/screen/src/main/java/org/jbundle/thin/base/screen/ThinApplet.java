@@ -77,12 +77,12 @@ public class ThinApplet extends BaseApplet
      * Usually, you override this, although for a simple screen, just pass a screen=class param.
      * @param parent The parent to add the new screen to.
      */
-    public boolean addSubPanels(Container parent)
+    public boolean addSubPanels(Container parent, int options)
     {
         String strScreen = this.getProperty(Params.SCREEN);
         if ((strScreen == null) || (strScreen.length() == 0))
             this.setProperty(Params.SCREEN, INITIAL_SCREEN);
-        boolean success = super.addSubPanels(parent);
+        boolean success = super.addSubPanels(parent, options);
         if (success)
         	if (strScreen == null)
         		this.getProperties().remove(Params.SCREEN);

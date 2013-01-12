@@ -143,7 +143,7 @@ public class JHtmlView extends JBaseHtmlView
                     return this.handleAction(strAction, this, iOptions);
             }
             else if (strPrevAction != null)
-                this.getBaseApplet().pushHistory(strPrevAction, ((iOptions & Constants.DONT_PUSH_TO_BROSWER) == Constants.PUSH_TO_BROSWER));    // If top of stack, leave it alone.
+                this.getBaseApplet().pushHistory(strPrevAction, ((iOptions & Constants.DONT_PUSH_TO_BROWSER) == Constants.PUSH_TO_BROWSER));    // If top of stack, leave it alone.
         }
         else
         { // The only other actions are URLS, so change the page.

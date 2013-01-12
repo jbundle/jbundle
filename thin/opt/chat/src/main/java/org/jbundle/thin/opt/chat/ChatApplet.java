@@ -53,13 +53,13 @@ public class ChatApplet extends BaseApplet
     /**
      * Add any applet sub-panel(s) now.
      */
-    public boolean addSubPanels(Container parent)
+    public boolean addSubPanels(Container parent, int options)
     {
         FieldList record = null;
 
         JBasePanel baseScreen = new ChatScreen(this, record);
-        super.addSubPanels(parent);
-        return this.changeSubScreen(parent, baseScreen, null);
+        super.addSubPanels(parent, options);
+        return this.changeSubScreen(parent, baseScreen, null, options);
     }
     /**
      *  The main() method acts as the applet's entry point when it is run

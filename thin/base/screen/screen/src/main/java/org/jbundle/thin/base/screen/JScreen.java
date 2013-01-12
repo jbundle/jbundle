@@ -517,7 +517,7 @@ public class JScreen extends JBaseScreen
                         this.getFieldList().setOwner(screen);    // The record belongs to the new screen
                         if (screen.getParentObject() instanceof Container)
                             parent = (Container)screen.getParentObject();
-                        this.getBaseApplet().changeSubScreen(parent, screen, null);
+                        this.getBaseApplet().changeSubScreen(parent, screen, null, iOptions);
                         bFlag = true;
                     }
                 } catch (Exception ex)  {

@@ -281,7 +281,6 @@ public class JBaseMenuScreen extends JScreen
      */
     public boolean handleAction(String strAction, Component source, int iOptions)
     {
-System.out.println("JBaseMenuScreen.handleAction " + strAction);
         BaseApplet applet = this.getBaseApplet();
         Object oldCursor = null;
         if (applet != null)

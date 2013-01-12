@@ -3,6 +3,8 @@
  */
 package org.jbundle.thin.base.util;
 
+import java.util.Map;
+
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
@@ -10,6 +12,7 @@ import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteObject;
 import org.jbundle.thin.base.remote.RemoteTable;
+import org.jbundle.util.osgi.webstart.util.UrlUtil;
 
 /**
  * Thin specific static utility methods.
@@ -28,18 +31,15 @@ public class ThinUtil extends Util
    {
        if ((strURL == null) || (strURL.length() == 0))
     	   return strURL;
-       if ((strURL != null)
-               && (strURL.length() > 0)
-               && (strURL.charAt(0) != '?'))
-    	   strURL = '?' + strURL;
+       Map<String,Object> properties = UrlUtil.parseArgs(null, strURL);
        if (bHelp)
-    	   strURL = Util.addURLParam(strURL, Params.HELP, Constants.BLANK);
+    	   properties.put(Params.HELP, Constants.BLANK);
        if (bNoNav)
        {
-           strURL = Util.addURLParam(strURL, Params.MENUBARS, "No");
-           strURL = Util.addURLParam(strURL, Params.NAVMENUS, "No");
-           strURL = Util.addURLParam(strURL, Params.LOGOS, "No");
-           strURL = Util.addURLParam(strURL, Params.TRAILERS, "No");  // Don't need outside frame stuff in a window
+           properties.put(Params.MENUBARS, "No");
+           properties.put(Params.NAVMENUS, "No");
+           properties.put(Params.LOGOS, "No");
+           properties.put(Params.TRAILERS, "No");  // Don't need outside frame stuff in a window
        }
        if (bLanguage)
        {
@@ -50,9 +50,9 @@ public class ThinUtil extends Util
     		   if (propertyOwner != null)
     			   strLanguage = propertyOwner.getProperty(Params.LANGUAGE);
     	   if ((strLanguage != null) && (strLanguage.length() > 0))
-    		   strURL = Util.addURLParam(strURL, Params.LANGUAGE, strLanguage);
+    	       properties.put(Params.LANGUAGE, strLanguage);
        }
-       return strURL;
+       return UrlUtil.propertiesToUrl(properties);
    }
    /**
     * Get the remote table reference.

@@ -109,7 +109,7 @@ public class XDefaultHtmlScreen extends XBaseScreen
                 // Ignore
             }
             strHTML = "<p>Job: " + strCommand;
-            if (this.getScreenField().handleCommand(strCommand, this.getScreenField(), ScreenConstants.USE_SAME_WINDOW | DBConstants.PUSH_TO_BROSWER))
+            if (this.getScreenField().handleCommand(strCommand, this.getScreenField(), ScreenConstants.USE_SAME_WINDOW | DBConstants.PUSH_TO_BROWSER))
                 strHTML += " queued successfully</p>";
             else
                 strHTML += " queued unsuccessfully</p>";
