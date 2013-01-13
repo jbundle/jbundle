@@ -558,7 +558,7 @@ public class BaseApplet extends JApplet
                 strCommandToPush = baseScreen.getScreenCommand();
             if (strCommandToPush != null)
                 if ((options & Constants.DONT_PUSH_HISTORY) == 0)
-                    this.pushHistory(strCommandToPush, ((options & Constants.DONT_PUSH_TO_BROWSER) == 0));
+                    this.pushHistory(strCommandToPush, ((options & Constants.DONT_PUSH_TO_BROWSER) == Constants.PUSH_TO_BROWSER));
         }
         
         return true;    // Success
@@ -892,10 +892,10 @@ public class BaseApplet extends JApplet
             if (strApplet != null)
             {
                 this.setProperties(properties);
-                if (!this.addSubPanels(null, 0))
+                if (!this.addSubPanels(null, iOptions))
                 	return false;	// If error, return false
                 this.popHistory(1, false);      // Pop the default command, the action command is better.
-                this.pushHistory(UrlUtil.propertiesToUrl(properties), ((iOptions & Constants.DONT_PUSH_TO_BROWSER) == Constants.PUSH_TO_BROWSER));    // This is the command to get to this screen (for the history).
+                this.pushHistory(UrlUtil.propertiesToUrl(properties), false);    // Since it was pushed to the browser on addSubPanels
                 return true;	// Command handled
             }
         }
@@ -1267,8 +1267,10 @@ public class BaseApplet extends JApplet
 			javaCommand = command;
 		if ((javaCommand == null) || (javaCommand.length() == 0))
 			javaCommand = this.getInitialCommand(false);
-		Util.getLogger().info("doJavaBrowserBack " + this.cleanCommand(javaCommand));
-		BaseApplet.handleAction(this.cleanCommand(javaCommand), this, this, Constants.DONT_PUSH_TO_BROWSER);
+		javaCommand = this.cleanCommand(javaCommand);
+		javaCommand = UrlUtil.addURLParam(javaCommand, Params.APPLET, this.getClass().getName());
+		Util.getLogger().info("doJavaBrowserBack " + javaCommand);
+		BaseApplet.handleAction(javaCommand, this, this, Constants.DONT_PUSH_TO_BROWSER);
 	}
 	/**
 	 * Get the original screen params.
