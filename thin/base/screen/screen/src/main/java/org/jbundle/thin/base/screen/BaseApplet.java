@@ -217,7 +217,7 @@ public class BaseApplet extends JApplet
         	this.setProperties(properties);
         }
         m_parent = this.addBackground(this);
-        this.addSubPanels(m_parent, 0);    // Add any sub-panels now
+        this.addSubPanels(m_parent, Constants.DONT_PUSH_TO_BROWSER);    // Add any sub-panels now
 
         this.setupLookAndFeel(null);
         
