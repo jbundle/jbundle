@@ -86,11 +86,12 @@ public class ScreenUtil
         if ((themeClassName == null) || (themeClassName.equalsIgnoreCase(ScreenUtil.DEFAULT)))
             if (font == null)
         {
-            int MINIMUM_DEFAULT_FONT_SIZE = 18;
+            int MINIMUM_DEFAULT_FONT_SIZE = 16;
+            int DEFAULT_FONT_SIZE = 20;
             Object defaultFont = UIManager.getDefaults().get("Panel.font");
             if (defaultFont instanceof Font)
                 if (((Font)defaultFont).getSize() < MINIMUM_DEFAULT_FONT_SIZE)
-                    font = new FontUIResource(((Font)defaultFont).deriveFont(((Font)defaultFont).getStyle(), MINIMUM_DEFAULT_FONT_SIZE));
+                    font = new FontUIResource(((Font)defaultFont).deriveFont(((Font)defaultFont).getStyle(), DEFAULT_FONT_SIZE));
         }
         ColorUIResource colorText = ScreenUtil.getColor(ScreenUtil.TEXT_COLOR, propertyOwner, properties);
         ColorUIResource colorControl = ScreenUtil.getColor(ScreenUtil.CONTROL_COLOR, propertyOwner, properties);
