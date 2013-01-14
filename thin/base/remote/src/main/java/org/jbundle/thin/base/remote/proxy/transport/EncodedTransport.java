@@ -91,26 +91,36 @@ public class EncodedTransport extends Base64Transport
         URL url = null;
         try {
             url = this.getProxyURL();
-            ServletMessage servlet = new ServletMessage(url);
-            InputStream in = servlet.sendMessage(m_properties);
-            InputStreamReader reader = new InputStreamReader(in);
-            BufferedReader buffReader = new BufferedReader(reader);
-            String string = Constants.BLANK;
-            while (true)
-            {
-                String str = buffReader.readLine();
-                if ((str == null) || (str.length() == 0))
-                    break;
-                if (string.length() > 0)
-                    string += "\n";
-                string += str;
-            }
-            return string;
-        } catch (MalformedURLException ex)  {
+        } catch (MalformedURLException ex) {
             ex.printStackTrace();
-        } catch (IOException ex)  {
-            throw new RemoteException(ex.getMessage() + ' ' + url, ex.getCause());
+            return null;
         }
-        return null;
+        ServletMessage servlet = new ServletMessage(url);
+        while (true)
+        {   // to allow for retry on timeout
+            long time = 0;
+            try {
+                time = System.currentTimeMillis();
+                InputStream in = servlet.sendMessage(m_properties);
+                InputStreamReader reader = new InputStreamReader(in);
+                BufferedReader buffReader = new BufferedReader(reader);
+                String string = Constants.BLANK;
+                while (true)
+                {
+                    String str = buffReader.readLine();
+                    if ((str == null) || (str.length() == 0))
+                        break;
+                    if (string.length() > 0)
+                        string += "\n";
+                    string += str;
+                }
+                return string;
+            } catch (IOException ex)  {
+                if (System.currentTimeMillis() > time + MAX_WAIT_TIME)
+                    continue;   // Server timeout, try again
+                throw new RemoteException(ex.getMessage() + ' ' + url, ex.getCause());
+            }
+        }
     }
+    private static final long MAX_WAIT_TIME = 30 * 1000;
 }
