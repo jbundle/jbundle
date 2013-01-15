@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>jbundle-project</artifactId>
-  <version>0.8.0-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   
   <packaging>pom</packaging>
   <name>jbundle-project - Project parent</name>

@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-main-reactor</artifactId>
     <groupId>org.jbundle.main</groupId>
-    <version>0.8.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
 
   <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
@@ -36,26 +36,26 @@
     <dependency>
       <groupId>org.jbundle.main</groupId>
       <artifactId>org.jbundle.main.db</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
+      <version>1.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.main</groupId>
-      <version>0.8.0-SNAPSHOT</version>
+      <version>1.0.1-SNAPSHOT</version>
       <artifactId>org.jbundle.main.screen</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base</groupId>
-      <version>0.8.0-SNAPSHOT</version>
+      <version>1.0.1-SNAPSHOT</version>
       <artifactId>org.jbundle.base.remote</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
-      <version>0.8.0-SNAPSHOT</version>
+      <version>1.0.1-SNAPSHOT</version>
       <artifactId>org.jbundle.base.screen.view.data</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
-      <version>0.8.0-SNAPSHOT</version>
+      <version>1.0.1-SNAPSHOT</version>
       <artifactId>org.jbundle.base.screen.model</artifactId>
     </dependency>
 
@@ -78,7 +78,7 @@
     <dependency>
 	  <groupId>org.jbundle.config.dep</groupId>
 	  <artifactId>jbundle-config-dep-thin-base</artifactId>
-	  <version>0.8.0-SNAPSHOT</version>
+	  <version>1.0.1-SNAPSHOT</version>
 	  <type>pom</type>
     </dependency>
     <dependency>

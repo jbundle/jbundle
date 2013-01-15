@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbundle-thin-base-reactor</artifactId>
     <groupId>org.jbundle.thin.base</groupId>
-    <version>0.8.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>jbundle-thin-base-util-reactor</artifactId>
