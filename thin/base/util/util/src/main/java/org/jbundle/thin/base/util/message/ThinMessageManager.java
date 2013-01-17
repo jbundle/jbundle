@@ -76,7 +76,7 @@ public class ThinMessageManager extends BaseMessageManager
         JMessageListener listenerForSession = (JMessageListener)screen.addMessageHandler(record, properties);
 
         BaseMessageFilter filterForSession = new ClientSessionMessageFilter(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE, screen, remoteSession, properties);
-            filterForSession.addMessageListener(listenerForSession);
+        filterForSession.addMessageListener(listenerForSession);
         synchronized (screen.getBaseApplet().getRemoteTask())
         {   // Wait for remote filter to set up before I start accessing the data
             handler.addMessageFilter(filterForSession);

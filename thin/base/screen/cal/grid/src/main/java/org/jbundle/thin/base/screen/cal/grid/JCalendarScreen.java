@@ -10,11 +10,17 @@ package org.jbundle.thin.base.screen.cal.grid;
  *  @author Don Corley don@tourgeek.com
  *  @version 1.0.0.
  */
+import java.util.Properties;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
+import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
+import org.jbundle.thin.base.message.JMessageListener;
+import org.jbundle.thin.base.message.MessageConstants;
+import org.jbundle.thin.base.message.event.ModelMessageHandler;
 import org.jbundle.thin.base.screen.JBasePanel;
 import org.jbundle.thin.base.screen.JBaseScreen;
 import org.jbundle.util.calendarpanel.CalendarPanel;
@@ -100,5 +106,11 @@ public class JCalendarScreen extends JBaseScreen
     public boolean isAddScrollbars()
     {
         return true;
+    }
+    @Override
+    public Object addMessageHandler(Rec record, Properties properties) {
+        JMessageListener listenerForSession = new ModelMessageHandler(null, (CalendarThinTableModel)this.getCalendarModel(null));
+        properties.setProperty(MessageConstants.CLASS_NAME, MessageConstants.GRID_FILTER);
+        return listenerForSession;
     }
 }
