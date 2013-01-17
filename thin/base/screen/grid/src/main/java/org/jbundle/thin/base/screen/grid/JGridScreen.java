@@ -220,7 +220,7 @@ public class JGridScreen extends JBaseGridScreen
                 {
                     if (m_jTableScreen.isEditing())
                         m_jTableScreen.removeEditor();
-                    m_thinTableModel.makeRowCurrent(-1, false);   // Invalidate current row
+                    m_thinTableModel.makeRowCurrent(-1, true);   // Invalidate current row
                     m_thinTableModel.makeRowCurrent(iRow, false); // Re-read selected row
                     this.repaintCurrentRow();
                 }

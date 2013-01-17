@@ -429,7 +429,7 @@ public class GridTable extends PassThruTable
      * @param iTargetPosition The position to retrieve this bookmark from.
      * @return index of non-null value or -1 if all lower values are null.
      */
-    public int lowestNonNullIndex(int iTargetPosition)
+    private int lowestNonNullIndex(int iTargetPosition)
     {
         Object bookmark = null;
         int iBookmarkIndex = iTargetPosition;

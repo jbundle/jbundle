@@ -13,9 +13,11 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.jbundle.base.db.GridTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.RecordOwner;
+import org.jbundle.base.model.Utility;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
@@ -226,6 +228,9 @@ public class GridRecordMessageFilter extends BaseRecordMessageFilter
             {
                 record.addListener(new GridSyncRecordMessageFilterHandler(this, true));
 //                m_source = record;
+                if (record.getTable() instanceof GridTable) // Always
+                    if ((record.getEditMode() == DBConstants.EDIT_CURRENT) || (record.getEditMode() == DBConstants.EDIT_IN_PROGRESS))
+                        Utility.getLogger().severe("Inconsistent cache - You must add the remote session filter before you do your first read");
                 m_source = remoteSession;   // This will give the remotesession a chance to change the message before being sent
             }
         }

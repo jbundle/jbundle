@@ -65,8 +65,7 @@ public class ThinMessageManager extends BaseMessageManager
      * Create a screen message listener for this screen.
      */
     public static JMessageListener createScreenMessageListener(FieldList record, BaseScreenModel screen)
-    {
-        // Now add listeners to update screen when data changes
+    {        // Now add listeners to update screen when data changes
         FieldTable table = record.getTable();
         RemoteSession remoteSession = (RemoteSession)table.getRemoteTableType(org.jbundle.model.Remote.class);
 
@@ -77,8 +76,11 @@ public class ThinMessageManager extends BaseMessageManager
         JMessageListener listenerForSession = (JMessageListener)screen.addMessageHandler(record, properties);
 
         BaseMessageFilter filterForSession = new ClientSessionMessageFilter(MessageConstants.RECORD_QUEUE_NAME, MessageConstants.INTRANET_QUEUE, screen, remoteSession, properties);
-        filterForSession.addMessageListener(listenerForSession);
-        handler.addMessageFilter(filterForSession);
+            filterForSession.addMessageListener(listenerForSession);
+        synchronized (screen.getBaseApplet().getRemoteTask())
+        {   // Wait for remote filter to set up before I start accessing the data
+            handler.addMessageFilter(filterForSession);
+        }
         
         return listenerForSession;
     }

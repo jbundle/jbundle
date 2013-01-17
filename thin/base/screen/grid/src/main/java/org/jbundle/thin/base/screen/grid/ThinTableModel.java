@@ -315,9 +315,12 @@ public class ThinTableModel extends AbstractThinTableModel
     {
         int iEditMode = Constants.EDIT_NONE;
         try   {
-            FieldList fieldList = this.makeRowCurrent(iRowIndex, false);
-            if (fieldList != null)
-                iEditMode = fieldList.getEditMode();
+            if (iRowIndex >= 0)
+            {
+                FieldList fieldList = this.makeRowCurrent(iRowIndex, false);
+                if (fieldList != null)
+                    iEditMode = fieldList.getEditMode();
+            }
         } catch (Exception ex)  {
             ex.printStackTrace();
         }
@@ -400,7 +403,8 @@ public class ThinTableModel extends AbstractThinTableModel
         if (iRowIndex == -1)
         {
             this.setCurrentRow(iRowIndex);     // Invalidate the current row
-            m_iCurrentLockedRowIndex = iRowIndex;
+            if (bLockRecord)
+                m_iCurrentLockedRowIndex = iRowIndex;
             return null;
         }
         try   {

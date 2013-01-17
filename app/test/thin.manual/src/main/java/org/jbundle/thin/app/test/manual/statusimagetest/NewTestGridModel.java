@@ -213,13 +213,13 @@ public class NewTestGridModel extends ThinTableModel
         switch (iColumnIndex)
         {
         case ADD_BUTTON_COLUMN:
-            ImageIcon icon = (ImageIcon)this.getValueAt(0, iColumnIndex);
+            ImageIcon icon = (ImageIcon)this.getValueAt(-1, iColumnIndex);
             JCellButton button = new JCellButton(icon);
             button.setOpaque(false);
             button.setName(Constants.FORM);
             return button;
         case DELETE_BUTTON_COLUMN:
-            ImageIcon icon2 = (ImageIcon)this.getValueAt(0, iColumnIndex);
+            ImageIcon icon2 = (ImageIcon)this.getValueAt(-1, iColumnIndex);
             JCellButton button3 = new JCellButton(icon2);
             button3.setOpaque(false);
             button3.setName(Constants.DELETE);
