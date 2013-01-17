@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
+import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.util.ArrayCache;
 import org.jbundle.thin.base.remote.RemoteDatabase;
@@ -59,9 +60,18 @@ public class CachedRemoteTable extends Object
      */
     public static final Object NONE = new Integer(-1);
     /**
+     * Cache modes.
+     * PASSIVE_CACHE - Keep caching, but run all calls through to the server (For locking/messaging in screens).
+     */
+    public enum CacheMode {
+        PASSIVE_CACHE,
+        CACHE_ON_WRITE,
+        DONT_CACHE_ON_WRITE
+    }
+    /**
      * Update the cache on a set (if not, re-read after write).
      */
-    protected boolean m_bCacheOnWrite = true;
+    protected CacheMode cacheMode = CacheMode.CACHE_ON_WRITE;
     /**
      * Currently read physical record.
      */
@@ -189,7 +199,7 @@ public class CachedRemoteTable extends Object
         m_objCurrentCacheRecord = NONE;
         Object bookmark = m_tableRemote.add(data, iOpenMode);
         if (m_iPhysicalLastRecordPlusOne != -1)
-            if (m_bCacheOnWrite)
+            if ((cacheMode == CacheMode.CACHE_ON_WRITE) || (cacheMode == CacheMode.PASSIVE_CACHE))
         {
             if (m_mapCache != null)
             {
@@ -233,7 +243,7 @@ public class CachedRemoteTable extends Object
         {
             if (m_mapCache != null)
             {
-                if (m_bCacheOnWrite)
+                if ((cacheMode == CacheMode.CACHE_ON_WRITE) || (cacheMode == CacheMode.PASSIVE_CACHE))
                     m_mapCache.set(((Integer)m_objCurrentCacheRecord).intValue(), data);
                 else
                     m_mapCache.set(((Integer)m_objCurrentCacheRecord).intValue(), null);
@@ -700,5 +710,38 @@ public class CachedRemoteTable extends Object
     public RemoteDatabase getRemoteDatabase(Map<String, Object> properties) throws RemoteException
     {
         return m_tableRemote.getRemoteDatabase(properties);
+    }
+    /**
+     * Change the cache mode
+     * @param cacheMode
+     * @param record
+     * @return The old cache mode
+     */
+    public CacheMode setCacheMode(CacheMode cacheMode, FieldList record)
+    {
+        CacheMode oldCacheMode = this.cacheMode;
+        this.cacheMode = cacheMode;
+        if ((cacheMode == CacheMode.PASSIVE_CACHE) && (oldCacheMode != CacheMode.PASSIVE_CACHE))
+        {   // Need to make sure current record is read.
+            m_mapCache = null;
+            m_htCache = null;
+            if (record != null)
+            {
+                try {
+                    if (record.getEditMode() == Constants.EDIT_CURRENT)
+                    {
+                        record.getTable().setHandle(record.getCounterField().getData(), 0);
+                    }
+                    if (record.getEditMode() == Constants.EDIT_IN_PROGRESS)
+                    {
+                        record.getTable().setHandle(record.getCounterField().getData(), 0);
+                        record.getTable().edit();   // Re-read the current record.
+                    }
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return oldCacheMode;
     }
 }

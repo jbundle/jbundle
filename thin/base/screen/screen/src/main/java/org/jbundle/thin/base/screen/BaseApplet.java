@@ -42,6 +42,10 @@ import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.Params;
+import org.jbundle.thin.base.db.client.CachedRemoteTable;
+import org.jbundle.thin.base.db.client.CachedRemoteTable.CacheMode;
+import org.jbundle.thin.base.db.client.RemoteFieldTable;
+import org.jbundle.thin.base.db.client.SyncRemoteTable;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabase;
 import org.jbundle.thin.base.db.model.ThinPhysicalDatabaseParent;
@@ -50,6 +54,7 @@ import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
+import org.jbundle.thin.base.remote.proxy.TableProxy;
 import org.jbundle.thin.base.screen.comp.ChangePasswordDialog;
 import org.jbundle.thin.base.screen.comp.JStatusbar;
 import org.jbundle.thin.base.screen.comp.JTiledImage;
@@ -65,8 +70,8 @@ import org.jbundle.thin.base.util.ThinMenuConstants;
 import org.jbundle.thin.base.util.ThinUtil;
 import org.jbundle.thin.base.util.base64.Base64;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
-import org.jbundle.util.osgi.webstart.browser.BrowserManager;
 import org.jbundle.util.osgi.webstart.browser.BrowserCallbacks;
+import org.jbundle.util.osgi.webstart.browser.BrowserManager;
 import org.jbundle.util.osgi.webstart.util.UrlUtil;
 
 /**
@@ -317,7 +322,7 @@ public class BaseApplet extends JApplet
      * Add any applet sub-panel(s) now.
      * Usually, you override this, although for a simple screen, just pass a screen=class param.
      * @param parent The parent to add the new screen to.
-     * @param options TODO
+     * @param options options
      * @return true if success
      */
     public boolean addSubPanels(Container parent, int options)
@@ -1064,8 +1069,30 @@ public class BaseApplet extends JApplet
                 ex.printStackTrace();
             }
             if (bUseCache)
-                remoteTable = new org.jbundle.thin.base.db.client.CachedRemoteTable(remoteTable);
-            table = new org.jbundle.thin.base.db.client.RemoteFieldTable(record, remoteTable, this.getRemoteTask());
+                remoteTable = new CachedRemoteTable(remoteTable);
+            table = new RemoteFieldTable(record, remoteTable, this.getRemoteTask());
+        }
+        else
+        {   // Table exists, make sure cache is correct.
+            CachedRemoteTable cachedFieldTable = (CachedRemoteTable)table.getRemoteTableType(CachedRemoteTable.class);
+            SyncRemoteTable syncRemoteTable = (SyncRemoteTable)table.getRemoteTableType(SyncRemoteTable.class);
+            RemoteTable remoteTable = (RemoteTable)table.getRemoteTableType(TableProxy.class);
+            if (cachedFieldTable != null)
+            {
+                cachedFieldTable.setCacheMode(bUseCache ? CacheMode.CACHE_ON_WRITE : CacheMode.PASSIVE_CACHE, record);  // Turn cache on or off
+            }
+            else if (bUseCache)
+            {   // Add cache to chain
+                if ((remoteTable != null)
+                    && (syncRemoteTable != null)
+                        && (syncRemoteTable.getRemoteTable() == remoteTable))
+                {
+                    remoteTable = new CachedRemoteTable(remoteTable);
+                    syncRemoteTable.setRemoteTable(remoteTable);
+                }
+                else
+                    Util.getLogger().severe("Can't add cache, Remote table chain is not as expected.");
+            }
         }
         return table;
     }

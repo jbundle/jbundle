@@ -77,15 +77,16 @@ public class JBaseScreen extends JBasePanel
             boolean bAddCache = true;
             if (this instanceof JScreen)
                 bAddCache = false;
-            if (this.getFieldList().getTable() == null)
-                this.getBaseApplet().linkNewRemoteTable(this.getFieldList(0), bAddCache);
+            this.getBaseApplet().linkNewRemoteTable(this.getFieldList(), bAddCache);
             if (this.getFieldList().getTable() != null)
-                if (this.getFieldList().getEditMode() == Constants.EDIT_NONE)
             {
-                try   {
-                    this.getFieldList().getTable().addNew();
-                } catch (DBException ex)    {
-                    ex.printStackTrace(); // Never.
+                if (this.getFieldList().getEditMode() == Constants.EDIT_NONE)
+                {
+                    try   {
+                        this.getFieldList().getTable().addNew();
+                    } catch (DBException ex)    {
+                        ex.printStackTrace(); // Never.
+                    }
                 }
             }
         }

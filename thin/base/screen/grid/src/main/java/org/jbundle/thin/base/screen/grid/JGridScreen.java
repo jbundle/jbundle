@@ -177,11 +177,13 @@ public class JGridScreen extends JBaseGridScreen
             if (Constants.FORM.equalsIgnoreCase(strAction))
             {
                 record = this.makeSelectedRowCurrent();
-                JBaseScreen screen = this.createMaintScreen(record);
+                if ((record.getEditMode() == Constants.EDIT_CURRENT) || (record.getEditMode() == Constants.EDIT_IN_PROGRESS))
+                    this.getBaseApplet().setProperty(Constants.OBJECT_ID, record.getCounterField().toString());
+                JBaseScreen screen = this.createMaintScreen(null);  // Do NOT pass my record since it is connected to a remote grid table.
                 if (screen != null)
                 {
                     Container parent = null;
-                    this.getFieldList().setOwner(screen);    // The record belongs to the new screen
+                    //xthis.getFieldList().setOwner(screen);    // The record belongs to the new screen
                     if (screen.getParentObject() instanceof Container)
                         parent = (Container)screen.getParentObject();
                     this.getBaseApplet().changeSubScreen(parent, screen, null, iOptions);

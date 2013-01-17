@@ -311,4 +311,19 @@ public class SyncRemoteTable extends Object
             return m_tableRemote.getRemoteDatabase(properties);
         }        
     }
+    /**
+     * Get the remote table that I am passing commands to.
+     */
+    public RemoteTable getRemoteTable()
+    {
+        return m_tableRemote;
+    }
+    /**
+     * Set the remote table.
+     * @param remoteTable
+     */
+    public void setRemoteTable(RemoteTable remoteTable)
+    {
+        m_tableRemote = remoteTable;
+    }
 }

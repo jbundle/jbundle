@@ -32,6 +32,7 @@ import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.screen.action.ActionManager;
+import org.jbundle.util.osgi.webstart.util.UrlUtil;
 
 
 /**
@@ -96,7 +97,16 @@ public class JScreen extends JBaseScreen
         super.init(parent, record);
 
         this.addSubPanels(this);
-
+        
+        if (this.getBaseApplet() != null)
+            if (this.getBaseApplet().getProperty(Constants.OBJECT_ID) != null)
+                if (this.getFieldList() != null)
+                    if ((this.getFieldList().getEditMode() == Constants.EDIT_NONE) || (this.getFieldList().getEditMode() == Constants.EDIT_ADD))
+        {
+            FieldInfo field = this.getFieldList().getCounterField();
+            field.setString(this.getBaseApplet().getProperty(Constants.OBJECT_ID));
+            this.readKeyed(field);
+        }
         this.fieldsToControls();
     }
     /**
@@ -656,7 +666,7 @@ public class JScreen extends JBaseScreen
         if (record != null)
             if ((record.getEditMode() == Constants.EDIT_IN_PROGRESS)
                 || (record.getEditMode() == Constants.EDIT_CURRENT))
-                    strCommand += "&objectID=" + record.getCounterField().toString();
+                    strCommand = UrlUtil.addURLParam(strCommand , Constants.OBJECT_ID, record.getCounterField().toString());
         return strCommand;
     }
     /**
