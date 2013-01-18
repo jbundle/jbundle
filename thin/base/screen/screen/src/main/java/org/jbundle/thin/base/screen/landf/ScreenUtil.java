@@ -17,6 +17,7 @@ import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.Font;
 import java.awt.Frame;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JComponent;
@@ -83,16 +84,6 @@ public class ScreenUtil
         MetalTheme theme = null;
 
         FontUIResource font = ScreenUtil.getFont(propertyOwner, properties);
-        if ((themeClassName == null) || (themeClassName.equalsIgnoreCase(ScreenUtil.DEFAULT)))
-            if (font == null)
-        {
-            int MINIMUM_DEFAULT_FONT_SIZE = 16;
-            int DEFAULT_FONT_SIZE = 20;
-            Object defaultFont = UIManager.getDefaults().get("Panel.font");
-            if (defaultFont instanceof Font)
-                if (((Font)defaultFont).getSize() < MINIMUM_DEFAULT_FONT_SIZE)
-                    font = new FontUIResource(((Font)defaultFont).deriveFont(((Font)defaultFont).getStyle(), DEFAULT_FONT_SIZE));
-        }
         ColorUIResource colorText = ScreenUtil.getColor(ScreenUtil.TEXT_COLOR, propertyOwner, properties);
         ColorUIResource colorControl = ScreenUtil.getColor(ScreenUtil.CONTROL_COLOR, propertyOwner, properties);
         ColorUIResource colorBackground = ScreenUtil.getColor(ScreenUtil.BACKGROUND_COLOR, propertyOwner, properties);
@@ -149,8 +140,8 @@ public class ScreenUtil
         String strFontStyle = ScreenUtil.getPropery(ScreenUtil.FONT_STYLE, propertyOwner, properties, null);
 
         if ((strFontName == null) || (strFontName.length() == 0))
-            return null;
-        int iSize = 12;
+            strFontName = Font.DIALOG;  // Default font
+        int iSize = 18; // Default size
         if ((strFontSize != null) && (strFontSize.length() > 0))
             iSize = Integer.parseInt(strFontSize);      
         int iStyle = Font.PLAIN;
