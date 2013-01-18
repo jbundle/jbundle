@@ -128,22 +128,27 @@ public class Environment extends Object
     public void free()
     {
         MessageApp messageApplication  = this.getMessageApplication(null, null);
-    	if (messageApplication != null)
-        {
-            messageApplication.setEnvironment(null);  // So it doesn't try to free me.
-            this.removeApplication(messageApplication);
-            messageApplication.free();
-        }
-        
+
         if (m_vApplication != null)
         {
             for (int i = this.getApplicationCount() - 1; i >= 0;  i--)
             {
                 BaseApplication app = (BaseApplication)this.m_vApplication.get(i);
-                app.setEnvironment(null); // So it doesn't try to free me.
-                app.free();
+                if (app != messageApplication)
+                {
+                    app.setEnvironment(null); // So it doesn't try to free me.
+                    app.free();
+                }
             }
             m_vApplication = null;
+        }
+        
+        messageApplication  = this.getMessageApplication(null, null);
+        if (messageApplication != null)
+        {
+            messageApplication.setEnvironment(null);  // So it doesn't try to free me.
+            this.removeApplication(messageApplication);
+            messageApplication.free();
         }
         
         m_applicationDefault = null;    // Will have been freed
