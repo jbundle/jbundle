@@ -181,6 +181,7 @@ public class ActionManager extends Hashtable<String,Action>
 
         if (oldResources != null)
             application.setResourceBundle(oldResources);
+        menu.setOpaque(false);
 
         return menu;
     }
