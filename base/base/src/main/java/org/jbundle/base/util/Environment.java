@@ -127,7 +127,7 @@ public class Environment extends Object
      */
     public void free()
     {
-        MessageApp messageApplication  = this.getMessageApplication(null, null);
+        MessageApp messageApplication = this.getMessageApplication(null, Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)));
 
         if (m_vApplication != null)
         {
@@ -143,7 +143,7 @@ public class Environment extends Object
             m_vApplication = null;
         }
         
-        messageApplication  = this.getMessageApplication(null, null);
+        messageApplication = this.getMessageApplication(null, Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)));
         if (messageApplication != null)
         {
             messageApplication.setEnvironment(null);  // So it doesn't try to free me.
