@@ -5,6 +5,7 @@ package org.jbundle.thin.base.screen.grid;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.FontMetrics;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -572,7 +573,9 @@ public class ThinTableModel extends AbstractThinTableModel
             control.getSelectionModel().addListSelectionListener(thinTableModelListener);   // Listen for selection change to update
             if (bSetupJTable)
             {
-                int iCharWidth = control.getFontMetrics(control.getFont()).charWidth('x');
+                FontMetrics fm = control.getFontMetrics(control.getFont());
+                int rowHeight = Math.max(control.getRowHeight(), fm.getHeight());
+                int iCharWidth = fm.charWidth('x');
                 control.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //              control.setAutoCreateColumnsFromModel(false);
                 control.setColumnSelectionAllowed(false); // Don't allow column selections
@@ -622,6 +625,8 @@ public class ThinTableModel extends AbstractThinTableModel
                     tableColumn.setHeaderValue(strFieldName);
                 }
         //      this.addMouseListenerToHeaderInTable(control);      // Notify model of row order changed (clicks in the header bar)
+                if (rowHeight > 10)
+                    control.setRowHeight(rowHeight);
             }
             if (control.getModel() == null)
                 control.setModel(this);
