@@ -116,6 +116,14 @@ public class JScreen extends JBaseScreen
      */
     public void free()
     {
+        FieldList record = this.getFieldList();
+        if (record != null)
+            if (record.isModified())
+        {
+            String message = this.getBaseApplet().getString("Save changes?");
+            if (JOptionPane.showConfirmDialog(this, message, null, JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
+                BaseApplet.handleAction(Constants.SUBMIT, this, this, 0);   // Add any changes
+        }
         super.free();
     }
     /**
