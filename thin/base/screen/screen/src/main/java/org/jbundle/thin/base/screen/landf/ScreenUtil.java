@@ -83,11 +83,15 @@ public class ScreenUtil
         String themeClassName = ScreenUtil.getPropery(ScreenUtil.THEME, propertyOwner, properties, null);
         MetalTheme theme = null;
 
-        FontUIResource font = ScreenUtil.getFont(propertyOwner, properties);
+        FontUIResource font = ScreenUtil.getFont(propertyOwner, properties, false);
         ColorUIResource colorText = ScreenUtil.getColor(ScreenUtil.TEXT_COLOR, propertyOwner, properties);
         ColorUIResource colorControl = ScreenUtil.getColor(ScreenUtil.CONTROL_COLOR, propertyOwner, properties);
         ColorUIResource colorBackground = ScreenUtil.getColor(ScreenUtil.BACKGROUND_COLOR, propertyOwner, properties);
-        
+
+        if ((themeClassName == null) || (themeClassName.equalsIgnoreCase(ScreenUtil.DEFAULT)))
+            if (font == null)
+                font = ScreenUtil.getFont(propertyOwner, properties, true);
+
         if ((font != null) || (colorControl != null) || (colorText != null))
         {
             if (!(theme instanceof CustomTheme))
@@ -131,16 +135,21 @@ public class ScreenUtil
      *  Create the font saved in this key; null = Not found.
      * (Utility method).
      * Font is saved in three properties (font.fontname, font.size, font.style).
+     * @param returnDefaultIfNone TODO
      * @return The registered font.
      */
-    public static FontUIResource getFont(PropertyOwner propertyOwner, Map<String,Object> properties)
+    public static FontUIResource getFont(PropertyOwner propertyOwner, Map<String,Object> properties, boolean returnDefaultIfNone)
     {
         String strFontName = ScreenUtil.getPropery(ScreenUtil.FONT_NAME, propertyOwner, properties, null);
         String strFontSize = ScreenUtil.getPropery(ScreenUtil.FONT_SIZE, propertyOwner, properties, null);
         String strFontStyle = ScreenUtil.getPropery(ScreenUtil.FONT_STYLE, propertyOwner, properties, null);
 
         if ((strFontName == null) || (strFontName.length() == 0))
+        {
+            if (!returnDefaultIfNone)
+                return null;
             strFontName = Font.DIALOG;  // Default font
+        }
         int iSize = 18; // Default size
         if ((strFontSize != null) && (strFontSize.length() > 0))
             iSize = Integer.parseInt(strFontSize);      

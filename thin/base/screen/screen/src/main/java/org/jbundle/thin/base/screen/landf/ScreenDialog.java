@@ -504,7 +504,7 @@ public class ScreenDialog extends javax.swing.JDialog
         samplePanel.setBackground(colorBackground);
         if (colorBackground == null)
             samplePanel.setBackground(SystemColor.window);
-        Font font = ScreenUtil.getFont(null, properties);
+        Font font = ScreenUtil.getFont(null, properties, true);
         sampleLabel.setFont(font);
         sampleTextField.setFont(font);
         sampleTextField.setBackground(colorControl);
