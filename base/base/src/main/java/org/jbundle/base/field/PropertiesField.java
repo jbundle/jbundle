@@ -312,7 +312,7 @@ public class PropertiesField extends MemoField
             Record recPropertiesInput = Record.makeRecordFromClassName(PropertiesInput.THICK_CLASS, this.getRecord().getRecordOwner());
             ((PropertiesInputModel)recPropertiesInput).setPropertiesField(this);
             screenField = recPropertiesInput.makeScreen(itsLocation, targetScreen, iDisplayFieldDesc | ScreenConstants.DISPLAY_MODE, this.getMapKeyDescriptions());
-            boolean bAllowAppending = this.getMapKeyDescriptions() == null;
+            boolean bAllowAppending = (this.getMapKeyDescriptions() == null);
             ((GridScreenParent)screenField).setAppending(bAllowAppending);
             this.addListener(new SyncFieldToPropertiesRecord(recPropertiesInput));
             recPropertiesInput.addListener(new SyncPropertiesRecordToField(this));

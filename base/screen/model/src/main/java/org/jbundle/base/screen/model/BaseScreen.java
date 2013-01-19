@@ -157,6 +157,8 @@ public class BaseScreen extends BasePanel
                 }
             }
         }
+        properties.remove(ScreenModel.DISPLAY);
+        properties.remove(ScreenModel.LOCATION);
         this.init((Record)record, itsLocation, (BasePanel)parent, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
