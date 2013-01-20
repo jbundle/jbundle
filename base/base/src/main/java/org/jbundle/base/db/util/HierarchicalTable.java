@@ -132,7 +132,7 @@ public class HierarchicalTable extends BaseSharedTable
     public void add(Rec fieldList) throws DBException
     {
         if (this.getCurrentTable() != this.getNextTable())
-            throw new DatabaseException("Can't add new table in alternate table");  // Never
+            throw new DatabaseException("Can't add new record in alternate table");  // Never
         super.add(fieldList);     // Only need to add the main record
     }
     /**
