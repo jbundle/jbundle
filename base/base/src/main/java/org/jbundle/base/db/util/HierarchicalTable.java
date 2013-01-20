@@ -15,6 +15,7 @@ import org.jbundle.base.db.DatabaseException;
 import org.jbundle.base.db.KeyArea;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.filter.SubFileFilter;
+import org.jbundle.base.db.grid.DataRecord;
 import org.jbundle.base.db.shared.BaseSharedTable;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
@@ -338,6 +339,18 @@ public class HierarchicalTable extends BaseSharedTable
     {
         Object bookmark = this.getCurrentTable().getHandle(iHandleType);
         return bookmark;
+    }
+    /**
+     * Make the record represented by this DataRecord current.
+     * @param dataRecord tour.db.DataRecord The datarecord to try to recreate.
+     * @return true if successful.
+     */
+    public boolean setDataRecord(DataRecord dataRecord)
+    {
+        boolean success = super.setDataRecord(dataRecord);
+        if (this.getCurrentTable() != this.getNextTable())
+            this.syncRecordToBase(this.getRecord(), this.getCurrentTable().getRecord());
+        return success;
     }
     /**
      * Move all the fields to the output buffer.

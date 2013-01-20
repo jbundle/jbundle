@@ -4,7 +4,6 @@
 package org.jbundle.thin.base.screen.grid;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.FontMetrics;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
@@ -37,6 +36,7 @@ import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
 import org.jbundle.thin.base.screen.AbstractThinTableModel;
+import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JScreenConstants;
 import org.jbundle.thin.base.screen.grid.sort.SortableHeaderRenderer;
 
@@ -425,7 +425,10 @@ public class ThinTableModel extends AbstractThinTableModel
                     if (bLockRecord)
                         if (fieldList != null)
                             if (fieldList.getEditMode() == Constants.EDIT_CURRENT)
-                                m_table.edit();
+                            {
+                                if (m_table.edit() == Constants.NORMAL_RETURN)
+                                    fieldList = m_table.getRecord();    // A physical read may have changed the record.
+                            }
                 }
                 else
                 {   // Past the EOF, just supply a blank record
@@ -493,7 +496,8 @@ public class ThinTableModel extends AbstractThinTableModel
                 && (m_buffCurrentLockedData != null))
                     this.restoreCurrentRecord(fieldList); // Restore current edit record
         } catch (Exception ex)  {
-            ex.printStackTrace();
+            if (!this.displayError(ex, null))
+                ex.printStackTrace();
         }
         this.setCurrentRow(iRowIndex);     // Successfully read
         return fieldList;
@@ -804,11 +808,28 @@ public class ThinTableModel extends AbstractThinTableModel
         try {
             this.updateIfNewRow(m_iSelectedRow);
         } catch (Exception ex)  {
-            ex.printStackTrace();
-            if (source instanceof JTable)
-            {   // Always
-                org.jbundle.thin.base.screen.BaseApplet baseApplet = null;
-                Container panel = (JTable)source;
+            if (!(source instanceof Component))
+                source = null;  // Never
+            if (!this.displayError(ex, (Component)source))
+                ex.printStackTrace();
+        }
+        return (iOldSelection != m_iSelectedRow);
+    }
+    /**
+     * Displayed this error code.
+     * @param ex
+     * @param source
+     * @return True if it was a database exception and the error was displayed
+     */
+    public boolean displayError(Exception ex, Component panel)
+    {
+        if (panel != null)
+        {   // Always
+            BaseApplet baseApplet = null;
+            if (panel instanceof BaseApplet)
+                baseApplet = (BaseApplet)panel;
+            else
+            {
                 while ((panel = panel.getParent()) != null)
                 {
                     if (panel instanceof org.jbundle.thin.base.screen.JBasePanel)
@@ -817,14 +838,16 @@ public class ThinTableModel extends AbstractThinTableModel
                         break;
                     }
                 }
-                if (baseApplet != null)
-                {
-                    baseApplet.setLastError(ex.getMessage());
-                    baseApplet.setStatusText(ex.getMessage());
-                }
+            }
+            if (baseApplet != null)
+            {
+                //baseApplet.setLastError(ex.getMessage());
+                baseApplet.setStatusText(ex.getMessage(), Constants.WARNING);
+                if (ex instanceof DBException)
+                    return true;
             }
         }
-        return (iOldSelection != m_iSelectedRow);
+        return false;
     }
     /**
      * This class notifies the model of selection changes.

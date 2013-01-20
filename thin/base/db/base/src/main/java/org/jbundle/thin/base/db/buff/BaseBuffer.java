@@ -7,6 +7,8 @@ package org.jbundle.thin.base.db.buff;
  * Copyright © 2012 tourapp.com. All Rights Reserved.
  *      don@tourgeek.com
  */
+import java.io.Serializable;
+
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
@@ -17,6 +19,7 @@ import org.jbundle.thin.base.db.FieldList;
  * You must override this class for functionality.
  */
 public class BaseBuffer extends Object
+    implements Serializable     // Make sure you include this on overriding classes
 {
 	private static final long serialVersionUID = 1L;
 
