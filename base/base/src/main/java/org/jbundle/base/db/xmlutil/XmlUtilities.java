@@ -126,7 +126,6 @@ public class XmlUtilities extends Object
     {
         try   {
             table.close();
-            elRoot.appendChild(doc.createTextNode(NEWLINE));
             while (table.hasNext())
             {
             	table.next();

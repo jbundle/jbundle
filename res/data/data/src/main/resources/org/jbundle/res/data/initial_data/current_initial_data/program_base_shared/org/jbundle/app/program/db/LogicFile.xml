@@ -4444,7 +4444,7 @@ The base code is now in the swing implementation
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16779593">
-		<LastChanged>2012-11-27T16:30:50</LastChanged>
+		<LastChanged>2013-01-21T11:02:50</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>300</Sequence>
 		<MethodName>doCommand</MethodName>
@@ -4456,11 +4456,11 @@ The base code is now in the swing implementation
 
 if ((strCommand.indexOf("FileHdrScreen") != -1)
     || (strCommand.indexOf("LayoutScreen") != -1))
-        iCommandOptions = ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER;
+        iCommandOptions = ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROWSER;
 if ((strCommand.indexOf("ExportRecordsToXml") != -1)
     || (strCommand.indexOf("AccessGridScreen") != -1))
 {
-    iCommandOptions = ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROSWER;
+    iCommandOptions = ScreenConstants.USE_NEW_WINDOW | ScreenConstants.DONT_PUSH_TO_BROWSER;
     strCommand = Utility.addURLParam(strCommand, DBParams.RECORD, this.getMainRecord().getField(ClassInfo.CLASS_NAME).toString());
     String packageName = ((ClassInfo)this.getMainRecord()).getPackageName(null);
     strCommand = Utility.addURLParam(strCommand, "package", packageName);
@@ -33363,7 +33363,7 @@ return createScreenComponent(ScreenModel.CHECK_BOX, itsLocation, targetScreen, c
 		<IncludeScope>4</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785210">
-		<LastChanged>2012-12-20T16:27:38</LastChanged>
+		<LastChanged>2013-01-21T10:56:31</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>150</Sequence>
 		<MethodName>copyProcessParams</MethodName>
@@ -33380,7 +33380,7 @@ strProcess = Utility.addURLParam(strProcess, DBParams.CONNECTION_TYPE, this.getP
 strProcess = Utility.addURLParam(strProcess, DBParams.REMOTE_HOST, this.getProperty(DBParams.REMOTE_HOST));
 strProcess = Utility.addURLParam(strProcess, DBParams.CODEBASE, this.getProperty(DBParams.CODEBASE));
 strProcess = Utility.addURLParam(strProcess, SQLParams.DATABASE_PRODUCT_PARAM, this.getProperty(SQLParams.DATABASE_PRODUCT_PARAM));
-strProcess = Utility.addURLParam(strProcess, DBConstants.SYSTEM_NAME, this.getProperty(DBConstants.SYSTEM_NAME));
+strProcess = Utility.addURLParam(strProcess, DBConstants.SYSTEM_NAME, this.getProperty(DBConstants.SYSTEM_NAME), false);
 return strProcess;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -33388,7 +33388,7 @@ return strProcess;]]></LogicSource>
 		<IncludeScope>4</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785211">
-		<LastChanged>2012-12-24T13:01:10</LastChanged>
+		<LastChanged>2013-01-21T10:58:48</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>20</Sequence>
 		<MethodName>getDatabaseOwner</MethodName>
@@ -33399,13 +33399,13 @@ return strProcess;]]></LogicSource>
 		<LogicSource><![CDATA[Task task = this.getTask();
 App app = task.getApplication();
 String databaseName = app.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
-if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
+if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
 {
     oldApp = app;
     Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
     
     BaseDatabase.addDBProperties(properties, this, null);
-    properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
+    properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
     properties.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
 
     Environment env = ((BaseApplication)oldApp).getEnvironment();
@@ -33445,7 +33445,7 @@ super;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785213">
-		<LastChanged>2012-12-21T10:43:46</LastChanged>
+		<LastChanged>2013-01-21T11:00:13</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>20</Sequence>
 		<MethodName>getDatabaseOwner</MethodName>
@@ -33454,14 +33454,14 @@ super;]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>MenusScreen</MethodClassName>
 		<LogicSource><![CDATA[String databaseName = this.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
-if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
+if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
 {
     Task task = this.getTask();
     oldApp = task.getApplication();
     Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
     
     BaseDatabase.addDBProperties(properties, this, null);
-    properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", BaseDatabase.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
+    properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
     properties.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
 
     Environment env = ((BaseApplication)oldApp).getEnvironment();
