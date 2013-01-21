@@ -9,9 +9,9 @@
     <version>1.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.jbundle.config.app</artifactId>
+  <artifactId>org.jbundle.config.main</artifactId>
   <packaging>pom</packaging>
-  <name>jbundle-config-app</name>
+  <name>jbundle-config-main</name>
 
   <properties>
     <jbundlePackageExport> <!-- Note: Eventually I need to move screen.control here -->
