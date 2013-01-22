@@ -361,7 +361,7 @@ public class MirrorTable extends PassThruTable
      */
     public void copyRecord(Record recAlt, Record recMain)
     {
-        recAlt.moveFields(recMain, null, true, DBConstants.READ_MOVE, false, false, true);
+        recAlt.moveFields(recMain, null, true, DBConstants.READ_MOVE, false, false, true, false);
     }
     /**
      * Read the mirrored record.

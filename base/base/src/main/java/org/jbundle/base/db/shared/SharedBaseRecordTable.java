@@ -437,7 +437,7 @@ public class SharedBaseRecordTable extends BaseSharedTable
             boolean bAllowFieldChange = false;		// This will disable field behaviors on move
             boolean bMoveModifiedState = true;		// This will move the modified status to the new field
             Object[] rgobjEnabledFieldsOld = recSource.setEnableFieldListeners(false);
-            recDest.moveFields(recSource, null, DBConstants.DONT_DISPLAY, DBConstants.READ_MOVE, bAllowFieldChange, bOnlyModifiedFields, bMoveModifiedState);
+            recDest.moveFields(recSource, null, DBConstants.DONT_DISPLAY, DBConstants.READ_MOVE, bAllowFieldChange, bOnlyModifiedFields, bMoveModifiedState, false);
             recSource.setEnableFieldListeners(rgobjEnabledFieldsOld);
             if (bCopyEditMode)
                 recDest.setEditMode(recSource.getEditMode());    // Okay?

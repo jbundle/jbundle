@@ -89,7 +89,7 @@ public class HierarchicalTable extends BaseSharedTable
             BaseTable table = iterator.next();
             if ((table != null) && (table != this.getNextTable()))
             {
-                this.syncRecordToBase(table.getRecord(), this.getRecord()); // Note: I am syncing the base to the alt here
+                this.syncRecordToBase(table.getRecord(), this.getRecord(), true); // Note: I am syncing the base to the alt here
                 table.open();
             }
         }
@@ -239,7 +239,7 @@ public class HierarchicalTable extends BaseSharedTable
             	this.getRecord().getKeyArea().setupKeyBuffer(null, DBConstants.TEMP_KEY_AREA);	// Save this for compare later
 	        	this.getRecord().getKeyArea(DBConstants.MAIN_KEY_AREA).reverseKeyBuffer(null, DBConstants.TEMP_KEY_AREA);
             }
-            this.syncRecordToBase(this.getRecord(), (Record)record);
+            this.syncRecordToBase(this.getRecord(), (Record)record, false);
         }
     	else
     	{
@@ -281,7 +281,7 @@ public class HierarchicalTable extends BaseSharedTable
                     bSuccess = recAlt.seek(strSeekSign);
                     if (bSuccess)
                     {
-                        this.syncRecordToBase(recMain, recAlt);
+                        this.syncRecordToBase(recMain, recAlt, false);
                         this.setCurrentTable(table);
                         break;
                     }
@@ -322,7 +322,7 @@ public class HierarchicalTable extends BaseSharedTable
                     record = recAlt.setHandle(bookmark, iHandleType);
                     if (record != null)
                     {
-                        this.syncRecordToBase(recMain, recAlt);
+                        this.syncRecordToBase(recMain, recAlt, false);
                         this.setCurrentTable(table);
                         break;
                     }
@@ -349,7 +349,7 @@ public class HierarchicalTable extends BaseSharedTable
     {
         boolean success = super.setDataRecord(dataRecord);
         if (this.getCurrentTable() != this.getNextTable())
-            this.syncRecordToBase(this.getRecord(), this.getCurrentTable().getRecord());
+            this.syncRecordToBase(this.getRecord(), this.getCurrentTable().getRecord(), false);
         return success;
     }
     /**

@@ -566,12 +566,13 @@ public class PassThruTable extends BaseTable
     }
     /**
      * Sync the current record's contents and status to the base record
+     * @param syncSelection Sync selected fields?
      */
-    public void syncRecordToBase(Record recBase, Record recAlt)
+    public void syncRecordToBase(Record recBase, Record recAlt, boolean syncSelection)
     {
         if ((recAlt != null) && (recBase != null))
         {
-            recBase.moveFields(recAlt, null, true, DBConstants.READ_MOVE, false, false, true);
+            recBase.moveFields(recAlt, null, true, DBConstants.READ_MOVE, false, false, true, syncSelection);
             recBase.setEditMode(recAlt.getEditMode());
         }
         if ((recBase.getEditMode() == DBConstants.EDIT_CURRENT) || (recBase.getEditMode() == DBConstants.EDIT_IN_PROGRESS))

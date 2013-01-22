@@ -2212,7 +2212,7 @@ public class Record extends FieldList
                     recordCurrent = recordCurrent.getBaseRecord();
                 try   {
                     recordNew.addNew();
-                    recordNew.moveFields(recordCurrent, null, true, DBConstants.INIT_MOVE, false, false, false);
+                    recordNew.moveFields(recordCurrent, null, true, DBConstants.INIT_MOVE, false, false, false, false);
                 } catch (DBException ex)    {
                     ex.printStackTrace();
                 }
@@ -2696,9 +2696,10 @@ public class Record extends FieldList
      * @param bAllowFieldChange
      * @param bOnlyModifiedFields
      * @param bMoveModifiedState
+     * @param syncSelection TODO
      * @return true if successful
      */
-    public boolean moveFields(Record recSource, ResourceBundle resource, boolean bDisplayOption, int iMoveMode, boolean bAllowFieldChange, boolean bOnlyModifiedFields, boolean bMoveModifiedState)
+    public boolean moveFields(Record recSource, ResourceBundle resource, boolean bDisplayOption, int iMoveMode, boolean bAllowFieldChange, boolean bOnlyModifiedFields, boolean bMoveModifiedState, boolean syncSelection)
     {
         boolean bFieldsMoved = false;
         for (int iFieldSeq = 0; iFieldSeq < this.getFieldCount(); iFieldSeq++)
@@ -2751,6 +2752,8 @@ public class Record extends FieldList
                 }
                 if ((bAllowFieldChange) || (bMoveModifiedState))
                     fldDest.setModified(fldSource.isModified()); // If you allow field change set if source is modified.
+                if (syncSelection)
+                    fldDest.setSelected(fldSource.isSelected());
             }
         }
         return bFieldsMoved;

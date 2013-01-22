@@ -180,7 +180,7 @@ public class MultiTable extends BaseSharedTable
         {
             Record recCurrent = table.getRecord();
             Record recBase = (Record)m_record;
-            this.syncRecordToBase(recBase, recCurrent);
+            this.syncRecordToBase(recBase, recCurrent, false);
         }
     }
     /**
