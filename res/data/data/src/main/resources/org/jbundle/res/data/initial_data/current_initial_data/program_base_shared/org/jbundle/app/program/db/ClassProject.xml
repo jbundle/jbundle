@@ -1869,4 +1869,26 @@
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
+	<ClassProject ID="16777333">
+		<LastChanged>2013-01-22T05:23:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>other</Name>
+		<ParentFolderID>16,777,309</ParentFolderID>
+		<Sequence/>
+		<Comment/>
+		<Code/>
+		<Description>Other applications</Description>
+		<SystemClasses/>
+		<PackageName/>
+		<ProjectPath/>
+		<InterfacePackage/>
+		<InterfaceProjectPath/>
+		<ThinPackage/>
+		<ThinProjectPath/>
+		<ResourcePackage/>
+		<ResProjectPath/>
+		<Properties/>
+		<ArtifactId/>
+		<GroupId/>
+	</ClassProject>
 </file>
