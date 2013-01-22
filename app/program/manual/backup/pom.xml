@@ -11,7 +11,7 @@
   
   <artifactId>org.jbundle.app.program.manual.backup</artifactId>
   <packaging>bundle</packaging>
-  <name>jbundle-app-program-manual-backup - Program manual code</name>
+  <name>jbundle-app-program-manual-backup - Backup</name>
 
   <dependencies>
     <dependency>

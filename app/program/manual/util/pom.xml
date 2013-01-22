@@ -11,7 +11,7 @@
   
   <artifactId>org.jbundle.app.program.manual.util</artifactId>
   <packaging>bundle</packaging>
-  <name>jbundle-app-program-manual-util - Program manual code</name>
+  <name>jbundle-app-program-manual-util - Program util</name>
 
   <dependencies>
     <dependency>

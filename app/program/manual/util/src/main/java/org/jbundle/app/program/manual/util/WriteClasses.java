@@ -14,6 +14,7 @@ import org.jbundle.base.db.filter.CompareFileFilter;
 import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.Utility;
 import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
@@ -29,7 +30,8 @@ public class WriteClasses extends BaseProcess
     protected String m_strFileName = null;
     protected String m_strPackage = null;
     protected String m_strProjectID = null;
-
+    protected String m_systemName = null;
+    
     protected NameList m_ClassNameList = null;     // List of all classes written so far
     
     /**
@@ -90,6 +92,9 @@ public class WriteClasses extends BaseProcess
         m_strProjectID = this.getProperty("project");
         if (m_strProjectID == null)
             m_strProjectID = Constants.BLANK;
+        m_systemName = this.getProperty(Constants.SYSTEM_NAME);
+        if (m_systemName == null)
+            m_systemName = Constants.BLANK;
         this.writeFileDesc();   // Write the code
     }
     public Record openMainRecord()
@@ -128,6 +133,10 @@ public class WriteClasses extends BaseProcess
             while (classInfo.hasNext())
             {
                 classInfo.next();
+                if ((m_strFileName == null) || (m_strFileName.length() == 0))
+                    if ((m_systemName != null) && (!"base".equalsIgnoreCase(Utility.getSystemSuffix(m_systemName, null))) && (!"_base".equalsIgnoreCase(Utility.getSystemSuffix(m_systemName, null))))
+                        if (classInfo.getCounterField().getValue() >= 16777216)
+                            continue;   // There must be a better way to tell if this belongs in a base table
                 String strClassName = classInfo.getField(ClassInfo.CLASS_NAME).getString();
                 String strRecordType = classInfo.getField(ClassInfo.CLASS_TYPE).getString();
                 if (strRecordType.length() == 0)

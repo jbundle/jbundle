@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>jbundle-app-program-manual-reactor</artifactId>
-  <name>jbundle-app-program-manual-reactor - Program framework</name>
+  <name>jbundle-app-program-manual-reactor - Manual</name>
   <packaging>pom</packaging>
 
   <modules>

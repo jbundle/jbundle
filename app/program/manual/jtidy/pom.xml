@@ -11,7 +11,7 @@
   
   <artifactId>org.jbundle.app.program.manual.jtidy</artifactId>
   <packaging>bundle</packaging>
-  <name>jbundle-app-program-manual-jtidy - Program manual code</name>
+  <name>jbundle-app-program-manual-jtidy - JTidy</name>
 
   <dependencies>
     <dependency>
