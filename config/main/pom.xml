@@ -35,32 +35,18 @@
     </plugins>
   </build>
 
-  <profiles>
-    <profile>
-      <id>dev</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-          <menu>Switch</menu>
-      </properties>
-    </profile>
-  </profiles>
-
   <dependencies>
-  
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
-  <artifactId>org.jbundle.thin.app.test.manual</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+      <artifactId>org.jbundle.thin.app.test.manual</artifactId>
+      <version>1.0.1-SNAPSHOT</version>
     </dependency>
 
-
     <dependency>
-	<groupId>org.jbundle.config.dep</groupId>
-	<artifactId>jbundle-config-dep-all</artifactId>
-	<version>${jbundleVersion}</version>
-	<type>pom</type>
+      <groupId>org.jbundle.config.dep</groupId>
+      <artifactId>jbundle-config-dep-all</artifactId>
+      <version>${jbundleVersion}</version>
+      <type>pom</type>
     </dependency>
   </dependencies>
 
