@@ -132,7 +132,8 @@ public class GridScreen extends BaseGridTableScreen
      */
     public void addNavButtons()
     {
-        new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.FORM, MenuConstants.FORMLINK, null);
+        SCannedBox box = new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.FORM, MenuConstants.FORMLINK, null);
+        box.setRequestFocusEnabled(false);
         if ((m_iDisplayFieldDesc & ScreenConstants.SELECT_MODE) == ScreenConstants.SELECT_MODE)
             new SCannedBox(this.getNextLocation(ScreenConstants.FIRST_SCREEN_LOCATION, ScreenConstants.SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, null, MenuConstants.SELECT, MenuConstants.SELECT, null);
     }

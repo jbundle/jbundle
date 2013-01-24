@@ -46,7 +46,7 @@ import org.jbundle.thin.base.screen.action.ActionManager;
  * Data fields in the second column aligned left.
  */
 public class JGridScreen extends JBaseGridScreen
-    implements TableColumnModelListener
+    implements TableColumnModelListener, TraversableGrid
 {
 	private static final long serialVersionUID = 1L;
 
@@ -86,15 +86,17 @@ public class JGridScreen extends JBaseGridScreen
         super.init(parent, record);
 
         this.addSubPanels(this);
+        
+        TraversableGridPolicy.addGridTraversalPolicy(this.getControl(), this);
     }
     /**
      * Free.
      */
     public void free()
     {
-    	if (getJTable() != null)
-    		if (getJTable().isEditing())
-    			getJTable().getCellEditor().stopCellEditing();	// Validate any cell being edited.
+    	if (getControl() != null)
+    		if (getControl().isEditing())
+    			getControl().getCellEditor().stopCellEditing();	// Validate any cell being edited.
         if (m_thinTableModel != null)
         	m_thinTableModel.free();
         m_thinTableModel = null;
@@ -112,9 +114,19 @@ public class JGridScreen extends JBaseGridScreen
      * Get the this screen's JTable.
      * @return This screen's JTable.
      */
-    public JTable getJTable()
+    public JTable getControl()
     {
         return m_jTableScreen;
+    }
+    /**
+     * Is this control a focus target?
+     */
+    public boolean isFocusTarget(int col)
+    {
+        if (this.getGridModel() != null)
+            if (this.getGridModel().getColumnClass(col) == String.class)
+                return true;
+        return false;
     }
     /**
      * Build the list of fields that make up the screen.
