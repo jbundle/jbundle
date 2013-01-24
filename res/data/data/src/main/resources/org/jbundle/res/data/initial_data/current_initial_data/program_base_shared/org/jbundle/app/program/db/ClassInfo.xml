@@ -1118,7 +1118,7 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777732">
-		<LastChanged>2010-02-05T11:20:55</LastChanged>
+		<LastChanged>2013-01-24T09:15:14</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Menus</ClassName>
 		<BaseClassName>Folder</BaseClassName>

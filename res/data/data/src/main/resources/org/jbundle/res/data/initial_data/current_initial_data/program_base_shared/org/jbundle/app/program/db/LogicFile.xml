@@ -2453,7 +2453,7 @@ this.getMainRecord().getField(LogicFile.METHOD_NAME).addListener(fieldBeh);
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778703">
-		<LastChanged>2012-02-12T09:32:02</LastChanged>
+		<LastChanged>2013-01-24T09:14:56</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>500</Sequence>
 		<MethodName>getLink</MethodName>
@@ -2483,6 +2483,13 @@ else if ((strType.equalsIgnoreCase(MenuConstants.MENUREC))
 }
 else if (strType.equalsIgnoreCase(DBParams.MENU))
 { // Default is correct
+    if ((strLink == null) || (strLink.length() == 0))
+    {
+        strLink = this.getField(Menus.CODE).toString();
+        if ((strLink == null) || (strLink.length() == 0))
+            strLink = Converter.stripNonNumber(this.getField(Menus.ID).toString());
+        strParams = Utility.addURLParam(null, strType, strLink); // Default command
+    }
 }
 else if (strType.equalsIgnoreCase(DBParams.XML))
 {

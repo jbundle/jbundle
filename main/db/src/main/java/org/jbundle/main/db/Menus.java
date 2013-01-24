@@ -216,6 +216,13 @@ public class Menus extends Folder
         }
         else if (strType.equalsIgnoreCase(DBParams.MENU))
         { // Default is correct
+            if ((strLink == null) || (strLink.length() == 0))
+            {
+                strLink = this.getField(Menus.CODE).toString();
+                if ((strLink == null) || (strLink.length() == 0))
+                    strLink = Converter.stripNonNumber(this.getField(Menus.ID).toString());
+                strParams = Utility.addURLParam(null, strType, strLink); // Default command
+            }
         }
         else if (strType.equalsIgnoreCase(DBParams.XML))
         {
