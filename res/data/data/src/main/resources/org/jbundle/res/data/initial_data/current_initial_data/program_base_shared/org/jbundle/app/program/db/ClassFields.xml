@@ -13426,7 +13426,7 @@
 		<ClassFieldDesc/>
 		<ClassFieldProtect/>
 		<ClassFieldInitial/>
-		<ClassFieldInitialValue>true</ClassFieldInitialValue>
+		<ClassFieldInitialValue>false</ClassFieldInitialValue>
 		<ClassFieldsType>N</ClassFieldsType>
 		<IncludeScope>4</IncludeScope>
 	</ClassFields>
@@ -13549,5 +13549,20 @@
 		<ClassFieldInitialValue/>
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782673">
+		<LastChanged>2013-01-24T07:53:39</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>PropertiesStringFileListener</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>PropertiesStringField</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName>m_field</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>F</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
 	</ClassFields>
 </file>

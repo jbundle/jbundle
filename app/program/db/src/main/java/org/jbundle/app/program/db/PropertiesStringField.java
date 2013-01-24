@@ -26,7 +26,7 @@ import org.jbundle.model.screen.*;
  */
 public class PropertiesStringField extends StringField
 {
-    protected boolean enableConversion = true;
+    protected boolean enableConversion = false;
     /**
      * Default constructor.
      */
@@ -53,6 +53,7 @@ public class PropertiesStringField extends StringField
     public void init(Record record, String strName, int iDataLength, String strDesc, Object strDefault)
     {
         super.init(record, strName, iDataLength, strDesc, strDefault);
+        record.addListener(new PropertiesStringFileListener(this));
     }
     /**
      * Set up the default screen control for this field.
@@ -65,7 +66,6 @@ public class PropertiesStringField extends StringField
      */
     public ScreenComponent setupDefaultView(ScreenLoc itsLocation, ComponentParent targetScreen, Convert converter, int iDisplayFieldDesc, Map<String, Object> properties)
     {
-        enableConversion = false;
         return super.setupDefaultView(itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);
     }
     /**
@@ -74,8 +74,12 @@ public class PropertiesStringField extends StringField
     public Object doGetData()
     {
         String data = (String)super.doGetData();
-        if (enableConversion)
-            data = Utility.replaceResources(data, null, null, this.getRecord().getRecordOwner(), true);
+        FileListener listener = this.getRecord().getListener(PropertiesStringFileListener.class);
+        if (this.getComponent(0) == null)   // Don't convert if this is linked to a screen
+            if (enableConversion)
+                if (listener != null)
+                    if (listener.isEnabled())
+                        data = Utility.replaceResources(data, null, null, this.getRecord().getRecordOwner(), true);
         return data;
     }
 

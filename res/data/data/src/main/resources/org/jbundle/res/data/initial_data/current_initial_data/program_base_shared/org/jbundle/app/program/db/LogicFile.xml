@@ -33501,7 +33501,7 @@ super;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785215">
-		<LastChanged>2012-12-23T12:45:50</LastChanged>
+		<LastChanged>2013-01-24T07:52:02</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>setupDefaultView</MethodName>
@@ -33509,15 +33509,14 @@ super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>PropertiesStringField</MethodClassName>
-		<LogicSource><![CDATA[enableConversion = false;
-return super;]]></LogicSource>
+		<LogicSource>return super;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
 		<IncludeScope>4</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785216">
-		<LastChanged>2012-12-23T13:22:33</LastChanged>
+		<LastChanged>2013-01-24T08:17:58</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>200</Sequence>
 		<MethodName>doGetData</MethodName>
@@ -33526,8 +33525,12 @@ return super;]]></LogicSource>
 		<MethodInterface/>
 		<MethodClassName>PropertiesStringField</MethodClassName>
 		<LogicSource><![CDATA[String data = (String)super;
-if (enableConversion)
-    data = Utility.replaceResources(data, null, null, this.getRecord().getRecordOwner(), true);
+FileListener listener = this.getRecord().getListener(PropertiesStringFileListener.class);
+if (this.getComponent(0) == null)   // Don't convert if this is linked to a screen
+    if (enableConversion)
+        if (listener != null)
+            if (listener.isEnabled())
+                data = Utility.replaceResources(data, null, null, this.getRecord().getRecordOwner(), true);
 return data;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -33646,6 +33649,84 @@ if ((this.getTask() == null)
     }        
 }
 return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785221">
+		<LastChanged>2013-01-24T07:51:46</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>PropertiesStringField</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PropertiesStringField</MethodClassName>
+		<LogicSource><![CDATA[super;
+record.addListener(new PropertiesStringFileListener(this));]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785222">
+		<LastChanged>2013-01-24T07:54:47</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>PropertiesStringFileListener</MethodName>
+		<LogicDescription/>
+		<MethodReturns>null</MethodReturns>
+		<MethodInterface>PropertiesStringField field</MethodInterface>
+		<MethodClassName>PropertiesStringFileListener</MethodClassName>
+		<LogicSource>m_field = field;</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785223">
+		<LastChanged>2013-01-24T07:55:10</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>doNewRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PropertiesStringFileListener</MethodClassName>
+		<LogicSource><![CDATA[super;
+m_field.enableConversion = false;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785224">
+		<LastChanged>2013-01-24T07:56:00</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>110</Sequence>
+		<MethodName>doRecordChange</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PropertiesStringFileListener</MethodClassName>
+		<LogicSource>return super;</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785225">
+		<LastChanged>2013-01-24T07:55:36</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>120</Sequence>
+		<MethodName>doValidRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>PropertiesStringFileListener</MethodClassName>
+		<LogicSource><![CDATA[super;
+m_field.enableConversion = true;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>

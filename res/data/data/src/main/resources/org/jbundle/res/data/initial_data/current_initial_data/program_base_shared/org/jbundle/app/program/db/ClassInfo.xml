@@ -11697,7 +11697,7 @@ previous date was oem]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779720">
-		<LastChanged>2012-12-23T13:22:34</LastChanged>
+		<LastChanged>2013-01-24T08:18:03</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>PropertiesStringField</ClassName>
 		<BaseClassName>StringField</BaseClassName>
@@ -11723,6 +11723,23 @@ previous date was oem]]></ClassDesc>
 		<ClassPackage>.screen</ClassPackage>
 		<ClassSourceFile>ProgramControlScreen</ClassSourceFile>
 		<ClassType>screen</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779722">
+		<LastChanged>2013-01-24T07:56:11</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>PropertiesStringFileListener</ClassName>
+		<BaseClassName>FileListener</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,328</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>PropertiesStringFileListener</ClassSourceFile>
+		<ClassType/>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>
