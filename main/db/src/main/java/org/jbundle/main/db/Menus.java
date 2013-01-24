@@ -136,7 +136,7 @@ public class Menus extends Folder
         //if (iFieldSeq == 7)
         //  field = new StringField(this, CODE, 30, null, null);
         if (iFieldSeq == 8)
-            field = new StringField(this, TYPE, 10, null, null);
+            field = new MenusTypeField(this, TYPE, 10, null, null);
         if (iFieldSeq == 9)
             field = new BooleanField(this, AUTO_DESC, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
         if (iFieldSeq == 10)
