@@ -29,6 +29,7 @@ public interface ProgramControlModel extends Rec
     public static final String LAST_PACKAGE_UPDATE = "LastPackageUpdate";
     public static final String PACKAGES_BASE_PATH = "PackagesBasePath";
     public static final String PACKAGES_PATH = "PackagesPath";
+    public static final String MAINT_SCREEN_CLASS = "org.jbundle.app.program.screen.ProgramControlScreen";
 
     public static final String PROGRAM_CONTROL_FILE = "ProgramControl";
     public static final String THIN_CLASS = "org.jbundle.thin.app.program.db.ProgramControl";

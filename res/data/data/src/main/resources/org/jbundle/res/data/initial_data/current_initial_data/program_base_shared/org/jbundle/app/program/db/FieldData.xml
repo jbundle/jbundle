@@ -13156,7 +13156,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784870">
-		<LastChanged>2009-02-15T04:10:57</LastChanged>
+		<LastChanged>2013-01-23T07:15:37</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ProjectName</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -13166,7 +13166,7 @@
 		<MaximumLength>30</MaximumLength>
 		<DefaultValue/>
 		<InitialValue/>
-		<FieldDescription>Project name</FieldDescription>
+		<FieldDescription>System name</FieldDescription>
 		<FieldDescVertical/>
 		<FieldType/>
 		<FieldDimension/>
@@ -13706,7 +13706,7 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16784896">
-		<LastChanged>2012-12-23T12:40:38</LastChanged>
+		<LastChanged>2013-01-23T07:15:48</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>ClassDirectory</FieldName>
 		<FieldClass>StringField</FieldClass>
@@ -13717,7 +13717,7 @@
 		<DefaultValue>old</DefaultValue>
 		<InitialValue>"target/classes/"</InitialValue>
 		<FieldDescription>Class path (relative to project root)</FieldDescription>
-		<FieldDescVertical/>
+		<FieldDescVertical>Class path</FieldDescVertical>
 		<FieldType/>
 		<FieldDimension/>
 		<FieldFileName>ProgramControl</FieldFileName>

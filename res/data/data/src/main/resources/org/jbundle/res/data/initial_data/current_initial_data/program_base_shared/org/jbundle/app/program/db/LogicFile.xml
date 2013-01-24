@@ -33534,4 +33534,121 @@ return data;]]></LogicSource>
 		<CopyFrom/>
 		<IncludeScope>4</IncludeScope>
 	</LogicFile>
+	<LogicFile ID="16785217">
+		<LastChanged>2013-01-23T07:13:43</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>setupSFields</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ProgramControlScreen</MethodClassName>
+		<LogicSource/>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785218">
+		<LastChanged>2013-01-23T07:14:08</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ProgramControlScreen</MethodClassName>
+		<LogicSource>return new ProgramControl(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785219">
+		<LastChanged>2013-01-23T16:58:38</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>doRemoteCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ProgramControl</MethodClassName>
+		<LogicSource><![CDATA[if (SET_DEFAULT_COMMAND.equalsIgnoreCase(strCommand))
+    if (properties != null)
+        if (properties.get(DBConstants.SYSTEM_NAME) != null)
+{
+    if (this.getTask() != null)
+    if (this.getTask().getApplication() instanceof BaseApplication)
+    if (((BaseApplication)this.getTask().getApplication()).getEnvironment() != null)
+    {
+        String systemName = properties.get(DBConstants.SYSTEM_NAME).toString();
+        Environment env = ((BaseApplication)this.getTask().getApplication()).getEnvironment();
+        properties.put(DBConstants.SYSTEM_NAME, "base");
+        BaseApplication app = new MainApplication(env, properties, null);
+        try {
+            Task task = new AutoTask(app, null, properties);
+            RecordOwner recordOwner = new BaseProcess(task, null, properties);
+            Menus menus = new Menus(recordOwner);
+            menus.setKeyArea(Menus.CODE_KEY);
+            menus.getField(Menus.CODE).setString(ResourceConstants.DEFAULT_RESOURCE);
+            if (menus.seek(null))
+                menus.edit();
+            else
+                menus.addNew();
+            menus.getField(Menus.CODE).setString(ResourceConstants.DEFAULT_RESOURCE);
+            ((PropertiesField)menus.getField(Menus.PARAMS)).setProperty(DBConstants.SYSTEM_NAME, systemName);
+            if (menus.getEditMode() == DBConstants.EDIT_ADD)
+                menus.add();
+            else
+                menus.set();
+        } catch (DBException e) {
+            e.printStackTrace();
+        } finally {
+            app.free();
+        }
+        env.getDefaultApplication().getSystemRecordOwner().setProperty(DBConstants.DEFAULT_SYSTEM_NAME, systemName);
+        return Boolean.TRUE;    // Success
+    }
+}
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785220">
+		<LastChanged>2013-01-24T05:37:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ProgramControlScreen</MethodClassName>
+		<LogicSource><![CDATA[if (ProgramControl.SET_DEFAULT_COMMAND.equalsIgnoreCase(strCommand))
+{
+    try {
+        Map<String,Object> properties = new HashMap<String,Object>();
+        properties.put(DBConstants.SYSTEM_NAME, this.getMainRecord().getField(ProgramControl.PROJECT_NAME).toString());
+        Object success = null;
+if ((this.getTask() == null)
+    || (this.getTask().getApplication() == null)
+        || (this.getTask().getApplication().getRemoteTask(getTask(), null, false) == null))
+            success = this.getMainRecord().doRemoteCommand(strCommand, properties); // Run locally
+        else
+            success = this.getMainRecord().handleRemoteCommand(strCommand, properties); // Prefer to run it remotely
+        if (success instanceof Boolean)
+            return ((Boolean)success).booleanValue();
+    } catch (RemoteException e) {
+        e.printStackTrace();
+    } catch (DBException e) {
+        e.printStackTrace();
+    }        
+}
+return super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
 </file>

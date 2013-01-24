@@ -16,6 +16,7 @@ import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.model.ResourceConstants;
 import org.jbundle.base.model.Utility;
+import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.Task;
@@ -49,6 +50,8 @@ public class MainApplication extends BaseApplication
      * All system files open for this user.
      */
     protected RecordOwner m_systemRecordOwner = null;
+
+    private Map<String,Map<String,Object>> mapDomainPropertyCache = null;
 
     /**
      * Default constructor.
@@ -145,57 +148,104 @@ public class MainApplication extends BaseApplication
      */
     public Map<String,Object> getDomainProperties(String strDomain)
     {
-    	Map<String,Object> mapDomainProperties = null;
         if (m_systemRecordOwner != null)
         	if (strDomain != null)
         {   // Always
         	if (mapDomainPropertyCache != null)
         		if (mapDomainPropertyCache.get(strDomain) != null)
         			return mapDomainPropertyCache.get(strDomain);
+            if (mapDomainPropertyCache == null)
+                mapDomainPropertyCache = new HashMap<String,Map<String,Object>>();
 	        Record recMenus = (Record)m_systemRecordOwner.getRecord(MenusModel.MENUS_FILE);
 	        if (recMenus == null)
-	            recMenus = Record.makeRecordFromClassName(MenusModel.THICK_CLASS, m_systemRecordOwner);
-	        recMenus.setKeyArea(MenusModel.CODE_KEY);
+	            if (this.getProperty(DBConstants.SYSTEM_NAME) == null)
+	                if (this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME) == null)
+	                    if (m_systemRecordOwner != null)
+	                            if (m_systemRecordOwner.getProperty(DBConstants.SYSTEM_NAME) == null)    // Note: This is where the user properties are.
+	                                m_systemRecordOwner.setProperty(DBConstants.SYSTEM_NAME, this.getDefaultSystemName());  // Very first time, need to see if there is a system name default
 	        
-	        try {
-	        	String strSubDomain = strDomain;
-	            while (strSubDomain.length() > 0)
-	            {
-	                recMenus.getField(Menus.CODE).setString(strSubDomain);
-	                if (recMenus.seek("="))
-	                {
-	                    Map<String,Object> properties = ((PropertiesField)recMenus.getField(Menus.PARAMS)).getProperties();
-	                    if (properties == null)
-	                    	properties = new HashMap<String,Object>();
-	                    if (properties.get(DBParams.HOME) == null)
-	                    	properties.put(DBParams.HOME, strSubDomain);
-	                    Map<String,Object> oldProperties = m_systemRecordOwner.getProperties();
-	                    m_systemRecordOwner.setProperties(properties);
-	                    // All I want are the db (global) properties.
-	                    properties = BaseDatabase.addDBProperties(null, m_systemRecordOwner, null);
-	                    m_systemRecordOwner.setProperties(oldProperties);
-	                    if (mapDomainProperties == null)
-	                        mapDomainProperties = properties;
-	                    else
-	                    {
-	                        properties.putAll(mapDomainProperties);
-	                        mapDomainProperties = properties;
-	                    }
-	                }
-	                if (strSubDomain.indexOf('.') == strSubDomain.lastIndexOf('.'))
-	                    break;  // xyz.com = stop looking
-	                strSubDomain = strSubDomain.substring(strSubDomain.indexOf('.') + 1);  // Remove the next top level domain (ie., www)
-	            }    	
-		        if (mapDomainPropertyCache == null)
-		        	mapDomainPropertyCache = new HashMap<String,Map<String,Object>>();
-		        mapDomainPropertyCache.put(strDomain, mapDomainProperties);
-	        } catch (DBException ex)    {
-	            ex.printStackTrace();
-	        }
+	        Map<String,Object> mapDomainProperties = null;
+            if (recMenus == null)
+                recMenus = Record.makeRecordFromClassName(MenusModel.THICK_CLASS, m_systemRecordOwner);
+            recMenus.setKeyArea(MenusModel.CODE_KEY);
+
+            String strSubDomain = strDomain;
+            while (strSubDomain.length() > 0)
+            {
+                mapDomainProperties = this.addMenuProperties(strSubDomain, recMenus, mapDomainProperties);
+                if (strSubDomain.indexOf('.') == strSubDomain.lastIndexOf('.'))
+                    break;  // xyz.com = stop looking
+                strSubDomain = strSubDomain.substring(strSubDomain.indexOf('.') + 1);  // Remove the next top level domain (ie., www)
+            }
+
+            if (mapDomainProperties != null)
+                if ((mapDomainProperties.size() > 0) || (mapDomainPropertyCache.get(strDomain) == null))
+                    mapDomainPropertyCache.put(strDomain, mapDomainProperties); // Add this domain to the cache
+	        return mapDomainProperties;
+        }
+        return null;
+    }
+    /**
+     * Read the default system name.
+     * @return
+     */
+    public String getDefaultSystemName()
+    {   // No system name set, check the base menus for domain or default properties
+        Environment env = this.getEnvironment();
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put(DBConstants.SYSTEM_NAME, "base");
+        BaseApplication app = new MainApplication(env, properties, null);
+        try {
+            Task task = new AutoTask(app, null, properties);
+            RecordOwner recordOwner = new BaseProcess(task, null, properties);
+            Record menus = Record.makeRecordFromClassName(MenusModel.THICK_CLASS, recordOwner);
+            menus.getField(Menus.CODE).setString(ResourceConstants.DEFAULT_RESOURCE);
+            menus.setKeyArea(MenusModel.CODE_KEY);
+            if (menus.seek(null))
+                return ((PropertiesField)menus.getField(Menus.PARAMS)).getProperty(DBConstants.SYSTEM_NAME);
+        } catch (DBException e) {
+            e.printStackTrace();
+        } finally {
+            app.free();
+        }
+        return Utility.DEFAULT_SYSTEM_SUFFIX;
+    }
+    /**
+     * Add the properies from this menu item.
+     * @param strSubDomain The menu item
+     * @param recMenus The menu record
+     * @param mapDomainProperties The properties to add to.
+     * @return The new properties (actually mapDomainProperties updated)
+     */
+    public Map<String,Object> addMenuProperties(String strSubDomain, Record recMenus, Map<String,Object> mapDomainProperties)
+    {
+        try {
+            recMenus.getField(Menus.CODE).setString(strSubDomain);
+            if (recMenus.seek("="))
+            {
+                Map<String,Object> properties = ((PropertiesField)recMenus.getField(Menus.PARAMS)).getProperties();
+                if (properties == null)
+                    properties = new HashMap<String,Object>();
+                if (properties.get(DBParams.HOME) == null)
+                    properties.put(DBParams.HOME, strSubDomain);
+                Map<String,Object> oldProperties = m_systemRecordOwner.getProperties();
+                m_systemRecordOwner.setProperties(properties);
+                // All I want are the db (global) properties.
+                properties = BaseDatabase.addDBProperties(null, m_systemRecordOwner, null);
+                m_systemRecordOwner.setProperties(oldProperties);
+                if (mapDomainProperties == null)
+                    mapDomainProperties = properties;
+                else
+                {
+                    properties.putAll(mapDomainProperties);
+                    mapDomainProperties = properties;
+                }
+            }
+        } catch (DBException ex)    {
+            ex.printStackTrace();
         }
         return mapDomainProperties;
     }
-    private Map<String,Map<String,Object>> mapDomainPropertyCache = null;
     /**
      * Change the current user to this user and (optionally) validate password.
      * @param strPassword
@@ -480,7 +530,7 @@ public class MainApplication extends BaseApplication
         {
             if (m_systemRecordOwner != null)
                 if (m_systemRecordOwner.getProperty(strProperty) != null)
-                    strValue = m_systemRecordOwner.getProperty(strProperty);    // Note: This is where the user properies are.
+                    strValue = m_systemRecordOwner.getProperty(strProperty);    // Note: This is where the user properties are.
         }
 /*        if ((strValue == null) || (strValue.length() == 0))
         {

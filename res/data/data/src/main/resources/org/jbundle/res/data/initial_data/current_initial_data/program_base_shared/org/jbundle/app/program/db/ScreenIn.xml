@@ -6775,4 +6775,29 @@ new SCannedBox(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstant
 		<ScreenAnchor/>
 		<ScreenControlType/>
 	</ScreenIn>
+	<ScreenIn ID="16781440">
+		<LastChanged>2013-01-24T05:35:20</LastChanged>
+		<Deleted>N</Deleted>
+		<ScreenInProgName>ProgramControlScreen</ScreenInProgName>
+		<ScreenOutNumber/>
+		<ScreenItemNumber/>
+		<ScreenFileName/>
+		<ScreenFieldName/>
+		<ScreenRow/>
+		<ScreenCol/>
+		<ScreenGroup/>
+		<ScreenPhysicalNum/>
+		<ScreenLocation/>
+		<ScreenFieldDesc/>
+		<ScreenText><![CDATA[BaseField field = this.getMainRecord().getField(ProgramControl.PROJECT_NAME);
+field.setupDefaultView(this.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), this, ScreenConstants.DEFAULT_DISPLAY);
+
+SCannedBox button = new SCannedBox(this.getNextLocation(ScreenConstants.RIGHT_OF_LAST, ScreenConstants.DONT_SET_ANCHOR), this, null, ScreenConstants.DEFAULT_DISPLAY, null, ProgramControl.SET_DEFAULT_COMMAND, Constants.SUBMIT, ProgramControl.SET_DEFAULT_COMMAND, null);
+
+field.setHidden(true);
+super.setupSFields();
+field.setHidden(false);]]></ScreenText>
+		<ScreenAnchor/>
+		<ScreenControlType/>
+	</ScreenIn>
 </file>

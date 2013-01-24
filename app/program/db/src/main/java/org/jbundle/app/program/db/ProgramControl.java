@@ -21,6 +21,9 @@ import org.jbundle.model.*;
 import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import java.io.*;
+import org.jbundle.main.db.*;
+import org.jbundle.base.thread.*;
+import org.jbundle.thin.base.thread.*;
 import org.jbundle.app.program.resource.db.*;
 import org.jbundle.model.app.program.db.*;
 
@@ -32,6 +35,7 @@ public class ProgramControl extends ControlRecord
 {
     private static final long serialVersionUID = 1L;
 
+    public static final String SET_DEFAULT_COMMAND = "Set as default system";
     /**
      * Default constructor.
      */
@@ -74,6 +78,18 @@ public class ProgramControl extends ControlRecord
     public int getDatabaseType()
     {
         return DBConstants.LOCAL | DBConstants.USER_DATA;
+    }
+    /**
+     * Make a default screen.
+     */
+    public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String,Object> properties)
+    {
+        ScreenParent screen = null;
+        if ((iDocMode & (ScreenConstants.MAINT_MODE & ScreenConstants.DISPLAY_MODE)) == (ScreenConstants.MAINT_MODE & ScreenConstants.DISPLAY_MODE))
+            screen = Record.makeNewScreen(MAINT_SCREEN_CLASS, itsLocation, parentScreen, iDocMode | ScreenConstants.DONT_DISPLAY_FIELD_DESC, properties, this, true);
+        else
+            screen = super.makeScreen(itsLocation, parentScreen, iDocMode, properties);
+        return screen;
     }
     /**
      * Add this field in the Record's field sequence.
@@ -228,6 +244,53 @@ public class ProgramControl extends ControlRecord
             basePath = Utility.replaceResources(basePath, null, null, propertyOwner);
         }
         return basePath;
+    }
+    /**
+     * Do a remote command.
+     * @param strCommand The command
+     * @param properties The properties for the command
+     * @return The return value or Boolean.FALSE if not handled.
+     */
+    public Object doRemoteCommand(String strCommand, Map<String, Object> properties)
+    {
+        if (SET_DEFAULT_COMMAND.equalsIgnoreCase(strCommand))
+            if (properties != null)
+                if (properties.get(DBConstants.SYSTEM_NAME) != null)
+        {
+            if (this.getTask() != null)
+            if (this.getTask().getApplication() instanceof BaseApplication)
+            if (((BaseApplication)this.getTask().getApplication()).getEnvironment() != null)
+            {
+                String systemName = properties.get(DBConstants.SYSTEM_NAME).toString();
+                Environment env = ((BaseApplication)this.getTask().getApplication()).getEnvironment();
+                properties.put(DBConstants.SYSTEM_NAME, "base");
+                BaseApplication app = new MainApplication(env, properties, null);
+                try {
+                    Task task = new AutoTask(app, null, properties);
+                    RecordOwner recordOwner = new BaseProcess(task, null, properties);
+                    Menus menus = new Menus(recordOwner);
+                    menus.setKeyArea(Menus.CODE_KEY);
+                    menus.getField(Menus.CODE).setString(ResourceConstants.DEFAULT_RESOURCE);
+                    if (menus.seek(null))
+                        menus.edit();
+                    else
+                        menus.addNew();
+                    menus.getField(Menus.CODE).setString(ResourceConstants.DEFAULT_RESOURCE);
+                    ((PropertiesField)menus.getField(Menus.PARAMS)).setProperty(DBConstants.SYSTEM_NAME, systemName);
+                    if (menus.getEditMode() == DBConstants.EDIT_ADD)
+                        menus.add();
+                    else
+                        menus.set();
+                } catch (DBException e) {
+                    e.printStackTrace();
+                } finally {
+                    app.free();
+                }
+                env.getDefaultApplication().getSystemRecordOwner().setProperty(DBConstants.DEFAULT_SYSTEM_NAME, systemName);
+                return Boolean.TRUE;    // Success
+            }
+        }
+        return super.doRemoteCommand(strCommand, properties);
     }
 
 }

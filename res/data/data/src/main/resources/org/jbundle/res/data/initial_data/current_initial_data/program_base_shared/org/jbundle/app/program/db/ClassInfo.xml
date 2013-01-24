@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<ClassInfo ID="16777217">
-		<LastChanged>2012-07-18T23:50:03</LastChanged>
+		<LastChanged>2013-01-23T07:12:05</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ClassInfo</ClassName>
 		<BaseClassName>VirtualRecord</BaseClassName>
@@ -7675,7 +7675,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779196">
-		<LastChanged>2012-12-23T14:32:53</LastChanged>
+		<LastChanged>2013-01-23T17:00:07</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ProgramControl</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>
@@ -11706,6 +11706,23 @@ previous date was oem]]></ClassDesc>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>PropertiesStringField</ClassSourceFile>
 		<ClassType>field</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779721">
+		<LastChanged>2013-01-24T05:37:41</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>ProgramControlScreen</ClassName>
+		<BaseClassName>Screen</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,221</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>ProgramControlScreen</ClassSourceFile>
+		<ClassType>screen</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>

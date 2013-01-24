@@ -13445,4 +13445,109 @@
 		<ClassFieldsType>P</ClassFieldsType>
 		<IncludeScope>4</IncludeScope>
 	</ClassFields>
+	<ClassFields ID="16782666">
+		<LastChanged>2013-01-23T09:42:03</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ProgramControl</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ProgramControlScreen</ClassFieldClass>
+		<ClassFieldSequence>10</ClassFieldSequence>
+		<ClassFieldName>MAINT_SCREEN_CLASS</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>(ScreenConstants.MAINT_MODE &amp; ScreenConstants.DISPLAY_MODE)</ClassFieldInitialValue>
+		<ClassFieldsType>S</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782667">
+		<LastChanged>2013-01-23T07:29:51</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ProgramControlScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ProgramControl</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>C</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782668">
+		<LastChanged>2013-01-23T08:19:14</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ProgramControl</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>20</ClassFieldSequence>
+		<ClassFieldName>SET_DEFAULT_COMMAND</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"Set as default system"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782669">
+		<LastChanged>2013-01-23T09:32:48</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ProgramControlScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>org.jbundle.thin.base.remote</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>P</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782670">
+		<LastChanged>2013-01-23T16:59:22</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ProgramControl</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>Menus</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782671">
+		<LastChanged>2013-01-23T16:59:30</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ProgramControl</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>BaseProcess</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782672">
+		<LastChanged>2013-01-23T16:59:47</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ProgramControl</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>AutoTask</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
 </file>
