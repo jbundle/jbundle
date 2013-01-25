@@ -130,6 +130,7 @@ public class MenusGridScreen extends FolderGridScreen
      */
     public boolean doCommand(String strCommand, ScreenField sourceSField, int iCommandOptions)
     {
+        /* All this is handled by grid screen now
         if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
             return (this.onForm(null, ScreenConstants.DETAIL_MODE, true, iCommandOptions, null) != null);
         if (strCommand.equalsIgnoreCase(MenuConstants.FORMLINK))
@@ -168,6 +169,7 @@ public class MenusGridScreen extends FolderGridScreen
             return true;
         }
         else
+        */
             return super.doCommand(strCommand, sourceSField, iCommandOptions);
     }
     /**

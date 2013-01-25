@@ -5303,7 +5303,7 @@ new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenCo
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16779940">
-		<LastChanged>2009-09-15T23:25:56</LastChanged>
+		<LastChanged>2013-01-25T15:24:17</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>doCommand</MethodName>
@@ -5311,7 +5311,8 @@ new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenCo
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>MenusGridScreen</MethodClassName>
-		<LogicSource><![CDATA[if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
+		<LogicSource><![CDATA[/* All this is handled by grid screen now
+if (strCommand.equalsIgnoreCase(MenuConstants.FORMDETAIL))
     return (this.onForm(null, ScreenConstants.DETAIL_MODE, true, iCommandOptions, null) != null);
 if (strCommand.equalsIgnoreCase(MenuConstants.FORMLINK))
 {
@@ -5349,6 +5350,7 @@ if (strCommand.equalsIgnoreCase(MenuConstants.FORMLINK))
     return true;
 }
 else
+*/
     return super;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
