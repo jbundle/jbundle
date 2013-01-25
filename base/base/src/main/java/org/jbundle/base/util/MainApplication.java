@@ -206,6 +206,8 @@ public class MainApplication extends BaseApplication
         } catch (DBException e) {
             e.printStackTrace();
         } finally {
+            env.removeApplication(app);
+            app.setEnvironment(null);
             app.free();
         }
         return Utility.DEFAULT_SYSTEM_SUFFIX;

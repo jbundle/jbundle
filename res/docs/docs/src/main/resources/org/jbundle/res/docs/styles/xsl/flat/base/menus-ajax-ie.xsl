@@ -390,7 +390,7 @@
 			<xsl:call-template name="html-head" />
 			<body class="tundra">
 				<script type="text/javascript" src="http://java.com/js/deployJava.js"></script>			
-				<script type="text/javascript">dojo.back.init(jbundle.java.doJavaBrowserHashChange);</script>
+				<script type="text/javascript">dojo.back.init(jbundle.java.hashChange);</script>
 				<xsl:apply-templates select="top-menu" />
 				<table id="top-table" cellspacing="0" cellpadding="0">
 					<tr valign="top">

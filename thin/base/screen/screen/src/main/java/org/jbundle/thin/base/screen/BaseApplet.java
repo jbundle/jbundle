@@ -1283,7 +1283,7 @@ public class BaseApplet extends JApplet
      * The browser back button was pressed (Javascript called me).
      * @param command The command that was popped from the browser history.
      */
-	public void doJavaBrowserBack(String command)
+	public void doBack(String command)
 	{
 		if (command != null)
 			if (command.startsWith("#"))
@@ -1296,7 +1296,7 @@ public class BaseApplet extends JApplet
 			javaCommand = this.getInitialCommand(false);
 		javaCommand = this.cleanCommand(javaCommand);
 		javaCommand = UrlUtil.addURLParam(javaCommand, Params.APPLET, this.getClass().getName());
-		Util.getLogger().info("doJavaBrowserBack " + javaCommand);
+		Util.getLogger().info("doBack " + javaCommand);
 		BaseApplet.handleAction(javaCommand, this, this, Constants.DONT_PUSH_TO_BROWSER);
 	}
 	/**
@@ -1366,7 +1366,7 @@ public class BaseApplet extends JApplet
      * The browser back button was pressed (Javascript called me).
      * @param command The command that was popped from the browser history.
      */
-	public void doJavaBrowserForward(String command)
+	public void doForward(String command)
 	{
 		if (command != null)
 			if (command.startsWith("#"))
@@ -1378,7 +1378,7 @@ public class BaseApplet extends JApplet
      * The browser hash value changed (Javascript called me).
      * @param command The command that was popped from the browser history.
      */
-	public void doJavaBrowserHashChange(String command)
+	public void hashChange(String command)
 	{
 		if (command != null)
 			if (command.startsWith("#"))
@@ -1386,6 +1386,22 @@ public class BaseApplet extends JApplet
 		Util.getLogger().info("Browser hash change: java browser command=" + command + " = target: " + this.cleanCommand(command));
 		BaseApplet.handleAction(this.cleanCommand(command), this, this, Constants.DONT_PUSH_TO_BROWSER);
 	}
+    /**
+     * Go to previous page in history
+     * Note: The javafx wrapper does not pass the command.
+     */
+    public void back()
+    {
+        this.doBack(null);
+    }
+    /**
+     * Go to next page in history if there is one
+     * Note: The javafx wrapper does not pass the command.
+     */
+    public void forward()
+    {
+        this.doForward(null);
+    }
     /**
      * Get the properties.
      * @return The properties object.
