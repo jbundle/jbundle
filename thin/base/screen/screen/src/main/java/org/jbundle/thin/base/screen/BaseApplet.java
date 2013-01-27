@@ -904,6 +904,8 @@ public class BaseApplet extends JApplet
                 return true;	// Command handled
             }
         }
+        if (Util.isURL(strAction))
+            this.getApplication().showTheDocument(strAction, this, ThinMenuConstants.EXTERNAL_LINK);
         return false;
     }
     /**
@@ -1114,10 +1116,10 @@ public class BaseApplet extends JApplet
             if (Constants.TABLE == (record.getDatabaseType() & Constants.TABLE_TYPE_MASK))
             {   // Special case - table - NOTE: I am VERY careful not to directly reference the table classes... I don't want them loaded unless they are necessary!
                 Application app = this.getApplication();
-                ThinPhysicalDatabaseParent dbParent = ((ThinApplication)app).getPDatabaseParent(mapDBParentProperties, true);
+                ThinPhysicalDatabaseParent dbParent = app.getPDatabaseParent(mapDBParentProperties, true);
                 ThinPhysicalDatabase pDatabase = dbParent.getPDatabase(record.getDatabaseName(), ThinPhysicalDatabase.NET_TYPE, true);    // Net database
                 ThinPhysicalTable pTable = pDatabase.getPTable(record, true, true);
-                pTable.addPTableOwner((PhysicalDatabaseParent)dbParent);   // NO NO NO - Don't coerce 
+                pTable.addPTableOwner((PhysicalDatabaseParent)dbParent);   // NO NO NO - Don't coerce
             }
             table = record.getTable();
         }
@@ -1848,7 +1850,9 @@ public class BaseApplet extends JApplet
         {
             if ((applet != null)
                     && (((BaseApplet)applet).getHelpView() != null)
-                    && (((iOptions & 1) == 0) && ((iOptions & Constants.USE_NEW_WINDOW) == 0) && ((iOptions & ThinMenuConstants.HELP_WEB_OPTION) == 0)  // Use same window
+                    && (((iOptions & 1) == 0) && ((iOptions & Constants.USE_NEW_WINDOW) == 0)
+                            && ((iOptions & ThinMenuConstants.HELP_WEB_OPTION) == 0)  // Use same window
+                            && ((iOptions & ThinMenuConstants.EXTERNAL_LINK) == 0)  // Change browser window
                     || (bIsHelpScreen)))
             {
                 if (((applet != null) && (((BaseApplet)applet).getHelpView().getHelpPane().isVisible()))
@@ -1867,9 +1871,14 @@ public class BaseApplet extends JApplet
             }
             if (!bSuccess)
             {
-                if ((((Application)app).getMuffinManager() != null) && (url != null))
-                    if (((Application)app).getMuffinManager().isServiceAvailable())
-                        bSuccess = ((Application)app).getMuffinManager().showTheDocument(url);
+                if (!bSuccess)
+                    if ((iOptions & ThinMenuConstants.CHANGE_BROWSER_SCREEN) != 0)
+                        if (this.getBrowserManager() != null)
+                            bSuccess = this.getBrowserManager().doLink(strURL);
+                if (!bSuccess)
+                    if ((((Application)app).getMuffinManager() != null) && (url != null))
+                        if (((Application)app).getMuffinManager().isServiceAvailable())
+                            bSuccess = ((Application)app).getMuffinManager().showTheDocument(url);
                 if (!bSuccess)
                 {
                     Map<String,Object> properties = new Hashtable<String,Object>();

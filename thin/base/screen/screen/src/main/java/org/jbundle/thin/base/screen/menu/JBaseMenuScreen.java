@@ -195,6 +195,7 @@ public class JBaseMenuScreen extends JScreen
                 strParams = '&' + strParams;
             if ((strType != null) && (strType.length() > 0))
             {
+                String strProgram = record.getField("Program").toString();
                 if (strType.equalsIgnoreCase(Params.MENU))
                 {
                     field = record.getField("ID");
@@ -203,8 +204,16 @@ public class JBaseMenuScreen extends JScreen
                 }
                 else if (strType.equalsIgnoreCase("applet"))
                 {
-                    String strProgram = record.getField("Program").toString();
                     return '?' + strType + '=' + strProgram + strParams;
+                }
+                else if (strType.equalsIgnoreCase("link"))
+                {
+                    strParams = strProgram;
+                    if (((strParams.indexOf('.') < strParams.indexOf('/'))
+                        && (strParams.indexOf('.') != -1))
+                        || ((strParams.indexOf('/') == -1) && (strParams.indexOf(':') == -1)))
+                            strParams = "http://" + strParams; // Default command = html link
+                    return strParams;
                 }
             }
         }

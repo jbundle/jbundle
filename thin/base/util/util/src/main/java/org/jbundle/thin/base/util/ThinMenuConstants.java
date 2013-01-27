@@ -74,4 +74,6 @@ public interface ThinMenuConstants
     public static final int HELP_WEB_OPTION = 8;
     public static final int HELP_WINDOW_OPTION = 16;
     public static final int HELP_WINDOW_CHANGE = 32;	// Window change event
+    public static final int EXTERNAL_LINK = 64;         // Browser change
+    public static final int CHANGE_BROWSER_SCREEN = 128;         // Browser change
 }

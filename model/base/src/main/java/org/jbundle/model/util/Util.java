@@ -635,4 +635,16 @@ public class Util extends UrlUtil
    {
        Util.portableImageUtil = portableImageUtil;
    }
+   /**
+    * Is this a valid url?
+    * @param url
+    * @return
+    */
+   public static boolean isURL(String url)
+   {
+       if (url == null)
+           return false;
+       return url.matches(VALID_URL_REGEX);
+   }
+   public static final String VALID_URL_REGEX = "((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.\\w-_]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[\\w]*))?)";
 }
