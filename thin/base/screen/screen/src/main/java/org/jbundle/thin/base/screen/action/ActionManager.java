@@ -26,6 +26,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+import javax.swing.text.JTextComponent;
 
 import org.jbundle.thin.base.screen.BaseApplet;
 import org.jbundle.thin.base.screen.JBaseToolbar;
@@ -254,8 +255,24 @@ public class ActionManager extends Hashtable<String,Action>
         icon = BaseApplet.getSharedInstance().loadImageIcon(ThinMenuConstants.COPY);
         if (icon != null)
             action.putValue(AbstractAction.SMALL_ICON, icon);
-
-        action = new javax.swing.text.DefaultEditorKit.PasteAction();
+ 
+        action = new javax.swing.text.DefaultEditorKit.PasteAction()
+        {
+            public void actionPerformed(ActionEvent e) {
+System.out.println("in paste " + e);
+                JTextComponent target = getTextComponent(e);
+                Application application = BaseApplet.getSharedInstance().getApplication();
+System.out.println("in paste2 " + application.getMuffinManager());
+                if (application.getMuffinManager() != null)
+                {
+                    Object data = application.getMuffinManager().getClipboardContents();
+                    System.out.println(data);
+                }
+                if (target != null) {
+                    target.paste();
+                }
+            }
+        };
         ActionManager.getActionManager().put(ThinMenuConstants.PASTE, action);
         action.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
         icon = BaseApplet.getSharedInstance().loadImageIcon(ThinMenuConstants.PASTE);

@@ -9,9 +9,16 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.IOException;
 
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -23,6 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.text.JTextComponent;
+import javax.swing.text.TextAction;
 
 import org.jbundle.model.screen.FieldComponent;
 import org.jbundle.model.screen.ScreenComponent;
@@ -32,6 +40,8 @@ import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.screen.action.ActionManager;
+import org.jbundle.thin.base.util.Application;
+import org.jbundle.util.muffinmanager.MuffinManager;
 import org.jbundle.util.osgi.webstart.util.UrlUtil;
 
 
@@ -198,6 +208,16 @@ public class JScreen extends JBaseScreen
         GridBagConstraints c = this.getGBConstraints();
         GridBagLayout gridbag = (GridBagLayout)this.getScreenLayout();
         gridbag.setConstraints(component, c);
+        
+        Application application = BaseApplet.getSharedInstance().getApplication();
+        MuffinManager muffinManager = application.getMuffinManager();
+        if (component instanceof JTextComponent)
+            if (muffinManager != null)
+        {
+            muffinManager.replaceClipboardAction(component, "cut");
+            muffinManager.replaceClipboardAction(component, "copy");
+            muffinManager.replaceClipboardAction(component, "paste");
+        }        
     }
     /**
      * Add the description labels to the first column of the grid.
