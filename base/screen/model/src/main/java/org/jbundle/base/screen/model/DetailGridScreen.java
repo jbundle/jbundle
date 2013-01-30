@@ -45,11 +45,14 @@ public class DetailGridScreen extends GridScreen
      */
     public void init(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
-        m_recHeader = null;
+        m_recHeader = m_recHeader;
         if ((iDisplayFieldDesc & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
         {
-            m_recHeader = record;
-            record = null;
+            if (m_recHeader == null)
+            {
+                m_recHeader = record;
+                record = null;
+            }
         }
         super.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
@@ -68,9 +71,9 @@ public class DetailGridScreen extends GridScreen
     public void init(Record recHeader, Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object>
      properties)
     {
-        m_recHeader = null;
+        m_recHeader = m_recHeader;
         m_recHeader = recHeader;
-        super.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
+        this.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
      * OpenHeaderRecord Method.

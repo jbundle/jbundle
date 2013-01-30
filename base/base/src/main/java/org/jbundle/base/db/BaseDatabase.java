@@ -490,7 +490,8 @@ public class BaseDatabase extends Object
         if (m_properties != null)
             strValue = (String)m_properties.get(strProperty);
         if (strValue == null)	// || (strValue.length() == 0)) [db must be able to set to BLANK to override systemname property]
-            strValue = m_databaseOwner.getProperty(strProperty);
+            if (m_databaseOwner != null)
+                strValue = m_databaseOwner.getProperty(strProperty);
         return strValue;
     }
     /**

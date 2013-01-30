@@ -2231,6 +2231,12 @@ public class Record extends FieldList
             if (this.getRecordOwner() != null)
                 if (this.getRecordOwner().getParentRecordOwner() == parent)
             {
+                if (recordNew != this)
+                    if (this.getRecordOwner() == recordNew.getTable().getDatabase().getDatabaseOwner())
+                {   // Special case - recordowner was db owner
+                    recordNew.getTable().getDatabase().getDatabaseOwner().removeDatabase(recordNew.getTable().getDatabase());   // Special case - recordowner is db owner
+                    recordNew.getTable().getDatabase().setDatabaseOwner(null);  // I'll set it to the new screen
+                }
                 this.getRecordOwner().free();    // Warning, this also closes "this" record.
                 bLinkGridToQuery = false;   // Can't link to a closed query.
             }
@@ -2247,6 +2253,13 @@ public class Record extends FieldList
         if (applet != null)
         	oldCursor = applet.setStatus(Constants.WAIT, applet, null);
         ScreenParent screenNew = recordNew.makeScreen(itsLocation, parent, iDocMode, properties);
+        if (recordNew != this)
+            if (recordNew.getTable().getDatabase().getDatabaseOwner() == null)
+                if (screenNew instanceof DatabaseOwner) // Always
+            {   // Special case - recordowner was db owner
+                ((DatabaseOwner)screenNew).addDatabase(recordNew.getTable().getDatabase());
+                recordNew.getTable().getDatabase().setDatabaseOwner((DatabaseOwner)screenNew);
+            }
         if (applet != null)
             applet.setStatus(0, applet, oldCursor);
         if (screenNew == null)

@@ -402,6 +402,8 @@ public class RemoteRecordOwner extends RemoteObject
         DatabaseOwner databaseOwner = null;
         if (DBConstants.FALSE.equalsIgnoreCase(this.getProperty(SQLParams.AUTO_COMMIT_PARAM)))
             databaseOwner = this; // If auto-commit is off, I am the db owner.
+        else if (!Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), null).equalsIgnoreCase(Utility.getSystemSuffix(this.getTask().getApplication().getProperty(DBConstants.SYSTEM_NAME), null)))
+            databaseOwner = this; // If the system database is different than my parent, I am the db owner.
         else
             databaseOwner = (BaseApplication)this.getTask().getApplication();
         return databaseOwner;

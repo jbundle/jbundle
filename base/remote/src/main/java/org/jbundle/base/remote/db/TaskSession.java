@@ -208,8 +208,8 @@ public class TaskSession extends BaseTaskSession
                     database.getProperties().putAll(propDatabase);    // Add these properties to the current db properties.
             }            
         }
-        this.setProperties(propOld);
         this.getDatabaseOwner().setProperties(propDBOld);
+        this.setProperties(propOld);
         this.setMasterSlave(-1);    //Back to default
         RemoteTable remoteTable = null;
         if (strTableSessionClassName != null)
