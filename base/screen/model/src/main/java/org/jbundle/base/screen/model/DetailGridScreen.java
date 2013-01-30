@@ -45,7 +45,6 @@ public class DetailGridScreen extends GridScreen
      */
     public void init(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
-        m_recHeader = m_recHeader;
         if ((iDisplayFieldDesc & ScreenConstants.DETAIL_MODE) == ScreenConstants.DETAIL_MODE)
         {
             if (m_recHeader == null)
@@ -71,7 +70,6 @@ public class DetailGridScreen extends GridScreen
     public void init(Record recHeader, Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object>
      properties)
     {
-        m_recHeader = m_recHeader;
         m_recHeader = recHeader;
         this.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }

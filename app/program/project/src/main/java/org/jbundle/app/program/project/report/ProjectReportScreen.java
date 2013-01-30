@@ -150,7 +150,7 @@ public class ProjectReportScreen extends ReportScreen
             return this.getNextGridRecord(false);
         }
         Record recNext = (Record)recNew.next();
-        record.moveFields(recNext, null, true, DBConstants.SCREEN_MOVE, false, false, false, false);
+        record.moveFields(recNext, null, true, DBConstants.SCREEN_MOVE, false, false, false);
         return record;
     }
     /**

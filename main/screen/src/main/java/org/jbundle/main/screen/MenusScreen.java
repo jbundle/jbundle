@@ -29,7 +29,7 @@ import org.jbundle.main.db.*;
  */
 public class MenusScreen extends FolderScreen
 {
-    protected Map<String,Object> oldApp = null;
+    protected App oldApp = null;
     /**
      * Default constructor.
      */
@@ -57,35 +57,7 @@ public class MenusScreen extends FolderScreen
     public void init(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
         oldApp = null;
-        String databaseName = parentScreen.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
-        if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", Utility.getSystemSuffix(parentScreen.getProperty(DBConstants.SYSTEM_NAME), parentScreen.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
-        {
-            Task task = parentScreen.getTask();
-            oldApp = Utility.copyAppProperties(null, task.getProperties());
-            Map<String,Object> prop = Utility.copyAppProperties(null, task.getApplication().getProperties());
-            prop = Utility.copyAppProperties(prop, task.getProperties());
-            BaseDatabase.addDBProperties(prop, parentScreen, null);
-            prop.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", Utility.getSystemSuffix(parentScreen.getProperty(DBConstants.SYSTEM_NAME), parentScreen.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
-            prop.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
-            prop.put(SQLParams.AUTO_COMMIT_PARAM, DBConstants.FALSE);
-            if (record != null)
-                if (record.getTable().getDatabase().getDatabaseOwner() != null)
-            {
-                record.free();
-                record = null;
-            }
-            parentScreen.setProperties(prop);
-        }
         super.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
-        this.getTask().setProperties(oldApp);
-    }
-    /**
-     * Get the database owner for this recordowner.
-     * @return The database owner.
-     */
-    public DatabaseOwner getDatabaseOwner()
-    {
-        return this;    // I'm the database owner
     }
     /**
      * MenusScreen Method.
@@ -97,10 +69,43 @@ public class MenusScreen extends FolderScreen
         this.init(recHeader, record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
     }
     /**
+     * GetDatabaseOwner Method.
+     */
+    public DatabaseOwner getDatabaseOwner()
+    {
+        String databaseName = this.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
+        if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
+        {
+            Task task = this.getTask();
+            oldApp = task.getApplication();
+            Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
+            
+            BaseDatabase.addDBProperties(properties, this, null);
+            properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
+            properties.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
+        
+            Environment env = ((BaseApplication)oldApp).getEnvironment();
+            BaseApplication newApp = new MainApplication(env, properties, null);
+            oldApp.removeTask(task);
+            newApp.addTask(task, null);
+            task.setApplication(newApp);
+        
+            return newApp;
+        }
+        return super.getDatabaseOwner();
+    }
+    /**
      * Free Method.
      */
     public void free()
     {
+        if (oldApp != null)
+        {
+            Task task = this.getTask();
+            task.getApplication().removeTask(task);
+            oldApp.addTask(task, null);
+            task.setApplication(oldApp);            
+        }
         super.free();
     }
     /**
