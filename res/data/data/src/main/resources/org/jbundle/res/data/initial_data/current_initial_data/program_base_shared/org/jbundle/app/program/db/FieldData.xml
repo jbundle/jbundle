@@ -506,10 +506,10 @@
 		<IncludeScope>4</IncludeScope>
 	</FieldData>
 	<FieldData ID="16779869">
-		<LastChanged>2012-01-11T14:51:56</LastChanged>
+		<LastChanged>2013-01-29T19:28:41</LastChanged>
 		<Deleted>N</Deleted>
 		<FieldName>Type</FieldName>
-		<FieldClass>StringField</FieldClass>
+		<FieldClass>MenusTypeField</FieldClass>
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>

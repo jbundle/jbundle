@@ -2453,7 +2453,7 @@ this.getMainRecord().getField(LogicFile.METHOD_NAME).addListener(fieldBeh);
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16778703">
-		<LastChanged>2013-01-24T09:14:56</LastChanged>
+		<LastChanged>2013-01-29T19:49:15</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>500</Sequence>
 		<MethodName>getLink</MethodName>
@@ -2498,9 +2498,10 @@ else if (strType.equalsIgnoreCase(DBParams.XML))
 else if (strType.equalsIgnoreCase(DBParams.LINK))
 {
     strParams = strLink;
-    if ((strLink.indexOf('.') < strLink.indexOf('/'))
+    if (((strLink.indexOf('.') < strLink.indexOf('/'))
         && (strLink.indexOf('.') != -1))
-            strParams = "http://" + strLink;
+        || ((strLink.indexOf('/') == -1) && (strLink.indexOf(':') == -1)))
+            strParams = "http://" + strLink; // Default command - In the html implementation, this creates an href
 }
 else if (strType.equalsIgnoreCase(DBParams.MAIL))
 {
@@ -15269,7 +15270,7 @@ this.getMainRecord().setKeyArea(ProjectTask.PARENT_PROJECT_TASK_ID_KEY);]]></Log
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16783400">
-		<LastChanged>2012-01-29T08:58:42</LastChanged>
+		<LastChanged>2013-01-29T18:11:00</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>300</Sequence>
 		<MethodName>getNextGridRecord</MethodName>
@@ -15306,7 +15307,7 @@ if (!bHasNext)
 	return this.getNextGridRecord(false);
 }
 Record recNext = (Record)recNew.next();
-record.moveFields(recNext, null, true, DBConstants.SCREEN_MOVE, false, false, false);
+record.moveFields(recNext, null, true, DBConstants.SCREEN_MOVE, false, false, false, false);
 return record;]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
@@ -29563,7 +29564,7 @@ return packageName + className;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785040">
-		<LastChanged>2012-02-01T19:00:13</LastChanged>
+		<LastChanged>2013-01-29T19:34:41</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>100</Sequence>
 		<MethodName>doRecordChange</MethodName>
@@ -29587,7 +29588,7 @@ return packageName + className;]]></LogicSource>
 			{
 				userRegistration.next();
 				newUserRegistration.addNew();
-				newUserRegistration.moveFields(userRegistration, null, bDisplayOption, DBConstants.INIT_MOVE, true, false, false);
+				newUserRegistration.moveFields(userRegistration, null, bDisplayOption, DBConstants.INIT_MOVE, true, false, false, false);
 				newUserRegistration.getField(UserRegistration.ID).initField(bDisplayOption);
 				newUserRegistration.getField(UserRegistration.USER_ID).setData(bookmark);
 				newUserRegistration.add();
@@ -29620,7 +29621,7 @@ this.getMainRecord(). addListener(new SetupNewUserHandler(null));]]></LogicSourc
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785042">
-		<LastChanged>2012-02-01T19:00:13</LastChanged>
+		<LastChanged>2013-01-29T19:34:21</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>doNewRecord</MethodName>
@@ -29634,7 +29635,7 @@ if (userTemplate != null)
 	Record userInfo = this.getOwner();
     boolean[] fileListenerStates = userInfo.setEnableListeners(false);
     Object[] fieldListenerStates = userInfo.setEnableFieldListeners(false);
-    userInfo.moveFields(userTemplate, null, bDisplayOption, DBConstants.INIT_MOVE, false, false, false);
+    userInfo.moveFields(userTemplate, null, bDisplayOption, DBConstants.INIT_MOVE, false, false, false, false);
     userInfo.getField(UserInfo.ID).initField(bDisplayOption);
     userInfo.getField(UserInfo.FIRST_NAME).initField(bDisplayOption);
     userInfo.getField(UserInfo.LAST_NAME).initField(bDisplayOption);
@@ -30816,7 +30817,7 @@ new Menus(this);]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785090">
-		<LastChanged>2012-02-01T19:00:13</LastChanged>
+		<LastChanged>2013-01-29T18:10:06</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>600</Sequence>
 		<MethodName>setupUserInfo</MethodName>
@@ -30927,7 +30928,7 @@ try {
     UserInfo recUserNew = new UserInfo(recordOwner);
     // Also add this user as an admin
     recUserNew.addNew();
-    recUserNew.moveFields(recUser, null, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE, false, false, false);
+    recUserNew.moveFields(recUser, null, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE, false, false, false, false);
     if (properties.get(BaseRegistrationScreen.ADMIN_HOME_MENU_CODE) != null)
         ((PropertiesField)recUserNew.getField(UserInfo.PROPERTIES)).setProperty(DBParams.HOME, properties.get(BaseRegistrationScreen.ADMIN_HOME_MENU_CODE).toString());
     UserGroup recUserGroup = new UserGroup(this);
@@ -33396,43 +33397,8 @@ return strProcess;]]></LogicSource>
 		<CopyFrom/>
 		<IncludeScope>4</IncludeScope>
 	</LogicFile>
-	<LogicFile ID="16785211">
-		<LastChanged>2013-01-21T10:58:48</LastChanged>
-		<Deleted>N</Deleted>
-		<Sequence>20</Sequence>
-		<MethodName>getDatabaseOwner</MethodName>
-		<LogicDescription/>
-		<MethodReturns>DatabaseOwner</MethodReturns>
-		<MethodInterface/>
-		<MethodClassName>MenusGridScreen</MethodClassName>
-		<LogicSource><![CDATA[Task task = this.getTask();
-App app = task.getApplication();
-String databaseName = app.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
-if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
-{
-    oldApp = app;
-    Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
-    
-    BaseDatabase.addDBProperties(properties, this, null);
-    properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
-    properties.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
-
-    Environment env = ((BaseApplication)oldApp).getEnvironment();
-    BaseApplication newApp = new MainApplication(env, properties, null);
-    oldApp.removeTask(task);
-    newApp.addTask(task, null);
-    task.setApplication(newApp);
-
-    return newApp;
-}
-return super;]]></LogicSource>
-		<LogicThrows/>
-		<Protection/>
-		<CopyFrom/>
-		<IncludeScope>1</IncludeScope>
-	</LogicFile>
 	<LogicFile ID="16785212">
-		<LastChanged>2012-12-21T09:59:27</LastChanged>
+		<LastChanged>2013-01-29T19:44:12</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>free</MethodName>
@@ -33440,21 +33406,14 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>MenusGridScreen</MethodClassName>
-		<LogicSource><![CDATA[if (oldApp != null)
-{
-    Task task = this.getTask();
-    task.getApplication().removeTask(task);
-    oldApp.addTask(task, null);
-    task.setApplication(oldApp);            
-}
-super;]]></LogicSource>
+		<LogicSource>super;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785213">
-		<LastChanged>2013-01-21T11:00:13</LastChanged>
+		<LastChanged>2013-01-29T19:41:23</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>20</Sequence>
 		<MethodName>getDatabaseOwner</MethodName>
@@ -33462,33 +33421,14 @@ super;]]></LogicSource>
 		<MethodReturns>DatabaseOwner</MethodReturns>
 		<MethodInterface/>
 		<MethodClassName>MenusScreen</MethodClassName>
-		<LogicSource><![CDATA[String databaseName = this.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
-if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
-{
-    Task task = this.getTask();
-    oldApp = task.getApplication();
-    Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
-    
-    BaseDatabase.addDBProperties(properties, this, null);
-    properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
-    properties.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
-
-    Environment env = ((BaseApplication)oldApp).getEnvironment();
-    BaseApplication newApp = new MainApplication(env, properties, null);
-    oldApp.removeTask(task);
-    newApp.addTask(task, null);
-    task.setApplication(newApp);
-
-    return newApp;
-}
-return super;]]></LogicSource>
+		<LogicSource>return this;    // I'm the database owner</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785214">
-		<LastChanged>2012-12-21T10:01:14</LastChanged>
+		<LastChanged>2013-01-29T19:43:02</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>30</Sequence>
 		<MethodName>free</MethodName>
@@ -33496,14 +33436,7 @@ return super;]]></LogicSource>
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>MenusScreen</MethodClassName>
-		<LogicSource><![CDATA[if (oldApp != null)
-{
-    Task task = this.getTask();
-    task.getApplication().removeTask(task);
-    oldApp.addTask(task, null);
-    task.setApplication(oldApp);            
-}
-super;]]></LogicSource>
+		<LogicSource>super;</LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -33740,5 +33673,132 @@ m_field.enableConversion = true;]]></LogicSource>
 		<Protection/>
 		<CopyFrom/>
 		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785226">
+		<LastChanged>2013-01-29T19:32:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>100</Sequence>
+		<MethodName>getPopupMap</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>MenusTypeField</MethodClassName>
+		<LogicSource><![CDATA[String string[][] = {
+    {DBParams.MENU, "menu"},
+    {DBParams.SCREEN, "screen"},
+    {DBParams.RECORD, "record"},
+    {DBParams.LINK, "link"},
+    {MenuConstants.GRID, "grid"},
+    {MenuConstants.FORM, "form"},
+    {MenuConstants.MENUREC, "menu record"},
+    {DBParams.XML, "xml"},
+    {DBParams.MAIL, "mail"},
+    {DBParams.APPLET, "applet"},
+};
+return string;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785227">
+		<LastChanged>2013-01-29T19:32:35</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>setupDefaultView</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>MenusTypeField</MethodClassName>
+		<LogicSource>return createScreenComponent(ScreenModel.COMBO_BOX, itsLocation, targetScreen, converter, iDisplayFieldDesc, properties);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785228">
+		<LastChanged>2013-01-29T19:37:54</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>5</Sequence>
+		<MethodName>MenusGridScreen</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>MenusGridScreen</MethodClassName>
+		<LogicSource><![CDATA[String databaseName = parentScreen.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
+if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", Utility.getSystemSuffix(parentScreen.getProperty(DBConstants.SYSTEM_NAME), parentScreen.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
+{
+    Task task = parentScreen.getTask();
+    oldProperties = Utility.copyAppProperties(null, task.getProperties());
+    Map<String,Object> prop = Utility.copyAppProperties(null, task.getApplication().getProperties());
+    prop = Utility.copyAppProperties(prop, task.getProperties());
+    BaseDatabase.addDBProperties(prop, parentScreen, null);
+    prop.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", Utility.getSystemSuffix(parentScreen.getProperty(DBConstants.SYSTEM_NAME), parentScreen.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
+    prop.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
+    prop.put(SQLParams.AUTO_COMMIT_PARAM, DBConstants.FALSE);
+    if (record != null)
+        if (record.getTable().getDatabase().getDatabaseOwner() != null)
+    {
+        record.free();
+        record = null;
+    }
+    parentScreen.setProperties(prop);
+}
+super;
+this.getTask().setProperties(oldProperties);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785229">
+		<LastChanged>2013-01-29T19:38:13</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>getDatabaseOwner</MethodName>
+		<LogicDescription/>
+		<MethodReturns>DatabaseOwner</MethodReturns>
+		<MethodInterface/>
+		<MethodClassName>MenusGridScreen</MethodClassName>
+		<LogicSource>return this;    // I'm the database owner</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785230">
+		<LastChanged>2013-01-29T19:40:58</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>5</Sequence>
+		<MethodName>MenusScreen</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>MenusScreen</MethodClassName>
+		<LogicSource><![CDATA[String databaseName = parentScreen.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
+if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", Utility.getSystemSuffix(parentScreen.getProperty(DBConstants.SYSTEM_NAME), parentScreen.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
+{
+    Task task = parentScreen.getTask();
+    oldProperties = Utility.copyAppProperties(null, task.getProperties());
+    Map<String,Object> prop = Utility.copyAppProperties(null, task.getApplication().getProperties());
+    prop = Utility.copyAppProperties(prop, task.getProperties());
+    BaseDatabase.addDBProperties(prop, parentScreen, null);
+    prop.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", Utility.getSystemSuffix(parentScreen.getProperty(DBConstants.SYSTEM_NAME), parentScreen.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
+    prop.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
+    prop.put(SQLParams.AUTO_COMMIT_PARAM, DBConstants.FALSE);
+    if (record != null)
+        if (record.getTable().getDatabase().getDatabaseOwner() != null)
+    {
+        record.free();
+        record = null;
+    }
+    parentScreen.setProperties(prop);
+}
+super;
+this.getTask().setProperties(oldProperties);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 </file>

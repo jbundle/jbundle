@@ -69,7 +69,7 @@ public class MenusTypeField extends StringPopupField
             {DBParams.XML, "xml"},
             {DBParams.MAIL, "mail"},
             {DBParams.APPLET, "applet"},
-         };
+        };
         return string;
     }
     /**

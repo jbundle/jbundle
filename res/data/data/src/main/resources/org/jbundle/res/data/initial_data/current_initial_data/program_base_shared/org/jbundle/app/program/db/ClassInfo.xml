@@ -1118,7 +1118,7 @@ Click on the <img src="/images/buttons/Delete.gif"/> Delete button to remove a r
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777732">
-		<LastChanged>2013-01-24T09:15:14</LastChanged>
+		<LastChanged>2013-01-29T19:49:25</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>Menus</ClassName>
 		<BaseClassName>Folder</BaseClassName>
@@ -3285,7 +3285,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778168">
-		<LastChanged>2013-01-21T11:00:23</LastChanged>
+		<LastChanged>2013-01-29T19:47:26</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MenusScreen</ClassName>
 		<BaseClassName>FolderScreen</BaseClassName>
@@ -3302,7 +3302,7 @@ To run as a task, just pass ?task=xx.screen.thread.BaseRunner?process=xx.screen.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778169">
-		<LastChanged>2013-01-21T10:59:04</LastChanged>
+		<LastChanged>2013-01-29T19:47:11</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>MenusGridScreen</ClassName>
 		<BaseClassName>FolderGridScreen</BaseClassName>
@@ -4309,7 +4309,7 @@ As a travel agent, you may order more than one of each brochure.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16778607">
-		<LastChanged>2012-01-15T13:57:32</LastChanged>
+		<LastChanged>2013-01-29T18:17:59</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>DetailGridScreen</ClassName>
 		<BaseClassName>GridScreen</BaseClassName>
@@ -7777,7 +7777,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779219">
-		<LastChanged>2010-02-05T11:19:58</LastChanged>
+		<LastChanged>2013-01-29T18:11:06</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ProjectReportScreen</ClassName>
 		<BaseClassName>ReportScreen</BaseClassName>
@@ -10783,7 +10783,7 @@ There are several possible source transactions in the system:
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779662">
-		<LastChanged>2012-01-15T14:54:02</LastChanged>
+		<LastChanged>2013-01-29T19:35:01</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>SetupNewUserHandler</ClassName>
 		<BaseClassName>FileListener</BaseClassName>
@@ -11085,7 +11085,7 @@ previous date was oem]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779680">
-		<LastChanged>2010-11-05T08:57:00</LastChanged>
+		<LastChanged>2013-01-29T18:10:13</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>BaseSetupSiteProcess</ClassName>
 		<BaseClassName>BaseMessageProcess</BaseClassName>
@@ -11740,6 +11740,23 @@ previous date was oem]]></ClassDesc>
 		<ClassPackage>.db</ClassPackage>
 		<ClassSourceFile>PropertiesStringFileListener</ClassSourceFile>
 		<ClassType/>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16779723">
+		<LastChanged>2013-01-29T19:32:38</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>MenusTypeField</ClassName>
+		<BaseClassName>StringPopupField</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>16,777,317</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>MenusTypeField</ClassSourceFile>
+		<ClassType>field</ClassType>
 		<ClassExplain/>
 		<ClassHelp/>
 		<ClassImplements/>

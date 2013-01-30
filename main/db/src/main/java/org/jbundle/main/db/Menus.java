@@ -136,7 +136,7 @@ public class Menus extends Folder
         //if (iFieldSeq == 7)
         //  field = new StringField(this, CODE, 30, null, null);
         if (iFieldSeq == 8)
-            field = new StringField(this, TYPE, 10, null, null);
+            field = new MenusTypeField(this, TYPE, 10, null, null);
         if (iFieldSeq == 9)
             field = new BooleanField(this, AUTO_DESC, Constants.DEFAULT_FIELD_LENGTH, null, new Boolean(true));
         if (iFieldSeq == 10)
@@ -231,9 +231,10 @@ public class Menus extends Folder
         else if (strType.equalsIgnoreCase(DBParams.LINK))
         {
             strParams = strLink;
-            if ((strLink.indexOf('.') < strLink.indexOf('/'))
+            if (((strLink.indexOf('.') < strLink.indexOf('/'))
                 && (strLink.indexOf('.') != -1))
-                    strParams = "http://" + strLink;
+                || ((strLink.indexOf('/') == -1) && (strLink.indexOf(':') == -1)))
+                    strParams = "http://" + strLink; // Default command - In the html implementation, this creates an href
         }
         else if (strType.equalsIgnoreCase(DBParams.MAIL))
         {

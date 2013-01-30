@@ -62,7 +62,7 @@ public class SetupNewUserHandler extends FileListener
             Record userInfo = this.getOwner();
             boolean[] fileListenerStates = userInfo.setEnableListeners(false);
             Object[] fieldListenerStates = userInfo.setEnableFieldListeners(false);
-            userInfo.moveFields(userTemplate, null, bDisplayOption, DBConstants.INIT_MOVE, false, false, false);
+            userInfo.moveFields(userTemplate, null, bDisplayOption, DBConstants.INIT_MOVE, false, false, false, false);
             userInfo.getField(UserInfo.ID).initField(bDisplayOption);
             userInfo.getField(UserInfo.FIRST_NAME).initField(bDisplayOption);
             userInfo.getField(UserInfo.LAST_NAME).initField(bDisplayOption);
@@ -113,7 +113,7 @@ public class SetupNewUserHandler extends FileListener
                     {
                         userRegistration.next();
                         newUserRegistration.addNew();
-                        newUserRegistration.moveFields(userRegistration, null, bDisplayOption, DBConstants.INIT_MOVE, true, false, false);
+                        newUserRegistration.moveFields(userRegistration, null, bDisplayOption, DBConstants.INIT_MOVE, true, false, false, false);
                         newUserRegistration.getField(UserRegistration.ID).initField(bDisplayOption);
                         newUserRegistration.getField(UserRegistration.USER_ID).setData(bookmark);
                         newUserRegistration.add();

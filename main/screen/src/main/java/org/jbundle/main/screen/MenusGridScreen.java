@@ -29,7 +29,7 @@ import org.jbundle.main.db.*;
  */
 public class MenusGridScreen extends FolderGridScreen
 {
-    protected App oldApp = null;
+    protected Map<String,Object> oldProperties = null;
     /**
      * Default constructor.
      */
@@ -55,8 +55,28 @@ public class MenusGridScreen extends FolderGridScreen
      */
     public void init(Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map<String,Object> properties)
     {
-        oldApp = null;
+        oldProperties = null;
+        String databaseName = parentScreen.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
+        if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", Utility.getSystemSuffix(parentScreen.getProperty(DBConstants.SYSTEM_NAME), parentScreen.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
+        {
+            Task task = parentScreen.getTask();
+            oldProperties = Utility.copyAppProperties(null, task.getProperties());
+            Map<String,Object> prop = Utility.copyAppProperties(null, task.getApplication().getProperties());
+            prop = Utility.copyAppProperties(prop, task.getProperties());
+            BaseDatabase.addDBProperties(prop, parentScreen, null);
+            prop.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", Utility.getSystemSuffix(parentScreen.getProperty(DBConstants.SYSTEM_NAME), parentScreen.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
+            prop.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
+            prop.put(SQLParams.AUTO_COMMIT_PARAM, DBConstants.FALSE);
+            if (record != null)
+                if (record.getTable().getDatabase().getDatabaseOwner() != null)
+            {
+                record.free();
+                record = null;
+            }
+            parentScreen.setProperties(prop);
+        }
         super.init(record, itsLocation, parentScreen, fieldConverter, iDisplayFieldDesc, properties);
+        this.getTask().setProperties(oldProperties);
     }
     /**
      * MenusGridScreen Method.
@@ -72,40 +92,13 @@ public class MenusGridScreen extends FolderGridScreen
      */
     public DatabaseOwner getDatabaseOwner()
     {
-        Task task = this.getTask();
-        App app = task.getApplication();
-        String databaseName = app.getProperty("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX);
-        if ((databaseName == null) || (!databaseName.equalsIgnoreCase(Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR))))
-        {
-            oldApp = app;
-            Map<String,Object> properties = Utility.copyAppProperties(null, oldApp.getProperties());
-            
-            BaseDatabase.addDBProperties(properties, this, null);
-            properties.put("main" + BaseDatabase.DBSHARED_PARAM_SUFFIX, Utility.addToPath("main", Utility.getSystemSuffix(this.getProperty(DBConstants.SYSTEM_NAME), this.getProperty(DBConstants.DEFAULT_SYSTEM_NAME)), BaseDatabase.DB_NAME_SEPARATOR));
-            properties.put(DBConstants.MODE, BaseDatabase.RUN_MODE);
-        
-            Environment env = ((BaseApplication)oldApp).getEnvironment();
-            BaseApplication newApp = new MainApplication(env, properties, null);
-            oldApp.removeTask(task);
-            newApp.addTask(task, null);
-            task.setApplication(newApp);
-        
-            return newApp;
-        }
-        return super.getDatabaseOwner();
+        return this;    // I'm the database owner
     }
     /**
      * Free Method.
      */
     public void free()
     {
-        if (oldApp != null)
-        {
-            Task task = this.getTask();
-            task.getApplication().removeTask(task);
-            oldApp.addTask(task, null);
-            task.setApplication(oldApp);            
-        }
         super.free();
     }
     /**

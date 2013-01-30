@@ -205,7 +205,7 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
             UserInfo recUserNew = new UserInfo(recordOwner);
             // Also add this user as an admin
             recUserNew.addNew();
-            recUserNew.moveFields(recUser, null, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE, false, false, false);
+            recUserNew.moveFields(recUser, null, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE, false, false, false, false);
             if (properties.get(BaseRegistrationScreen.ADMIN_HOME_MENU_CODE) != null)
                 ((PropertiesField)recUserNew.getField(UserInfo.PROPERTIES)).setProperty(DBParams.HOME, properties.get(BaseRegistrationScreen.ADMIN_HOME_MENU_CODE).toString());
             UserGroup recUserGroup = new UserGroup(this);
