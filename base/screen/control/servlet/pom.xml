@@ -14,10 +14,10 @@
   <packaging>bundle</packaging>
 
   <properties>
-    <jbundlePackageExport>
+    <jbundle-package-export>
        org.jbundle.base.screen.control.servlet.*;version=${project.version},
        org.jbundle.servlet;version=${project.version},  <!-- org.jbundle.servlet.Servlet -->
-    </jbundlePackageExport>	<!-- Bundle packages to export -->
+    </jbundle-package-export>	<!-- Bundle packages to export -->
   </properties>
 
   <dependencies>
@@ -46,7 +46,7 @@
     <dependency>
       <groupId>org.jbundle.util.webapp</groupId>
       <artifactId>org.jbundle.util.webapp.base</artifactId>
-      <version>${jbundleUtilWebappVersionRange}</version>
+      <version>${jbundle-util-webapp-version-range}</version>
     </dependency>
   </dependencies>
 

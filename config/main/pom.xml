@@ -14,9 +14,9 @@
   <name>jbundle-config-main</name>
 
   <properties>
-    <jbundlePackageExport> <!-- Note: Eventually I need to move screen.control here -->
+    <jbundle-package-export> <!-- Note: Eventually I need to move screen.control here -->
       org.jbundle.base.screen.control.swing.activator.*;version=${project.version},
-    </jbundlePackageExport>
+    </jbundle-package-export>
     <systemname>base</systemname>
   </properties>
   
@@ -45,7 +45,7 @@
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-all</artifactId>
-      <version>${jbundleVersion}</version>
+      <version>${jbundle-version}</version>
       <type>pom</type>
     </dependency>
   </dependencies>

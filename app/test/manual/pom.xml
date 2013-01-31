@@ -87,17 +87,17 @@
     <dependency>
       <groupId>org.jbundle.util.wsdl</groupId>
       <artifactId>org.jbundle.util.wsdl.xmlschema</artifactId>
-      <version>${jbundleUtilWsdlVersionRange}</version>
+      <version>${jbundle-util-wsdl-version-range}</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.util.wsdl</groupId>
       <artifactId>org.jbundle.util.wsdl.wsdl11</artifactId>
-      <version>${jbundleUtilWsdlVersionRange}</version>
+      <version>${jbundle-util-wsdl-version-range}</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.util.wsdl</groupId>
       <artifactId>org.jbundle.util.wsdl.wsdl20</artifactId>
-      <version>${jbundleUtilWsdlVersionRange}</version>
+      <version>${jbundle-util-wsdl-version-range}</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.main</groupId>

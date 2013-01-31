@@ -14,10 +14,10 @@
   <name>jbundle-app-program-script - Program manual code</name>
 
   <properties>
-    <jbundlePackageExport>
-        ${jbundlePackageFilter};version=${project.version},
+    <jbundle-package-export>
+        ${jbundle-package-filter};version=${project.version},
         org.jbundle.app.program.manual.convert;version=${project.version},
-    </jbundlePackageExport> <!-- Bundle package to export -->
+    </jbundle-package-export> <!-- Bundle package to export -->
   </properties>
   
   <dependencies>

@@ -14,12 +14,12 @@
   <name>jbundle-app-program-screen - Program framework</name>
 
   <properties>
-    <jbundlePackageExport>
-        ${jbundlePackageFilter};version=${project.version},
+    <jbundle-package-export>
+        ${jbundle-package-filter};version=${project.version},
         org.jbundle.app.program.access;version=${project.version},
         org.jbundle.app.program.resource.screen;version=${project.version},
-    </jbundlePackageExport> <!-- Bundle package to export -->
-    <jbundlePackageExport>
+    </jbundle-package-export> <!-- Bundle package to export -->
+    <jbundle-package-export>
         !org.jbundle.app.program.db.*,
         !org.jbundle.app.program.resource.db,
 	!org.jbundle.app.program.script,
@@ -27,8 +27,8 @@
 	!org.jbundle.app.program.project,
 	!org.jbundle.app.program.issue,
 	!org.jbundle.app.program.packages,
-	${jbundlePackageFilter};version=${project.version},
-    </jbundlePackageExport> <!-- Bundle package to export -->
+	${jbundle-package-filter};version=${project.version},
+    </jbundle-package-export> <!-- Bundle package to export -->
     <debug>-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=y</debug>
   </properties>  
 

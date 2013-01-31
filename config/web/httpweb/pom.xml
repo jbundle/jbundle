@@ -64,7 +64,7 @@
 						<artifactItem>
 							<groupId>org.dojotoolkit</groupId>
 							<artifactId>dojo</artifactId>
-							<version>${dojoVersion}</version>
+							<version>${dojo-version}</version>
 							<type>zip</type>
 							<outputDirectory>${project.build.directory}</outputDirectory>
 						</artifactItem>
@@ -137,7 +137,7 @@
 							</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${project.build.directory}/dojo-${dojoVersion}
+									<directory>${project.build.directory}/dojo-${dojo-version}
 									</directory>
 									<filtering>false</filtering>
 								</resource>

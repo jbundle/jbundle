@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.jbundle.config.dep</groupId>
             <artifactId>jbundle-config-dep-all</artifactId>
-            <version>${jbundleVersion}</version>
+            <version>${jbundle-version}</version>
             <type>pom</type>
         </dependency>
     </dependencies>

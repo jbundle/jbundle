@@ -14,14 +14,14 @@
   <packaging>bundle</packaging>
 
   <properties>
-    <jbundlePackageExport>
+    <jbundle-package-export>
        ${project.artifactId}.*;version=${project.version},
        org.jbundle.server;version=${project.version},  <!-- org.jbundle.server.Server -->
-    </jbundlePackageExport>	<!-- Bundle packages to export -->
-    <jbundlePackageImport>
+    </jbundle-package-export>	<!-- Bundle packages to export -->
+    <jbundle-package-import>
     	*;resolution:=optional,
 	    org.jbundle.thin.base.remote;resolution:=optional, <!-- RMI Requires access to .ApplicationServer class -->
-    </jbundlePackageImport>
+    </jbundle-package-import>
   </properties>  
 
   <build>
@@ -34,8 +34,8 @@
           <instructions>
             <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Export-Package>${jbundlePackageExport}</Export-Package>
-            <Import-Package>${jbundlePackageImport}</Import-Package>
+            <Export-Package>${jbundle-package-export}</Export-Package>
+            <Import-Package>${jbundle-package-import}</Import-Package>
             <Bundle-Activator>org.jbundle.base.remote.server.RemoteSessionActivator</Bundle-Activator>
           </instructions>
         </configuration>

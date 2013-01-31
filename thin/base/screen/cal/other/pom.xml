@@ -14,10 +14,10 @@
   <name>jbundle-thin-base-screen-cal-other - Thin extra</name>
 
   <properties>
-    <jbundlePackageExport>
+    <jbundle-package-export>
       org.jbundle.thin.base.screen.cal.opt;version=${project.version},
       org.jbundle.thin.base.screen.cal.popup;version=${project.version}
-    </jbundlePackageExport>
+    </jbundle-package-export>
   </properties>
 
   <dependencies>

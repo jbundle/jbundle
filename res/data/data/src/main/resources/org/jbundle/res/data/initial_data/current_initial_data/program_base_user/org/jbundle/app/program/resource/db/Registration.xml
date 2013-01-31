@@ -2921,7 +2921,7 @@ jnlp_href:"{jnlpURL}"}},
 var attributes={{code:'{applet}',codebase:'{codebase}',width:'{width}',height:'{height}',name:'{name}'}} ;
 var parameters = {{ {other}
 jnlpextensions:'docs/jnlp/thin,docs/jnlp/thintest,docs/jnlp/thick,docs/jnlp/resource,docs/jnlp/thintour,docs/jnlp/tour,docs/jnlp/thicktest',
-jnlpjars:'lib/org.jbundle.base.screen.view.swing-${jbundleVersion}',
+jnlpjars:'lib/org.jbundle.base.screen.view.swing-${jbundle-version}',
 background: 'backgrounds/worldmapalpha.gif',
 backgroundcolor: '#eeeeff',
 jnlp_href: '{jnlpURL}'}} ; 
@@ -2957,7 +2957,7 @@ deployJava.runApplet(attributes, parameters, '1.6');
 var attributes={{code:'{applet}',codebase:'{codebase}',width:'{width}',height:'{height}',name:'{name}'}} ;
 var parameters = {{ {other}
 jnlpextensions:'docs/jnlp/thin,docs/jnlp/thintest,docs/jnlp/thintour',
-jnlpjars:'lib/jbundle.thin.base.screen-${jbundleVersion}',
+jnlpjars:'lib/jbundle.thin.base.screen-${jbundle-version}',
 background: 'backgrounds/worldmapalpha.gif',
 backgroundcolor: '#eeeeff',
 jnlp_href: '{jnlpURL}'}} ; 
@@ -3039,7 +3039,7 @@ deployJava.runApplet(attributes, parameters, '1.6');
   <resources>
     <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
     <property name="jnlp.packEnabled" value="true"/>
-    <jar href="lib/org.jbundle.thin.base.screen-${jbundleVersion}.jar" part="thinbase" />
+    <jar href="lib/org.jbundle.thin.base.screen-${jbundle-version}.jar" part="thinbase" />
     <package name="org.jbundle.thin.base.screen.ThinApplet" part="thinbase" />
     <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
     <extension name="docs/jnlp/thintour" href="docs/jnlp/thintour.jnlp" />
@@ -3084,7 +3084,7 @@ deployJava.runApplet(attributes, parameters, '1.6');
   <resources>
     <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
     <property name="jnlp.packEnabled" value="true"/>
-    <jar href="lib/org.jbundle.base.screen.view.swing-${jbundleVersion}.jar" part="thickscreen" />
+    <jar href="lib/org.jbundle.base.screen.view.swing-${jbundle-version}.jar" part="thickscreen" />
     <package name="org.jbundle.Main" part="thickscreen" />
     <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
     <extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" />
@@ -3320,7 +3320,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
   <resources>
     <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
     <property name="jnlp.packEnabled" value="true"/>
-    <jar href="lib/org.jbundle.thin.base.screen.splash-${jbundleVersion}.jar" part="splash" />
+    <jar href="lib/org.jbundle.thin.base.screen.splash-${jbundle-version}.jar" part="splash" />
     <package name="org.jbundle.thin.base.screen.splash.Splash" part="splash" />
     <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
     <extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" />
@@ -3367,7 +3367,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
   <resources>
     <java version="{javaVersion}" initial-heap-size="128m" max-heap-size="512m"/>
     <property name="jnlp.packEnabled" value="true"/>
-    <jar href="lib/org.jbundle.base.screen.view.swing-${jbundleVersion}.jar" part="thickscreen" />
+    <jar href="lib/org.jbundle.base.screen.view.swing-${jbundle-version}.jar" part="thickscreen" />
     <package name="org.jbundle.Main" part="thickscreen" />
     <extension name="docs/jnlp/thin" href="docs/jnlp/thin.jnlp" />
     <extension name="docs/jnlp/thick" href="docs/jnlp/thick.jnlp" />
@@ -3389,7 +3389,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>jbundleversion</KeyValue>
-		<ObjectValue>${jbundleVersion}</ObjectValue>
+		<ObjectValue>${jbundle-version}</ObjectValue>
 	</Registration>
 	<Registration ID="546">
 		<LastChanged>2011-08-05T15:59:50</LastChanged>
@@ -3399,7 +3399,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>jbundleversion</KeyValue>
-		<ObjectValue>${jbundleVersion}</ObjectValue>
+		<ObjectValue>${jbundle-version}</ObjectValue>
 	</Registration>
 	<Registration ID="547">
 		<LastChanged>2012-03-08T17:55:44</LastChanged>

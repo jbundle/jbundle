@@ -14,7 +14,7 @@
   <description>JiBX Messaging</description>
 
   <properties>
-    <jbundlePackage>org.jbundle.base.message.trx.message.external.convert.jibx</jbundlePackage>	<!-- Bundle packages to export -->
+    <jbundle-package>org.jbundle.base.message.trx.message.external.convert.jibx</jbundle-package>	<!-- Bundle packages to export -->
   </properties>  
 
   <dependencies>
