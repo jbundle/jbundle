@@ -50,7 +50,7 @@
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
       <artifactId>org.jbundle.app.test.test</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
 
     <dependency>
@@ -67,7 +67,7 @@
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-main</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
 	  <type>pom</type>
     </dependency>
     <dependency>
@@ -77,12 +77,12 @@
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.cal.other</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.cal.grid</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.util.wsdl</groupId>
@@ -102,7 +102,7 @@
     <dependency>
       <groupId>org.jbundle.thin.main</groupId>
       <artifactId>org.jbundle.thin.main</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>

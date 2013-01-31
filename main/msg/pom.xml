@@ -36,26 +36,26 @@
     <dependency>
       <groupId>org.jbundle.main</groupId>
       <artifactId>org.jbundle.main.db</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.main</groupId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
       <artifactId>org.jbundle.main.screen</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base</groupId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
       <artifactId>org.jbundle.base.remote</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
       <artifactId>org.jbundle.base.screen.view.data</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
       <artifactId>org.jbundle.base.screen.model</artifactId>
     </dependency>
 
@@ -78,7 +78,7 @@
     <dependency>
 	  <groupId>org.jbundle.config.dep</groupId>
 	  <artifactId>jbundle-config-dep-thin-base</artifactId>
-	  <version>1.0.1-SNAPSHOT</version>
+	  <version>${jbundle-version-range}</version>
 	  <type>pom</type>
     </dependency>
     <dependency>

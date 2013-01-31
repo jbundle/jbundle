@@ -21,7 +21,7 @@
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.cal.other</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
     <!-- dependency>
       <artifactId>org.jbundle.res</artifactId>
@@ -32,7 +32,7 @@
     <!-- dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-thin-base</artifactId>
-      <version>0.7.7-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
 	  <type>pom</type>
     </dependency -->
   </dependencies>

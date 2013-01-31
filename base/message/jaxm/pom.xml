@@ -41,27 +41,27 @@
     <dependency>
       <groupId>org.jbundle.base.message</groupId>
       <artifactId>org.jbundle.base.message.core</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.message</groupId>
       <artifactId>org.jbundle.base.message.remote</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.control.servlet</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.model</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.main</groupId>
       <artifactId>org.jbundle.main.msg</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
 
     <dependency>

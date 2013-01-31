@@ -16,19 +16,19 @@
   <dependencies>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
       <artifactId>org.jbundle.base.screen.view.data</artifactId>
     </dependency>
     <dependency>
 	  <groupId>org.jbundle.config.dep</groupId>
 	  <artifactId>jbundle-config-dep-main</artifactId>
-	  <version>1.0.1-SNAPSHOT</version>
+	  <version>${jbundle-version-range}</version>
 	  <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.jbundle.model</groupId>
       <artifactId>org.jbundle.model.app.program</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
     
     <dependency>    <!-- There is only one call that relies on this, get rid of it! -->

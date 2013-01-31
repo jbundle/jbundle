@@ -15,12 +15,12 @@
   <dependencies>
     <dependency>
       <groupId>org.jbundle.thin.base.db</groupId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
       <artifactId>org.jbundle.thin.base.db</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
       <artifactId>org.jbundle.thin.base.util</artifactId>
     </dependency>
   </dependencies>

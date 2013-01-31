@@ -60,7 +60,7 @@
     <dependency>
       <groupId>com.tourapp.config</groupId>
       <artifactId>tourapp-config-dep-all</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
       <type>pom</type>
     </dependency>
   </dependencies>

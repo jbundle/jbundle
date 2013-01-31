@@ -39,7 +39,7 @@
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
       <artifactId>org.jbundle.thin.app.test.manual</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>${jbundle-version-range}</version>
     </dependency>
 
     <dependency>
