@@ -16,7 +16,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 

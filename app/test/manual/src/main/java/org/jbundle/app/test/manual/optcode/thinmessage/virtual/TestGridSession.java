@@ -16,6 +16,7 @@ import org.jbundle.base.model.DBParams;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.remote.opt.TableModelSession;
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.message.MessageManager;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
@@ -23,7 +24,6 @@ import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.message.MessageConstants;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.util.Application;
 
 

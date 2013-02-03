@@ -13,7 +13,7 @@ import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.App;
 import org.jbundle.model.Env;
-import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.model.RemoteException;
 import org.osgi.framework.BundleContext;
 
 

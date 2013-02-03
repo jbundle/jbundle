@@ -4,12 +4,12 @@
 package org.jbundle.thin.base.message.remote;
 
 import org.jbundle.model.App;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageManager;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
 import org.jbundle.thin.base.message.BaseMessageSender;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
 
 /**

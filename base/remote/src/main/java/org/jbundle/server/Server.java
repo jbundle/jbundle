@@ -3,7 +3,7 @@
  */
 package org.jbundle.server;
 
-import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.model.RemoteException;
 
 /**
  * This is a convenience class, so users don't have to remember the path to RemoteSessionServer.

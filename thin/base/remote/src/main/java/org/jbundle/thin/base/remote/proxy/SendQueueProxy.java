@@ -8,9 +8,9 @@ package org.jbundle.thin.base.remote.proxy;
  *  Copyright © 2012 jbundle.org. All rights reserved.
  */
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.remote.RemoteSendQueue;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
 

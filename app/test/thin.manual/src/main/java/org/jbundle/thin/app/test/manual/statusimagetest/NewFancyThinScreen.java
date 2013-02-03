@@ -21,6 +21,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.app.test.test.db.TestSecond;
 import org.jbundle.thin.app.test.test.db.TestTable;
 import org.jbundle.thin.base.db.Constants;
@@ -30,7 +31,6 @@ import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;

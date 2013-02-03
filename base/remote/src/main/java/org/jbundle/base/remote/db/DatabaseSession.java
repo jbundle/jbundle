@@ -18,8 +18,8 @@ import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.remote.BaseTaskSession;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.remote.RemoteDatabase;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.util.Application;
 
 

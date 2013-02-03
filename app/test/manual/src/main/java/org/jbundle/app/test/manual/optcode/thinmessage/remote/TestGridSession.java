@@ -11,7 +11,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.base.remote.opt.TableModelSession;
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.model.RemoteException;
 
 
 /**

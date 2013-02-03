@@ -18,10 +18,10 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.model.Utility;
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.remote.db.TaskSession;
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageSender;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSendQueue;
 
 

@@ -11,8 +11,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSendQueue;
 
 

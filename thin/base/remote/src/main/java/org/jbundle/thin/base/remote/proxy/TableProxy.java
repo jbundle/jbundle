@@ -10,10 +10,10 @@ package org.jbundle.thin.base.remote.proxy;
 import java.util.Map;
 
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.remote.RemoteDatabase;
 import org.jbundle.thin.base.remote.RemoteTable;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
 

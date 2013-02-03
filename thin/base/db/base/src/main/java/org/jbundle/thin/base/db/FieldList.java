@@ -9,6 +9,7 @@ package org.jbundle.thin.base.db;
  */
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -17,6 +18,8 @@ import java.util.Vector;
 
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.RemoteException;
+import org.jbundle.model.RemoteTarget;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Key;
@@ -847,5 +850,48 @@ public class FieldList extends Object
     public ScreenParent makeScreen(ScreenLoc itsLocation, ComponentParent parentScreen, int iDocMode, Map<String, Object> properties)
     {
         return null;    // Not implemented in thin.
+    }
+    /**
+     * Do a remote command.
+     * @param strCommand
+     * @param properties
+     * @return
+     */
+    public final Object handleRemoteCommand(String strCommand, Map<String, Object> properties)
+        throws DBException, RemoteException
+    {
+        return this.handleRemoteCommand(strCommand, properties, true, true, true);
+    }
+    /**
+     * Do a remote command.
+     * This method simplifies the task of calling a remote method.
+     * Instead of having to override the session, all you have to do is override
+     * doRemoteCommand in your record and handleRemoteCommand will call the remote version of the record.
+     * @param strCommand
+     * @param properties
+     * @return
+     */
+    public Object handleRemoteCommand(String strCommand, Map<String, Object> properties, boolean bWriteAndRefresh, boolean bDontCallIfLocal, boolean bCloneServerRecord)
+        throws DBException, RemoteException
+    {
+        RemoteTarget remoteTask = this.getTable().getRemoteTableType(org.jbundle.model.Remote.class);
+        if (remoteTask == null)
+        {
+            if (bDontCallIfLocal)
+                return Boolean.FALSE;
+            else
+                return this.doRemoteCommand(strCommand, properties);
+        }
+        return remoteTask.doRemoteAction(strCommand, properties);
+    }
+    /**
+     * Do a remote command (Override this with your code).
+     * @param strCommand The command to execute
+     * @param properties The properties
+     * @return Boolean.FALSE if the command was not handled, anything else if it was.
+     */
+    public Object doRemoteCommand(String strCommand, Map<String, Object> properties)
+    {
+        return Boolean.FALSE;   // Override this to handle this command
     }
 }

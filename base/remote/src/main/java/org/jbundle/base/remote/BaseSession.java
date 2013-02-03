@@ -26,11 +26,11 @@ import org.jbundle.base.remote.db.DatabaseSession;
 import org.jbundle.base.thread.RemoteRecordOwner;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.remote.RemoteBaseSession;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 

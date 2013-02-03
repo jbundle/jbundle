@@ -11,8 +11,8 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.remote.db.Session;
 import org.jbundle.base.remote.db.TaskSession;
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.message.BaseMessage;
-import org.jbundle.thin.base.remote.RemoteException;
 
 
 /**

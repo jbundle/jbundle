@@ -3,6 +3,8 @@
  */
 package org.jbundle.thin.base.remote;
 
+import org.jbundle.model.RemoteException;
+
 /**
  * @(#)RemoteDatabase.java  1.16 95/12/14 Don Corley
  *

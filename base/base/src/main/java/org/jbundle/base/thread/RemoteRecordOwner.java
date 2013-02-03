@@ -25,6 +25,7 @@ import org.jbundle.base.util.Environment;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.Database;
 import org.jbundle.model.db.DatabaseOwner;
@@ -32,7 +33,6 @@ import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.MessageListenerFilterList;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteObject;
 import org.jbundle.thin.base.thread.RecordOwnerCollection;
 

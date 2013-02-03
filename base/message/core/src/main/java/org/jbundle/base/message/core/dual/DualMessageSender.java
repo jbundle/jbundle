@@ -3,11 +3,11 @@
  */
 package org.jbundle.base.message.core.dual;
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.remote.RemoteMessageSender;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
 
 /**

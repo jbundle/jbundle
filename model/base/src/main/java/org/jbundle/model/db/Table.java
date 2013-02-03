@@ -5,6 +5,7 @@ package org.jbundle.model.db;
 
 import org.jbundle.model.DBException;
 import org.jbundle.model.Freeable;
+import org.jbundle.model.RemoteTarget;
 
 
 /**
@@ -214,7 +215,7 @@ public interface Table
      * @classType The base class I'm looking for (If null, return the next table on the chain) 
      * @return The remote table reference.
      */
-    public Object getRemoteTableType(Class<?> classType);
+    public RemoteTarget getRemoteTableType(Class<?> classType);
     /**
      * Get the table's database.
      * @return The database.

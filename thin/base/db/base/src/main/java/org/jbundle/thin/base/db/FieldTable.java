@@ -4,6 +4,7 @@
 package org.jbundle.thin.base.db;
 
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteTarget;
 import org.jbundle.model.db.Database;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
@@ -557,7 +558,7 @@ public class FieldTable extends Object
      * @classType The base class I'm looking for (If null, return the next table on the chain) 
      * @return The remote table reference.
      */
-    public Object getRemoteTableType(Class<?> classType)
+    public RemoteTarget getRemoteTableType(Class<?> classType)
     {
         return null;	// Override this
     }

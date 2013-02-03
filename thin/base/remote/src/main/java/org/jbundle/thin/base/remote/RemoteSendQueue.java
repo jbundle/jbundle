@@ -11,6 +11,7 @@ package org.jbundle.thin.base.remote;
  *
  */
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.message.Message;
 
 

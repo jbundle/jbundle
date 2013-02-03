@@ -11,12 +11,12 @@ import java.util.Map;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.app.test.test.db.TestTableNoAuto;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.client.CachedRemoteTable;
 import org.jbundle.thin.base.db.client.RemoteFieldTable;
 import org.jbundle.thin.base.db.client.VectorFieldTable;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
 

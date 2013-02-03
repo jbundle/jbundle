@@ -12,6 +12,7 @@ package org.jbundle.thin.base.remote;
  */
 import java.util.Map;
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.message.Message;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 

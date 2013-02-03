@@ -6,7 +6,7 @@ package org.jbundle.thin.base.remote.proxy;
 import java.util.HashMap;
 
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
 /**
@@ -143,7 +143,7 @@ public class BaseProxy extends Object
      * @throws RemoteException TODO
      * @exception DBException File exception.
      */
-    public Object checkRemoteException(Object objData) throws org.jbundle.thin.base.remote.RemoteException
+    public Object checkRemoteException(Object objData) throws org.jbundle.model.RemoteException
     {
         if (objData instanceof RemoteException)
             throw (RemoteException)objData;

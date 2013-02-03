@@ -10,13 +10,13 @@ package org.jbundle.thin.base.remote.proxy;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.remote.RemoteSendQueue;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
 

@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Map;
 
-import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 

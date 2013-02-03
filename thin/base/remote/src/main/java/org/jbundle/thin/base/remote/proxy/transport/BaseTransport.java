@@ -15,9 +15,9 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.util.Constant;
 import org.jbundle.thin.base.db.Constants;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.ApplicationProxy;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;

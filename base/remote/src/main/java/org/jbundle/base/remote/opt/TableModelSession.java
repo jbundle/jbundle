@@ -13,8 +13,8 @@ import org.jbundle.base.db.GridTable;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.remote.BaseSession;
 import org.jbundle.base.remote.db.TableSession;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.message.BaseMessageFilter;
-import org.jbundle.thin.base.remote.RemoteException;
 
 
 /**

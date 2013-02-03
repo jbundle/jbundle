@@ -16,12 +16,12 @@ import java.awt.event.FocusEvent;
 import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.client.RemoteFieldTable;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.screen.BaseApplet;
@@ -109,7 +109,7 @@ public class TestThinScreen extends JScreen
     {
         if (strAction == Constants.RESET)
         {
-            RemoteSession remoteSession = ((RemoteFieldTable)this.getFieldList().getTable()).getRemoteTableType(org.jbundle.model.Remote.class);
+            RemoteSession remoteSession = (RemoteSession)((RemoteFieldTable)this.getFieldList().getTable()).getRemoteTableType(org.jbundle.model.Remote.class);
             try {
                 remoteSession.doRemoteAction(strAction, null);
             } catch (Exception ex) {

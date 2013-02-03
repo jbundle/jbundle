@@ -16,8 +16,8 @@ import org.jbundle.base.model.LockManager;
 import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.Task;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
 

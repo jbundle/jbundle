@@ -13,6 +13,7 @@ package org.jbundle.thin.base.remote;
 import java.util.Map;
 
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
 
 
 /**

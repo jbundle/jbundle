@@ -9,11 +9,11 @@ package org.jbundle.thin.base.remote.proxy;
  */
 import java.util.Map;
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.remote.RemoteSession;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.transport.BaseTransport;
 
 

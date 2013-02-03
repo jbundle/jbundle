@@ -12,8 +12,8 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.remote.RemoteDatabase;
-import org.jbundle.thin.base.remote.RemoteException;
 
 
 /**

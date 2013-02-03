@@ -10,9 +10,8 @@ package org.jbundle.thin.base.remote;
  *      don@tourgeek.com
  *
  */
-import java.util.Map;
-
-import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
+import org.jbundle.model.RemoteTarget;
 
 
 /**
@@ -21,7 +20,7 @@ import org.jbundle.model.DBException;
  * @version 1.0.0
  * @author    Don Corley
  */
-public interface RemoteBaseSession
+public interface RemoteBaseSession extends RemoteTarget
 {
     /**
      * Release the session and its resources.
@@ -35,11 +34,4 @@ public interface RemoteBaseSession
      * @throws RemoteException 
      */
     public RemoteBaseSession makeRemoteSession(String strSessionClassName) throws RemoteException;
-    /**
-     * Do a remote action.
-     * @param strCommand Command to perform remotely.
-     * @return boolean success.
-     * @throws RemoteException 
-     */
-    public Object doRemoteAction(String strCommand, Map<String, Object> properties) throws DBException, RemoteException;
 }

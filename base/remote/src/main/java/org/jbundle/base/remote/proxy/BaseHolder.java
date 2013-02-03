@@ -13,8 +13,8 @@ import java.util.Map;
 
 import org.jbundle.base.model.Utility;
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.remote.RemoteBaseSession;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.proxy.ProxyConstants;
 
 

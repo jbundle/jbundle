@@ -9,6 +9,8 @@ package org.jbundle.thin.base.remote;
  */
 import java.util.Map;
 
+import org.jbundle.model.RemoteException;
+
 /**
  *  ApplicationServer - The interface to server objects.
  */

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jbundle.base.screen.control.servlet.BasicServlet;
-import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.util.base64.Base64;
 
 

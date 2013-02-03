@@ -22,10 +22,10 @@ import org.jbundle.base.model.RecordOwner;
 import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.thin.base.remote.RemoteDatabase;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
 

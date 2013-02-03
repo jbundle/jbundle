@@ -45,6 +45,8 @@ import org.jbundle.base.util.MainApplication;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
+import org.jbundle.model.RemoteException;
+import org.jbundle.model.RemoteTarget;
 import org.jbundle.model.Task;
 import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.model.db.Field;
@@ -65,7 +67,6 @@ import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.JMessageListener;
 import org.jbundle.thin.base.remote.LocalTask;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
@@ -3391,17 +3392,6 @@ public class Record extends FieldList
     }
     /**
      * Do a remote command.
-     * @param strCommand
-     * @param properties
-     * @return
-     */
-    public Object handleRemoteCommand(String strCommand, Map<String, Object> properties)
-    	throws DBException, RemoteException
-    {
-    	return this.handleRemoteCommand(strCommand, properties, true, true, true);
-    }
-    /**
-     * Do a remote command.
      * This method simplifies the task of calling a remote method.
      * Instead of having to override the session, all you have to do is override
      * doRemoteCommand in your record and handleRemoteCommand will call the remote version of the record.
@@ -3412,7 +3402,7 @@ public class Record extends FieldList
     public Object handleRemoteCommand(String strCommand, Map<String, Object> properties, boolean bWriteAndRefresh, boolean bDontCallIfLocal, boolean bCloneServerRecord)
     	throws DBException, RemoteException
     {
-    	RemoteTable remoteTask = (RemoteTable)this.getTable().getRemoteTableType(org.jbundle.model.Remote.class);
+    	RemoteTarget remoteTask = this.getTable().getRemoteTableType(org.jbundle.model.Remote.class);
     	if (bWriteAndRefresh)
     		this.writeAndRefresh();
     	if (remoteTask == null)

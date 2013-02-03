@@ -8,7 +8,7 @@
 package org.jbundle.base.remote.lock;
 
 import org.jbundle.model.DBException;
-import org.jbundle.thin.base.remote.RemoteException;
+import org.jbundle.model.RemoteException;
 
 /**
  *

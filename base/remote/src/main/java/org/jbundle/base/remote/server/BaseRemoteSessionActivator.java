@@ -14,11 +14,11 @@ import org.jbundle.base.model.DBParams;
 import org.jbundle.base.util.BaseThickActivator;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.Env;
+import org.jbundle.model.RemoteException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.remote.ApplicationServer;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.osgi.framework.BundleContext;
 

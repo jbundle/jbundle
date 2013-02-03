@@ -22,12 +22,12 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.Utility;
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.buff.BaseBuffer;
 import org.jbundle.thin.base.db.buff.VectorBuffer;
 import org.jbundle.thin.base.db.client.CachedRemoteTable;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.util.ThinUtil;
 

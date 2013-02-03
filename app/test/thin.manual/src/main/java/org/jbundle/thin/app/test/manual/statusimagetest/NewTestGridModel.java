@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.thin.app.test.vet.db.Vet;
 import org.jbundle.thin.base.db.Constants;
@@ -26,7 +27,6 @@ import org.jbundle.thin.base.db.FieldTable;
 import org.jbundle.thin.base.db.mem.base.PDatabase;
 import org.jbundle.thin.base.db.mem.base.PTable;
 import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;

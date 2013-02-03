@@ -6,6 +6,7 @@ package org.jbundle.thin.base.message.remote;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.message.Message;
 import org.jbundle.model.message.MessageFilter;
 import org.jbundle.model.util.Util;
@@ -13,7 +14,6 @@ import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageQueue;
 import org.jbundle.thin.base.message.BaseMessageReceiver;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteReceiveQueue;
 import org.jbundle.thin.base.remote.RemoteSession;
 import org.jbundle.thin.base.remote.RemoteTask;

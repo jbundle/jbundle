@@ -6,10 +6,10 @@ package org.jbundle.thin.base.util;
 import java.util.Map;
 
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.util.Util;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteObject;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.util.osgi.webstart.util.UrlUtil;

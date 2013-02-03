@@ -6,11 +6,12 @@ package org.jbundle.thin.base.db.client;
 import java.util.Vector;
 
 import org.jbundle.model.DBException;
+import org.jbundle.model.RemoteException;
+import org.jbundle.model.RemoteTarget;
 import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.KeyAreaInfo;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.util.ThinUtil;
 

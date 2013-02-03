@@ -23,10 +23,10 @@ import org.jbundle.base.util.UserProperties;
 import org.jbundle.model.App;
 import org.jbundle.model.DBException;
 import org.jbundle.model.PropertyOwner;
+import org.jbundle.model.RemoteException;
 import org.jbundle.model.Task;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Params;
-import org.jbundle.thin.base.remote.RemoteException;
 import org.jbundle.thin.base.util.Application;
 
 

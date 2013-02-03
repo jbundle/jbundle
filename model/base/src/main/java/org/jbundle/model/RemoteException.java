@@ -1,4 +1,4 @@
-package org.jbundle.thin.base.remote;
+package org.jbundle.model;
 
 import java.io.Serializable;
 
