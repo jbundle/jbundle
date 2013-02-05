@@ -93,7 +93,12 @@
 
     <dependency>
       <groupId>org.jbundle.res</groupId>
-      <artifactId>org.jbundle.res.docs</artifactId>
+      <artifactId>org.jbundle.res.docs.styles.xsl</artifactId>
+      <version>${jbundle-version-range}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res.docs.help</artifactId>
       <version>${jbundle-version-range}</version>
     </dependency>
     <dependency>

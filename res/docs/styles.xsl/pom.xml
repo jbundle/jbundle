@@ -8,8 +8,8 @@
     <version>1.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.jbundle.res.docs</artifactId>
-  <name>jbundle-res-docs</name>
+  <artifactId>org.jbundle.res.docs.styles.xsl</artifactId>
+  <name>jbundle-res-docs-styles-xsl</name>
   <packaging>bundle</packaging>
 
   <properties>
@@ -31,7 +31,9 @@
             </Export-Package>
             <Import-Package>
                 *;resolution:=optional,
-                org.jbundle.res.docs.styles;resolution:=optional,
+                org.jbundle.res.docs.styles.js;resolution:=optional,
+                org.jbundle.res.docs.styles.css.jbundle;resolution:=optional,
+                org.jbundle.res.docs.styles.css.jbundle.xsl;resolution:=optional,
             </Import-Package>
             <Bundle-Version>${project.version}</Bundle-Version>
           </instructions>

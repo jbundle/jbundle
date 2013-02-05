@@ -860,7 +860,7 @@ public class Utility extends ThinUtil
         }
         return strServletName;
     }
-    public static final String DEFAULT_SYSTEM_SUFFIX = "tour";
+    public static final String DEFAULT_SYSTEM_SUFFIX = "tourapp";
     /**
      * Get the system suffix, fix it and return it.
      * @return
