@@ -309,7 +309,7 @@ public class BaseSetupSiteProcess extends BaseMessageProcess
         URL fromDirUrl = this.getTask().getApplication().getResourceURL(templateDir, null);
         if ("http".equalsIgnoreCase(fromDirUrl.getProtocol()))
         {
-            String packageName = templateDir + "/main_user/org/jbundle/main/user/db";
+            String packageName = templateDir + "/main_tourapp_user/org/jbundle/main/user/db";
             packageName = packageName.replace('/', '.');
             Bundle bundle = (Bundle)ClassServiceUtility.getClassService().getClassFinder(null).findBundle(null, null, packageName, null);
             if (bundle == null) {
