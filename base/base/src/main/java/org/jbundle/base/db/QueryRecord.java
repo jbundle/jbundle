@@ -98,7 +98,7 @@ public class QueryRecord extends Record
         if (m_vRecordList != null)
             if (this.getRecordlistAt(0) != null)
                 return this.getRecordlistAt(0).getDatabaseName();
-        return super.getDatabaseName(); // Blank
+        return DBConstants.BLANK; // Blank
     }
     /**
      * Get the database type.
