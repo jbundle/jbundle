@@ -30,6 +30,7 @@ import org.jbundle.base.model.Utility;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.model.DBException;
+import org.jbundle.model.Task;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constants;
@@ -1141,6 +1142,11 @@ public abstract class BaseTable extends FieldTable
     {
     	BaseTable table = this;
         Record record = table.getRecord();
+        Task task = null;
+        if (Record.findRecordOwner(record) != null)
+            task = Record.findRecordOwner(record).getTask();
+        if (task == null)
+            return false;
         while (((record.getDatabaseType() & DBConstants.SHARED_TABLE) != 0) && ((record.getDatabaseType() & DBConstants.BASE_TABLE_CLASS) == 0))
         {
         	String tableName = record.getTableNames(false);
@@ -1168,21 +1174,32 @@ public abstract class BaseTable extends FieldTable
 
         String filename = record.getArchiveFilename(true);
         String defaultFilename = record.getArchiveFilename(false);
-        InputStream inputStream = null;
-        if (Record.findRecordOwner(record) != null)
-            if (Record.findRecordOwner(record).getTask() != null)
-                inputStream = Record.findRecordOwner(record).getTask().getInputStream(filename);
+        InputStream inputStream = task.getInputStream(filename);
 
         boolean bSuccess = false;
         try {
         	bSuccess = xml.importXML(table, filename, inputStream);    // Data file read successfully
-            if (!bSuccess)
-                if (!defaultFilename.equals(filename))
+            if ((!bSuccess) && (!defaultFilename.equals(filename)))
             {
-                if (Record.findRecordOwner(record) != null)
-                    if (Record.findRecordOwner(record).getTask() != null)
-                        inputStream = Record.findRecordOwner(record).getTask().getInputStream(defaultFilename);
-                bSuccess = xml.importXML(table, defaultFilename, inputStream);
+                String prefix = this.getDatabase().getProperty(DBConstants.DB_USER_PREFIX);
+                if (prefix != null)
+                {
+                    if (!prefix.endsWith(Character.toString(BaseDatabase.DB_NAME_SEPARATOR)))
+                        prefix = prefix + BaseDatabase.DB_NAME_SEPARATOR;
+                    String dbName = this.getDatabase().getDatabaseName(true);
+                    int index = filename.indexOf(dbName);
+                    if (index != -1) if (filename.indexOf(prefix, index) == index)
+                    {
+                        filename = filename.substring(0, index) + filename.substring(index + prefix.length());
+                        inputStream = task.getInputStream(filename);
+                        bSuccess = xml.importXML(table, filename, inputStream);
+                    }
+                }
+                if ((!bSuccess) && (!defaultFilename.equals(filename)))
+                {
+                    inputStream = task.getInputStream(defaultFilename);
+                    bSuccess = xml.importXML(table, defaultFilename, inputStream);
+                }
             }
             if (!bSuccess)   
                 Utility.getLogger().info("No initial data for: "
