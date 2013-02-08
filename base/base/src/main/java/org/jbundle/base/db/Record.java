@@ -67,7 +67,6 @@ import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.JMessageListener;
 import org.jbundle.thin.base.remote.LocalTask;
-import org.jbundle.thin.base.remote.RemoteTable;
 import org.jbundle.thin.base.remote.RemoteTask;
 import org.jbundle.thin.base.util.Application;
 import org.jbundle.thin.main.db.DatabaseInfo;
