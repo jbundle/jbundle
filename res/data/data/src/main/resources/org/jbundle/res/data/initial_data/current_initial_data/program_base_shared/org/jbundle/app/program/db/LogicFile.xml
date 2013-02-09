@@ -31037,7 +31037,7 @@ if (out != null)
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16785092">
-		<LastChanged>2012-02-18T09:26:07</LastChanged>
+		<LastChanged>2013-02-08T21:00:15</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>900</Sequence>
 		<MethodName>populateSourceDir</MethodName>
@@ -31048,7 +31048,7 @@ if (out != null)
 		<LogicSource><![CDATA[URL fromDirUrl = this.getTask().getApplication().getResourceURL(templateDir, null);
 if ("http".equalsIgnoreCase(fromDirUrl.getProtocol()))
 {
-    String packageName = templateDir + "/main_user/org/jbundle/main/user/db";
+    String packageName = templateDir + "/main_tourapp_user/org/jbundle/main/user/db";
     packageName = packageName.replace('/', '.');
     Bundle bundle = (Bundle)ClassServiceUtility.getClassService().getClassFinder(null).findBundle(null, null, packageName, null);
     if (bundle == null) {
