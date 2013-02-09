@@ -9533,7 +9533,7 @@
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength>100</MaximumLength>
+		<MaximumLength>127</MaximumLength>
 		<DefaultValue>old</DefaultValue>
 		<InitialValue>"${user.dir}/src/main/resources/"</InitialValue>
 		<FieldDescription>Full path to archive directory (location for import and export)</FieldDescription>
@@ -14109,7 +14109,7 @@
 		<BaseFieldName/>
 		<DependentFieldName/>
 		<MinimumLength/>
-		<MaximumLength>100</MaximumLength>
+		<MaximumLength>127</MaximumLength>
 		<DefaultValue/>
 		<InitialValue>"${user.dir}/src/main/resources/"</InitialValue>
 		<FieldDescription>Full path to development archive directory (location for import and export)</FieldDescription>
