@@ -886,7 +886,11 @@ public class FieldList extends Object
     public final Object handleRemoteCommand(String strCommand, Map<String, Object> properties)
         throws DBException, RemoteException
     {
-        return this.handleRemoteCommand(strCommand, properties, true, true, true);
+        boolean bDontCallIfLocal = false;
+        if (properties != null)
+            if (Constants.TRUE.equals(properties.get("DontCallIfLocal")))
+                bDontCallIfLocal = true;
+        return this.handleRemoteCommand(strCommand, properties, true, bDontCallIfLocal, true);
     }
     /**
      * Do a remote command.
