@@ -578,8 +578,8 @@ public class ThinTableModel extends AbstractThinTableModel
             if (bSetupJTable)
             {
                 FontMetrics fm = control.getFontMetrics(control.getFont());
-                int rowHeight = Math.max(control.getRowHeight(), fm.getHeight());
-                int iCharWidth = fm.charWidth('x');
+                int rowHeight = (int)(Math.max(control.getRowHeight(), fm.getHeight()) * 1.5);
+                int iCharWidth = (int)(fm.charWidth('X') * 1.5);
                 control.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //              control.setAutoCreateColumnsFromModel(false);
                 control.setColumnSelectionAllowed(false); // Don't allow column selections

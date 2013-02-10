@@ -254,7 +254,8 @@ public class FieldInfo extends Converter
             if (bModified)
             {
                 m_bModified = true; // This field has been modified.
-                return m_record.doRecordChange(this, iMoveMode, bDisplayOption);        // Tell the record that I changed
+                if (m_record != null)   // Never
+                    return m_record.doRecordChange(this, iMoveMode, bDisplayOption);        // Tell the record that I changed
             }
         }
         else
