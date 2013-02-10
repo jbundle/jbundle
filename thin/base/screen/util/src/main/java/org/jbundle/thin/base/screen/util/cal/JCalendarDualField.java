@@ -157,9 +157,14 @@ public class JCalendarDualField extends JPanel
     {
         boolean bDisplayData = (m_converter.getData() != objValue); // Displaying the same value will cause an endless loop
 
+        boolean isModified = false;
+        if (m_converter.getField() != null)
+            isModified = m_converter.getField().isModified();
         m_converter.setData(objValue, bDisplayData, Constants.READ_MOVE);    // DO NOT! Display (will loop)
         String strDate = m_converter.toString();    // Get it in string format.
         m_converter.setString(strDate, false, Constants.READ_MOVE); // This validates the date
+        if (m_converter.getField() != null)
+            m_converter.getField().setModified(isModified);
         m_tf.setText(m_converter.toString());
     }
     /**
