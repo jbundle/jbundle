@@ -9,7 +9,6 @@ package org.jbundle.thin.base.db;
  */
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -512,15 +511,7 @@ public class FieldList extends Object
                 m_menuResourceBundle[i] = null;
                 if (classResource != null)
                 {   // First time only
-                    String resourceClassName = classResource.getName();
-                    resourceClassName = Util.convertClassName(resourceClassName, Constants.RES_SUBPACKAGE) + "Resources";
-                    try   {
-                    	ClassLoader classLoader = this.getClass().getClassLoader();
-                        m_menuResourceBundle[i] = ClassServiceUtility.getClassService().getResourceBundle(resourceClassName, locale, null, classLoader);
-                        		//xResourceBundle.getBundle(strResourceClassName, currentLocale);
-                    } catch (MissingResourceException ex) {
-                        m_menuResourceBundle[i] = null;
-                    }
+                    m_menuResourceBundle[i] = this.getRecordResource(classResource, locale);
                     classResource = classResource.getSuperclass();
                     if (classResource != null)
                         if ((classResource.getName().equals(Constants.ROOT_PACKAGE + "base.db.Record"))
@@ -545,6 +536,41 @@ public class FieldList extends Object
             }
         }
         return strResource;   // Not found, return original key.
+    }
+    /**
+     * Get the record resource bundle.
+     * @param classResource
+     * @param locale
+     * @return
+     */
+    public ResourceBundle getRecordResource(Class<?> classResource, Locale locale)
+    {
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        ResourceBundle resourceBundle = null;
+        String typicalResourceClassName = null;
+        try   {
+            typicalResourceClassName = Util.convertClassName(classResource.getName(), Constants.RES_SUBPACKAGE, 2) + "Resources";
+            resourceBundle = ClassServiceUtility.getClassService().getResourceBundle(typicalResourceClassName, locale, null, classLoader);
+        } catch (MissingResourceException ex) {
+            resourceBundle = null;
+        }
+        int i = -1;
+        while (resourceBundle == null)
+        {
+            String resourceClassName = Util.convertClassName(classResource.getName(), Constants.RES_SUBPACKAGE, i);
+            if (resourceClassName == null)
+                return null;
+            if (resourceClassName.equals(typicalResourceClassName))
+                return null;    // Looked through them all
+            resourceClassName = resourceClassName + "Resources";
+            try   {
+                resourceBundle = ClassServiceUtility.getClassService().getResourceBundle(resourceClassName, locale, null, classLoader);
+            } catch (MissingResourceException ex) {
+                resourceBundle = null;
+            }
+            i--;
+        }
+        return resourceBundle;
     }
     /**
      * Get the task for this field list.

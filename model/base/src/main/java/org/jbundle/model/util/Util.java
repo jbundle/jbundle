@@ -447,7 +447,6 @@ public class Util extends UrlUtil
            ex.printStackTrace();
        }
    }
-
    /**
     * Convert this class name by inserting this package after the domain.
     * ie., com.xyz.abc.ClassName -> com.xyz.newpackage.abc.ClassName.
@@ -457,13 +456,40 @@ public class Util extends UrlUtil
     */
    public static String convertClassName(String className, String stringToInsert)
    {
-       int iStartSeq = className.indexOf('.');	// Constants.ROOT_PACKAGE.length();
-       if (iStartSeq != -1)
-    	   iStartSeq = className.indexOf('.', iStartSeq + 1);
-       int domainSeq = iStartSeq;
-       if (className.indexOf(Constant.THIN_SUBPACKAGE, iStartSeq) == iStartSeq + 1)
-           iStartSeq = iStartSeq + Constant.THIN_SUBPACKAGE.length();
-       className = className.substring(0, domainSeq + 1) + stringToInsert + className.substring(iStartSeq + 1);
+       return Util.convertClassName(className, stringToInsert, 2);
+   }
+   /**
+    * Convert this class name by inserting this package after the domain.
+    * ie., if location = 2, com.xyz.abc.ClassName -> com.xyz.newpackage.abc.ClassName.
+    * @param className
+    * @param package location (positive = from left, negative = from right; 0 = before package, -1 = before class name, etc.)
+    * @param stringToInsert
+    * @return Converted string
+    */
+   public static String convertClassName(String className, String stringToInsert, int location)
+   {
+       int startSeq = 0;
+       if (location >= 0)
+       {
+           for (int i = 0; i < location; i++)
+           {
+               startSeq = className.indexOf('.', startSeq + 1);
+           }
+       }
+       else
+       {
+           startSeq = className.length();
+           for (int i = location; i < 0; i++)
+           {
+               startSeq = className.lastIndexOf('.', startSeq - 1);
+           }
+       }
+       if (startSeq == -1)
+           return null;
+       int domainSeq = startSeq;
+       if (className.indexOf(Constant.THIN_SUBPACKAGE, startSeq) == startSeq + 1)
+           startSeq = startSeq + Constant.THIN_SUBPACKAGE.length();
+       className = className.substring(0, domainSeq + 1) + stringToInsert + className.substring(startSeq + 1);
        return className;
    }
    /**
