@@ -133,11 +133,11 @@ public class ProgramControl extends ControlRecord
         }
         if (iFieldSeq == 8)
         {
-            field = new PropertiesStringField(this, ARCHIVE_DIRECTORY, 100, null, "${user.dir}/src/main/resources/");
+            field = new PropertiesStringField(this, ARCHIVE_DIRECTORY, 127, null, "${user.dir}/src/main/resources/");
             field.addListener(new InitOnceFieldHandler(null));
         }
         if (iFieldSeq == 9)
-            field = new PropertiesStringField(this, DEV_ARCHIVE_DIRECTORY, 100, null, "${user.dir}/src/main/resources/");
+            field = new PropertiesStringField(this, DEV_ARCHIVE_DIRECTORY, 127, null, "${user.dir}/src/main/resources/");
         if (iFieldSeq == 10)
             field = new ResourceTypeField(this, RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         if (iFieldSeq == 11)

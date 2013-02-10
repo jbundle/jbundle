@@ -938,7 +938,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.chat.ChatScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.chat.ChatScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -995,7 +995,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.gridformtest.JTestGridScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.gridformtest.JTestGridScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1015,7 +1015,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.gridformtest.TestThinScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.gridformtest.TestThinScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1035,7 +1035,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.gridformtest.TestFancyThinScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.gridformtest.TestFancyThinScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1055,7 +1055,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.statusimagetest.NewFancyThinScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.statusimagetest.NewFancyThinScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1075,7 +1075,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.statusimagetest.NewJTestGridScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.statusimagetest.NewJTestGridScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1112,7 +1112,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.message.TestThinScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.message.TestThinScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1132,7 +1132,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.message.TestThinGridScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.message.TestThinGridScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1152,7 +1152,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.gridheader.TestThinVetScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.gridheader.TestThinVetScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1172,7 +1172,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.statusimagetest.NewFancyThinScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.statusimagetest.NewFancyThinScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1209,7 +1209,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.sharedtest.JTestGridScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.sharedtest.JTestGridScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1249,7 +1249,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.sharedtest.JSnakeGridScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.sharedtest.JSnakeGridScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1477,7 +1477,7 @@
 		<Code/>
 		<Type>applet</Type>
 		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.thin.test.manual.blink.TestThinGridScreen</Program>
+		<Program>org.jbundle.thin.app.test.manual.blink.TestThinGridScreen</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -1497,7 +1497,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.virtualmessage.TestThinGridScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.virtualmessage.TestThinGridScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1517,7 +1517,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.virtualmessage.TestThinScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.virtualmessage.TestThinScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1741,7 +1741,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.gridsort.JSortGridScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.gridsort.JSortGridScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -1988,7 +1988,7 @@
 		<Code/>
 		<Type>applet</Type>
 		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.thin.test.manual.calendartest.multitask.CalendarTestApplet</Program>
+		<Program>org.jbundle.thin.app.test.manual.calendartest.multitask.CalendarTestApplet</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -2005,7 +2005,7 @@
 		<Code/>
 		<Type>applet</Type>
 		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.thin.test.manual.calendartest.message.CalendarTestApplet</Program>
+		<Program>org.jbundle.thin.app.test.manual.calendartest.message.CalendarTestApplet</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -2022,7 +2022,7 @@
 		<Code/>
 		<Type>applet</Type>
 		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.thin.test.manual.calendartest.basictest.CalendarTestApplet</Program>
+		<Program>org.jbundle.thin.app.test.manual.calendartest.basictest.CalendarTestApplet</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -2039,7 +2039,7 @@
 		<Code/>
 		<Type>applet</Type>
 		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.thin.test.manual.calendartest.basictest.CalendarTestApplet</Program>
+		<Program>org.jbundle.thin.app.test.manual.calendartest.basictest.CalendarTestApplet</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -2303,7 +2303,7 @@
 		<Program/>
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.test.manual.gridbig.JTestGridScreen</entry>
+<entry key="screen">org.jbundle.thin.app.test.manual.gridbig.JTestGridScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>

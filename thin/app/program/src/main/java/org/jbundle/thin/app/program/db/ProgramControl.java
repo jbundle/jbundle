@@ -69,8 +69,8 @@ public class ProgramControl extends FieldList
         field = new FieldInfo(this, SOURCE_DIRECTORY, 100, null, "src/main/java/");
         field = new FieldInfo(this, RESOURCES_DIRECTORY, 100, null, "src/main/resources/");
         field = new FieldInfo(this, CLASS_DIRECTORY, 100, null, "target/classes/");
-        field = new FieldInfo(this, ARCHIVE_DIRECTORY, 100, null, null);
-        field = new FieldInfo(this, DEV_ARCHIVE_DIRECTORY, 100, null, null);
+        field = new FieldInfo(this, ARCHIVE_DIRECTORY, 127, null, null);
+        field = new FieldInfo(this, DEV_ARCHIVE_DIRECTORY, 127, null, null);
         field = new FieldInfo(this, RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field = new FieldInfo(this, CLASS_RESOURCE_TYPE, Constants.DEFAULT_FIELD_LENGTH, null, null);
         field = new FieldInfo(this, PACKAGE_NAME, 40, null, null);
