@@ -7,7 +7,6 @@ import java.util.Vector;
 
 import org.jbundle.model.DBException;
 import org.jbundle.model.RemoteException;
-import org.jbundle.model.RemoteTarget;
 import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.FieldList;

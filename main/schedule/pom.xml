@@ -8,7 +8,6 @@
     <version>1.0.1-SNAPSHOT</version>
   </parent>
 
-  <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
   <artifactId>org.jbundle.main.schedule</artifactId>
   <name>jbundle-main-schedule</name>
   <packaging>bundle</packaging>

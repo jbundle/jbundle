@@ -14,8 +14,8 @@ import org.jbundle.thin.base.db.mem.base.PhysicalDatabaseParent;
 import org.jbundle.thin.base.db.util.ArrayCache;
 
 /**
- * An MemoryFieldTable is a link to a memory-based raw data (PTable) table.
- * Genurally, you want to use this class rather than MemoryFieldTable
+ * A MemoryFieldTable is a link to a memory-based raw data (PTable) table.
+ * Generally, you want to use this class rather than MemoryFieldTable
  * as this class adds the capability to handle the get() command.
  */
 public class GridMemoryFieldTable extends MemoryFieldTable

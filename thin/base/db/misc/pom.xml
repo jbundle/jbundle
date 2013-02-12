@@ -9,7 +9,6 @@
     <version>1.0.1-SNAPSHOT</version>
   </parent>
 
-  <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
   <artifactId>org.jbundle.thin.base.db.misc</artifactId>
   <name>jbundle-thin-base-db-misc</name>
   <packaging>bundle</packaging>
