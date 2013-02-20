@@ -7348,7 +7348,7 @@ depending on the contact type.]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779173">
-		<LastChanged>2012-07-18T23:39:11</LastChanged>
+		<LastChanged>2013-02-19T16:12:34</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ResourceTypeField</ClassName>
 		<BaseClassName>StringPopupField</BaseClassName>
@@ -7675,7 +7675,7 @@ extra key is needed which starts with the LastModified da]]></ClassDesc>
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16779196">
-		<LastChanged>2013-02-09T20:57:49</LastChanged>
+		<LastChanged>2013-02-19T16:07:25</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>ProgramControl</ClassName>
 		<BaseClassName>ControlRecord</BaseClassName>

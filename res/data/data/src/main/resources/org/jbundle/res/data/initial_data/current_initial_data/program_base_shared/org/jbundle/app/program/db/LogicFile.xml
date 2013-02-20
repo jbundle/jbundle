@@ -33801,4 +33801,19 @@ this.getTask().setProperties(oldProperties);]]></LogicSource>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
+	<LogicFile ID="16785231">
+		<LastChanged>2013-02-19T16:11:52</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>5</Sequence>
+		<MethodName>initField</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ResourceTypeField</MethodClassName>
+		<LogicSource>return this.setString(ResourceTypeField.PROPERTIES, bDisplayOption, DBConstants.INIT_MOVE);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
+	</LogicFile>
 </file>

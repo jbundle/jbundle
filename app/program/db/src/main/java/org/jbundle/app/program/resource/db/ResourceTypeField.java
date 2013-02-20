@@ -56,6 +56,13 @@ public class ResourceTypeField extends StringPopupField
         super.init(record, strName, iDataLength, strDesc, strDefault);
     }
     /**
+     * Set this field to its initial value.
+     */
+    public int initField(boolean bDisplayOption)
+    {
+        return this.setString(ResourceTypeField.PROPERTIES, bDisplayOption, DBConstants.INIT_MOVE);
+    }
+    /**
      * Get the conversion Map.
      */
     public String[][] getPopupMap()
