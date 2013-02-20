@@ -1,55 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
-	<Menus ID="415">
-		<LastChanged/>
-		<Deleted>N</Deleted>
-		<Name>Links</Name>
-		<ParentFolderID>1,193</ParentFolderID>
-		<Sequence>1,500</Sequence>
-		<Comment/>
-		<Code>linkmain</Code>
-		<Type>menu</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>linkmain</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="416">
-		<LastChanged>2008-07-02T05:31:23</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>L.A. Times</Name>
-		<ParentFolderID>415</ParentFolderID>
-		<Sequence>1,000</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>link</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>http://www.latimes.com</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="417">
-		<LastChanged/>
-		<Deleted>N</Deleted>
-		<Name>Don</Name>
-		<ParentFolderID>415</ParentFolderID>
-		<Sequence>1,000</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>mail</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>tour.Don_Corley@msn.com</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="675">
 		<LastChanged>2010-04-09T13:20:38</LastChanged>
 		<Deleted>N</Deleted>
@@ -240,23 +189,6 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1179">
-		<LastChanged>2010-02-20T06:18:45</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Thin Brochure Request</Name>
-		<ParentFolderID>1,193</ParentFolderID>
-		<Sequence>220</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.thin.app.request.AgencyApplet</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1185">
 		<LastChanged>2007-06-21T13:42:00</LastChanged>
 		<Deleted>N</Deleted>
@@ -272,23 +204,6 @@
 		<Type>menu</Type>
 		<AutoDesc>Y</AutoDesc>
 		<Program>Main</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1186">
-		<LastChanged>2010-04-09T13:17:04</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Program Generator</Name>
-		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>10</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>form</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.app.program.db.ClassInfo</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -315,40 +230,6 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1188">
-		<LastChanged>2010-02-20T06:18:45</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>User Information</Name>
-		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>130</Sequence>
-		<Comment>User Information maintenance</Comment>
-		<Code/>
-		<Type>screen</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.main.user.screen.UserInfoScreen</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1189">
-		<LastChanged>2010-02-20T06:31:06</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>User registration</Name>
-		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>140</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>record</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.main.db.UserRegistration</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1190">
 		<LastChanged>2010-04-09T13:17:21</LastChanged>
 		<Deleted>N</Deleted>
@@ -366,29 +247,12 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1191">
-		<LastChanged>2010-04-09T13:17:58</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Record layouts</Name>
-		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>210</Sequence>
-		<Comment>Record layouts (usually for Corba/EDI/XML)</Comment>
-		<Code/>
-		<Type>record</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.app.program.db.Layout</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1193">
 		<LastChanged>2007-09-28T14:41:00</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>Testing</Name>
+		<Name>Test programs</Name>
 		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>1,000</Sequence>
+		<Sequence>20</Sequence>
 		<Comment/>
 		<Code>Test</Code>
 		<Type>menu</Type>
@@ -413,26 +277,6 @@
 </items></XmlData>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1204">
-		<LastChanged>2010-02-20T06:18:46</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Biorhythm</Name>
-		<ParentFolderID>1,193</ParentFolderID>
-		<Sequence>210</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.biorhythm.Biorhythm</Program>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="jnlpjars">/bio/classes/bio</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1205">
 		<LastChanged/>
 		<Deleted>N</Deleted>
@@ -444,141 +288,6 @@
 		<Type>menu</Type>
 		<AutoDesc>Y</AutoDesc>
 		<Program>Thin</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1206">
-		<LastChanged>2010-02-20T06:56:54</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>New booking</Name>
-		<ParentFolderID>1,205</ParentFolderID>
-		<Sequence>40</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>N</AutoDesc>
-		<Program>org.jbundle.thin.base.screen.BaseApplet</Program>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.app.booking.entry.TourStudioScreen</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1207">
-		<LastChanged>2010-02-20T06:56:54</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Booking lookup</Name>
-		<ParentFolderID>1,205</ParentFolderID>
-		<Sequence>30</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>N</AutoDesc>
-		<Program>org.jbundle.thin.base.screen.BaseApplet</Program>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.app.booking.lookup.BookingMenuScreen</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1209">
-		<LastChanged>2010-02-20T06:18:47</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Brochure Requests Applet</Name>
-		<ParentFolderID>1,205</ParentFolderID>
-		<Sequence>70</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.thin.app.request.PopupAgencyApplet</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1211">
-		<LastChanged>2010-02-20T06:56:55</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Test Thin Menu Applet</Name>
-		<ParentFolderID>1,193</ParentFolderID>
-		<Sequence>10</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program/>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="jnlpjars">lib/thinbase</entry>
-<entry key="user"/>
-<entry key="screen">org.jbundle.thin.base.screen.menu.JRemoteMenuScreen</entry>
-<entry key="jnlpextensions">docs/jnlp/thin,docs/jnlp/thintest,docs/jnlp/thintour</entry>
-<entry key="background">backgrounds/worldmapalpha.gif</entry>
-<entry key="splash"/>
-<entry key="backgroundcolor">#eeeeff</entry>
-<entry key="menu">Thin</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1212">
-		<LastChanged/>
-		<Deleted>N</Deleted>
-		<Name>Sub Thin Menu</Name>
-		<ParentFolderID>1,205</ParentFolderID>
-		<Sequence>90</Sequence>
-		<Comment/>
-		<Code>SubThinMenu</Code>
-		<Type>menu</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>SubThinMenu</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1213">
-		<LastChanged>2010-02-20T06:18:47</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Item 1</Name>
-		<ParentFolderID>1,212</ParentFolderID>
-		<Sequence>10</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.thin.test.testsuite.message.TestThinGridApplet</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1214">
-		<LastChanged>2010-02-20T06:18:48</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Item 2</Name>
-		<ParentFolderID>1,212</ParentFolderID>
-		<Sequence>30</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.thin.test.testsuite.message.ThinTestApplet</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -599,26 +308,6 @@
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
 <entry key="forms">display</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1302">
-		<LastChanged>2010-02-20T06:56:58</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Brochure Requests</Name>
-		<ParentFolderID>1,205</ParentFolderID>
-		<Sequence>80</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program/>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.app.request.PopupMainScreen</entry>
 </properties></Params>
 		<IconResource/>
 		<Keywords/>
@@ -866,105 +555,6 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1490">
-		<LastChanged>2010-02-20T06:18:57</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Test Thick Applet</Name>
-		<ParentFolderID>1,193</ParentFolderID>
-		<Sequence>20</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.Main</Program>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="jnlpjars">lib/thickscreen</entry>
-<entry key="user"/>
-<entry key="background">backgrounds/worldmapalpha.gif</entry>
-<entry key="jnlpextensions">docs/jnlp/thin,docs/jnlp/thick,docs/jnlp/resource,docs/jnlp/thintour,docs/jnlp/tour,docs/jnlp/thicktest,docs/jnlp/development</entry>
-<entry key="backgroundcolor">#eeeeff</entry>
-<entry key="menu">dev.tourapp.com</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1508">
-		<LastChanged/>
-		<Deleted>N</Deleted>
-		<Name>Sub Vet Menu</Name>
-		<ParentFolderID>1,205</ParentFolderID>
-		<Sequence>100</Sequence>
-		<Comment/>
-		<Code>SubVetMenu</Code>
-		<Type>menu</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>SubVetMenu</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1509">
-		<LastChanged/>
-		<Deleted>N</Deleted>
-		<Name>Chat menu</Name>
-		<ParentFolderID>1,205</ParentFolderID>
-		<Sequence>130</Sequence>
-		<Comment/>
-		<Code>SubChatMenu</Code>
-		<Type>menu</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>SubChatMenu</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1510">
-		<LastChanged>2010-02-20T06:57:00</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Chat screen with server</Name>
-		<ParentFolderID>1,509</ParentFolderID>
-		<Sequence>20</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program/>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.app.test.manual.chat.ChatScreen</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1511">
-		<LastChanged>2010-02-20T06:57:00</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Chat screen</Name>
-		<ParentFolderID>1,509</ParentFolderID>
-		<Sequence>10</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program/>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.opt.chat.ChatScreen</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1512">
 		<LastChanged/>
 		<Deleted>N</Deleted>
@@ -1139,26 +729,6 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1522">
-		<LastChanged>2010-02-20T06:57:03</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Sub-screen test</Name>
-		<ParentFolderID>1,508</ParentFolderID>
-		<Sequence>20</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program/>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="screen">org.jbundle.thin.app.test.manual.gridheader.TestThinVetScreen</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1524">
 		<LastChanged>2010-02-20T06:57:03</LastChanged>
 		<Deleted>N</Deleted>
@@ -1259,9 +829,9 @@
 	<Menus ID="1568">
 		<LastChanged>2010-04-09T13:17:32</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>Script maintenance</Name>
+		<Name>Utility Scripts</Name>
 		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>40</Sequence>
+		<Sequence>10</Sequence>
 		<Comment/>
 		<Code/>
 		<Type>record</Type>
@@ -1297,74 +867,6 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1598">
-		<LastChanged/>
-		<Deleted>N</Deleted>
-		<Name>Packages</Name>
-		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>70</Sequence>
-		<Comment/>
-		<Code>packages</Code>
-		<Type>menu</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>packages</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1600">
-		<LastChanged>2010-04-09T13:19:28</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Parts</Name>
-		<ParentFolderID>1,598</ParentFolderID>
-		<Sequence>20</Sequence>
-		<Comment>Part descriptions</Comment>
-		<Code/>
-		<Type>record</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.app.program.packages.db.Part</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1601">
-		<LastChanged>2010-04-09T13:19:23</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Packages</Name>
-		<ParentFolderID>1,598</ParentFolderID>
-		<Sequence>10</Sequence>
-		<Comment>JNLP Package descriptions</Comment>
-		<Code/>
-		<Type>record</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.app.program.packages.db.Packages</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1602">
-		<LastChanged>2010-04-09T13:19:33</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Jnlp header</Name>
-		<ParentFolderID>1,598</ParentFolderID>
-		<Sequence>30</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>record</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.app.program.packages.db.JnlpFile</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1603">
 		<LastChanged>2010-04-09T13:23:18</LastChanged>
 		<Deleted>N</Deleted>
@@ -1376,23 +878,6 @@
 		<Type>screen</Type>
 		<AutoDesc>Y</AutoDesc>
 		<Program>org.jbundle.app.test.vet.screen.TestDetailXMLReport</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1604">
-		<LastChanged>2010-04-09T13:19:38</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Packages Report</Name>
-		<ParentFolderID>1,598</ParentFolderID>
-		<Sequence>50</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>screen</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.app.program.packages.screen.PackagesReport</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -1529,7 +1014,7 @@
 		<Deleted>N</Deleted>
 		<Name>Bug tracking</Name>
 		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>50</Sequence>
+		<Sequence>30</Sequence>
 		<Comment/>
 		<Code>bugs</Code>
 		<Type>menu</Type>
@@ -1765,66 +1250,6 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1686">
-		<LastChanged>2010-02-20T06:19:11</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>JEdit</Name>
-		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>10</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>task</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.base.thread.ProcessRunnerTask</Program>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="standalone">org.gjt.sp.jedit.jEdit</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1687">
-		<LastChanged>2010-02-20T06:19:11</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Squirrel</Name>
-		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>20</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>task</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.base.thread.ProcessRunnerTask</Program>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="standalone">net.sourceforge.squirrel_sql.client.Main</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1688">
-		<LastChanged>2010-02-20T06:19:11</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>TestRunner</Name>
-		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>30</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>task</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.base.thread.ProcessRunnerTask</Program>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="standalone">junit.swingui.TestRunner</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1689">
 		<LastChanged/>
 		<Deleted>N</Deleted>
@@ -2046,23 +1471,6 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1735">
-		<LastChanged>2010-12-09T16:41:59</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>User sign in screen</Name>
-		<ParentFolderID>1,193</ParentFolderID>
-		<Sequence>3,000</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>screen</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.main.user.screen.UserLoginScreen</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1752">
 		<LastChanged>2010-04-09T13:22:55</LastChanged>
 		<Deleted>N</Deleted>
@@ -2078,43 +1486,6 @@
 <comment>Field properties</comment>
 <entry key="forms">display</entry>
 </properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1753">
-		<LastChanged>2007-11-14T01:56:00</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Test</Name>
-		<ParentFolderID>1,193</ParentFolderID>
-		<Sequence>4,000</Sequence>
-		<Comment>This is the Description Line</Comment>
-		<Code/>
-		<Type>record</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>com.tourstudio.test.test.db.TestTable</Program>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="command">Form</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1754">
-		<LastChanged>2010-02-20T06:19:19</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Create a new demo site</Name>
-		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>3,000</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>screen</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.main.demo.DemoRegistrationScreen</Program>
-		<Params/>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
@@ -2327,75 +1698,6 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1843">
-		<LastChanged>2010-02-20T06:57:16</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Booking</Name>
-		<ParentFolderID>1,193</ParentFolderID>
-		<Sequence>30</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.Main</Program>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="jnlpjars">lib/thickscreen</entry>
-<entry key="record">com.tourapp.tour.profile.db.ProfileStatus</entry>
-<entry key="user"/>
-<entry key="background">backgrounds/worldmapalpha.gif</entry>
-<entry key="jnlpextensions">docs/jnlp/thin,docs/jnlp/thintest,docs/jnlp/thick,docs/jnlp/resource,docs/jnlp/thintour,docs/jnlp/tour,docs/jnlp/thicktest</entry>
-<entry key="backgroundcolor">#eeeeff</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1847">
-		<LastChanged>2010-02-20T06:19:25</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>New Thick Applet</Name>
-		<ParentFolderID>1,193</ParentFolderID>
-		<Sequence>25</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.Main</Program>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="user"/>
-<entry key="webStart">thick</entry>
-<entry key="menu">dev.tourapp.com</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1848">
-		<LastChanged>2009-10-11T10:51:20</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>New Thin Applet</Name>
-		<ParentFolderID>1,193</ParentFolderID>
-		<Sequence>15</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program/>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="user"/>
-<entry key="webStart">thin</entry>
-<entry key="menu">Thin</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1850">
 		<LastChanged>2010-02-20T06:19:25</LastChanged>
 		<Deleted>N</Deleted>
@@ -2458,23 +1760,6 @@
 		<Type>record</Type>
 		<AutoDesc>Y</AutoDesc>
 		<Program>org.jbundle.tour.booking.detail.db.BookingLand</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1858">
-		<LastChanged>2010-02-20T06:19:27</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Main control</Name>
-		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>17</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>record</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.main.db.MainControl</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -2867,28 +2152,6 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1875">
-		<LastChanged>2010-06-10T01:43:16</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Splash Applet</Name>
-		<ParentFolderID>1,193</ParentFolderID>
-		<Sequence>27</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>applet</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.thin.base.screen.splash.Splash</Program>
-		<Params type="XML"><properties>
-<comment>Field properties</comment>
-<entry key="user"/>
-<entry key="webStart">splash</entry>
-<entry key="menu">dev.tourapp.com</entry>
-</properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1876">
 		<LastChanged>2010-12-09T17:25:17</LastChanged>
 		<Deleted>N</Deleted>
@@ -2909,23 +2172,6 @@
 <entry key="backgroundcolor">#EEEEFF</entry>
 <entry key="menu">Thin</entry>
 </properties></Params>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
-	<Menus ID="1877">
-		<LastChanged>2011-03-10T13:41:45</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Applications</Name>
-		<ParentFolderID>1,685</ParentFolderID>
-		<Sequence>4,000</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>menu</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>app</Program>
-		<Params/>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
@@ -2999,6 +2245,23 @@
 <entry key="remote">Jdbc</entry>
 <entry key="menu">app</entry>
 </properties></Params>
+		<IconResource/>
+		<Keywords/>
+		<XmlData/>
+		<MenusHelp/>
+	</Menus>
+	<Menus ID="1881">
+		<LastChanged>2013-02-19T16:39:51</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Class maintenance</Name>
+		<ParentFolderID>1,185</ParentFolderID>
+		<Sequence>15</Sequence>
+		<Comment/>
+		<Code/>
+		<Type>form</Type>
+		<AutoDesc>Y</AutoDesc>
+		<Program>org.jbundle.app.program.db.ClassInfo</Program>
+		<Params/>
 		<IconResource/>
 		<Keywords/>
 		<XmlData/>
