@@ -111,6 +111,11 @@
       <artifactId>org.jbundle.res.images.misc</artifactId>
       <version>${jbundle-version-range}</version>
     </dependency>
+    <dependency>
+      <groupId>org.jbundle.res</groupId>
+      <artifactId>org.jbundle.res.project.template</artifactId>
+      <version>${jbundle-version-range}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.jbundle.app.program</groupId>

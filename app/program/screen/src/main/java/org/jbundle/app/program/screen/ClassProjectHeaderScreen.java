@@ -24,6 +24,8 @@ import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.main.screen.*;
 import org.jbundle.app.program.db.*;
+import org.jbundle.app.program.script.process.*;
+import org.jbundle.base.thread.*;
 
 /**
  *  ClassProjectHeaderScreen - .

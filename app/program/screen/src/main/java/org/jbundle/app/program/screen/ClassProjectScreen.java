@@ -24,6 +24,8 @@ import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.main.screen.*;
 import org.jbundle.app.program.db.*;
+import org.jbundle.app.program.script.process.*;
+import org.jbundle.base.thread.*;
 
 /**
  *  ClassProjectScreen - .
@@ -82,8 +84,41 @@ public class ClassProjectScreen extends FolderScreen
     {
         super.addToolbarButtons(toolScreen);
         ResourceBundle resources = ((BaseApplication)this.getTask().getApplication()).getResources(ResourceConstants.PROGRAM_RESOURCE, true);
+        
+        String job = Utility.addURLParam(null, DBParams.PROCESS, org.jbundle.app.program.script.process.SetupProjectProcess.class.getName());
+        job = Utility.addURLParam(job, DBParams.TASK, ProcessRunnerTask.class.getName()); // Screen class
+        new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, "Create maven projects", MenuConstants.RUN, job, null);
+        
         new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ClassProject.CLASS_DETAIL_SCREEN), MenuConstants.DISTRIBUTION, ClassProject.CLASS_DETAIL_SCREEN, resources.getString(ClassProject.CLASS_DETAIL_SCREEN));
         new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN), MenuConstants.GROUP, ClassProject.RESOURCE_DETAIL_SCREEN, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN));
+    }
+    /**
+     * Process the command.
+     * <br />Step 1 - Process the command if possible and return true if processed.
+     * <br />Step 2 - If I can't process, pass to all children (with me as the source).
+     * <br />Step 3 - If children didn't process, pass to parent (with me as the source).
+     * <br />Note: Never pass to a parent or child that matches the source (to avoid an endless loop).
+     * @param strCommand The command to process.
+     * @param sourceSField The source screen field (to avoid echos).
+     * @param iCommandOptions If this command creates a new screen, create in a new window?
+     * @return true if success.
+     */
+    public boolean doCommand(String strCommand, ScreenField sourceSField, int iCommandOptions)
+    {
+        boolean bFlag = false;
+        
+        if (strCommand.indexOf(org.jbundle.app.program.script.process.SetupProjectProcess.class.getName()) != -1)
+        {
+            try {
+                strCommand = Utility.addURLParam(strCommand, DBConstants.OBJECT_ID, this.getMainRecord().writeAndRefresh().toString());
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        if (bFlag == false)
+            bFlag = super.doCommand(strCommand, sourceSField, iCommandOptions);  // This will send the command to my parent
+        return bFlag;
     }
     /**
      * Set up all the screen fields.

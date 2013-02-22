@@ -13565,4 +13565,259 @@
 		<ClassFieldsType>F</ClassFieldsType>
 		<IncludeScope>4</IncludeScope>
 	</ClassFields>
+	<ClassFields ID="16782674">
+		<LastChanged>2013-02-22T10:52:56</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>10</ClassFieldSequence>
+		<ClassFieldName>STRING_ENCODING</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public final static</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"UTF8"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782675">
+		<LastChanged>2013-02-22T10:53:27</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>20</ClassFieldSequence>
+		<ClassFieldName>URL_ENCODING</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public final static</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"UTF-8"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782676">
+		<LastChanged>2013-02-22T10:54:09</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>30</ClassFieldSequence>
+		<ClassFieldName>BINDING_NAME</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public final static</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"binding"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782677">
+		<LastChanged>2013-02-22T10:54:29</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>40</ClassFieldSequence>
+		<ClassFieldName>START</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public final static</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"${"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782678">
+		<LastChanged>2013-02-22T10:54:40</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>50</ClassFieldSequence>
+		<ClassFieldName>END</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public final static</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"}"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782679">
+		<LastChanged>2013-02-22T11:01:14</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ClassProject</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>5</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782680">
+		<LastChanged>2013-02-22T10:57:40</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ProgramControl</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782681">
+		<LastChanged>2013-02-22T10:58:27</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>String</ClassFieldClass>
+		<ClassFieldSequence>60</ClassFieldSequence>
+		<ClassFieldName>TEMPLATE_LOCATION</ClassFieldName>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue>"org/jbundle/res/project/template"</ClassFieldInitialValue>
+		<ClassFieldsType>N</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782682">
+		<LastChanged>2013-02-22T10:58:49</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>java.net</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>P</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782683">
+		<LastChanged>2013-02-22T10:58:55</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>java.io</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>P</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782684">
+		<LastChanged>2013-02-22T10:59:14</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>java.util.jar</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>P</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782685">
+		<LastChanged>2013-02-22T10:59:24</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>java.util.zip</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect>public static final</ClassFieldProtect>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>P</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782686">
+		<LastChanged>2013-02-22T11:02:05</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>org.jbundle.model.app.program.db.ClassProjectModel</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>P</ClassFieldsType>
+		<IncludeScope>5</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782687">
+		<LastChanged>2013-02-22T11:07:41</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>org.jibx.runtime</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>5</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782688">
+		<LastChanged>2013-02-22T11:03:19</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>SetupProjectProcess</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>org.jibx.schema.org.apache.maven.maven_v4_0_0</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>P</ClassFieldsType>
+		<IncludeScope>5</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782689">
+		<LastChanged>2013-02-22T12:08:57</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassProjectScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>SetupProjectProcess</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
+	<ClassFields ID="16782690">
+		<LastChanged>2013-02-22T12:10:30</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>ClassProjectScreen</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>ProcessRunnerTask</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>1</IncludeScope>
+	</ClassFields>
 </file>

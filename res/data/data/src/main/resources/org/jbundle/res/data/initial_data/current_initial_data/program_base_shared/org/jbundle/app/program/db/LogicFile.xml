@@ -33816,4 +33816,275 @@ this.getTask().setProperties(oldProperties);]]></LogicSource>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
+	<LogicFile ID="16785232">
+		<LastChanged>2013-02-22T10:47:15</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>10</Sequence>
+		<MethodName>openMainRecord</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SetupProjectProcess</MethodClassName>
+		<LogicSource>return new ClassProject(this);</LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785233">
+		<LastChanged>2013-02-22T10:47:39</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>20</Sequence>
+		<MethodName>openOtherRecords</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SetupProjectProcess</MethodClassName>
+		<LogicSource><![CDATA[new ProgramControl(this);
+super;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785234">
+		<LastChanged>2013-02-22T10:47:56</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>50</Sequence>
+		<MethodName>run</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>SetupProjectProcess</MethodClassName>
+		<LogicSource><![CDATA[String bookmark = this.getProperty(DBConstants.OBJECT_ID);
+try {
+    this.getMainRecord().setHandle(bookmark, DBConstants.OBJECT_ID_HANDLE);
+} catch (DBException e) {
+    e.printStackTrace();
+}
+this.populateSourceDir(TEMPLATE_LOCATION);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785235">
+		<LastChanged>2013-02-22T10:48:20</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>70</Sequence>
+		<MethodName>populateSourceDir</MethodName>
+		<LogicDescription/>
+		<MethodReturns>boolean</MethodReturns>
+		<MethodInterface>String templateDir</MethodInterface>
+		<MethodClassName>SetupProjectProcess</MethodClassName>
+		<LogicSource><![CDATA[URL fromDirUrl = this.getTask().getApplication().getResourceURL(templateDir, null);
+if ("jar".equalsIgnoreCase(fromDirUrl.getProtocol()))
+{   // Copy jar files
+    try {
+        String fileName = fromDirUrl.getFile();
+        if (fileName.lastIndexOf(':') != -1)
+            fileName = fileName.substring(fileName.lastIndexOf(':') + 1);
+        if (fileName.lastIndexOf('!') != -1)
+            fileName = fileName.substring(0, fileName.lastIndexOf('!'));
+        InputStream inStream = new FileInputStream(fileName);
+        JarInputStream file = new JarInputStream(inStream);
+        ZipEntry entry = null;
+        while ((entry = file.getNextEntry()) != null)
+        {
+            String path = entry.getName();
+            if (path.contains("META-INF"))
+                continue;
+            if (!path.endsWith("pom.xml"))
+                continue;
+            if (path.startsWith(templateDir))
+                path = path.substring(templateDir.length());
+            int lStreamLength = (int)entry.getSize();
+                
+            String xml = this.transferStream(file, lStreamLength);
+            this.convertAndWriteXML(xml, path);
+        }                
+    } catch (IOException ex)    {
+        ex.printStackTrace();
+    }
+}
+return true;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785236">
+		<LastChanged>2013-02-22T11:09:46</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>80</Sequence>
+		<MethodName>convertAndWriteXML</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface>String xml, String path</MethodInterface>
+		<MethodClassName>SetupProjectProcess</MethodClassName>
+		<LogicSource><![CDATA[ClassProject classProject = (ClassProject)this.getMainRecord();
+Record recProgramControl = this.getRecord(ProgramControl.PROGRAM_CONTROL_FILE);
+
+Model model = (Model)this.unmarshalMessage(xml);
+String name = model.getName();
+
+CodeType codeType = CodeType.THICK;
+String thickDir = classProject.getFileName("", null, codeType, true, false);
+if (name == null)
+    codeType = CodeType.THICK;
+else if (name.endsWith("model"))
+    codeType = CodeType.INTERFACE;
+else if (name.endsWith("thin"))
+    codeType = CodeType.THIN;
+else if (name.endsWith("res"))
+    codeType = CodeType.RESOURCE_PROPERTIES;
+xml = replaceParams(xml, codeType);
+model = (Model)this.unmarshalMessage(xml);
+String strSourcePath = recProgramControl.getField(ProgramControl.CLASS_DIRECTORY).toString();
+String destDir = classProject.getFileName("", null, codeType, true, false);
+if (codeType != CodeType.THICK)
+    if (destDir.equals(thickDir))
+        return; // Can't be the same as thick dir
+if (destDir.endsWith(strSourcePath))
+    destDir = destDir.substring(0, destDir.length() - strSourcePath.length());
+if (name != null)
+    if (name.endsWith("reactor"))
+    {
+        if (destDir.endsWith("/"))
+            destDir = destDir.substring(0, destDir.length() - 1);
+        if (destDir.lastIndexOf('/') != -1)
+            destDir = destDir.substring(0, destDir.lastIndexOf('/'));
+    }
+path = "pom.xml";
+path = org.jbundle.base.model.Utility.addToPath(destDir, path);
+File fileOut = new File(path);
+File fileDir = fileOut.getParentFile();
+if (!fileDir.exists())
+    fileDir.mkdirs();
+
+//xml = this.marshalObject(model);  // Later
+Reader in = new StringReader(xml);
+
+org.jbundle.base.model.Utility.transferURLStream(null, path, in, null);]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785237">
+		<LastChanged>2013-02-22T11:09:17</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>150</Sequence>
+		<MethodName>replaceParams</MethodName>
+		<LogicDescription/>
+		<MethodReturns>String</MethodReturns>
+		<MethodInterface>String xml, CodeType codeType</MethodInterface>
+		<MethodClassName>SetupProjectProcess</MethodClassName>
+		<LogicSource><![CDATA[ClassProject classProject = (ClassProject)this.getMainRecord();
+Map<String, String> ht = new HashMap<String, String>();
+ht.put(START + "project" + END, classProject.getField(ClassProject.NAME).toString());
+ht.put(START + "version" + END, "1.0.0-SNAPSHOT");
+ht.put(START + "groupId" + END, classProject.getFullPackage(CodeType.THICK, ""));
+ht.put(START + "packagedb" + END, classProject.getFullPackage(CodeType.THICK, ""));
+ht.put(START + "packagethin" + END, classProject.getFullPackage(CodeType.THIN, ""));
+ht.put(START + "packageres" + END, classProject.getFullPackage(CodeType.RESOURCE_PROPERTIES, ""));
+ht.put(START + "packagemodel" + END, classProject.getFullPackage(CodeType.INTERFACE, ""));
+ht.put(START + "package" + END, classProject.getFullPackage(codeType, ""));
+xml = org.jbundle.base.model.Utility.replace(xml, ht);
+return xml;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785238">
+		<LastChanged>2013-02-22T10:49:55</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>200</Sequence>
+		<MethodName>transferStream</MethodName>
+		<LogicDescription/>
+		<MethodReturns>String</MethodReturns>
+		<MethodInterface>InputStream in, int size</MethodInterface>
+		<MethodClassName>SetupProjectProcess</MethodClassName>
+		<LogicSource><![CDATA[StringBuilder sb = new StringBuilder();
+try {
+    byte[] cbuf = new byte[1000];
+    int iLen = Math.max(size, cbuf.length);
+    while ((iLen = in.read(cbuf, 0, iLen)) > 0)
+    {   // Write the entire file to the output buffer
+        for (int i = 0; i < iLen; i++)
+        {
+            sb.append(Character.toChars(cbuf[i]));
+        }
+        size = size - iLen;
+        iLen = Math.max(size, cbuf.length);
+    }
+} catch (MalformedURLException ex)  {
+    ex.printStackTrace();
+} catch (IOException ex) {
+    ex.printStackTrace();
+}
+return sb.toString();]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785239">
+		<LastChanged>2013-02-22T10:51:44</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>300</Sequence>
+		<MethodName>marshalObject</MethodName>
+		<LogicDescription><![CDATA[Marshal this object to an XML string
+@param message
+@return]]></LogicDescription>
+		<MethodReturns>String</MethodReturns>
+		<MethodInterface>Object message</MethodInterface>
+		<MethodClassName>SetupProjectProcess</MethodClassName>
+		<LogicSource><![CDATA[try {
+    IBindingFactory jc = BindingDirectory.getFactory(Model.class);
+    IMarshallingContext marshaller = jc.createMarshallingContext();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    marshaller.setIndent(2);
+    marshaller.marshalDocument(message, URL_ENCODING, null, out);
+    String xml = out.toString(STRING_ENCODING);
+    return xml;
+} catch (UnsupportedEncodingException e) {
+    e.printStackTrace();
+} catch (JiBXException e) {
+    e.printStackTrace();
+}
+return null;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785240">
+		<LastChanged>2013-02-22T11:00:02</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>400</Sequence>
+		<MethodName>unmarshalMessage</MethodName>
+		<LogicDescription><![CDATA[Unmarshal this xml Message to an object.
+@param xml
+@param system
+@return]]></LogicDescription>
+		<MethodReturns>Object</MethodReturns>
+		<MethodInterface>String xml</MethodInterface>
+		<MethodClassName>SetupProjectProcess</MethodClassName>
+		<LogicSource><![CDATA[try {
+    IBindingFactory jc = BindingDirectory.getFactory(Model.class);
+    IUnmarshallingContext unmarshaller = jc.createUnmarshallingContext();
+    Reader inStream = new StringReader(xml);
+    Object message = unmarshaller.unmarshalDocument( inStream, BINDING_NAME);
+    return message;
+} catch (JiBXException e) {
+    e.printStackTrace();
+}
+return null;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>4</IncludeScope>
+	</LogicFile>
 </file>

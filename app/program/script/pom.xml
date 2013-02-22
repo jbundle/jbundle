@@ -30,5 +30,19 @@
       <groupId>org.jbundle.util</groupId>
       <artifactId>org.jbundle.util.jbackup</artifactId>
     </dependency>
-</dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    <dependency>
+      <groupId>org.jibx</groupId>
+      <artifactId>jibx-run</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.jibx.schema.org.apache.maven</groupId>
+        <artifactId>org.jibx.schema.org.apache.maven.maven_v4_0_0</artifactId>
+        <version>${jibx-schema-version-range}</version>
+        </dependency>
+  </dependencies>
 </project>

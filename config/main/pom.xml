@@ -37,12 +37,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.jbundle.app.test</groupId>
-      <artifactId>org.jbundle.thin.app.test.manual</artifactId>
-      <version>${jbundle-version-range}</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-all</artifactId>
       <version>${jbundle-version}</version>
