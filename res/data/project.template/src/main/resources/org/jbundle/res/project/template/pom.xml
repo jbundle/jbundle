@@ -2,23 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
-    <groupId>org.jbundle.res</groupId>
-    <artifactId>jbundle-res-reactor</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <groupId>${groupId}</groupId>
+    <artifactId>${project}-project</artifactId>
+    <version>${version}</version>
   </parent>
-  
-  <artifactId>jbundle-res-data-reactor</artifactId>
-  
+
+  <artifactId>${project}-reactor</artifactId>
+  <name>${project}-reactor</name>
   <packaging>pom</packaging>
-  <name>jbundle-res-data-reactor - Resources data parent</name>
 
   <modules>
-  	<module>data</module>
-  	<module>app</module>
-  	<module>test</module>
-  	<module>project.template</module>
+    <module>res</module>
+    <module>model</module>
+    <module>thin</module>
+    <module>db</module>
   </modules>
-  
+
 </project>
