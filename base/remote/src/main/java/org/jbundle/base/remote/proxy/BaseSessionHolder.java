@@ -87,7 +87,7 @@ public class BaseSessionHolder extends BaseHolder
             else
                 super.doProcess(in, out, properties);
         } catch (Exception ex)    {
-            ex.printStackTrace();
+            // ex.printStackTrace();    // Don't print this error, since I am returning it to my ajax caller.
             this.setReturnObject(out, ex);
         }
     }
