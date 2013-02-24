@@ -53,7 +53,7 @@ public class DBProperties_derby extends ListResourceBundle
 
       {SQLParams.INTERNAL_DB_NAME, "derby"},
       {SQLParams.JDBC_DRIVER_PARAM, "org.apache.derby.jdbc.EmbeddedDriver"},
-      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:derby:${user.home}/.jbundle/derby/${dbname};create=true;collation=TERRITORY_BASED:SECONDARY"},
+      {SQLParams.DEFAULT_JDBC_URL_PARAM, "jdbc:derby:${user.home}/.jbundle/derby/${dbname};create=true;collation=TERRITORY_BASED"}, //;collation=TERRITORY_BASED:SECONDARY"},
       {SQLParams.DEFAULT_USERNAME_PARAM, "tourapp"},
       {SQLParams.DEFAULT_PASSWORD_PARAM, "sa1sa"}
 //      {SQLParams.DEFAULT_DATASOURCE_PARAM, "jdbc/{dbname}"},
