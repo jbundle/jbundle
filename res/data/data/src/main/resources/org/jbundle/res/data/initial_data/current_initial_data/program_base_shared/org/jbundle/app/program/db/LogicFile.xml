@@ -28167,7 +28167,7 @@ this.getScreenRecord().getField(ClassInfoScreenRecord.PACKAGE).addListener(new F
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="16784982">
-		<LastChanged>2012-10-29T03:47:54</LastChanged>
+		<LastChanged>2013-02-26T13:35:37</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>80</Sequence>
 		<MethodName>addToolbarButtons</MethodName>
@@ -28178,7 +28178,11 @@ this.getScreenRecord().getField(ClassInfoScreenRecord.PACKAGE).addListener(new F
 		<LogicSource><![CDATA[super;
 ResourceBundle resources = ((BaseApplication)this.getTask().getApplication()).getResources(ResourceConstants.PROGRAM_RESOURCE, true);
 new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ClassProject.CLASS_DETAIL_SCREEN), MenuConstants.DISTRIBUTION, ClassProject.CLASS_DETAIL_SCREEN, resources.getString(ClassProject.CLASS_DETAIL_SCREEN));
-new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN), MenuConstants.GROUP, ClassProject.RESOURCE_DETAIL_SCREEN, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN));]]></LogicSource>
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN), MenuConstants.GROUP, ClassProject.RESOURCE_DETAIL_SCREEN, resources.getString(ClassProject.RESOURCE_DETAIL_SCREEN));
+
+String job = Utility.addURLParam(null, DBParams.PROCESS, org.jbundle.app.program.script.process.SetupProjectProcess.class.getName());
+job = Utility.addURLParam(job, DBParams.TASK, ProcessRunnerTask.class.getName()); // Screen class
+new SCannedBox(toolScreen.getNextLocation(ScreenConstants.NEXT_LOGICAL, ScreenConstants.SET_ANCHOR), toolScreen, null, ScreenConstants.DEFAULT_DISPLAY, null, "Create maven projects", MenuConstants.RUN, job, null);]]></LogicSource>
 		<LogicThrows/>
 		<Protection/>
 		<CopyFrom/>
@@ -34086,5 +34090,33 @@ return null;]]></LogicSource>
 		<Protection/>
 		<CopyFrom/>
 		<IncludeScope>4</IncludeScope>
+	</LogicFile>
+	<LogicFile ID="16785241">
+		<LastChanged>2013-02-26T13:36:33</LastChanged>
+		<Deleted>N</Deleted>
+		<Sequence>1,000</Sequence>
+		<MethodName>doCommand</MethodName>
+		<LogicDescription/>
+		<MethodReturns/>
+		<MethodInterface/>
+		<MethodClassName>ClassProjectScreen</MethodClassName>
+		<LogicSource><![CDATA[boolean bFlag = false;
+
+if (strCommand.indexOf(org.jbundle.app.program.script.process.SetupProjectProcess.class.getName()) != -1)
+{
+    try {
+        strCommand = Utility.addURLParam(strCommand, DBConstants.OBJECT_ID, this.getMainRecord().writeAndRefresh().toString());
+    } catch (DBException e) {
+        e.printStackTrace();
+    }
+}
+
+if (bFlag == false)
+    bFlag = super;  // This will send the command to my parent
+return bFlag;]]></LogicSource>
+		<LogicThrows/>
+		<Protection/>
+		<CopyFrom/>
+		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 </file>
