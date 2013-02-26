@@ -120,6 +120,12 @@ public class TaskScheduler extends Object
         synchronized (this)
         {
             giCurrentThreads--;     // This thread is going to die, decrement the thread count.
+            if (giCurrentThreads == 0)
+            {
+                if (m_application != null)
+                    if (m_application.removeTask(null) == true)
+                        m_application.free();
+            }
         }
     }
     /**

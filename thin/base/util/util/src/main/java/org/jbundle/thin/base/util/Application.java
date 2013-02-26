@@ -299,8 +299,9 @@ public class Application extends Object
      */
     public boolean removeTask(Task task)
     {
-        if (!m_mapTasks.containsKey(task))
-            Util.getLogger().warning("Attempt to remove non-existent task");
+        if (task != null)
+            if (!m_mapTasks.containsKey(task))
+                Util.getLogger().warning("Attempt to remove non-existent task");
         RemoteTask remoteTask = m_mapTasks.remove(task);
         if (remoteTask != null)
         {
