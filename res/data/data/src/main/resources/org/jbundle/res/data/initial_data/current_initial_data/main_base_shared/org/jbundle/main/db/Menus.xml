@@ -5,7 +5,7 @@
 		<Name>Grid Test</Name>
 		<ParentFolderID>1,174</ParentFolderID>
 		<Sequence>30</Sequence>
-		<Comment>This is a basic grid. It can reorder by code or id, add, delete, and modify.</Comment>
+		<Comment>Reorder by code or id. Add, delete, and modify.</Comment>
 		<Code/>
 		<Type>screen</Type>
 		<AutoDesc>N</AutoDesc>
@@ -90,10 +90,10 @@
 	<Menus ID="1162">
 		<LastChanged>2010-04-09T13:20:28</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>This is a basic screen with a secondary record.</Name>
+		<Name>Secondary record screen</Name>
 		<ParentFolderID>1,174</ParentFolderID>
 		<Sequence>20</Sequence>
-		<Comment/>
+		<Comment>A basic screen with a secondary record.</Comment>
 		<Code/>
 		<Type>screen</Type>
 		<AutoDesc>Y</AutoDesc>
@@ -141,10 +141,10 @@
 	<Menus ID="1171">
 		<LastChanged>2010-04-09T13:20:58</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>This grid is similar to the basic grid screen, but</Name>
+		<Name>Similar to the basic grid screen</Name>
 		<ParentFolderID>1,174</ParentFolderID>
 		<Sequence>60</Sequence>
-		<Comment/>
+		<Comment>Add grid delete button.</Comment>
 		<Code/>
 		<Type>screen</Type>
 		<AutoDesc>Y</AutoDesc>
@@ -254,10 +254,10 @@
 		<ParentFolderID>1,685</ParentFolderID>
 		<Sequence>20</Sequence>
 		<Comment/>
-		<Code>Test</Code>
+		<Code>app</Code>
 		<Type>menu</Type>
 		<AutoDesc>Y</AutoDesc>
-		<Program>Test</Program>
+		<Program>app</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -389,7 +389,7 @@
 		<LastChanged>2008-02-13T01:57:08</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Lock tests</Name>
-		<ParentFolderID>1,174</ParentFolderID>
+		<ParentFolderID>1,193</ParentFolderID>
 		<Sequence>120</Sequence>
 		<Comment/>
 		<Code>locktests</Code>
@@ -406,7 +406,7 @@
 		<LastChanged/>
 		<Deleted>N</Deleted>
 		<Name>Report tests</Name>
-		<ParentFolderID>1,174</ParentFolderID>
+		<ParentFolderID>1,193</ParentFolderID>
 		<Sequence>140</Sequence>
 		<Comment/>
 		<Code>reporttests</Code>
@@ -884,23 +884,6 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
-	<Menus ID="1606">
-		<LastChanged>2010-04-09T13:21:25</LastChanged>
-		<Deleted>N</Deleted>
-		<Name>Test Grid Screen w/Query</Name>
-		<ParentFolderID>1,174</ParentFolderID>
-		<Sequence>160</Sequence>
-		<Comment/>
-		<Code/>
-		<Type>screen</Type>
-		<AutoDesc>Y</AutoDesc>
-		<Program>org.jbundle.app.test.vet.screen.junk.TestGridScreen</Program>
-		<Params/>
-		<IconResource/>
-		<Keywords/>
-		<XmlData/>
-		<MenusHelp/>
-	</Menus>
 	<Menus ID="1607">
 		<LastChanged>2010-04-09T13:23:23</LastChanged>
 		<Deleted>N</Deleted>
@@ -1149,7 +1132,7 @@
 		<LastChanged/>
 		<Deleted>N</Deleted>
 		<Name>Soft Delete Tests</Name>
-		<ParentFolderID>1,174</ParentFolderID>
+		<ParentFolderID>1,193</ParentFolderID>
 		<Sequence>150</Sequence>
 		<Comment/>
 		<Code>softdelete</Code>
@@ -1563,7 +1546,7 @@
 		<LastChanged>2008-02-17T06:41:01</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Transaction tests</Name>
-		<ParentFolderID>1,174</ParentFolderID>
+		<ParentFolderID>1,193</ParentFolderID>
 		<Sequence>130</Sequence>
 		<Comment/>
 		<Code>trxtests</Code>
@@ -1597,7 +1580,7 @@
 		<LastChanged>2008-09-17T04:40:44</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>Mapped Table Tests</Name>
-		<ParentFolderID>1,174</ParentFolderID>
+		<ParentFolderID>1,193</ParentFolderID>
 		<Sequence>200</Sequence>
 		<Comment/>
 		<Code>mappedmenu</Code>

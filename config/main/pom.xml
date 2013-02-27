@@ -20,6 +20,24 @@
     <systemname>base</systemname>
   </properties>
   
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+          <menu>app</menu>
+      </properties>
+    </profile>
+    <profile>
+      <id>dev</id>
+      <properties>
+          <menu>Main</menu>
+      </properties>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
@@ -39,7 +57,7 @@
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-all</artifactId>
-      <version>${jbundle-version}</version>
+      <version>${jbundle-version-range}</version>
       <type>pom</type>
     </dependency>
   </dependencies>
