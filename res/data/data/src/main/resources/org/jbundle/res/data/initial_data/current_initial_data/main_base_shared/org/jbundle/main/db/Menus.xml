@@ -2267,4 +2267,89 @@
 		<XmlData/>
 		<MenusHelp/>
 	</Menus>
+	<Menus ID="1887">
+		<LastChanged>2010-11-10T10:51:16</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>Users and Security menu</Name>
+		<ParentFolderID>1,685</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment/>
+		<Code>usersmenu</Code>
+		<Type>menu</Type>
+		<AutoDesc>Y</AutoDesc>
+		<Program>usersmenu</Program>
+		<Params/>
+		<IconResource/>
+		<Keywords/>
+		<XmlData/>
+		<MenusHelp/>
+	</Menus>
+	<Menus ID="1888">
+		<LastChanged>2010-11-10T09:04:54</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>User Information</Name>
+		<ParentFolderID>1,887</ParentFolderID>
+		<Sequence>10</Sequence>
+		<Comment>User Information maintenance</Comment>
+		<Code/>
+		<Type>record</Type>
+		<AutoDesc>Y</AutoDesc>
+		<Program>org.jbundle.main.user.db.UserInfo</Program>
+		<Params/>
+		<IconResource/>
+		<Keywords/>
+		<XmlData/>
+		<MenusHelp/>
+	</Menus>
+	<Menus ID="1889">
+		<LastChanged>2010-11-10T09:04:39</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>User security group</Name>
+		<ParentFolderID>1,887</ParentFolderID>
+		<Sequence>20</Sequence>
+		<Comment>Enter a user security group</Comment>
+		<Code/>
+		<Type>record</Type>
+		<AutoDesc>Y</AutoDesc>
+		<Program>org.jbundle.main.user.db.UserGroup</Program>
+		<Params/>
+		<IconResource/>
+		<Keywords/>
+		<XmlData/>
+		<MenusHelp/>
+	</Menus>
+	<Menus ID="1890">
+		<LastChanged>2010-11-10T09:04:27</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>System resource</Name>
+		<ParentFolderID>1,887</ParentFolderID>
+		<Sequence>30</Sequence>
+		<Comment>System resources</Comment>
+		<Code/>
+		<Type>record</Type>
+		<AutoDesc>Y</AutoDesc>
+		<Program>org.jbundle.main.user.db.UserResource</Program>
+		<Params/>
+		<IconResource/>
+		<Keywords/>
+		<XmlData/>
+		<MenusHelp/>
+	</Menus>
+	<Menus ID="1891">
+		<LastChanged>2010-11-10T09:04:12</LastChanged>
+		<Deleted>N</Deleted>
+		<Name>User Control file</Name>
+		<ParentFolderID>1,887</ParentFolderID>
+		<Sequence>40</Sequence>
+		<Comment>User Control information</Comment>
+		<Code/>
+		<Type>record</Type>
+		<AutoDesc>Y</AutoDesc>
+		<Program>org.jbundle.main.user.db.UserControl</Program>
+		<Params/>
+		<IconResource/>
+		<Keywords/>
+		<XmlData/>
+		<MenusHelp/>
+	</Menus>
 </file>
