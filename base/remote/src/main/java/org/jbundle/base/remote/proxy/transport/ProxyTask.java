@@ -162,7 +162,12 @@ public class ProxyTask extends BaseHttpTask
                 if (baseHolder != null)
                 	baseHolder.doProcess(in, out, propRequest);
                 else
-                	Utility.getLogger().warning("Session not found, command: " + propRequest.get(REMOTE_COMMAND));
+                {
+                    if (ProxyConstants.FREE_REMOTE_SESSION.equals(propRequest.get(REMOTE_COMMAND)))
+                        Utility.getLogger().info("Session not found, command: " + propRequest.get(REMOTE_COMMAND)); // Common to free main session first.
+                    else
+                        Utility.getLogger().warning("Session not found, command: " + propRequest.get(REMOTE_COMMAND));
+                }
             } catch (RemoteException ex) {
                 try {
                     this.setErrorReturn(out, ex);

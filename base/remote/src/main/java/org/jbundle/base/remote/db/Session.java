@@ -135,7 +135,7 @@ public class Session extends BaseSession
                 if (bMainQuery)
                 {
                     recordOwner.addRecord(record, bMainQuery);  // If the session wanted to access this record too, make sure it still can.
-                    Utility.getLogger().warning("Should not create a sub-session for the main record!");
+                    Utility.getLogger().info("Should not create a sub-session for the main record!");   // It is common to do this for thin sessions
                 }
         } catch (Exception ex)  {
             table = null;
