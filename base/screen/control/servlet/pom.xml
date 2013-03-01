@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-base-screen-control-reactor</artifactId>
     <groupId>org.jbundle.base.screen</groupId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.jbundle.base.screen.control.servlet</artifactId>
