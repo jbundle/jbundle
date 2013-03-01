@@ -4,8 +4,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>jbundle-res-reactor</artifactId>
     <groupId>org.jbundle.res</groupId>
+    <artifactId>jbundle-res-reactor</artifactId>
     <version>1.0.1-SNAPSHOT</version>
   </parent>
 

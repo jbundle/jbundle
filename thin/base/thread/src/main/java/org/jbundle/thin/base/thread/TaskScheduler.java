@@ -11,6 +11,10 @@ package org.jbundle.thin.base.thread;
  *
  */
 import java.applet.Applet;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
@@ -154,6 +158,8 @@ public class TaskScheduler extends Object
             }
             if (objJobDef instanceof Properties)
                 properties = (Map)objJobDef;
+            if (properties.get("webStartPropertiesFile") != null)
+                properties = this.addPropertiesFile(properties);
             String strClass = (String)properties.get(Param.TASK);
             if (strClass == null)
                 strClass = (String)properties.get(Param.APPLET); // Applets are also run as tasks
@@ -180,6 +186,51 @@ public class TaskScheduler extends Object
             ((Runnable)objJobDef).run();
         else
             Util.getLogger().warning("Error: Illegal job type");
+    }
+    /**
+     * Load this property file from the classpath.
+     * This should probably be moved to some utility location (possibly in osgi utils).
+     * @param properties
+     * @return
+     */
+    public Map<String,Object> addPropertiesFile(Map<String,Object> properties)
+    {
+        String propertiesPath = (String)properties.get("webStartPropertiesFile");
+        if (propertiesPath == null)
+            return properties;
+        if (propertiesPath.startsWith("/"))
+            propertiesPath = propertiesPath.substring(1);
+        URL url = null;
+        try {
+            url = ClassServiceUtility.getClassService().getResourceURL(propertiesPath, null, null, this.getClass().getClassLoader());
+        } catch (RuntimeException e) {
+            e.printStackTrace();    // ???
+        }           
+        Reader inStream = null;
+        if (url != null)
+        {
+            try {
+                inStream = new InputStreamReader(url.openStream());
+            } catch (Exception e) {
+                // Not found
+            }
+        }
+        if (inStream != null)
+        {
+            try {
+                // Todo may want to add cache info (using bundle lastModified).
+                Properties cachedProperties = new Properties();
+                cachedProperties.load(inStream);
+                inStream.close();
+                for (Object key : cachedProperties.keySet())
+                {
+                    properties.put(key.toString(), cachedProperties.get(key));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return properties;
     }
     /**
      * Pull the next job off the queue and remove it.
