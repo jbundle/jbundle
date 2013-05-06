@@ -26,7 +26,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -150,6 +149,7 @@ public class XSLServlet extends XMLServlet
             StreamSource source = new StreamSource(in);
     
             ServletOutputStream outStream = res.getOutputStream();
+            res.setContentType("text/html");	// Always for servlets/screens
             Result result = new StreamResult(outStream);
 
             synchronized (transformer)
