@@ -10,7 +10,6 @@ import javax.servlet.Servlet;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.screen.control.servlet.html.BaseServlet;
 import org.jbundle.base.util.Environment;
-import org.jbundle.base.util.EnvironmentActivator;
 import org.jbundle.model.Env;
 import org.jbundle.util.webapp.base.BaseOsgiServlet;
 import org.jbundle.util.webapp.base.BaseWebappServlet;
@@ -32,8 +31,8 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             BaseServlet.IMAGES,
             BaseServlet.LIB,
             BaseServlet.DOCS,
-//+         BaseServlet.COM,
-//+         BaseServlet.ORG,
+//          BaseServlet.COM,	// These are not necessary, since the main app will lookup these OSGi resources.
+//          BaseServlet.ORG,
             BaseServlet.JBUNDLE_RESOURCES,
             BaseServlet.TOURAPP_RESOURCES,
             BaseServlet.WS,
@@ -98,8 +97,8 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
 
             if ((BaseServlet.IMAGES.equalsIgnoreCase(alias)) 
                     || (BaseServlet.LIB.equalsIgnoreCase(alias))
-    //+             || (BaseServlet.COM.equalsIgnoreCase(path))
-    //+             || (BaseServlet.ORG.equalsIgnoreCase(path))
+                    || (BaseServlet.COM.equalsIgnoreCase(alias))
+                    || (BaseServlet.ORG.equalsIgnoreCase(alias))
                     || (BaseServlet.DOCS.equalsIgnoreCase(alias)))
             {
                 serviceTracker = new ResourceHttpServiceTracker(context, httpContext, properties);
