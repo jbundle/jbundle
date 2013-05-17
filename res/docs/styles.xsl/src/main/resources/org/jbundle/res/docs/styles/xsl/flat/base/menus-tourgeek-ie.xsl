@@ -176,7 +176,7 @@
 			<xsl:element name="a">
 				<xsl:attribute name="href">http://<xsl:value-of select="$domain"/></xsl:attribute>
 				<xsl:element name="img">
-					<xsl:attribute name="src">http://<xsl:value-of select="$domain"/>/org/jbundle/res/images/com/<xsl:value-of select="$name"/>/nameblack.gif</xsl:attribute>
+					<xsl:attribute name="src">http://<xsl:value-of select="$domain"/>/com/tourapp/res/images/com/<xsl:value-of select="$name"/>/nameblack.gif</xsl:attribute>
 					<xsl:attribute name="border">0</xsl:attribute>
 				</xsl:element>
 			</xsl:element>

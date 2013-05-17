@@ -182,7 +182,7 @@ public class HtmlResources extends ListResourceBundle
         "</td>" + "\n" +
         "<td align=\"center\" valign=\"bottom\">" + "\n" +
         "<a href=\"?menu=Main\">" + "\n" +
-        "<img src=\"images/com/name.gif\" border=\"0\" /><br/>" + "\n" +
+        "<img src=\"org/jbundle/res/images/com/name.gif\" border=\"0\" /><br/>" + "\n" +
         "<span style=\"color: white; font-family: helvetica, arial, san-serif; font-weight: normal\">&#160;&#160;{mission}</span></a></td>" + "\n" +
         "<td width=\"100%\">&#160;</td>" + "\n" +
         "<td valign=\"top\">" + "\n" +
@@ -311,7 +311,7 @@ public class HtmlResources extends ListResourceBundle
     {"htmlTrailer", "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">" + "\n" +
         "<tr valign=\"center\">" + "\n" +
         "<td align=\"left\" valign=\"center\">" + "\n" +
-        "<a href=\"http://www.tourgeek.com\"><img src=\"images/com/tourgeek/nameblack.gif\" border=\"0\" /></a><br />" + "\n" +
+        "<a href=\"http://www.tourgeek.com\"><img src=\"com/tourapp/res/images/com/tourgeek/nameblack.gif\" border=\"0\" /></a><br />" + "\n" +
         "<span style=\"font-size: 8pt; color: black; font-family: helvetica, arial, san-serif\">\u00A9 Copyright 2010 <a href=\"http://www.tourgeek.com\">tourgeek<span style=\"color: red; font-weight: bold\">.</span>com</a>. All rights reserved.&#160;&#160;&#160;&#160;</span><br />" + "\n" +
         "<span style=\"font-size: 8pt; color: black; font-family: helvetica, arial, san-serif\"><a href=\"mailto:webmaster@tourgeek.com\"><img src=\"images/buttons/Mail.gif\" width=\"16\" height=\"16\" border=\"0\" />&#160;e-mail the webmaster.</a></span>" + "\n" +
         "<br /><span style=\"color: red; font-size: 8pt\"><b>Note:</b> This a demo site. You can't really book tours here.<br /></span>" + "\n" +

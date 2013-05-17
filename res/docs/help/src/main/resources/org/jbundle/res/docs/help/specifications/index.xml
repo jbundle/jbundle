@@ -1,7 +1,7 @@
 <html>
-<img src="images/org/jbundle/logoblack.gif" align="left" alt="Logo" />
+<img src="org/jbundle/res/images/org/jbundle/logoblack.gif" align="left" alt="Logo" />
 <span style="font-size: 16pt; font-style: bold">
-<img src="images/org/jbundle/nameblack.gif" alt="jbundle.com" /><br />
+<img src="org/jbundle/res/images/org/jbundle/nameblack.gif" alt="jbundle.com" /><br />
 Hello
 </span>
 </html>

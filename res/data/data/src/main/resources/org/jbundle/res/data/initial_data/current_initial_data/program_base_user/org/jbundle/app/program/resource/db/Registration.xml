@@ -1887,7 +1887,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
      <a href="<link/>"><img src="<icon/>" alt="<menutitle/>" width="24" height="24" border="0"  align="center" /></a>
      <a href="<link/>"><menutitle/></a>
  <br/>
-<javalogo><img src="images/buttons/Java.gif" width="16" height="16" border="0" />&#160;</javalogo>
+<javalogo><img src="org/jbundle/res/images/buttons/Java.gif" width="16" height="16" border="0" />&#160;</javalogo>
 <span style="font-size: 10pt"><menudesc/></span>
  </td>
 </items>]]></ObjectValue>
@@ -1915,14 +1915,14 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<KeyValue>htmlMenubar</KeyValue>
 		<ObjectValue><![CDATA[<table class="top-menu" cellpadding="0" cellspacing="0">
 <tr>
-<td><span class="link"><a href="?menu=Main"><img class="button" src="images/buttons/Home.gif" width="16" height="16" alt="Site home page" /></a><span><a class="button" href="?menu=Main">{Home}</a></span></span>
-<span class="link"><a href="?menu="><img class="button" src="images/buttons/MyHome.gif" width="16" height="16" alt="Your home page" /></a><span><a class="button" href="?menu=">{My Home}</a></span></span></td>
+<td><span class="link"><a href="?menu=Main"><img class="button" src="org/jbundle/res/images/buttons/Home.gif" width="16" height="16" alt="Site home page" /></a><span><a class="button" href="?menu=Main">{Home}</a></span></span>
+<span class="link"><a href="?menu="><img class="button" src="org/jbundle/res/images/buttons/MyHome.gif" width="16" height="16" alt="Your home page" /></a><span><a class="button" href="?menu=">{My Home}</a></span></span></td>
 <td class="menu-title"><span class="spantitle"><menutitle/></span></td>
 <td class="help-button">
 <span class="spantitle"><user/></span>
-<span class="link"><a href="?user=&amp;menu="><img class="button" src="images/buttons/Logout.gif" width="16" height="16" alt="Sign out this user" /></a><a class="button" href="?user=&amp;menu=">{Logout}</a></span>
-<span class="link"><a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"><img class="button" src="images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /></a><a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no">{Settings}</a></span>
-<span class="link"><a href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen"><img class="button" src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /></a><a class="button" href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen">{Help}</a></span>
+<span class="link"><a href="?user=&amp;menu="><img class="button" src="org/jbundle/res/images/buttons/Logout.gif" width="16" height="16" alt="Sign out this user" /></a><a class="button" href="?user=&amp;menu=">{Logout}</a></span>
+<span class="link"><a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"><img class="button" src="org/jbundle/res/images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /></a><a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no">{Settings}</a></span>
+<span class="link"><a href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen"><img class="button" src="org/jbundle/res/images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /></a><a class="button" href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen">{Help}</a></span>
 </td>
 </tr><tr style="background-color: black"><td colspan="6" height="1" style="width: 100%;"></td></tr>
 </table>]]></ObjectValue>
@@ -1935,12 +1935,12 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlNavMenuIconsOnly</KeyValue>
-		<ObjectValue><![CDATA[<a href="?menu=Home"><img src="images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/></a><br/>
-<a href="?menu="><img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/></a><br/>
-<a href="?screen=.main.user.screen.UserPreferenceScreen&java=no"><img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/></a><br/>
-<a href="?screen=.main.user.screen.UserLoginScreen&java=no"><img src="images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/></a><br/>
-<a href="?user=&amp;menu="><img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/></a><br/>
-<a href="?help=&class=.base.screen.model.report.HelpScreen"><img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/></a><br/>]]></ObjectValue>
+		<ObjectValue><![CDATA[<a href="?menu=Home"><img src="org/jbundle/res/images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/></a><br/>
+<a href="?menu="><img src="org/jbundle/res/images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/></a><br/>
+<a href="?screen=.main.user.screen.UserPreferenceScreen&java=no"><img src="org/jbundle/res/images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/></a><br/>
+<a href="?screen=.main.user.screen.UserLoginScreen&java=no"><img src="org/jbundle/res/images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/></a><br/>
+<a href="?user=&amp;menu="><img src="org/jbundle/res/images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/></a><br/>
+<a href="?help=&class=.base.screen.model.report.HelpScreen"><img src="org/jbundle/res/images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/></a><br/>]]></ObjectValue>
 	</Registration>
 	<Registration ID="464">
 		<LastChanged>2009-02-15T01:37:27</LastChanged>
@@ -1992,15 +1992,15 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<KeyValue>htmlHelpMenubar</KeyValue>
 		<ObjectValue><![CDATA[<table bgcolor="#b0b0e0" width="100%" border="0" cellspacing="0" cellpadding="0">
  <tr>
- <td> <a href="?menu="><img src="images/nav/Home.gif" alt="Home" border="0" width="75" height="21" /></a></td>
- <td> <a href="?screen=<screen/>&record=<record/>&tech=&help="><img src="images/nav/Tech.gif" alt="Programmer's technical Information" border="0" width="75" height="21" /></a></td>
- <td> <a href="?screen=<screen/>&record=<record/>"><img src="images/nav/Run.gif" alt="Run this program" border="0" width="75" height="21" /></a></td>
- <td> <a href="?record=.main.Message&command=New&screenname=<screen/>&recordname=<record/>"><img src="images/nav/Bugs.gif" alt="Report a bug in this program" border="0" width="75" height="21" /></a></td>
+ <td> <a href="?menu="><img src="org/jbundle/res/images/nav/Home.gif" alt="Home" border="0" width="75" height="21" /></a></td>
+ <td> <a href="?screen=<screen/>&record=<record/>&tech=&help="><img src="org/jbundle/res/images/nav/Tech.gif" alt="Programmer's technical Information" border="0" width="75" height="21" /></a></td>
+ <td> <a href="?screen=<screen/>&record=<record/>"><img src="org/jbundle/res/images/nav/Run.gif" alt="Run this program" border="0" width="75" height="21" /></a></td>
+ <td> <a href="?record=.main.Message&command=New&screenname=<screen/>&recordname=<record/>"><img src="org/jbundle/res/images/nav/Bugs.gif" alt="Report a bug in this program" border="0" width="75" height="21" /></a></td>
  <td width="100%" align="center">     <font face="Arial, Helvetica, SanSerif" color="white"><strong>Help System</strong></font></td>
- <td align="right"> <a href="?help="><img src="images/nav/Help.gif" alt="Main Help Menu" border="0" width="75" height="21" /></a></td>
+ <td align="right"> <a href="?help="><img src="org/jbundle/res/images/nav/Help.gif" alt="Main Help Menu" border="0" width="75" height="21" /></a></td>
  </tr>
  <tr>
- <td bgcolor="black" background="" width="100%" height="1" colspan="5"><img src="images/graphics/1ptrans.gif" width="1" height="1" alt="" border="0" /></td>
+ <td bgcolor="black" background="" width="100%" height="1" colspan="5"><img src="org/jbundle/res/images/graphics/1ptrans.gif" width="1" height="1" alt="" border="0" /></td>
  </tr>
 </table>]]></ObjectValue>
 	</Registration>
@@ -2058,7 +2058,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 <h3>Menu items:</h3>
 <items columns="1">
 <td><a href=<link/>><img src="<icon/>" width="24" height="24" alt="Run <menutitle/>" /></a></td>
-<td><a href="<link/>&help="><img src="images/icons/Help.gif" width="24" height="24" alt="Help for <menutitle/>" /></a></td>
+<td><a href="<link/>&help="><img src="org/jbundle/res/images/icons/Help.gif" width="24" height="24" alt="Help for <menutitle/>" /></a></td>
 <td><a href="<link/>&help=">
 <menutitle/></a></td><td><menudesc/></td>
 </items>]]></ObjectValue>
@@ -2073,7 +2073,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<KeyValue>htmlBanner</KeyValue>
 		<ObjectValue><![CDATA[<table bgcolor="#B0B0E0" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td><a href="/"><img src="images/banners/468x60.jpg" width="468" height="60" border="0" /></a></td>
+<td><a href="/"><img src="org/jbundle/res/images/banners/468x60.jpg" width="468" height="60" border="0" /></a></td>
 </tr>
 </table>]]></ObjectValue>
 	</Registration>
@@ -2088,7 +2088,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<ObjectValue><![CDATA[<th id="navStart" class="navStart" style="background-image: url(images/graphics/NavBack.gif);">
 <!-- Start Nav Menu -->
 <div align="right">
-<a href="?menu=&amp;navmenus=IconsOnly&amp;preferences="><img src="images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /></a><a href="?menu=&amp;navmenus=No&amp;preferences="><img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" /></a>
+<a href="?menu=&amp;navmenus=IconsOnly&amp;preferences="><img src="org/jbundle/res/images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /></a><a href="?menu=&amp;navmenus=No&amp;preferences="><img src="org/jbundle/res/images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" /></a>
 </div>
 <strong>Navigation menu</strong>
 <br/>
@@ -2104,7 +2104,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<KeyValue>htmlNavEnd</KeyValue>
 		<ObjectValue><![CDATA[<!-- End Nav menu -->
 </th>
-<th id="navStartShadow" class="navStartShadow" style="background-image: url(images/graphics/NavHShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
+<th id="navStartShadow" class="navStartShadow" style="background-image: url(images/graphics/NavHShadow.gif);"><img src="org/jbundle/res/images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
 	</Registration>
 	<Registration ID="471">
 		<LastChanged>2009-03-15T08:26:47</LastChanged>
@@ -2114,12 +2114,12 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Language/>
 		<Locale/>
 		<KeyValue>htmlNavMenu</KeyValue>
-		<ObjectValue><![CDATA[<a href="?menu=Home"><img src="images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/>&#160;Home</a><br/>
-<a href="?menu="><img src="images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/>&#160;My home</a><br/>
-<a href="?screen=.main.user.screen.UserPreferenceScreen&java=no"><img src="images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/>&#160;Settings</a><br/>
-<a href="?screen=.main.user.screen.UserLoginScreen&java=no"><img src="images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/>&#160;Sign in</a><br/>
-<a href="?user=&amp;menu="><img src="images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/>&#160;Sign out</a><br/>
-<a href="?help=&class=.base.screen.model.report.HelpScreen"><img src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/>&#160;Help</a><br/>]]></ObjectValue>
+		<ObjectValue><![CDATA[<a href="?menu=Home"><img src="org/jbundle/res/images/buttons/Home.gif" width="16" height="16" alt="Home" class="button"/>&#160;Home</a><br/>
+<a href="?menu="><img src="org/jbundle/res/images/buttons/MyHome.gif" width="16" height="16" alt="My home" class="button"/>&#160;My home</a><br/>
+<a href="?screen=.main.user.screen.UserPreferenceScreen&java=no"><img src="org/jbundle/res/images/buttons/Settings.gif" width="16" height="16" alt="View or change settings" class="button"/>&#160;Settings</a><br/>
+<a href="?screen=.main.user.screen.UserLoginScreen&java=no"><img src="org/jbundle/res/images/buttons/Login.gif" width="16" height="16" alt="Sign in" class="button"/>&#160;Sign in</a><br/>
+<a href="?user=&amp;menu="><img src="org/jbundle/res/images/buttons/Logoff.gif" width="16" height="16" alt="Sign out" class="button"/>&#160;Sign out</a><br/>
+<a href="?help=&class=.base.screen.model.report.HelpScreen"><img src="org/jbundle/res/images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" class="button"/>&#160;Help</a><br/>]]></ObjectValue>
 	</Registration>
 	<Registration ID="472">
 		<LastChanged>2007-07-15T03:42:00</LastChanged>
@@ -2132,7 +2132,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<ObjectValue><![CDATA[<th id="navStart" class="navIconsOnlyStart" style="background-image: url(images/graphics/NavBack.gif);">
  <!-- Start Nav Menu -->
  <div align="right">
-<a href="?menu=&amp;navmenus=&amp;preferences="><img src="images/buttons/Expand.gif" alt="Change the menu pane to full descriptions" border="0" width="16" height="16" /></a><a href="?menu=&amp;navmenus=No&amp;preferences="><img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" /></a></div>
+<a href="?menu=&amp;navmenus=&amp;preferences="><img src="org/jbundle/res/images/buttons/Expand.gif" alt="Change the menu pane to full descriptions" border="0" width="16" height="16" /></a><a href="?menu=&amp;navmenus=No&amp;preferences="><img src="org/jbundle/res/images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" /></a></div>
  <hr/>]]></ObjectValue>
 	</Registration>
 	<Registration ID="473">
@@ -2145,8 +2145,8 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<KeyValue>htmlNavAfterContent</KeyValue>
 		<ObjectValue><![CDATA[</tr>
 <tr id="navAfterContent" class="navAfterContent">
-<th id="navStartVShadow" class="navStart" style="background-image: url(images/graphics/NavVShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>
-<th id="navStartSECorner" class="navStartShadow" style="background-image: url(images/graphics/NavSECorner.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
+<th id="navStartVShadow" class="navStart" style="background-image: url(images/graphics/NavVShadow.gif);"><img src="org/jbundle/res/images/graphics/1ptrans.gif" width="1" height="1" /></th>
+<th id="navStartSECorner" class="navStartShadow" style="background-image: url(images/graphics/NavSECorner.gif);"><img src="org/jbundle/res/images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
 	</Registration>
 	<Registration ID="474">
 		<LastChanged>2008-10-29T08:38:26</LastChanged>
@@ -2165,7 +2165,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 </td>
 <td align="center" valign="bottom">
 <a href="?menu=Main">
-<img src="images/com/name.gif" border="0" /><br/>
+<img src="org/jbundle/res/images/com/name.gif" border="0" /><br/>
 <span style="color: white; font-family: helvetica, arial, san-serif; font-weight: normal">&#160;&#160;{mission}</span></a></td>
 <td width="100%">&#160;</td>
 <td valign="top">
@@ -2193,10 +2193,10 @@ titles in the TOS are for convenience only and have no legal or contractual effe
       </select>
    </td>
    <td align="left" valign="baseline">
-   <a href="?menu=&amp;language=en&amp;preferences="><img src="images/flags/english.gif" width="16" height="16" alt="{English}" border="0" /></a>
+   <a href="?menu=&amp;language=en&amp;preferences="><img src="org/jbundle/res/images/flags/english.gif" width="16" height="16" alt="{English}" border="0" /></a>
    </td>
    <td align="left" width="50%" valign="baseline">
-   <a href="?menu=&amp;language=es&amp;preferences="><img src="images/flags/espanol.gif" width="16" height="16" alt="{Espanol}" border="0" /></a>
+   <a href="?menu=&amp;language=es&amp;preferences="><img src="org/jbundle/res/images/flags/espanol.gif" width="16" height="16" alt="{Espanol}" border="0" /></a>
    <input type="hidden" name="preferences" value="" />
   </td>
   <td align="right" valign="baseline">
@@ -2209,7 +2209,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 </form>
 </td>
   <td valign="top">
-   <a href="?menu=&amp;logos=No&amp;preferences="><img src="images/buttons/Close.gif" alt="Close the header pane" border="0" width="16" height="16" /></a>
+   <a href="?menu=&amp;logos=No&amp;preferences="><img src="org/jbundle/res/images/buttons/Close.gif" alt="Close the header pane" border="0" width="16" height="16" /></a>
   </td>
 </tr>
 </table>]]></ObjectValue>
@@ -2225,13 +2225,13 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<ObjectValue><![CDATA[<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr valign="center">
 <td align="left" valign="center">
-<a href="http://www.tourgeek.com"><img src="images/com/tourgeek/nameblack.gif" border="0" /></a><br />
+<a href="http://www.tourgeek.com"><img src="com/tourapp/res/images/com/tourgeek/nameblack.gif" border="0" /></a><br />
 <span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif">© Copyright 2010 <a href="http://www.tourgeek.com">tourgeek<span style="color: red; font-weight: bold">.</span>com</a>. All rights reserved.&#160;&#160;&#160;&#160;</span><br />
-<span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif"><a href="mailto:webmaster@tourgeek.com"><img src="images/buttons/Mail.gif" width="16" height="16" border="0" />&#160;e-mail the webmaster.</a></span>
+<span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif"><a href="mailto:webmaster@tourgeek.com"><img src="org/jbundle/res/images/buttons/Mail.gif" width="16" height="16" border="0" />&#160;e-mail the webmaster.</a></span>
 <br /><span style="color: red; font-size: 8pt"><b>Note:</b> This a demo site. You can't really book tours here.<br /></span>
 </td>
 <td align="right"></td>
-<td align="right" valign="top"><a href="./?menu=&trailers=No&preferences="><img src="images/buttons/Close.gif" alt="Close the footer pane" border="0" width="16" height="16" /></a></td>
+<td align="right" valign="top"><a href="./?menu=&trailers=No&preferences="><img src="org/jbundle/res/images/buttons/Close.gif" alt="Close the footer pane" border="0" width="16" height="16" /></a></td>
 </tr>
 </table>]]></ObjectValue>
 	</Registration>
@@ -2245,11 +2245,11 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<KeyValue>htmlNavMenuDon</KeyValue>
 		<ObjectValue><![CDATA[      <tr valign="top">
         <td width="15%"  bgcolor="#b0b0e0">
-<div align=right><a href="?menu=&navmenus=Icons+Only&preferences="><img src="images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /></a><a href="?menu=&navmenus=No&preferences="><img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16"></a></div>
+<div align=right><a href="?menu=&navmenus=Icons+Only&preferences="><img src="org/jbundle/res/images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" /></a><a href="?menu=&navmenus=No&preferences="><img src="org/jbundle/res/images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16"></a></div>
         <strong>Don's personal menu</strong><br><hr>
-        <a href="app?menu="><img src="images/buttons/Home.gif" align="center" alt="Home" border="0" width="16" height="16" />
+        <a href="app?menu="><img src="org/jbundle/res/images/buttons/Home.gif" align="center" alt="Home" border="0" width="16" height="16" />
                 Home</a><br/>
-        <a href="booking/entry"><img src="images/buttons/Mail.gif" align="center" alt="E-Mail" border="0" width="16" height="16" />
+        <a href="booking/entry"><img src="org/jbundle/res/images/buttons/Mail.gif" align="center" alt="E-Mail" border="0" width="16" height="16" />
                 E-Mail Center</a><br/>
          </td>
 <td>]]></ObjectValue>
@@ -2467,14 +2467,14 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 		<KeyValue>htmlMenubarAnon</KeyValue>
 		<ObjectValue><![CDATA[<table class="top-menu" cellpadding="0" cellspacing="0">
 <tr>
-<td><span class="link"><a href="?menu=Main"><img class="button" src="images/buttons/Home.gif" width="16" height="16" alt="Site home page" /></a><span><a class="button" href="?menu=Main">{Home}</a></span></span>
-<span class="link"><a href="?menu="><img class="button" src="images/buttons/MyHome.gif" width="16" height="16" alt="Your home page" /></a><span><a class="button" href="?menu=">{My Home}</a></span></span></td>
+<td><span class="link"><a href="?menu=Main"><img class="button" src="org/jbundle/res/images/buttons/Home.gif" width="16" height="16" alt="Site home page" /></a><span><a class="button" href="?menu=Main">{Home}</a></span></span>
+<span class="link"><a href="?menu="><img class="button" src="org/jbundle/res/images/buttons/MyHome.gif" width="16" height="16" alt="Your home page" /></a><span><a class="button" href="?menu=">{My Home}</a></span></span></td>
 <td class="menu-title"><span class="spantitle"><menutitle/></span></td>
 <td class="help-button">
 <span class="spantitle"><user/></span>
-<span class="link"><a href="?screen=.main.user.screen.UserLoginScreen&amp;java=no"><img class="button" src="images/buttons/Login.gif" width="16" height="16" alt="Sign in this user" /></a><a class="button" href="?screen=.main.user.screen.UserLoginScreen&amp;java=no">{Login}</a></span>
-<span class="link"><a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"><img class="button" src="images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /></a><a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no">{Settings}</a></span>
-<span class="link"><a href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&class=.base.screen.model.report.HelpScreen"><img class="button" src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /></a><a class="button" href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen">{Help}</a></span>
+<span class="link"><a href="?screen=.main.user.screen.UserLoginScreen&amp;java=no"><img class="button" src="org/jbundle/res/images/buttons/Login.gif" width="16" height="16" alt="Sign in this user" /></a><a class="button" href="?screen=.main.user.screen.UserLoginScreen&amp;java=no">{Login}</a></span>
+<span class="link"><a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"><img class="button" src="org/jbundle/res/images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /></a><a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no">{Settings}</a></span>
+<span class="link"><a href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&class=.base.screen.model.report.HelpScreen"><img class="button" src="org/jbundle/res/images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /></a><a class="button" href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='<url/>'&amp;class=.base.screen.model.report.HelpScreen">{Help}</a></span>
 </td>
 </tr><tr style="background-color: black"><td colspan="6" height="1" style="width: 100%;"></td></tr>
 </table>]]></ObjectValue>
@@ -2500,7 +2500,7 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 		<ObjectValue><![CDATA[<html>
 <head>
 <link rel="stylesheet" type="text/css" href="org/jbundle/res/docs/styles/css/style.css" title="basicstyle">
-<link rel="shortcut icon" href="images/com/favicon.ico" type="image/x-icon">]]></ObjectValue>
+<link rel="shortcut icon" href="org/jbundle/res/images/com/favicon.ico" type="image/x-icon">]]></ObjectValue>
 	</Registration>
 	<Registration ID="499">
 		<LastChanged>2007-08-22T12:03:00</LastChanged>
@@ -2616,8 +2616,8 @@ Screen : <input type="text" length="50" name=screen value="<screen/>" />
 		<KeyValue>htmlNavIconsOnlyAfterContent</KeyValue>
 		<ObjectValue><![CDATA[</tr>
 <tr id="navAfterContent" class="navAfterContent">
-<th id="navStartVShadow" class="navIconsOnlyStart" style="background-image: url(images/graphics/NavVShadow.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>
-<th id="navStartSECorner" class="navStartShadow" style="background-image: url(images/graphics/NavSECorner.gif);"><img src="images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
+<th id="navStartVShadow" class="navIconsOnlyStart" style="background-image: url(images/graphics/NavVShadow.gif);"><img src="org/jbundle/res/images/graphics/1ptrans.gif" width="1" height="1" /></th>
+<th id="navStartSECorner" class="navStartShadow" style="background-image: url(images/graphics/NavSECorner.gif);"><img src="org/jbundle/res/images/graphics/1ptrans.gif" width="1" height="1" /></th>]]></ObjectValue>
 	</Registration>
 	<Registration ID="508">
 		<LastChanged>2007-07-16T06:13:00</LastChanged>
@@ -2858,7 +2858,7 @@ djConfig = {
         @import "docs/styles/js/dijit/themes/tundra/tundra.css";
 </style>
 <link title="basicstyle" href="org/jbundle/res/docs/styles/css/style.css" type="text/css" rel="stylesheet">
-<link rel="shortcut icon" href="images/com/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="org/jbundle/res/images/com/favicon.ico" type="image/x-icon">
 
 <script type="text/javascript">
 dojo.require("dijit.form.Button");
