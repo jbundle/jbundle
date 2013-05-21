@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<PictureControl ID="1">
-		<LastChanged>2013-05-18T16:12:26</LastChanged>
+		<LastChanged>2013-05-19T06:41:06</LastChanged>
 		<Deleted>N</Deleted>
 		<BaseDirectory>/web/pictures/</BaseDirectory>
 		<HtmlLocation>docs/pics/</HtmlLocation>
@@ -9,8 +9,8 @@
 		<MediumPictureFolder>mediumpics/</MediumPictureFolder>
 		<SmallPictureFolder>smallpics/</SmallPictureFolder>
 		<ThumbPictureFolder>thumbpics/</ThumbPictureFolder>
-		<LastScanned>2012-08-09T00:52:40</LastScanned>
-		<LastProcessed>2012-08-09T09:04:43</LastProcessed>
+		<LastScanned>2013-05-19T05:32:08</LastScanned>
+		<LastProcessed>2013-05-19T06:41:06</LastProcessed>
 		<LastExported>2000-05-01T07:12:00</LastExported>
 	</PictureControl>
 </file>
