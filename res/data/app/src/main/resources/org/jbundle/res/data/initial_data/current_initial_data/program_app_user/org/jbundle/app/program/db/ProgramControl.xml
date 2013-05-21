@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<ProgramControl ID="1">
-		<LastChanged>2012-01-13T10:57:02</LastChanged>
+		<LastChanged>2013-05-21T00:59:15</LastChanged>
 		<Deleted>N</Deleted>
-		<ProjectName/>
-		<BaseDirectory>/home/don/workspace</BaseDirectory>
+		<ProjectName>jbundle-app</ProjectName>
+		<BaseDirectory>${user.home}/</BaseDirectory>
 		<SourceDirectory>src/main/java/</SourceDirectory>
+		<ResourcesDirectory>src/main/resources/</ResourcesDirectory>
 		<ClassDirectory>target/classes/</ClassDirectory>
 		<ArchiveDirectory>data/archive/</ArchiveDirectory>
+		<DevArchiveDirectory>workspace/workspace/jbundle/jbundle/res/data/app/src/main/resources/</DevArchiveDirectory>
 		<ResourceType>Properties</ResourceType>
 		<ClassResourceType>ListResourceBundle</ClassResourceType>
 		<PackageName/>

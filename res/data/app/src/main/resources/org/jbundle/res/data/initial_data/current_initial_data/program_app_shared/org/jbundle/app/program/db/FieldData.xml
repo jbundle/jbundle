@@ -1737,50 +1737,6 @@
 		<Hidden/>
 		<IncludeScope>1</IncludeScope>
 	</FieldData>
-	<FieldData ID="7067">
-		<LastChanged>2009-02-12T14:49:25</LastChanged>
-		<Deleted>N</Deleted>
-		<FieldName>ID</FieldName>
-		<FieldClass/>
-		<BaseFieldName>ID</BaseFieldName>
-		<DependentFieldName/>
-		<MinimumLength/>
-		<MaximumLength/>
-		<DefaultValue/>
-		<InitialValue/>
-		<FieldDescription/>
-		<FieldDescVertical/>
-		<FieldType/>
-		<FieldDimension/>
-		<FieldFileName>ContactCategory</FieldFileName>
-		<FieldSeqNo>10</FieldSeqNo>
-		<FieldNotNull/>
-		<DataClass/>
-		<Hidden/>
-		<IncludeScope>4</IncludeScope>
-	</FieldData>
-	<FieldData ID="7068">
-		<LastChanged>2009-02-12T14:49:25</LastChanged>
-		<Deleted>N</Deleted>
-		<FieldName>Description</FieldName>
-		<FieldClass>StringField</FieldClass>
-		<BaseFieldName/>
-		<DependentFieldName/>
-		<MinimumLength/>
-		<MaximumLength>50</MaximumLength>
-		<DefaultValue/>
-		<InitialValue/>
-		<FieldDescription/>
-		<FieldDescVertical/>
-		<FieldType/>
-		<FieldDimension/>
-		<FieldFileName>ContactCategory</FieldFileName>
-		<FieldSeqNo>20</FieldSeqNo>
-		<FieldNotNull/>
-		<DataClass/>
-		<Hidden/>
-		<IncludeScope>4</IncludeScope>
-	</FieldData>
 	<FieldData ID="7069">
 		<LastChanged>2009-02-12T14:49:25</LastChanged>
 		<Deleted>N</Deleted>

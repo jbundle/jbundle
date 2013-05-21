@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
 	<ClassProject ID="1">
-		<LastChanged>2011-03-10T07:32:40</LastChanged>
+		<LastChanged>2013-05-20T18:32:21</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>dance</Name>
 		<ParentFolderID>8</ParentFolderID>
@@ -9,20 +9,20 @@
 		<Code/>
 		<Description>Dance sample application</Description>
 		<SystemClasses>N</SystemClasses>
-		<PackageName>.app.dance</PackageName>
+		<PackageName>.dance</PackageName>
 		<ProjectPath/>
-		<InterfacePackage>.app.dance</InterfacePackage>
+		<InterfacePackage>.dance</InterfacePackage>
 		<InterfaceProjectPath/>
-		<ThinPackage>.app.dance</ThinPackage>
+		<ThinPackage>.dance</ThinPackage>
 		<ThinProjectPath/>
-		<ResourcePackage>.app.dance</ResourcePackage>
+		<ResourcePackage>.dance</ResourcePackage>
 		<ResProjectPath/>
 		<Properties/>
 		<ArtifactId/>
 		<GroupId/>
 	</ClassProject>
 	<ClassProject ID="4">
-		<LastChanged>2011-03-10T07:32:49</LastChanged>
+		<LastChanged>2013-05-21T00:07:29</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>picture</Name>
 		<ParentFolderID>6</ParentFolderID>
@@ -31,13 +31,13 @@
 		<Code/>
 		<Description>Picture sample application</Description>
 		<SystemClasses/>
-		<PackageName>.app.picture</PackageName>
+		<PackageName>.picture</PackageName>
 		<ProjectPath/>
-		<InterfacePackage>.app.picture</InterfacePackage>
+		<InterfacePackage>.picture</InterfacePackage>
 		<InterfaceProjectPath/>
-		<ThinPackage>.app.picture</ThinPackage>
+		<ThinPackage>.picture</ThinPackage>
 		<ThinProjectPath/>
-		<ResourcePackage>.app.picture</ResourcePackage>
+		<ResourcePackage>.picture</ResourcePackage>
 		<ResProjectPath/>
 		<Properties/>
 		<ArtifactId/>
@@ -69,7 +69,7 @@
 		<LastChanged>2012-07-05T09:22:58</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>picture</Name>
-		<ParentFolderID>16,777,327</ParentFolderID>
+		<ParentFolderID>16,777,333</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>
@@ -91,7 +91,7 @@
 		<LastChanged>2012-07-05T09:23:15</LastChanged>
 		<Deleted>N</Deleted>
 		<Name>dance</Name>
-		<ParentFolderID>16,777,327</ParentFolderID>
+		<ParentFolderID>16,777,333</ParentFolderID>
 		<Sequence/>
 		<Comment/>
 		<Code/>

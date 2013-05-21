@@ -1,2 +1,178 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
+	<FileHdr ID="1">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<FileName>Picture</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="2">
+		<LastChanged>2013-05-21T00:09:03</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>PictureControl</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="3">
+		<LastChanged>2013-05-21T00:09:30</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>PictureType</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>TABLE</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="4">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<FileName>Dance</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="5">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<FileName>DanceStep</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="6">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<FileName>DanceType</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="7">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<FileName>DancePosition</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="8">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<FileName>DanceComponents</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>REMOTE | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="9">
+		<LastChanged>2013-05-20T23:28:03</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>MoveClass</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="10">
+		<LastChanged>2013-05-20T23:27:41</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>HandPosition</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="12">
+		<LastChanged>2013-05-20T23:26:54</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>DanceTeacher</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="13">
+		<LastChanged>2013-05-20T23:21:08</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>DanceAlignment</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="14">
+		<LastChanged>2013-05-20T23:24:03</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>DanceClass</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="15">
+		<LastChanged>2013-05-20T23:26:28</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>DanceStudio</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL | USER_DATA</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="16">
+		<LastChanged>2013-05-20T23:25:23</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>DanceDirection</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
+	<FileHdr ID="17">
+		<LastChanged>2013-05-20T23:23:23</LastChanged>
+		<Deleted>N</Deleted>
+		<FileName>DanceArtisticClass</FileName>
+		<FileDesc/>
+		<FileMainFilename/>
+		<Type>LOCAL</Type>
+		<FileNotes/>
+		<DatabaseName>app</DatabaseName>
+		<FileRecCalled/>
+	</FileHdr>
 </file>

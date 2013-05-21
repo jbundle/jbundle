@@ -137,21 +137,6 @@ return screen;]]></LogicSource>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
-	<LogicFile ID="2733">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
-		<Deleted>N</Deleted>
-		<Sequence>10</Sequence>
-		<MethodName>PictureGridScreen*2</MethodName>
-		<LogicDescription/>
-		<MethodReturns/>
-		<MethodInterface>Record recLayout, Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map&lt;String,Object&gt; properties</MethodInterface>
-		<MethodClassName>PictureGridScreen</MethodClassName>
-		<LogicSource/>
-		<LogicThrows/>
-		<Protection/>
-		<CopyFrom/>
-		<IncludeScope>1</IncludeScope>
-	</LogicFile>
 	<LogicFile ID="2768">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
 		<Deleted>N</Deleted>
@@ -713,21 +698,6 @@ return screen;]]></LogicSource>
 		<CopyFrom/>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
-	<LogicFile ID="5479">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
-		<Deleted>N</Deleted>
-		<Sequence>5</Sequence>
-		<MethodName>DanceStepGridScreen*2</MethodName>
-		<LogicDescription/>
-		<MethodReturns/>
-		<MethodInterface>Record recMain, Record record, ScreenLocation itsLocation, BasePanel parentScreen, Converter fieldConverter, int iDisplayFieldDesc, Map&lt;String,Object&gt; properties</MethodInterface>
-		<MethodClassName>DanceStepGridScreen</MethodClassName>
-		<LogicSource/>
-		<LogicThrows/>
-		<Protection/>
-		<CopyFrom/>
-		<IncludeScope>1</IncludeScope>
-	</LogicFile>
 	<LogicFile ID="5480">
 		<LastChanged>2009-02-12T14:49:29</LastChanged>
 		<Deleted>N</Deleted>
@@ -812,12 +782,12 @@ this.getScreenRecord().getField(DanceScreenRecord.MOVE_CLASS_ID).setEnabled(true
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5485">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2013-05-20T23:32:49</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>20</Sequence>
 		<MethodName>openHeaderRecord</MethodName>
 		<LogicDescription/>
-		<MethodReturns/>
+		<MethodReturns>Record</MethodReturns>
 		<MethodInterface/>
 		<MethodClassName>DanceStepGridScreen</MethodClassName>
 		<LogicSource>return new Dance(this);</LogicSource>
@@ -904,12 +874,12 @@ return super;]]></LogicSource>
 		<IncludeScope>1</IncludeScope>
 	</LogicFile>
 	<LogicFile ID="5490">
-		<LastChanged>2009-02-12T14:49:29</LastChanged>
+		<LastChanged>2013-05-20T23:33:24</LastChanged>
 		<Deleted>N</Deleted>
 		<Sequence>20</Sequence>
 		<MethodName>openHeaderRecord</MethodName>
 		<LogicDescription/>
-		<MethodReturns/>
+		<MethodReturns>Record</MethodReturns>
 		<MethodInterface/>
 		<MethodClassName>DanceStepScreen</MethodClassName>
 		<LogicSource>return new Dance(this);</LogicSource>

@@ -434,4 +434,19 @@
 		<ClassFieldsType>I</ClassFieldsType>
 		<IncludeScope>1</IncludeScope>
 	</ClassFields>
+	<ClassFields ID="3488">
+		<LastChanged>2013-05-20T23:38:55</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassInfoClassName>DanceScreenRecord</ClassInfoClassName>
+		<ClassInfoID/>
+		<ClassFieldClass>Dance</ClassFieldClass>
+		<ClassFieldSequence>0</ClassFieldSequence>
+		<ClassFieldName/>
+		<ClassFieldDesc/>
+		<ClassFieldProtect/>
+		<ClassFieldInitial/>
+		<ClassFieldInitialValue/>
+		<ClassFieldsType>I</ClassFieldsType>
+		<IncludeScope>4</IncludeScope>
+	</ClassFields>
 </file>

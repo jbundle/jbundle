@@ -53,78 +53,6 @@
 		<KeyType>N</KeyType>
 		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
-	<KeyInfo ID="421">
-		<LastChanged>2009-02-12T14:49:21</LastChanged>
-		<Deleted>N</Deleted>
-		<KeyFilename>Contact</KeyFilename>
-		<KeyNumber>1</KeyNumber>
-		<KeyField1>ID</KeyField1>
-		<KeyField2/>
-		<KeyField3/>
-		<KeyField4/>
-		<KeyField5/>
-		<KeyField6/>
-		<KeyField7/>
-		<KeyField8/>
-		<KeyField9/>
-		<KeyName/>
-		<KeyType>U</KeyType>
-		<IncludeScope>4</IncludeScope>
-	</KeyInfo>
-	<KeyInfo ID="422">
-		<LastChanged>2009-02-12T14:49:21</LastChanged>
-		<Deleted>N</Deleted>
-		<KeyFilename>Contact</KeyFilename>
-		<KeyNumber>2</KeyNumber>
-		<KeyField1>NameSort</KeyField1>
-		<KeyField2/>
-		<KeyField3/>
-		<KeyField4/>
-		<KeyField5/>
-		<KeyField6/>
-		<KeyField7/>
-		<KeyField8/>
-		<KeyField9/>
-		<KeyName/>
-		<KeyType>N</KeyType>
-		<IncludeScope>4</IncludeScope>
-	</KeyInfo>
-	<KeyInfo ID="423">
-		<LastChanged>2009-02-12T14:49:21</LastChanged>
-		<Deleted>N</Deleted>
-		<KeyFilename>Contact</KeyFilename>
-		<KeyNumber>3</KeyNumber>
-		<KeyField1>PostalCodeSort</KeyField1>
-		<KeyField2/>
-		<KeyField3/>
-		<KeyField4/>
-		<KeyField5/>
-		<KeyField6/>
-		<KeyField7/>
-		<KeyField8/>
-		<KeyField9/>
-		<KeyName/>
-		<KeyType>N</KeyType>
-		<IncludeScope>4</IncludeScope>
-	</KeyInfo>
-	<KeyInfo ID="426">
-		<LastChanged>2009-02-12T14:49:21</LastChanged>
-		<Deleted>N</Deleted>
-		<KeyFilename>Contact</KeyFilename>
-		<KeyNumber>4</KeyNumber>
-		<KeyField1>Contact</KeyField1>
-		<KeyField2/>
-		<KeyField3/>
-		<KeyField4/>
-		<KeyField5/>
-		<KeyField6/>
-		<KeyField7/>
-		<KeyField8/>
-		<KeyField9/>
-		<KeyName/>
-		<KeyType>N</KeyType>
-		<IncludeScope>4</IncludeScope>
-	</KeyInfo>
 	<KeyInfo ID="433">
 		<LastChanged>2009-02-12T14:49:21</LastChanged>
 		<Deleted>N</Deleted>
@@ -483,42 +411,6 @@
 		<KeyField9/>
 		<KeyName/>
 		<KeyType>N</KeyType>
-		<IncludeScope>4</IncludeScope>
-	</KeyInfo>
-	<KeyInfo ID="745">
-		<LastChanged>2009-02-12T14:49:22</LastChanged>
-		<Deleted>N</Deleted>
-		<KeyFilename>ContactCategory</KeyFilename>
-		<KeyNumber>1</KeyNumber>
-		<KeyField1>ID</KeyField1>
-		<KeyField2/>
-		<KeyField3/>
-		<KeyField4/>
-		<KeyField5/>
-		<KeyField6/>
-		<KeyField7/>
-		<KeyField8/>
-		<KeyField9/>
-		<KeyName/>
-		<KeyType>U</KeyType>
-		<IncludeScope>4</IncludeScope>
-	</KeyInfo>
-	<KeyInfo ID="746">
-		<LastChanged>2009-02-12T14:49:22</LastChanged>
-		<Deleted>N</Deleted>
-		<KeyFilename>ContactCategory</KeyFilename>
-		<KeyNumber>2</KeyNumber>
-		<KeyField1>Description</KeyField1>
-		<KeyField2/>
-		<KeyField3/>
-		<KeyField4/>
-		<KeyField5/>
-		<KeyField6/>
-		<KeyField7/>
-		<KeyField8/>
-		<KeyField9/>
-		<KeyName/>
-		<KeyType>S</KeyType>
 		<IncludeScope>4</IncludeScope>
 	</KeyInfo>
 	<KeyInfo ID="788">

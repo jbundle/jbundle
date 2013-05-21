@@ -1,2 +1,427 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><file>
+	<ClassInfo ID="1">
+		<LastChanged>2013-05-21T00:11:33</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>Picture</ClassName>
+		<BaseClassName>Folder</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>4</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>Picture</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="2">
+		<LastChanged>2013-05-21T00:09:17</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>PictureControl</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>4</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>PictureControl</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="3">
+		<LastChanged>2013-05-21T00:10:00</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>PictureType</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>4</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>PictureType</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="4">
+		<LastChanged>2013-05-20T19:32:04</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>Dance</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>Dance</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="5">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ClassName>DanceStep</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>DanceStep</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="6">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ClassName>DanceType</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>DanceType</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="7">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ClassName>DancePosition</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>DancePosition</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="8">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<ClassName>DanceComponents</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>DanceComponents</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="9">
+		<LastChanged>2013-05-20T23:29:31</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>MoveClass</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>MoveClass</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="10">
+		<LastChanged>2013-05-20T23:27:53</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>HandPosition</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>HandPosition</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="12">
+		<LastChanged>2013-05-20T23:27:02</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceTeacher</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>DanceTeacher</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="13">
+		<LastChanged>2013-05-20T23:21:11</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceAlignment</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>DanceAlignment</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="14">
+		<LastChanged>2013-05-20T23:24:05</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceClass</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>DanceClass</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="15">
+		<LastChanged>2013-05-20T23:26:39</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceStudio</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>DanceStudio</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="16">
+		<LastChanged>2013-05-20T23:25:32</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceDirection</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>DanceDirection</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="17">
+		<LastChanged>2013-05-20T23:23:25</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceArtisticClass</ClassName>
+		<BaseClassName>VirtualRecord</BaseClassName>
+		<ClassDesc>Class information</ClassDesc>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.db</ClassPackage>
+		<ClassSourceFile>DanceArtisticClass</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="18">
+		<LastChanged>2013-05-20T19:44:28</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceScreen</ClassName>
+		<BaseClassName>Screen</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>DanceScreen</ClassSourceFile>
+		<ClassType>screen</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="19">
+		<LastChanged>2013-05-20T19:50:19</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceGridScreen</ClassName>
+		<BaseClassName>GridScreen</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>DanceScreen</ClassSourceFile>
+		<ClassType>screen</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="20">
+		<LastChanged>2013-05-20T19:50:36</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceHeaderScreen</ClassName>
+		<BaseClassName>HeaderScreen</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>DanceScreen</ClassSourceFile>
+		<ClassType>screen</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="21">
+		<LastChanged>2013-05-20T23:39:01</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceScreenRecord</ClassName>
+		<BaseClassName>ScreenRecord</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>DanceScreenRecord</ClassSourceFile>
+		<ClassType>record</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="22">
+		<LastChanged>2013-05-20T19:51:23</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceStepGridScreen</ClassName>
+		<BaseClassName>GridScreen</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>DanceStepScreen</ClassSourceFile>
+		<ClassType>screen</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="23">
+		<LastChanged>2013-05-20T19:48:21</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>DanceStepScreen</ClassName>
+		<BaseClassName>Screen</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>1</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>DanceStepScreen</ClassSourceFile>
+		<ClassType>screen</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="24">
+		<LastChanged>2013-05-21T00:13:10</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>PictureControlScreen</ClassName>
+		<BaseClassName>Screen</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>4</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>PictureControlScreen</ClassSourceFile>
+		<ClassType>screen</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="25">
+		<LastChanged>2013-05-21T00:14:31</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>PictureScreen</ClassName>
+		<BaseClassName>FolderScreen</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>4</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>PictureScreen</ClassSourceFile>
+		<ClassType>screen</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
+	<ClassInfo ID="26">
+		<LastChanged>2013-05-21T00:19:08</LastChanged>
+		<Deleted>N</Deleted>
+		<ClassName>PictureGridScreen</ClassName>
+		<BaseClassName>GridScreen</BaseClassName>
+		<ClassDesc/>
+		<ClassProjectID>4</ClassProjectID>
+		<ClassPackage>.screen</ClassPackage>
+		<ClassSourceFile>PictureScreen</ClassSourceFile>
+		<ClassType>screen</ClassType>
+		<ClassExplain/>
+		<ClassHelp/>
+		<ClassImplements/>
+		<SeeAlso/>
+		<TechnicalInfo/>
+		<CopyDescFrom/>
+	</ClassInfo>
 </file>
