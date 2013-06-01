@@ -13,7 +13,7 @@
   <packaging>bundle</packaging>
 
   <properties>
-    <resourceLocation>src/main/resources/org/jbundle/res</resourceLocation>
+    <resourceLocation>${basedir}/src/main/resources/org/jbundle/res</resourceLocation>
   </properties>  
 
   <build>
@@ -71,9 +71,9 @@
                 <process>org.jbundle.app.program.manual.convert.ConvertCode</process>
                 <listenerClass>org.jbundle.app.program.script.scan.XslImportScanListener</listenerClass>
                 <converterPath>${resourceLocation}/docs/styles/xsl/program/</converterPath>
-                <sourcePrefix>${resourceLocation}/docs/styles/xsl</sourcePrefix>
-                <sourceDir>/com/tourgeek</sourceDir>
-                <destDir>/flat/base</destDir>
+                <sourcePrefix>${resourceLocation}/docs/styles/xsl/</sourcePrefix>
+                <sourceDir>com/tourgeek</sourceDir>
+                <destDir>flat/base</destDir>
                 <extension>.xsl</extension>
                 <filter>.*-ajax.*</filter>
               </properties>
@@ -89,9 +89,9 @@
                 <process>org.jbundle.app.program.manual.convert.ConvertCode</process>
                 <listenerClass>org.jbundle.app.program.script.scan.XslImportScanListener</listenerClass>
                 <converterPath>${resourceLocation}/docs/styles/xsl/program/</converterPath>
-                <sourcePrefix>${resourceLocation}/docs/styles/xsl</sourcePrefix>
-                <sourceDir>/ajax/base</sourceDir>
-                <destDir>/flat/base</destDir>
+                <sourcePrefix>${resourceLocation}/docs/styles/xsl/</sourcePrefix>
+                <sourceDir>ajax/base</sourceDir>
+                <destDir>flat/base</destDir>
                 <extension>xsl</extension>
               </properties>
             </configuration>

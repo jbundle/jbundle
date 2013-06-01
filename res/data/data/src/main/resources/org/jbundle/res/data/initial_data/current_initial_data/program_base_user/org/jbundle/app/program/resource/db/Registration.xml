@@ -2861,13 +2861,13 @@ djConfig = {
 <link rel="shortcut icon" href="org/jbundle/res/images/com/favicon.ico" type="image/x-icon">
 
 <script type="text/javascript">
-dojo.require("dijit.form.Button");
-dojo.require("dijit.form.TextBox");
-dojo.require("dijit.form.Textarea");
-dojo.require("dijit.form.CheckBox");
-dojo.require("dijit.form.ComboBox");
-dojo.require("dojo.parser");
-dojo.require("dojo.back");
+require("dijit/form/Button",
+"dijit/form/TextBox",
+"dijit/form/Textarea",
+"dijit/form/CheckBox",
+"dijit/form/ComboBox",
+"dojo/parser",
+"dojo/back");
 </script>
 ]]></ObjectValue>
 	</Registration>

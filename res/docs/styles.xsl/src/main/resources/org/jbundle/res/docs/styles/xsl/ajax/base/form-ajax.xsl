@@ -21,6 +21,7 @@
 				<xsl:value-of select="xform/submission/@id" />
 			</xsl:attribute>
 			<xsl:attribute name="onsubmit">return jbundle.util.doButton('Submit');</xsl:attribute>
+			<xsl:attribute name="onsubmit">require(["jbundle/util"], function(util) {return util.doButton('Submit');});</xsl:attribute>
 		
 			<!-- note: the br is in this div due to an ie xslt bug -->
 		    <xsl:element name="div">
@@ -94,10 +95,10 @@
 			</xsl:attribute>
 			<xsl:choose>
 				<xsl:when test="$type='checkbox'">
-					<xsl:attribute name="dojoType">dijit.form.CheckBox</xsl:attribute>
+					<xsl:attribute name="data-dojo-type">dijit/form/CheckBox</xsl:attribute>
  					</xsl:when>
 					<xsl:otherwise>
-					<xsl:attribute name="dojoType">dijit.form.TextBox</xsl:attribute>
+					<xsl:attribute name="data-dojo-type">dijit/form/TextBox</xsl:attribute>
 		 		</xsl:otherwise>
 			</xsl:choose>
 			<xsl:attribute name="name">
@@ -152,14 +153,14 @@
 		<xsl:param name="xform"></xsl:param>	<!-- Text color -->
 		<xsl:param name="richtype"></xsl:param>		<!-- Rich control type -->
 		
-		<xsl:variable name="dojotype"><xsl:if test="$richtype!='Editor'">dijit.form.Textarea</xsl:if><xsl:if test="$richtype='Editor'">dijit.Editor</xsl:if></xsl:variable>
+		<xsl:variable name="data-dojo-type"><xsl:if test="$richtype!='Editor'">dijit/form/Textarea</xsl:if><xsl:if test="$richtype='Editor'">dijit/Editor</xsl:if></xsl:variable>
 
 		<xsl:if test="$richtype!='Editor'">
 		<xsl:element name="textarea">
 			<xsl:attribute name="type">
 				<xsl:value-of select="$type" />
 			</xsl:attribute>
-			<xsl:attribute name="dojoType"><xsl:value-of select="$dojotype"/></xsl:attribute>
+			<xsl:attribute name="data-dojo-type"><xsl:value-of select="$data-dojo-type"/></xsl:attribute>
 			<xsl:attribute name="name">
 				<xsl:value-of select="$name"/>
 			</xsl:attribute>
@@ -197,7 +198,7 @@
 		
 		<xsl:if test="$richtype='Editor'">
 		<xsl:element name="div">
-			<xsl:attribute name="dojoType"><xsl:value-of select="$dojotype"/></xsl:attribute>
+			<xsl:attribute name="data-dojo-type"><xsl:value-of select="$data-dojo-type"/></xsl:attribute>
 			<xsl:attribute name="name">
 				<xsl:value-of select="$name"/>
 			</xsl:attribute>
@@ -218,7 +219,7 @@
 			<xsl:attribute name="name">
 				<xsl:value-of select="@ref"/>
 			</xsl:attribute>
-			<xsl:attribute name="dojoType">dijit.form.ComboBox</xsl:attribute>
+			<xsl:attribute name="data-dojo-type">dijit/form/ComboBox</xsl:attribute>
 			<xsl:if test="@style!=''">
 				<xsl:attribute name="style">
 					<xsl:value-of select="@style"/>

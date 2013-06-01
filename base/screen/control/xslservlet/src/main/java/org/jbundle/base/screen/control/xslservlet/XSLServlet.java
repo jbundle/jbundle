@@ -199,7 +199,7 @@ public class XSLServlet extends XMLServlet
         if (stylesheet == null)
             stylesheet = req.getParameter("stylesheet");
         if (stylesheet == null)
-            stylesheet = "docs/styles/xsl/flat/base/menus";
+            stylesheet = "org/jbundle/res/docs/styles/xsl/flat/base/menus";
         
         try {
             if (hmTransformers.get(stylesheet) != null)

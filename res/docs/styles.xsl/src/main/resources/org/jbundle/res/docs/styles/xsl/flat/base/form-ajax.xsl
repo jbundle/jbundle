@@ -132,8 +132,8 @@
 					<xsl:attribute name="width">16</xsl:attribute>
 					<xsl:attribute name="height">16</xsl:attribute>
 					<xsl:attribute name="border">0</xsl:attribute>
-					&#160;e-mail the webmaster.
 				</xsl:element>
+					&#160;e-mail the webmaster.
 			</xsl:element>
 			</span>
 		</td>
@@ -391,7 +391,7 @@
 			<xsl:call-template name="html-head" />
 			<body class="tundra">
 				<script type="text/javascript" src="http://java.com/js/deployJava.js"></script>			
-				<script type="text/javascript">dojo.back.init(jbundle.java.hashChange);</script>
+				<script type="text/javascript">/*dojo.back.init(jbundle.java.hashChange);*/</script>
 				<xsl:apply-templates select="top-menu" />
 				<table id="top-table" cellspacing="0" cellpadding="0">
 					<tr valign="top">
@@ -403,6 +403,20 @@
 						<xsl:call-template name="navigation-corner" />
 				</table>
 				<xsl:apply-templates select="trailer" />
+<script type="text/javascript">
+require(["jbundle/util",
+	"dijit/form/Button",
+	"dijit/form/TextBox",
+	"dijit/form/Textarea",
+	"dijit/form/CheckBox",
+	"dijit/form/ComboBox",
+	"dojo/parser",
+	"dojo/back",
+	"dojo/domReady!"],
+function(util) {
+	util.init();
+});
+</script>
 			</body>
 		</html>
 	</xsl:template>
@@ -434,18 +448,23 @@
 		</xsl:if>
 			
 			<script type="text/javascript">
-				djConfig = {
-					isDebug: false,
-					preventBackButtonFix: false
-				};
+			    dojoConfig= {
+			        has: {
+			        //    "dojo-firebug": true,
+			        //    "dojo-debug-messages": true
+			        },
+			        parseOnLoad: true,
+			        async: true,
+			//        baseUrl: "/org/jbundle/res/docs/styles/js",
+			//      preventBackButtonFix: false
+			    };
 			</script>
 
-			<!-- script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojo/dojo.xd.js" djConfig="parseOnLoad: true"></script-->
-			<script type="text/javascript" src="docs/styles/js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
-			<style type="text/css">
-		        @import "docs/styles/js/dijit/themes/tundra/tundra.css";
-			</style>
-			<link rel="stylesheet" type="text/css" href="org/jbundle/res/docs/styles/css/style.css" title="basicstyle" />
+<link rel="stylesheet" href="/org/jbundle/res/docs/styles/js/dijit/themes/tundra/tundra.css" type="text/css" />
+<link rel="stylesheet" href="/org/jbundle/res/docs/styles/css/style.css" type="text/css" title="basicstyle" />
+
+<script src="/org/jbundle/res/docs/styles/js/dojo/dojo.js" type="text/javascript"></script>
+
 			<xsl:if test="/full-screen/content-area/Menus/Params/properties/entry[@key='css']!=''">
 					<xsl:element name="link">
 					<xsl:attribute name="rel">stylesheet</xsl:attribute>
@@ -455,24 +474,8 @@
 					</xsl:element>
 			</xsl:if>
 
-			<script src="org/jbundle/res/docs/styles/js/jbundle/main.js" type="text/javascript"></script>
-			<script src="org/jbundle/res/docs/styles/js/jbundle/classes.js" type="text/javascript"></script>
-			<script src="org/jbundle/res/docs/styles/js/jbundle/remote.js" type="text/javascript"></script>
-			<script src="org/jbundle/res/docs/styles/js/jbundle/gui.js" type="text/javascript"></script>
-			<script src="org/jbundle/res/docs/styles/js/jbundle/xml.js" type="text/javascript"></script>
-			<script src="org/jbundle/res/docs/styles/js/jbundle/util.js" type="text/javascript"></script>
-			<script src="org/jbundle/res/docs/styles/js/jbundle/java.js" type="text/javascript"></script>
-			<script src="docs/styles/js/sha/sha1.js" type="text/javascript"></script>
+<script src="docs/styles/js/sha/sha1.js" type="text/javascript"></script>
 
-			<script type="text/javascript">
-			dojo.require("dijit.form.Button");
-			dojo.require("dijit.form.TextBox");
-			dojo.require("dijit.form.Textarea");
-			dojo.require("dijit.form.CheckBox");
-			dojo.require("dijit.form.ComboBox");
-			dojo.require("dojo.parser");
-			dojo.require("dojo.back");
-			</script>  
 		</head>
 	</xsl:template>
 	
@@ -497,11 +500,9 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$link!=''">
-				<xsl:attribute name="onClick">
-					jbundle.util.doButton('<xsl:value-of select="$link"/>');
-				</xsl:attribute>
+				<xsl:attribute name="onClick">require(["jbundle/util"], function(util) {util.doButton('<xsl:value-of select="$link"/>');});</xsl:attribute>
 			</xsl:if>
- 			<xsl:attribute name="dojoType">dijit.form.Button</xsl:attribute>
+ 			<xsl:attribute name="data-dojo-type">dijit/form/Button</xsl:attribute>
 			<xsl:attribute name="class">
 				<xsl:choose>
  					<xsl:when test="$class!=''"><xsl:value-of select="$class"/></xsl:when>
@@ -556,11 +557,9 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$link!=''">
-				<xsl:attribute name="onClick">
-					jbundle.util.doLink('<xsl:value-of select="$link"/>');
-				</xsl:attribute>
+				<xsl:attribute name="onClick">require(["jbundle/util"], function(util) {util.doLink('<xsl:value-of select="$link"/>');});</xsl:attribute>
 			</xsl:if>
- 			<xsl:attribute name="dojoType">dijit.form.Button</xsl:attribute>
+ 			<xsl:attribute name="data-dojo-type">dijit/form/Button</xsl:attribute>
 			<xsl:attribute name="class">
 				<xsl:choose>
  					<xsl:when test="$class!=''"><xsl:value-of select="$class"/></xsl:when>
@@ -614,11 +613,9 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$link!=''">
-				<xsl:attribute name="onClick">
-					jbundle.util.doLink('<xsl:value-of select="$link"/>');
-				</xsl:attribute>
+				<xsl:attribute name="onClick">require(["jbundle/util"], function(util) {util.doLink('<xsl:value-of select="$link"/>');});</xsl:attribute>
 			</xsl:if>
- 			<xsl:attribute name="dojoType">dijit.form.Button</xsl:attribute>
+ 			<xsl:attribute name="data-dojo-type">dijit/form/Button</xsl:attribute>
 			<xsl:attribute name="class">
 				<xsl:choose>
  					<xsl:when test="$class!=''"><xsl:value-of select="$class"/></xsl:when>
@@ -774,6 +771,7 @@
 				<xsl:value-of select="xform/submission/@id" />
 			</xsl:attribute>
 			<xsl:attribute name="onsubmit">return jbundle.util.doButton('Submit');</xsl:attribute>
+			<xsl:attribute name="onsubmit">require(["jbundle/util"], function(util) {return util.doButton('Submit');});</xsl:attribute>
 		
 			<!-- note: the br is in this div due to an ie xslt bug -->
 		    <xsl:element name="div">
@@ -847,10 +845,10 @@
 			</xsl:attribute>
 			<xsl:choose>
 				<xsl:when test="$type='checkbox'">
-					<xsl:attribute name="dojoType">dijit.form.CheckBox</xsl:attribute>
+					<xsl:attribute name="data-dojo-type">dijit/form/CheckBox</xsl:attribute>
  					</xsl:when>
 					<xsl:otherwise>
-					<xsl:attribute name="dojoType">dijit.form.TextBox</xsl:attribute>
+					<xsl:attribute name="data-dojo-type">dijit/form/TextBox</xsl:attribute>
 		 		</xsl:otherwise>
 			</xsl:choose>
 			<xsl:attribute name="name">
@@ -905,14 +903,14 @@
 		<xsl:param name="xform"></xsl:param>	<!-- Text color -->
 		<xsl:param name="richtype"></xsl:param>		<!-- Rich control type -->
 		
-		<xsl:variable name="dojotype"><xsl:if test="$richtype!='Editor'">dijit.form.Textarea</xsl:if><xsl:if test="$richtype='Editor'">dijit.Editor</xsl:if></xsl:variable>
+		<xsl:variable name="data-dojo-type"><xsl:if test="$richtype!='Editor'">dijit/form/Textarea</xsl:if><xsl:if test="$richtype='Editor'">dijit/Editor</xsl:if></xsl:variable>
 
 		<xsl:if test="$richtype!='Editor'">
 		<xsl:element name="textarea">
 			<xsl:attribute name="type">
 				<xsl:value-of select="$type" />
 			</xsl:attribute>
-			<xsl:attribute name="dojoType"><xsl:value-of select="$dojotype"/></xsl:attribute>
+			<xsl:attribute name="data-dojo-type"><xsl:value-of select="$data-dojo-type"/></xsl:attribute>
 			<xsl:attribute name="name">
 				<xsl:value-of select="$name"/>
 			</xsl:attribute>
@@ -950,7 +948,7 @@
 		
 		<xsl:if test="$richtype='Editor'">
 		<xsl:element name="div">
-			<xsl:attribute name="dojoType"><xsl:value-of select="$dojotype"/></xsl:attribute>
+			<xsl:attribute name="data-dojo-type"><xsl:value-of select="$data-dojo-type"/></xsl:attribute>
 			<xsl:attribute name="name">
 				<xsl:value-of select="$name"/>
 			</xsl:attribute>
@@ -971,7 +969,7 @@
 			<xsl:attribute name="name">
 				<xsl:value-of select="@ref"/>
 			</xsl:attribute>
-			<xsl:attribute name="dojoType">dijit.form.ComboBox</xsl:attribute>
+			<xsl:attribute name="data-dojo-type">dijit/form/ComboBox</xsl:attribute>
 			<xsl:if test="@style!=''">
 				<xsl:attribute name="style">
 					<xsl:value-of select="@style"/>

@@ -139,7 +139,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             if (BaseServlet.XML.equalsIgnoreCase(alias))
             {
                 servlet = new org.jbundle.base.screen.control.servlet.xml.XMLServlet();
-//x             dictionary.put("stylesheet-path", "docs/styles/xsl/flat/base/");    // Since stylesheets are in resources
+//x             dictionary.put("stylesheet-path", "org/jbundle/res/docs/styles/xsl/flat/base/");    // Since stylesheets are in resources
                 properties.put("remotehost", "localhost");
             }
             if ((BaseServlet.XSL.equalsIgnoreCase(alias)) 
@@ -157,7 +157,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
             {
                 servlet = new org.jbundle.base.remote.proxy.AjaxServlet();
                 properties.put("remotehost", "localhost");
-                properties.put("stylesheet-path", "docs/styles/xsl/flat/base/");    // Since webkit still can't handle import
+                properties.put("stylesheet-path", "org/jbundle/res/docs/styles/xsl/flat/base/");    // Since webkit still can't handle import
             }
             if ((BaseServlet.ROOT.equalsIgnoreCase(alias)) 
                     || (BaseServlet.INDEX.equalsIgnoreCase(alias)))

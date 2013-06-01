@@ -106,12 +106,12 @@ public class BaseServlet extends BaseWebappServlet
 			if (ajax)
 			{
 				if ((!BaseServlet.WEBKIT.equals(browser)) && (browser != null))
-					stylesheet = "docs/styles/xsl/ajax/base/" + stylesheet;
+					stylesheet = JBUNDLE_RESOURCES + "/docs/styles/xsl/ajax/base/" + stylesheet;
 				else
-					stylesheet = "docs/styles/xsl/flat/base/" + stylesheet;	// Webkit bug
+					stylesheet = JBUNDLE_RESOURCES + "/docs/styles/xsl/flat/base/" + stylesheet;	// Webkit bug
 			}
 			else
-				stylesheet = "docs/styles/xsl/cocoon/all/" + stylesheet;	// They should have specified the directory
+				stylesheet = JBUNDLE_RESOURCES + "/docs/styles/xsl/cocoon/all/" + stylesheet;	// They should have specified the directory
 		}
 	    if (!stylesheet.contains("."))
 		{

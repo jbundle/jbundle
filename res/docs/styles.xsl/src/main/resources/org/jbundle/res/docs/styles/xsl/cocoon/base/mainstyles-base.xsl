@@ -179,8 +179,8 @@
 					<xsl:attribute name="width">16</xsl:attribute>
 					<xsl:attribute name="height">16</xsl:attribute>
 					<xsl:attribute name="border">0</xsl:attribute>
-					&#160;e-mail the webmaster.
 				</xsl:element>
+					&#160;e-mail the webmaster.
 			</xsl:element>
 			</span>
 		</td>
