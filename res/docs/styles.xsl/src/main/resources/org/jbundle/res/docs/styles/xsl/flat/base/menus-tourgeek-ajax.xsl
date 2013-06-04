@@ -402,17 +402,10 @@
 				</table>
 				<xsl:apply-templates select="trailer" />
 <script type="text/javascript">
-require(["jbundle/util",
-	"dijit/form/Button",
-	"dijit/form/TextBox",
-	"dijit/form/Textarea",
-	"dijit/form/CheckBox",
-	"dijit/form/ComboBox",
-	"dojo/parser",
-	"dojo/back",
+require(["jbundle/jbundle-all",
 	"dojo/domReady!"],
-function(util) {
-	util.init();
+function(jbundle) {
+	jbundle.init();
 });
 </script>
 			</body>
@@ -458,10 +451,9 @@ function(util) {
 			    };
 			</script>
 
-<link rel="stylesheet" href="/org/jbundle/res/docs/styles/js/dijit/themes/tundra/tundra.css" type="text/css" />
-<link rel="stylesheet" href="/org/jbundle/res/docs/styles/css/style.css" type="text/css" title="basicstyle" />
-
-<script src="/org/jbundle/res/docs/styles/js/dojo/dojo.js" type="text/javascript"></script>
+<link title="basicstyle" type="text/css" href="/org/jbundle/res/docs/styles/js/jbundle/tundra.css" rel="stylesheet" />
+<link type="text/css" href="/org/jbundle/res/docs/styles/css/style.css" rel="stylesheet" />
+<script type="text/javascript" src="/org/jbundle/res/docs/styles/js/dojo/dojo.js"></script>
 
 			<xsl:if test="/full-screen/content-area/Menus/Params/properties/entry[@key='css']!=''">
 					<xsl:element name="link">
