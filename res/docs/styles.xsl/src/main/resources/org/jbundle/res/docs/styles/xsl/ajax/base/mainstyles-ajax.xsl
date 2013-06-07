@@ -25,7 +25,7 @@
 				</table>
 				<xsl:apply-templates select="trailer" />
 <script type="text/javascript">
-require(["jbundle/jbundle-all",
+require(["jbundle/jbundle",
 	"dojo/domReady!"],
 function(jbundle) {
 	jbundle.init();

@@ -32,6 +32,7 @@ import org.jbundle.thin.base.message.BaseMessageHeader;
 import org.jbundle.thin.base.message.MapMessage;
 import org.jbundle.thin.base.message.MessageConstants;
 import org.jbundle.thin.base.util.base64.Base64;
+import org.jbundle.util.osgi.finder.ClassServiceUtility;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -246,7 +247,22 @@ public class AjaxProxyTask extends ProxyTask
         }
         else if (FILTER.equals(strName))
         {
-            BaseMessageFilter messageFilter = new BaseMessageFilter("chat", "intranet", null, null);
+        	String queueName = (String)properties.get(MessageConstants.QUEUE_NAME);
+        	if (queueName == null)
+        		queueName = "chat";
+        	String queueType = (String)properties.get(MessageConstants.QUEUE_TYPE);
+        	if (queueType == null)
+        		queueType = MessageConstants.DEFAULT_QUEUE;
+        	String className = (String)properties.get(MessageConstants.CLASS_NAME);
+            BaseMessageFilter messageFilter = null;
+        	if (className != null)
+        	{
+        		messageFilter = (BaseMessageFilter)ClassServiceUtility.getClassService().makeObjectFromClassName(className);
+        		if (messageFilter != null)
+        			messageFilter.init(queueName, queueType, null, properties);
+        	}
+        	if (messageFilter == null)
+        		messageFilter = new BaseMessageFilter(queueName, queueType, null, null);
             Integer intID = new Integer(strParam);
             messageFilter.setFilterID(intID);
             return messageFilter;
