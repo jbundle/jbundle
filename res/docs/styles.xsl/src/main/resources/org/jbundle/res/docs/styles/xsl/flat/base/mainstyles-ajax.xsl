@@ -191,6 +191,7 @@
 				<xsl:attribute name="class">nav<xsl:value-of select="/full-screen/params/navmenus" />StartShadow</xsl:attribute>
 				<img src="org/jbundle/res/images/graphics/1ptrans.gif" width="1" height="1" />
 			</xsl:element>
+			<th>&#160;</th>
 		</tr>
 		</xsl:if>
 	</xsl:template>
@@ -400,7 +401,7 @@
 				</table>
 				<xsl:apply-templates select="trailer" />
 <script type="text/javascript">
-require(["jbundle/jbundle-all",
+require(["jbundle/jbundle",
 	"dojo/domReady!"],
 function(jbundle) {
 	jbundle.init();
