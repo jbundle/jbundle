@@ -391,12 +391,6 @@
 			<xsl:call-template name="html-head" />
 			<body class="tundra">
 				<script type="text/javascript" src="http://java.com/js/deployJava.js"></script>			
-				<script type="text/javascript">
-require(["jbundle/back"],
-function(back) {
-	back.init();	// Before dom loads
-});
-				</script>
 				<xsl:apply-templates select="top-menu" />
 				<table id="top-table" cellspacing="0" cellpadding="0">
 					<tr valign="top">
