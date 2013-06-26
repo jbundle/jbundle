@@ -1605,7 +1605,7 @@ Just override the compute value method to re-calculate the target field's value.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777888">
-		<LastChanged>2010-02-05T11:18:01</LastChanged>
+		<LastChanged>2010-02-05T12:18:01</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>SButtonBox</ClassName>
 		<BaseClassName>SCheckBox</BaseClassName>
@@ -1622,7 +1622,7 @@ Just override the compute value method to re-calculate the target field's value.
 		<CopyDescFrom/>
 	</ClassInfo>
 	<ClassInfo ID="16777889">
-		<LastChanged>2010-02-05T11:18:01</LastChanged>
+		<LastChanged>2010-02-05T12:18:01</LastChanged>
 		<Deleted>N</Deleted>
 		<ClassName>SCannedBox</ClassName>
 		<BaseClassName>SBaseButton</BaseClassName>

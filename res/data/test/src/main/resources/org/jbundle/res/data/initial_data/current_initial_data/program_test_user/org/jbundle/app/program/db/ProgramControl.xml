@@ -5,8 +5,10 @@
 		<ProjectName>jbundle-test</ProjectName>
 		<BaseDirectory>/home/don/workspace</BaseDirectory>
 		<SourceDirectory>src/main/java/</SourceDirectory>
+		<ResourcesDirectory>src/main/resources/</ResourcesDirectory>
 		<ClassDirectory>target/classes/</ClassDirectory>
 		<ArchiveDirectory>data/archive/</ArchiveDirectory>
+		<DevArchiveDirectory>${user.dir}/src/main/resources/</DevArchiveDirectory>
 		<ResourceType>Properties</ResourceType>
 		<ClassResourceType/>
 		<PackageName/>
