@@ -171,7 +171,7 @@ public class MainApplication extends BaseApplication
             {
                 recMenus = Record.makeRecordFromClassName(MenusModel.THICK_CLASS, m_systemRecordOwner);
                 BaseTable table = recMenus.getTable();
-                table = new SyncTable(table.getDatabase(), recMenus);
+                table = new SyncTable(table.getDatabase(), recMenus);	// Fix concurrency issues
                 recMenus.setTable(table);     // This is necessary to link-up ResourceTable
             }
             recMenus.setKeyArea(MenusModel.CODE_KEY);
