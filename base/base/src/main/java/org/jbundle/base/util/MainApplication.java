@@ -8,7 +8,9 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.jbundle.base.db.BaseDatabase;
+import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.Record;
+import org.jbundle.base.db.util.SyncTable;
 import org.jbundle.base.field.PropertiesField;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.model.DBConstants;
@@ -166,7 +168,12 @@ public class MainApplication extends BaseApplication
 	        
 	        Map<String,Object> mapDomainProperties = null;
             if (recMenus == null)
+            {
                 recMenus = Record.makeRecordFromClassName(MenusModel.THICK_CLASS, m_systemRecordOwner);
+                BaseTable table = recMenus.getTable();
+                table = new SyncTable(table.getDatabase(), recMenus);
+                recMenus.setTable(table);     // This is necessary to link-up ResourceTable
+            }
             recMenus.setKeyArea(MenusModel.CODE_KEY);
 
             String strSubDomain = strDomain;

@@ -24,6 +24,7 @@ import org.jbundle.model.App;
 import org.jbundle.model.Env;
 import org.jbundle.model.PropertyOwner;
 import org.jbundle.model.RemoteException;
+import org.jbundle.model.Task;
 import org.jbundle.model.main.msg.db.MessageInfoModel;
 import org.jbundle.model.message.MessageManager;
 import org.jbundle.model.util.Util;
@@ -178,13 +179,29 @@ public class Environment extends Object
             Application application = (Application)this.m_vApplication.get(i);
             if (!DBConstants.FALSE.equalsIgnoreCase(this.getProperty(DBParams.FREEIFDONE)))
                 if (application == this.getDefaultApplication())
-                    continue;
+                	if (this.isApplicationDone(application))
+                		continue;
             if (application instanceof MessageApp)
                 continue;
             bValidAppFound = true;
         }
         if (!bValidAppFound)
             this.free();
+    }
+    private boolean isApplicationDone(Application application)
+    {
+    	if (application.getTaskList() != null)
+        	if (application.getTaskList().isEmpty())
+        		return true;
+    	Map<Task, RemoteTask> taskList = application.getTaskList();
+    	for (Task task : taskList.keySet())
+    	{
+    		if (task.isRunning())
+    			return false;
+    		if (task.isMainTaskCandidate())
+    			return false;
+    	}
+    	return true;
     }
     /**
      * Get/Create the one and only Environment.
