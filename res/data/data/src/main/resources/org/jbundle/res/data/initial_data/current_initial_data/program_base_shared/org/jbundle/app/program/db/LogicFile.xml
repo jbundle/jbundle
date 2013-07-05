@@ -29401,7 +29401,7 @@ if (bResourceListBundle)
         + "/**\n"
         + " * @(#)" + strFileName + ".java  0.00 1-Jan-10 Don Corley\n"
         + " *\n"
-        + " * Copyright © 2010 tourgeek.com. All Rights Reserved.\n"
+        + " * Copyright © 2013 tourgeek.com. All Rights Reserved.\n"
         + " *   don@donandann.com\n"
         + " */\n"
         + "import java.util.*;\n"
@@ -31617,7 +31617,7 @@ return super;]]></LogicSource>
         		foundPackage = true;
                 dataOut.write("/*" + lineSeparator);
         		dataOut.write(beforePackage);
-                dataOut.write(" * Copyright © 2011 jbundle.org. All rights reserved." + lineSeparator);
+                dataOut.write(" * Copyright © 2013 jbundle.org. All rights reserved." + lineSeparator);
                 dataOut.write(" */" + lineSeparator);
         	}
     	}
