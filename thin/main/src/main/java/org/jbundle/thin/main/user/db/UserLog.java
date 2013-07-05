@@ -1,6 +1,6 @@
 /**
  * @(#)UserLog.
- * Copyright © 2012 jbundle.org. All rights reserved.
+ * Copyright © 2013 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
 package org.jbundle.thin.main.user.db;

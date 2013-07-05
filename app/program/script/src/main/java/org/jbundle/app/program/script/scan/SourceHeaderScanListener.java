@@ -1,6 +1,6 @@
 /**
  * @(#)SourceHeaderScanListener.
- * Copyright © 2012 jbundle.org. All rights reserved.
+ * Copyright © 2013 jbundle.org. All rights reserved.
  * GPL3 Open Source Software License.
  */
 package org.jbundle.app.program.script.scan;
@@ -96,7 +96,7 @@ public class SourceHeaderScanListener extends BaseScanListener
                         foundPackage = true;
                         dataOut.write("/*" + lineSeparator);
                         dataOut.write(beforePackage);
-                        dataOut.write(" * Copyright © 2011 jbundle.org. All rights reserved." + lineSeparator);
+                        dataOut.write(" * Copyright © 2013 jbundle.org. All rights reserved." + lineSeparator);
                         dataOut.write(" */" + lineSeparator);
                     }
                 }
