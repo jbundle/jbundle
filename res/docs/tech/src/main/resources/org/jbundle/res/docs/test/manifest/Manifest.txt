@@ -15,6 +15,6 @@ Class-Path: thickscreen.jar acctpay.jar picturethick.jar thickdb.jar
   resprofile.jar thindbassetdr.jar thintest.jar resrequest.jar
   thindbbooking.jar thinutil.jar restest.jar thindbgenled.jar
   payroll.jar resvet.jar thindbmain.jar
-Main-Class: com.tourapp.Main
+Main-Class: com.tourgeek.Main
 Created-By: 1.6.0 (Sun Microsystems Inc.)
 

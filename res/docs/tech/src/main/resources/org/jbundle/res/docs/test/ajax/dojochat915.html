@@ -17,7 +17,7 @@
 <!-- 
 <script language="javascript" src="../../styles/js/jbundle/main.js" type="text/javascript"></script>
 <script language="javascript" type="text/javascript">
-tourapp.SERVER_PATH = "../../../";
+tourgeek.SERVER_PATH = "../../../";
 </script>
 <script language="javascript" src="../../styles/js/jbundle/classes.js" type="text/javascript"></script>
 <script language="javascript" src="../../styles/js/jbundle/remote.js" type="text/javascript"></script>
@@ -28,13 +28,13 @@ tourapp.SERVER_PATH = "../../../";
  
 <script language="javascript" type="text/javascript">
 
-dojo.require("tourapp.main");
-	tourapp.SERVER_PATH = "../../../";
-dojo.require("tourapp.classes");
-dojo.require("tourapp.remote");
-dojo.require("tourapp.util");
-dojo.require("tourapp.gui");
-dojo.require("tourapp.xml");
+dojo.require("tourgeek.main");
+	tourgeek.SERVER_PATH = "../../../";
+dojo.require("tourgeek.classes");
+dojo.require("tourgeek.remote");
+dojo.require("tourgeek.util");
+dojo.require("tourgeek.gui");
+dojo.require("tourgeek.xml");
 
 dojo.require("dijit.form.Button");
 dojo.require("dijit.form.TextBox");
@@ -42,7 +42,7 @@ dojo.require("dijit.form.CheckBox");
 dojo.require("dijit.Dialog");
 dojo.require("dojo.parser");
 
-//+  dojo.require("tourapp.tourapp");
+//+  dojo.require("tourgeek.tourgeek");
 
   function onLoad() {
 
@@ -80,7 +80,7 @@ dojo.require("dojo.parser");
 	  	queueName: "chat",
 	    	data: curr
 	    };
-	    tourapp.util.sendMessage(message);
+	    tourgeek.util.sendMessage(message);
 	}
 	
 	function addTheQueue()
@@ -88,8 +88,8 @@ dojo.require("dojo.parser");
 	  var filter = {
 	  	queueName: "chat"
 	  };
-	  tourapp.util.addSendQueue(filter);
-	  tourapp.util.addReceiveQueue(filter);
+	  tourgeek.util.addSendQueue(filter);
+	  tourgeek.util.addReceiveQueue(filter);
 	}
 	
 	function addTheListener()
@@ -98,7 +98,7 @@ dojo.require("dojo.parser");
 	  	queueName: "chat",
 	  	onMessage: addLineToOutput
 	  };
-	  tourapp.util.addMessageListener(filter);
+	  tourgeek.util.addMessageListener(filter);
 	}
 	
 	function addLineToOutput(message)
@@ -109,23 +109,23 @@ dojo.require("dojo.parser");
 	
 	function logon()
 	{
-	  tourapp.util.login("don", "donwpp");
+	  tourgeek.util.login("don", "donwpp");
 	}
 	
 	function logoff()
 	{
-	  tourapp.util.logout();
+	  tourgeek.util.logout();
 	}
 	
 	function freeSession()
 	{
-	  tourapp.util.free();
+	  tourgeek.util.free();
 	}
  
 	var session;
 	function createSession()
 	{
-		session = tourapp.util.makeRemoteSession(".main.remote.AjaxScreenSession");
+		session = tourgeek.util.makeRemoteSession(".main.remote.AjaxScreenSession");
 	}
   
 	function doAction()
@@ -136,21 +136,21 @@ dojo.require("dojo.parser");
 		var properties = null;
 		var callbackFunction = doCallback;
 
-		var messageFilter = new tourapp.classes.MessageFilter(session, callbackFunction);
+		var messageFilter = new tourgeek.classes.MessageFilter(session, callbackFunction);
 		messageFilter.properties = properties;
 		messageFilter.remoteCommand = remoteCommand;
 		if (session.sessionID)	// Only add the physical remote filter if the receive queue is set up, otherwise the filter will be set up later
-			tourapp.remote.doRemoteAction(messageFilter);
+			tourgeek.remote.doRemoteAction(messageFilter);
 	}
 
 	function doCallback(properties)
 	{
 		var domToAppendTo = document.getElementById("menuarea");
 		// First, delete all the old nodes
-		tourapp.gui.removeAllChildren(domToAppendTo);
+		tourgeek.gui.removeAllChildren(domToAppendTo);
 		// Then, add the new nodes (via xslt)
-		var xsltURI = tourapp.getServerPath("docs/styles/xsl/ajax/base/menus.xsl");
-		tourapp.xml.doXSLT(properties, xsltURI, domToAppendTo);
+		var xsltURI = tourgeek.getServerPath("docs/styles/xsl/ajax/base/menus.xsl");
+		tourgeek.xml.doXSLT(properties, xsltURI, domToAppendTo);
 	}
 
 </script>
@@ -179,7 +179,7 @@ dojo.require("dojo.parser");
 	</form>
 
 	<br/>
-	<button dojoType="dijit.form.Button" onClick="tourapp.gui.displayLogonDialog(document.getElementById('scratch'));">Form</button>
+	<button dojoType="dijit.form.Button" onClick="tourgeek.gui.displayLogonDialog(document.getElementById('scratch'));">Form</button>
 
 	<div id="menuarea">
 	</div>

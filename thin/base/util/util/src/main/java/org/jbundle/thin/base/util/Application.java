@@ -51,8 +51,8 @@ import org.jbundle.util.osgi.finder.ClassServiceUtility;
  * Some of the params that an Application uses are:
  * <pre>
  * user=nameOrID
- * remoteapp=tourapp (don't set this)
- * server=www.tourapp.com (You will need to do this for standalone apps).
+ * remoteapp=tourgeek (don't set this)
+ * server=www.tourgeek.com (You will need to do this for standalone apps).
  * codebase=classes (shouldn't need this)
  * resource=MyResources
  * lanugage=es
@@ -532,7 +532,7 @@ public class Application extends Object
     /**
      * Get the path to the base servlet.
      * NOTE: This DOES NOT get the servlet path, it gets the path up to the servlet.
-     * ie., if the servlet is http://www.xyz.com:3433/abc/tourapp I return http://www.xyz.com:3433/abc.
+     * ie., if the servlet is http://www.xyz.com:3433/abc/tourgeek I return http://www.xyz.com:3433/abc.
      * This is useful for accessing the proxy or report generator.
      * @return The servlet path (NOT including the trailing '/'.
      */

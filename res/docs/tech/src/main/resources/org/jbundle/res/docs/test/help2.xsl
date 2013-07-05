@@ -29,11 +29,11 @@
 					</xsl:attribute>
 				</xsl:element>
 			<!-- ToDo Get PICS rating
-				<meta http-equiv="PICS-Label" content='(PICS-1.0 "http://www.classify.org/safesurf/" l gen t for "http://www.tourapp.com/" r (SS~~000 1 SS~~100 1))' />
+				<meta http-equiv="PICS-Label" content='(PICS-1.0 "http://www.classify.org/safesurf/" l gen t for "http://www.tourgeek.com/" r (SS~~000 1 SS~~100 1))' />
 				<meta http-equiv="PICS-Label" 
     			    content='(PICS-1.1 "http://www.rsac.org/ratingsv01.html" 
             	    l gen true comment "RSACi North America Server" 
-            	    for "http://www.tourapp.com" 
+            	    for "http://www.tourgeek.com" 
             	    on "1996.04.16T08:15-0500" 
             	    r (n 0 s 0 v 0 l 0))' />
 			-->
@@ -117,7 +117,7 @@
 		<a href="?menu=&amp;navmenus=Icons+Only&amp;preferences=">
 			<img src="images/buttons/Contract.gif" alt="Change the menu pane to Icons only" border="0" width="16" height="16" />
 		</a>
-		<a href="com.tourapp.Servlet?menu=&amp;navmenus=No&amp;preferences=">
+		<a href="com.tourgeek.Servlet?menu=&amp;navmenus=No&amp;preferences=">
 			<img src="images/buttons/Close.gif" alt="Close the menu pane" border="0" width="16" height="16" />
 		</a>
 			<strong>Navigation menu</strong><br/><hr/>

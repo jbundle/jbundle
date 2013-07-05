@@ -4,7 +4,7 @@
 package org.jbundle.base.db.util.log;
 
 /**
- * Copyright © 2012 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourgeek.com. All Rights Reserved.
  *      don@tourgeek.com
  */
 import java.util.Hashtable;
@@ -26,7 +26,7 @@ import org.jbundle.thin.base.util.message.RemoteMessageManager;
  * LogTable - An Override of BaseTable that logs all changes.
  * Note: This requires the BackupServerApp to be running somewhere.
  * The BackupServerApp picks up the messages and writes them to a log/ftp file.
- * The BackupServerApp (and the restore app) is in the tourapp_program project.
+ * The BackupServerApp (and the restore app) is in the tourgeek_program project.
  */
 public class MessageLogTable extends LogTable
     implements BackupConstants

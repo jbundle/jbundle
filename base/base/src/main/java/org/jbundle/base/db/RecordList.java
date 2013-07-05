@@ -6,7 +6,7 @@ package org.jbundle.base.db;
 /**
  * QueryBase - Query description class.
  *
- * Copyright © 2012 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourgeek.com. All Rights Reserved.
  *      don@tourgeek.com
  */
 import java.util.Enumeration;

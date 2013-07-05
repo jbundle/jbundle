@@ -89,7 +89,7 @@
       </fo:table-cell>
       <fo:table-cell column-number="2" display-align="center" text-align="center">
         <fo:block>
-		 <fo:external-graphic src="http://www.tourapp.com/images/tour/buttons/Air.gif"/>
+		 <fo:external-graphic src="http://www.tourgeek.com/images/tour/buttons/Air.gif"/>
 		 <xsl:apply-templates select="depart/flight"/></fo:block>
       </fo:table-cell>
       <fo:table-cell column-number="3" text-align="right">

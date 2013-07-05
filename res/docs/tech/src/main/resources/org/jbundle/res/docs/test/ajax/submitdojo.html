@@ -28,11 +28,11 @@
 			dojo.require("dojo.back");
 
 			function onLoad() {
-				tourapp.util.init();
+				tourgeek.util.init();
 			}
 			  
 			function onUnload() {
-				tourapp.util.free();
+				tourgeek.util.free();
 			}
 
 
@@ -66,7 +66,7 @@ function getFormData()
 
 <form method="post" action="appxsl" id="submit1">
 <div id="status-area"></div>
-<input type="hidden" name="record" value="com.tourapp.test.vet.db.Cat"><input type="hidden" name="forms" value="display"><input type="hidden" name="screen" value="com.tourapp.test.vet.screen.TestReport">
+<input type="hidden" name="record" value="com.tourgeek.test.vet.db.Cat"><input type="hidden" name="forms" value="display"><input type="hidden" name="screen" value="com.tourgeek.test.vet.screen.TestReport">
 <table xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xfm="http://www.w3.org/2000/12/xforms">
 
 <tr>
@@ -87,9 +87,9 @@ function getFormData()
 <table class="toolbars">
 <tr>
 <td><button onClick="
-					tourapp.util.doButton('Submit');
+					tourgeek.util.doButton('Submit');
 				" dojoType="dijit.form.Button" class="button"><img src="images/buttons/Submit.gif" width="16" height="16" alt="Click to submit"><span class="desc">Submit</span></button></td><td><button onClick="
-					tourapp.util.doButton('Reset');
+					tourgeek.util.doButton('Reset');
 				" dojoType="dijit.form.Button" class="button"><img src="images/buttons/Reset.gif" width="16" height="16" alt="Click to reset"><span class="desc">Reset</span></button></td>
 </tr>
 </table>

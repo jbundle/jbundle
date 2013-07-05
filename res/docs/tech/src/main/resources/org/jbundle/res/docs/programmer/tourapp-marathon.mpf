@@ -1,17 +1,17 @@
 #Marathon Project File
 #Thu Sep 29 22:41:40 PDT 2005
-marathon.project.description=tourapp
+marathon.project.description=tourgeek
 marathon.application.vm.arguments=-Xms256m -Xmx512m
-marathon.application.classpath=/var/tourapp/java/tour/build/webapp/WEB-INF/classes;/usr/local/java/util/db/mysql-connector-java-3.1.8/mysql.jar;/var/tourapp/java/tour/build/webapp
+marathon.application.classpath=/var/tourgeek/java/tour/build/webapp/WEB-INF/classes;/usr/local/java/util/db/mysql-connector-java-3.1.8/mysql.jar;/var/tourgeek/java/tour/build/webapp
 marathon.component.resolvers=
 marathon.properties.marathon.runtime.port=1100
 marathon.application.pythonpath=
-marathon.project.name=tourapp
-marathon.application.mainclass=com.tourapp.Main
-marathon.fixture.dir=/var/tourapp/java/tour/build/webapp/Fixtures
-marathon.capture.dir=/var/tourapp/java/tour/build/webapp/CaptureScripts
-marathon.test.dir=/var/tourapp/java/tour/build/webapp/TestCases
-marathon.project.dir=/var/tourapp/java/tour/build/webapp
-marathon.application.arguments=menu\=dev.tourapp.com backgr  ound\=backgrounds/worldmapalpha.gif backgroundcolor\=\#FFFFCC codebase\=www.tourdemo.com  server\=www.tourdemo.com\:8080/
+marathon.project.name=tourgeek
+marathon.application.mainclass=com.tourgeek.Main
+marathon.fixture.dir=/var/tourgeek/java/tour/build/webapp/Fixtures
+marathon.capture.dir=/var/tourgeek/java/tour/build/webapp/CaptureScripts
+marathon.test.dir=/var/tourgeek/java/tour/build/webapp/TestCases
+marathon.project.dir=/var/tourgeek/java/tour/build/webapp
+marathon.application.arguments=menu\=dev.tourgeek.com backgr  ound\=backgrounds/worldmapalpha.gif backgroundcolor\=\#FFFFCC codebase\=www.tourdemo.com  server\=www.tourdemo.com\:8080/
 marathon.application.main.thread=false
-marathon.application.working.dir=/var/tourapp/java/tour
+marathon.application.working.dir=/var/tourgeek/java/tour

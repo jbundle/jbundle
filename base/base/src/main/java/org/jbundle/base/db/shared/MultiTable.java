@@ -4,7 +4,7 @@
 package org.jbundle.base.db.shared;
 
 /**
- * Copyright © 2012 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourgeek.com. All Rights Reserved.
  *      don@tourgeek.com
  *
  * NOTE: Once you resolve the bookmark dilemma in BaseTable, fix GetAtRecordClose.

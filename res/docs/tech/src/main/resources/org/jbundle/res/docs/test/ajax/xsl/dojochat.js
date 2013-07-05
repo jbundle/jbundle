@@ -32,7 +32,7 @@
 	  	queueName: "chat",
 	    	data: curr
 	    };
-	    tourapp.util.sendMessage(message);
+	    tourgeek.util.sendMessage(message);
 	}
 	
 	function addTheQueue()
@@ -40,8 +40,8 @@
 	  var filter = {
 	  	queueName: "chat"
 	  };
-	  tourapp.util.addSendQueue(filter);
-	  tourapp.util.addReceiveQueue(filter);
+	  tourgeek.util.addSendQueue(filter);
+	  tourgeek.util.addReceiveQueue(filter);
 	}
 	
 	function addTheListener()
@@ -50,7 +50,7 @@
 	  	queueName: "chat",
 	  	onMessage: addLineToOutput
 	  };
-	  tourapp.util.addMessageListener(filter);
+	  tourgeek.util.addMessageListener(filter);
 	}
 	
 	function addLineToOutput(message)
@@ -61,23 +61,23 @@
 	
 	function logon()
 	{
-	  tourapp.util.login("don", "donwpp");
+	  tourgeek.util.login("don", "donwpp");
 	}
 	
 	function logoff()
 	{
-	  tourapp.util.logout();
+	  tourgeek.util.logout();
 	}
 	
 	function freeSession()
 	{
-	  tourapp.util.free();
+	  tourgeek.util.free();
 	}
  
 	var session;
 	function createSession()
 	{
-		session = tourapp.util.makeRemoteSession(".main.remote.AjaxScreenSession");
+		session = tourgeek.util.makeRemoteSession(".main.remote.AjaxScreenSession");
 	}
   
 	function doAction()
@@ -88,19 +88,19 @@
 		var properties = null;
 		var callbackFunction = doCallback;
 
-		var messageFilter = new tourapp.classes.MessageFilter(session, callbackFunction);
+		var messageFilter = new tourgeek.classes.MessageFilter(session, callbackFunction);
 		messageFilter.properties = properties;
 		messageFilter.remoteCommand = remoteCommand;
 		if (session.sessionID)	// Only add the physical remote filter if the receive queue is set up, otherwise the filter will be set up later
-			tourapp.remote.doRemoteAction(messageFilter);
+			tourgeek.remote.doRemoteAction(messageFilter);
 	}
 
 	function doCallback(properties)
 	{
 		var domToAppendTo = document.getElementById("menuarea");
 		// First, delete all the old nodes
-		tourapp.gui.removeAllChildren(domToAppendTo);
+		tourgeek.gui.removeAllChildren(domToAppendTo);
 		// Then, add the new nodes (via xslt)
-		var xsltURI = tourapp.getServerPath("docs/styles/xsl/ajax/base/menus.xsl");
-		tourapp.xml.doXSLT(properties, xsltURI, domToAppendTo);
+		var xsltURI = tourgeek.getServerPath("docs/styles/xsl/ajax/base/menus.xsl");
+		tourgeek.xml.doXSLT(properties, xsltURI, domToAppendTo);
 	}

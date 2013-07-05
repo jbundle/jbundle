@@ -93,7 +93,7 @@ public class XmlInOut extends BaseProcess
      * You probably want to comment out the check security line in Application. (= NORMAL_RETURN)
      * Typical usage:
      * java org.jbundle.base.db.xmlutil.XmlInOut allFiles=true loadInitialData=false \
-     *  archiveDir=/home/don/workspace/workspace/tourapp/res/data/data/src/main/webapp/com/tourapp/res/data/initial_data/current_initial_data/
+     *  archiveDir=/home/don/workspace/workspace/tourgeek/res/data/data/src/main/webapp/com/tourgeek/res/data/initial_data/current_initial_data/
      */
     public static void main(String[] args)
     {

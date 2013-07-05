@@ -261,7 +261,7 @@ public class ConvertCode extends ConvertBase
     {
         String dirPrefix = this.getProperty(DIR_PREFIX);
         if (dirPrefix == null)
-        	dirPrefix = Utility.addToPath(System.getProperty("user.home"), "workspace/tourapp/src/com/tourapp");
+        	dirPrefix = Utility.addToPath(System.getProperty("user.home"), "workspace/tourgeek/src/com/tourgeek");
         if (pathToFix == null)
             pathToFix = dirPrefix;
         else

@@ -94,10 +94,10 @@ public class SetupJavac extends BaseProcess
      */
     public void run()
     {
-        String strSource = "workspace/tourapp/src/com/tourapp/";
+        String strSource = "workspace/tourgeek/src/com/tourgeek/";
         String strMacro = "set classpath=%classpath%;/Java/jws/jdk1.2/jre/lib/rt.jar;/data/java/tour;/Java/programs/j2sdkee-beta/lib/j2ee.jar;.\n";
 //x     strMacro += "javac -g";
-//ie        strMacro += " ^\ncom/tourapp/**.java";
+//ie        strMacro += " ^\ncom/tourgeek/**.java";
     
         File fileDir = new File(strSource);
 

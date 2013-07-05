@@ -1975,8 +1975,8 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 <tr>
 <td valign="top" align="right"><font style="bold" size="+1">Technical:</font></td>
 <td valign="top" align="left" width="100%"><technical/><br>
-<a href="/html/help/programmer/app/com/tourapp/<PackageDir/>/<field name=ClassName/>.html">JavaDoc</a><br>
-<a href="/source/com/tourapp/<PackageDir/>/<field name=ClassName/>.java">Java Code</a><br>
+<a href="/html/help/programmer/app/com/tourgeek/<PackageDir/>/<field name=ClassName/>.html">JavaDoc</a><br>
+<a href="/source/com/tourgeek/<PackageDir/>/<field name=ClassName/>.java">Java Code</a><br>
 <techinfo/></td>
 </tr>
 </optional>
@@ -2225,7 +2225,7 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<ObjectValue><![CDATA[<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr valign="center">
 <td align="left" valign="center">
-<a href="http://www.tourgeek.com"><img src="com/tourapp/res/images/com/tourgeek/nameblack.gif" border="0" /></a><br />
+<a href="http://www.tourgeek.com"><img src="com/tourgeek/res/images/com/tourgeek/nameblack.gif" border="0" /></a><br />
 <span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif">© Copyright 2010 <a href="http://www.tourgeek.com">tourgeek<span style="color: red; font-weight: bold">.</span>com</a>. All rights reserved.&#160;&#160;&#160;&#160;</span><br />
 <span style="font-size: 8pt; color: black; font-family: helvetica, arial, san-serif"><a href="mailto:webmaster@tourgeek.com"><img src="org/jbundle/res/images/buttons/Mail.gif" width="16" height="16" border="0" />&#160;e-mail the webmaster.</a></span>
 <br /><span style="color: red; font-size: 8pt"><b>Note:</b> This a demo site. You can't really book tours here.<br /></span>
@@ -3406,10 +3406,10 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Code>Program</Code>
 		<Language/>
 		<Locale/>
-		<KeyValue>xcom.tourapp.java.header</KeyValue>
+		<KeyValue>xcom.tourgeek.java.header</KeyValue>
 		<ObjectValue><![CDATA[/**
  * @(#)${className}.
- * Copyright © 2012 tourapp.com. All rights reserved.
+ * Copyright © 2012 tourgeek.com. All rights reserved.
  */]]></ObjectValue>
 	</Registration>
 	<Registration ID="548">
@@ -3431,9 +3431,9 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Code>Program</Code>
 		<Language/>
 		<Locale/>
-		<KeyValue>xcom.tourapp.header</KeyValue>
+		<KeyValue>xcom.tourgeek.header</KeyValue>
 		<ObjectValue><![CDATA[# ${className}.
-# Copyright © 2012 tourapp.com. All rights reserved.]]></ObjectValue>
+# Copyright © 2012 tourgeek.com. All rights reserved.]]></ObjectValue>
 	</Registration>
 	<Registration ID="550">
 		<LastChanged>2012-07-05T21:19:16</LastChanged>
@@ -3456,9 +3456,9 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Code>Program</Code>
 		<Language/>
 		<Locale/>
-		<KeyValue>com.tourapp.header</KeyValue>
+		<KeyValue>com.tourgeek.header</KeyValue>
 		<ObjectValue><![CDATA[# ${className}.
-# Copyright © 2012 tourapp.com. All rights reserved.
+# Copyright © 2012 tourgeek.com. All rights reserved.
 # GPL3 Open Source Software License.]]></ObjectValue>
 	</Registration>
 	<Registration ID="552">
@@ -3468,10 +3468,10 @@ titles in the TOS are for convenience only and have no legal or contractual effe
 		<Code>Program</Code>
 		<Language/>
 		<Locale/>
-		<KeyValue>com.tourapp.java.header</KeyValue>
+		<KeyValue>com.tourgeek.java.header</KeyValue>
 		<ObjectValue><![CDATA[/**
   * @(#)${className}.
-  * Copyright © 2012 tourapp.com. All rights reserved.
+  * Copyright © 2012 tourgeek.com. All rights reserved.
   * GPL3 Open Source Software License.
   */]]></ObjectValue>
 	</Registration>

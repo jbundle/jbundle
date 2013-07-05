@@ -9,7 +9,7 @@ import org.jbundle.model.screen.ScreenLoc;
 /**
  * @(#)STEView.java   0.00 12-Feb-97 Don Corley
  *
- * Copyright © 2012 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourgeek.com. All Rights Reserved.
  *      don@tourgeek.com
  */
 

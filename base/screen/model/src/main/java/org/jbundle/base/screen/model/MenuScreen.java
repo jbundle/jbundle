@@ -248,7 +248,7 @@ public class MenuScreen extends BaseMenuScreen
     }
     /**
      * From the URL, get the menu.
-     * First try the app URL, then try the host URL (ie., www.tourapp.com/fred then www.tourapp.com).
+     * First try the app URL, then try the host URL (ie., www.tourgeek.com/fred then www.tourgeek.com).
      * @return The menu name.
      */
     public String getURLMenu()

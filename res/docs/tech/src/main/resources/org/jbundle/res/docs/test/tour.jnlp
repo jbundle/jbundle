@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- JNLP File for tourapp Application -->
-<jnlp spec="1.0+" codebase="http://www.tourapp.com" href="docs/test/tourapp.jnlp">
+<!-- JNLP File for tourgeek Application -->
+<jnlp spec="1.0+" codebase="http://www.tourgeek.com" href="docs/test/tourgeek.jnlp">
   <information>
-    <title>tourapp Application</title>
-    <vendor>tourapp.com</vendor>
+    <title>tourgeek Application</title>
+    <vendor>tourgeek.com</vendor>
     <homepage href="index.html"/>
-    <description kind="one-line">tourapp Application</description>
+    <description kind="one-line">tourgeek Application</description>
     <description kind="short">
-tourapp is an on-line booking application.
+tourgeek is an on-line booking application.
     </description>
     <icon href="images/tour/icons/Tour.gif"/>
     <offline-allowed/>
@@ -20,6 +20,6 @@ tourapp is an on-line booking application.
     <jar href="classes/bio.jar"/>
   </resources>
   <application-desc
-	main-class="com.tourapp.biorhythm.Biorhythm">
+	main-class="com.tourgeek.biorhythm.Biorhythm">
   </application-desc>
 </jnlp>

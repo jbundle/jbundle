@@ -16,12 +16,12 @@
 <script language="javascript" src="../../../../../org/jbundle/res/docs/styles/js/jbundle/util.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-	tourapp.SERVER_PATH = "";
+	tourgeek.SERVER_PATH = "";
 
 function removecontentarea()
 {
 	var a = document.getElementById('content-area');
-	tourapp.gui.removeChildren(a);
+	tourgeek.gui.removeChildren(a);
 }
 
 function newcontentarea()
@@ -29,13 +29,13 @@ function newcontentarea()
 //	var a = document.getElementById('1');
 //	a.innerHTML = "div1<br/><div id='2'>div2<br/></div>end div1";
 	var data = "<?xml version=\"1.0\"?><?xml-stylesheet type=\"text/xsl\" href=\"remove.xsl\"?><top><status-text>This is the status text</status-text><content>This is the xmled content-area</content></top>";
-	tourapp.util.doRemoteScreenActionCallback(data);
+	tourgeek.util.doRemoteScreenActionCallback(data);
 }
 
 function removestatusarea()
 {
 	var a = document.getElementById('status-area');
-	tourapp.gui.removeChildren(a);
+	tourgeek.gui.removeChildren(a);
 }
 
 </script>

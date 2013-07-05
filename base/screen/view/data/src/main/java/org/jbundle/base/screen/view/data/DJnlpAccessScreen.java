@@ -8,7 +8,7 @@ package org.jbundle.base.screen.view.data;
  * 
  * Note: This class is obsolete. I now just use the osgi-webstart servlet
  *
- * Copyright © 2012 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourgeek.com. All Rights Reserved.
  *      don@tourgeek.com
  */
 import java.io.IOException;
@@ -255,7 +255,7 @@ public class DJnlpAccessScreen extends DDataAccessScreen
                 properties.remove(DBParams.APPLET);
         }
         Utility.replace(sbJnlp, "{mainClass}", strMainClass);
-        String strName = "tourapp";
+        String strName = "tourgeek";
         if ((this.getProperty("name") != null) && (this.getProperty("name").length() > 0))
         	strName = this.getProperty("name");
         if (sbJnlp.indexOf("{name}") != -1)

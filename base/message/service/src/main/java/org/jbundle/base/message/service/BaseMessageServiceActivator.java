@@ -41,7 +41,7 @@ import org.osgi.framework.BundleContext;
  * # ctrl+d (stop servicemix) - You must restart due to a karaf auto-wiring problem
  * # bin/servicemix (restart servicemix)
  * Start the rest of jbundle as usual.
- * start com.tourapp.tour.message.service._2011B.ping
+ * start com.tourgeek.tour.message.service._2011B.ping
  * start org.jibx.schema.org.opentravel._2011B.ping.ws.rest
  * start org.jibx.schema.org.opentravel._2011B.ping.ws.soap * @author don
  */

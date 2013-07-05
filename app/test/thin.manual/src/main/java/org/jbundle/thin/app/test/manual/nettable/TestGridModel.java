@@ -5,7 +5,7 @@ package org.jbundle.thin.app.test.manual.nettable;
 
 /**
  * OrderEntry.java:   Applet
- * Copyright © 2012 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourgeek.com. All Rights Reserved.
  *  
  *  @author Don Corley don@tourgeek.com
  *  @version 1.0.0.

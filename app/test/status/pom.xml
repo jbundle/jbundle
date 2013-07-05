@@ -11,7 +11,7 @@
 
   <artifactId>org.jbundle.app.test.status</artifactId>
   <packaging>bundle</packaging>
-  <name>tourapp-config-main - Run standalone tourapp</name>
+  <name>tourgeek-config-main - Run standalone tourgeek</name>
   
   <properties>
     <jbundle.db.local>Jdbc</jbundle.db.local>
@@ -58,8 +58,8 @@
   
   <dependencies>
     <dependency>
-      <groupId>com.tourapp.config</groupId>
-      <artifactId>tourapp-config-dep-all</artifactId>
+      <groupId>com.tourgeek.config</groupId>
+      <artifactId>tourgeek-config-dep-all</artifactId>
       <version>${jbundle-version-range}</version>
       <type>pom</type>
     </dependency>

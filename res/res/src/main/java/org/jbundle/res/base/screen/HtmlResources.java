@@ -113,8 +113,8 @@ public class HtmlResources extends ListResourceBundle
         "<tr>" + "\n" +
         "<td valign=\"top\" align=\"right\"><font style=\"bold\" size=\"+1\">Technical:</font></td>" + "\n" +
         "<td valign=\"top\" align=\"left\" width=\"100%\"><technical/><br>" + "\n" +
-        "<a href=\"/html/help/programmer/app/com/tourapp/<PackageDir/>/<field name=ClassName/>.html\">JavaDoc</a><br>" + "\n" +
-        "<a href=\"/source/com/tourapp/<PackageDir/>/<field name=ClassName/>.java\">Java Code</a><br>" + "\n" +
+        "<a href=\"/html/help/programmer/app/com/tourgeek/<PackageDir/>/<field name=ClassName/>.html\">JavaDoc</a><br>" + "\n" +
+        "<a href=\"/source/com/tourgeek/<PackageDir/>/<field name=ClassName/>.java\">Java Code</a><br>" + "\n" +
         "<techinfo/></td>" + "\n" +
         "</tr>" + "\n" +
         "</optional>" + "\n" +
@@ -311,7 +311,7 @@ public class HtmlResources extends ListResourceBundle
     {"htmlTrailer", "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">" + "\n" +
         "<tr valign=\"center\">" + "\n" +
         "<td align=\"left\" valign=\"center\">" + "\n" +
-        "<a href=\"http://www.tourgeek.com\"><img src=\"com/tourapp/res/images/com/tourgeek/nameblack.gif\" border=\"0\" /></a><br />" + "\n" +
+        "<a href=\"http://www.tourgeek.com\"><img src=\"com/tourgeek/res/images/com/tourgeek/nameblack.gif\" border=\"0\" /></a><br />" + "\n" +
         "<span style=\"font-size: 8pt; color: black; font-family: helvetica, arial, san-serif\">\u00A9 Copyright 2010 <a href=\"http://www.tourgeek.com\">tourgeek<span style=\"color: red; font-weight: bold\">.</span>com</a>. All rights reserved.&#160;&#160;&#160;&#160;</span><br />" + "\n" +
         "<span style=\"font-size: 8pt; color: black; font-family: helvetica, arial, san-serif\"><a href=\"mailto:webmaster@tourgeek.com\"><img src=\"images/buttons/Mail.gif\" width=\"16\" height=\"16\" border=\"0\" />&#160;e-mail the webmaster.</a></span>" + "\n" +
         "<br /><span style=\"color: red; font-size: 8pt\"><b>Note:</b> This a demo site. You can't really book tours here.<br /></span>" + "\n" +

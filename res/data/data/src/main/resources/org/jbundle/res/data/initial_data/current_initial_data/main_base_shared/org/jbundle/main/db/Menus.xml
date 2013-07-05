@@ -341,7 +341,7 @@
 		<Code/>
 		<Type>screen</Type>
 		<AutoDesc>Y</AutoDesc>
-		<Program>com.tourapp.tour.util.test.hotel.TestHotelRateScreen</Program>
+		<Program>com.tourgeek.tour.util.test.hotel.TestHotelRateScreen</Program>
 		<Params/>
 		<IconResource/>
 		<Keywords/>
@@ -1870,7 +1870,7 @@
 	<Menus ID="1864">
 		<LastChanged>2010-12-09T17:19:47</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>Tourapp development</Name>
+		<Name>Tourgeek development</Name>
 		<ParentFolderID>1,859</ParentFolderID>
 		<Sequence>20</Sequence>
 		<Comment/>
@@ -1892,7 +1892,7 @@
 	<Menus ID="1865">
 		<LastChanged>2010-12-09T17:21:04</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>Tourapp</Name>
+		<Name>Tourgeek</Name>
 		<ParentFolderID>1,859</ParentFolderID>
 		<Sequence>110</Sequence>
 		<Comment/>
@@ -1937,7 +1937,7 @@
 	<Menus ID="1867">
 		<LastChanged>2012-07-06T01:12:02</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>Tourapp dev jdbc</Name>
+		<Name>Tourgeek dev jdbc</Name>
 		<ParentFolderID>1,859</ParentFolderID>
 		<Sequence>220</Sequence>
 		<Comment/>
@@ -2051,7 +2051,7 @@
 		<ParentFolderID>789</ParentFolderID>
 		<Sequence>10</Sequence>
 		<Comment/>
-		<Code>dev.tourapp.com</Code>
+		<Code>dev.tourgeek.com</Code>
 		<Type>menu</Type>
 		<AutoDesc>Y</AutoDesc>
 		<Program>Main</Program>
@@ -2174,7 +2174,7 @@
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
 <entry key="remotehost">fred.demo.tourgeek.com</entry>
-<entry key="url">http://fred.demo.tourgeek.com:8181/tourapp</entry>
+<entry key="url">http://fred.demo.tourgeek.com:8181/tourgeek</entry>
 <entry key="domain">fred.demo.tourgeek.com</entry>
 <entry key="baseURL">fred.demo.tourgeek.com:8181/</entry>
 <entry key="connectionType">proxy</entry>
@@ -2199,7 +2199,7 @@
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
 <entry key="loadInitialData">true</entry>
-<entry key="userArchiveFolder">/home/don/.tourapp/fred/current_test_data</entry>
+<entry key="userArchiveFolder">/home/don/.tourgeek/fred/current_test_data</entry>
 <entry key="dbPrefix">fred_</entry>
 <entry key="mainUser">fred@tourgeek.com</entry>
 <entry key="xslTemplate">org/jbundle/res/docs/styles/xsl/program/fixdemotemplate.xsl</entry>
@@ -2213,7 +2213,7 @@
 	<Menus ID="1880">
 		<LastChanged>2012-07-06T01:12:33</LastChanged>
 		<Deleted>N</Deleted>
-		<Name>Tourapp JDBC</Name>
+		<Name>Tourgeek JDBC</Name>
 		<ParentFolderID>1,859</ParentFolderID>
 		<Sequence>221</Sequence>
 		<Comment/>

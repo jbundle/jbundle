@@ -55,7 +55,7 @@
         <p/>
         To view or change your itinerary click this line:<p/>
 		<xsl:element name="a">
-			<xsl:attribute name="href">http://www.jbundle.org/jbundle?applet=org.jbundle.thin.base.screen.BaseApplet&amp;jnlpjars=classes%2Fthinbase&amp;user=travelagent&amp;screen=.thin.app.booking.entry.tourappScreen&amp;background=backgrounds%2Fworldmapalpha.gif&amp;jnlpextensions=docs%2Fjnlp%2Fthin%2Cdocs%2Fjnlp%2Fthintour%2Cdocs%2Fjnlp%2Fresource&amp;backgroundcolor=%23eeeeff&amp;objectID=<xsl:value-of select="Booking.ID" /></xsl:attribute>
+			<xsl:attribute name="href">http://www.jbundle.org/jbundle?applet=org.jbundle.thin.base.screen.BaseApplet&amp;jnlpjars=classes%2Fthinbase&amp;user=travelagent&amp;screen=.thin.app.booking.entry.tourgeekScreen&amp;background=backgrounds%2Fworldmapalpha.gif&amp;jnlpextensions=docs%2Fjnlp%2Fthin%2Cdocs%2Fjnlp%2Fthintour%2Cdocs%2Fjnlp%2Fresource&amp;backgroundcolor=%23eeeeff&amp;objectID=<xsl:value-of select="Booking.ID" /></xsl:attribute>
             <xsl:value-of select="Tour.Description" />
         </xsl:element>
         (you must have Java on your system)

@@ -16,7 +16,7 @@
 <span class="spantitle">don</span>
 <span class="link"><a href="?user=&amp;menu="><img class="button" src="images/buttons/Logout.gif" width="16" height="16" alt="Sign out this user" /></a><a class="button" href="?user=&amp;menu=">Sign out</a></span>
 <span class="link"><a href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no"><img class="button" src="images/buttons/Settings.gif" width="16" height="16" alt="View or change preferences" /></a><a class="button" href="?screen=.main.user.screen.UserPreferenceScreen&amp;java=no">Settings</a></span>
-<span class="link"><a href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='?screen=com.tourapp.tour.request.html.RequestHtmlScreen'&amp;class=.base.screen.model.report.HelpScreen"><img class="button" src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /></a><a class="button" href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='?screen=com.tourapp.tour.request.html.RequestHtmlScreen'&amp;class=.base.screen.model.report.HelpScreen">Help</a></span>
+<span class="link"><a href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='?screen=com.tourgeek.tour.request.html.RequestHtmlScreen'&amp;class=.base.screen.model.report.HelpScreen"><img class="button" src="images/buttons/Help.gif" width="16" height="16" alt="Help for the current screen" /></a><a class="button" href="appxhtml?help=&amp;screen=.base.screen.model.MenuScreen&amp;menu='?screen=com.tourgeek.tour.request.html.RequestHtmlScreen'&amp;class=.base.screen.model.report.HelpScreen">Help</a></span>
 </td>
 </tr><tr style="background-color: black"><td colspan="6" height="1" style="width: 100%;"></td></tr>
 </table>
@@ -42,11 +42,11 @@
 <td valign="top">
 <!-- Start Content Area -->
 <form action="appxhtml" method="post">
-<input type="hidden" name="record" value="com.tourapp.tour.request.db.Request">
+<input type="hidden" name="record" value="com.tourgeek.tour.request.db.Request">
 <input type="hidden" name="forms" value="">
-<input type="hidden" name="screen" value="com.tourapp.tour.request.html.RequestHtmlScreen">
+<input type="hidden" name="screen" value="com.tourgeek.tour.request.html.RequestHtmlScreen">
 <input type="hidden" name="agent" value="no">
-<br><a href="?screen=com.tourapp.tour.request.html.RequestHtmlScreen&agent=yes">If you are a travel agent, click here</a>
+<br><a href="?screen=com.tourgeek.tour.request.html.RequestHtmlScreen&agent=yes">If you are a travel agent, click here</a>
 <table border="0">
 <tr>
     <Request.GenericName></Request.GenericName>

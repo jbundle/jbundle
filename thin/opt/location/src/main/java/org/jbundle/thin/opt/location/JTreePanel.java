@@ -94,7 +94,7 @@ public class JTreePanel extends JBaseScreen
         /** Create the JTreeModel. */
         BaseApplet applet = (BaseApplet)obj;
         RemoteSession parentSessionObject = null;//?this.getTourCalendarScreen().getRemoteSession();
-        RemoteSession remoteSession = applet.makeRemoteSession(parentSessionObject, "com.tourapp.tour.product.remote.location.LocationSearchSession");
+        RemoteSession remoteSession = applet.makeRemoteSession(parentSessionObject, "com.tourgeek.tour.product.remote.location.LocationSearchSession");
 
         String strListName = CONTINENT;
         String strRecordName = ROOT;

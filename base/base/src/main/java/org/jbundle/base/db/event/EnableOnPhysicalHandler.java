@@ -4,7 +4,7 @@
 package org.jbundle.base.db.event;
 
 /**
- * Copyright © 2012 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourgeek.com. All Rights Reserved.
  *      don@tourgeek.com
  *
  */

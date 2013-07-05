@@ -34,19 +34,19 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
 //          BaseServlet.COM,	// These are not necessary, since the main app will lookup these OSGi resources.
 //          BaseServlet.ORG,
             BaseServlet.JBUNDLE_RESOURCES,
-            BaseServlet.TOURAPP_RESOURCES,
+            BaseServlet.TOURGEEK_RESOURCES,
             BaseServlet.WS,
             BaseServlet.WSDL,
             BaseServlet.PROXY,
             BaseServlet.TABLE,
             BaseServlet.IMAGE,
             BaseServlet.JNLP,
-            BaseServlet.TOURAPP_WSDL,
+            BaseServlet.TOURGEEK_WSDL,
             BaseServlet.HTML,
             BaseServlet.HTML2,
             BaseServlet.AJAX,
-            BaseServlet.TOURAPP_JNLP,
-            BaseServlet.TOURAPP,
+            BaseServlet.TOURGEEK_JNLP,
+            BaseServlet.TOURGEEK,
             BaseServlet.XML,
             BaseServlet.XSL,
             BaseServlet.XHTML,
@@ -111,7 +111,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
                 httpContext = new org.jbundle.util.webapp.base.FileHttpContext(servlet, context.getBundle());
             }
             if ((BaseServlet.JBUNDLE_RESOURCES.equalsIgnoreCase(alias)) 
-                || (BaseServlet.TOURAPP_RESOURCES.equalsIgnoreCase(alias)))
+                || (BaseServlet.TOURGEEK_RESOURCES.equalsIgnoreCase(alias)))
             {
                 servlet = new BaseOsgiServlet();
                 properties.put(BaseOsgiServlet.BASE_PATH, alias + '/');    // Prepend this to the path
@@ -127,11 +127,11 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
                     || (BaseServlet.IMAGE.equalsIgnoreCase(alias))
                     || (BaseServlet.JNLP.equalsIgnoreCase(alias))
                     || (BaseServlet.WSDL.equalsIgnoreCase(alias))
-                    || (BaseServlet.TOURAPP_WSDL.equalsIgnoreCase(alias))
+                    || (BaseServlet.TOURGEEK_WSDL.equalsIgnoreCase(alias))
                     || (BaseServlet.HTML.equalsIgnoreCase(alias))
                     || (BaseServlet.HTML2.equalsIgnoreCase(alias))
-                    || (BaseServlet.TOURAPP_JNLP.equalsIgnoreCase(alias))
-                    || (BaseServlet.TOURAPP.equalsIgnoreCase(alias)))
+                    || (BaseServlet.TOURGEEK_JNLP.equalsIgnoreCase(alias))
+                    || (BaseServlet.TOURGEEK.equalsIgnoreCase(alias)))
             {
                 servlet = new org.jbundle.base.screen.control.servlet.html.HTMLServlet();
                 properties.put("remotehost", "localhost");  // Default value

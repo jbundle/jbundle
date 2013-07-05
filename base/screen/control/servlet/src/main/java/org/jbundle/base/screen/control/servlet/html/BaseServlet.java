@@ -6,7 +6,7 @@ package org.jbundle.base.screen.control.servlet.html;
 /**
  * @(#)DBServlet.java 0.00 12-Feb-97 Don Corley
  *
- * Copyright © 2012 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourgeek.com. All Rights Reserved.
  *      don@tourgeek.com
  */
 
@@ -140,20 +140,20 @@ public class BaseServlet extends BaseWebappServlet
 	public static final String COM = "com";
 	public static final String ORG = "org";
 	public static final String JBUNDLE_RESOURCES = "org/jbundle/res";
-	public static final String TOURAPP_RESOURCES = "com/tourapp/res";
+	public static final String TOURGEEK_RESOURCES = "com/tourgeek/res";
 	public static final String PROXY = "proxy";
-	public static final String TOURAPP = Constants.DEFAULT_SERVLET;
-	public static final String TABLE = TOURAPP + "/table";
-	public static final String IMAGE = TOURAPP + "/image";
-	public static final String JNLP = TOURAPP + "/jnlp";
-	public static final String TOURAPP_WSDL = TOURAPP + "/wsdl";
+	public static final String TOURGEEK = Constants.DEFAULT_SERVLET;
+	public static final String TABLE = TOURGEEK + "/table";
+	public static final String IMAGE = TOURGEEK + "/image";
+	public static final String JNLP = TOURGEEK + "/jnlp";
+	public static final String TOURGEEK_WSDL = TOURGEEK + "/wsdl";
 	public static final String WSDL = "wsdl";
 	public static final String HTML = "HTMLServlet";
-	public static final String HTML2 = TOURAPP + "html";
-	public static final String TOURAPP_JNLP = TOURAPP + ".jnlp";
-	public static final String XML = TOURAPP + "xml";
-	public static final String XSL = TOURAPP + "xsl";
-	public static final String XHTML = TOURAPP + "xhtml";
+	public static final String HTML2 = TOURGEEK + "html";
+	public static final String TOURGEEK_JNLP = TOURGEEK + ".jnlp";
+	public static final String XML = TOURGEEK + "xml";
+	public static final String XSL = TOURGEEK + "xsl";
+	public static final String XHTML = TOURGEEK + "xhtml";
 	public static final String JNLP_DOWNLOAD = "docs/jnlp";	// "*.jnlp";
 	public static final String AJAX = "ajax";
 	public static final String MESSAGE = "message";

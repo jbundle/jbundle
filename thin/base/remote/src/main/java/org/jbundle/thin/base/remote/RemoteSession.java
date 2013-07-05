@@ -8,7 +8,7 @@ import org.jbundle.model.RemoteException;
 /**
  * @(#)RemoteDatabase.java  1.16 95/12/14 Don Corley
  *
- * Copyright © 2012 tourapp.com. All Rights Reserved.
+ * Copyright © 2012 tourgeek.com. All Rights Reserved.
  *      don@tourgeek.com
  *
  */
