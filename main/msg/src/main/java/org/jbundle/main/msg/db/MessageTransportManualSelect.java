@@ -59,7 +59,7 @@ public class MessageTransportManualSelect extends MessageTransportSelect
     public Record makeReferenceRecord(RecordOwner recordOwner)
     {
         Record record = super.makeReferenceRecord(recordOwner);
-        record.addListener(new CompareFileFilter(record.getField(MessageTransport.MESSAGE_TRANSPORT_TYPE), record.getField(MessageTransportTypeField.MANUAL_RESPONSE), DBConstants.EQUALS, null, false));
+        record.addListener(new CompareFileFilter(record.getField(MessageTransport.MESSAGE_TRANSPORT_TYPE), MessageTransportTypeField.MANUAL_RESPONSE, DBConstants.EQUALS, null, false));
         return record;
     }
 
