@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.model</groupId>
     <artifactId>jbundle-model-reactor</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
   </parent>
   
   <artifactId>jbundle-model-app-reactor</artifactId>
