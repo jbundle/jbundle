@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jbundle.res</groupId>
     <artifactId>jbundle-res-docs-reactor</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
   </parent>
 
   <artifactId>org.jbundle.res.docs.styles.xsl</artifactId>
@@ -58,7 +58,7 @@
       <plugin>
         <groupId>org.jbundle.app.program</groupId>
         <artifactId>org.jbundle.app.program.plugin</artifactId>
-        <version>1.0.3-SNAPSHOT</version>
+        <version>1.0.3</version>
         <executions>
           <execution>
             <id>execution1</id>

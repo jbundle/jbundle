@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-base-reactor</artifactId>
     <groupId>org.jbundle.base</groupId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
   </parent>
 
   <artifactId>org.jbundle.base.model</artifactId>

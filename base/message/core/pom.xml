@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.base.message</groupId>
     <artifactId>jbundle-base-message-reactor</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
   </parent>
 
   <artifactId>org.jbundle.base.message.core</artifactId>

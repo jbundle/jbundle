@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.app.test</groupId>
     <artifactId>jbundle-app-test-reactor</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
   </parent>
 
   <artifactId>org.jbundle.thin.app.test.manual</artifactId>
