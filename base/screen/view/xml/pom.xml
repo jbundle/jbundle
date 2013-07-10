@@ -4,8 +4,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.jbundle.base.screen</groupId>
-    <artifactId>jbundle-base-screen-view-reactor</artifactId>
+    <!-- groupId>org.jbundle.base.screen</groupId -->
+    <groupId>org.jbundle.config</groupId>
+    <!-- artifactId>jbundle-base-screen-view-reactor</artifactId -->
+    <artifactId>jbundle-project</artifactId>
     <version>1.0.4-SNAPSHOT</version>
   </parent>
 

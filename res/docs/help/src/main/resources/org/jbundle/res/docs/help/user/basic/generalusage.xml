@@ -28,7 +28,7 @@
 
 		<button-link>
 			<name>Toolbar button functions</name>
-			<link>?help=&amp;xml=docs/help/user/basic/toolbarbuttons.xml</link>
+			<link>?help=&amp;xml=org/jbundle/res/docs/help/user/basic/toolbarbuttons.xml</link>
 			<image>Help</image>
 		</button-link>
 		<br />

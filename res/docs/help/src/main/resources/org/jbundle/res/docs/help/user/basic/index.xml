@@ -44,7 +44,7 @@
 
 		<button-link>
 			<name>General screen usage</name>
-			<link>?help=&amp;xml=docs/help/user/basic/generalusage.xml</link>
+			<link>?help=&amp;xml=org/jbundle/res/docs/help/user/basic/generalusage.xml</link>
 			<image>Help</image>
 		</button-link>
 	</paragraph>

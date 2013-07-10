@@ -288,7 +288,7 @@ public interface DBConstants extends Constants
     /**
      * The default help (xml) file name.
      */
-    public static final String DEFAULT_HELP_FILE = "docs/help/user/basic/index.xml";
+    public static final String DEFAULT_HELP_FILE = "org/jbundle/res/docs/help/user/basic/index.xml";
     
     public static final String SAPPLET = ROOT_PACKAGE + "base.screen.control.swing.SApplet";  //org.jbundle.base.screen.control.swing.SApplet.class.getName();
 }

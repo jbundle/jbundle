@@ -11016,7 +11016,7 @@ previous date was oem]]></ClassDesc>
 <paragraph>
 <help-link>
 <name>General screen usage</name>
-<link>?help&amp;xml=docs/help/user/basic/generalusage.xml</link>
+<link>?help&amp;xml=org/jbundle/res/docs/help/user/basic/generalusage.xml</link>
 <image>Help</image>
 </help-link>
 </paragraph>
@@ -11024,7 +11024,7 @@ previous date was oem]]></ClassDesc>
 <paragraph>
 <help-link>
 <name>Toolbar button functions</name>
-<link>?help&amp;xml=docs/help/user/basic/toolbarbuttons.xml</link>
+<link>?help&amp;xml=org/jbundle/res/docs/help/user/basic/toolbarbuttons.xml</link>
 <image>Help</image>
 </help-link>
 </paragraph></ClassHelp>

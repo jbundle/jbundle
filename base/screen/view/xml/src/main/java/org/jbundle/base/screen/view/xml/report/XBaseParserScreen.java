@@ -73,32 +73,35 @@ public class XBaseParserScreen extends XDualReportScreen
     public boolean printData(PrintWriter out, int iHtmlAttributes)
     {
         boolean bFieldsFound = false;
-        String strXml = this.getProperty(DBParams.XML);                // Html page
-        if (strXml == null)
-            strXml = this.getProperty(DBParams.TEMPLATE);
-        if (DBConstants.BLANK.equals(strXml))
-            strXml = DBConstants.DEFAULT_HELP_FILE;
-        if (strXml != null)
+        String strXmlFilename = this.getProperty(DBParams.XML);                // Html page
+        if (strXmlFilename == null)
+            strXmlFilename = this.getProperty(DBParams.TEMPLATE);
+        if (DBConstants.BLANK.equals(strXmlFilename))
+            strXmlFilename = DBConstants.DEFAULT_HELP_FILE;
+        if (strXmlFilename != null)
         {
-            if ((strXml.indexOf(':') == -1) && (strXml.charAt(0) != '/'))
+            if ((strXmlFilename.indexOf(':') == -1) && (strXmlFilename.charAt(0) != '/'))
             {
-            	if (strXml.indexOf('/') == -1)
-            		strXml = DBConstants.DEFAULT_HELP_FILE.substring(0, DBConstants.DEFAULT_HELP_FILE.lastIndexOf('/') + 1) + strXml;
+            	if (strXmlFilename.indexOf('/') == -1)
+            		strXmlFilename = DBConstants.DEFAULT_HELP_FILE.substring(0, DBConstants.DEFAULT_HELP_FILE.lastIndexOf('/') + 1) + strXmlFilename;
                 String strLanguage = ((BaseApplication)this.getTask().getApplication()).getLanguage(false);
                 if ((strLanguage == null) || (strLanguage.equalsIgnoreCase("en")))
                     strLanguage = Constants.BLANK;
                 if (strLanguage.length() > 0)
                     strLanguage += "/";
-                strXml = strLanguage + strXml;  // DBConstants.kxxx;
+                strXmlFilename = strLanguage + strXmlFilename;  // DBConstants.kxxx;
             }
             boolean bHTML = false;
-            if ((strXml.endsWith(".html"))
-                || (strXml.endsWith(".htm")))
+            if ((strXmlFilename.endsWith(".html"))
+                || (strXmlFilename.endsWith(".htm")))
                     bHTML = true;
             if (bHTML)
                 out.println(Utility.startTag(XMLTags.HTML));
-            InputStream streamIn = this.getTask().getInputStream(strXml);
-            Utility.transferURLStream(null, null, new InputStreamReader(streamIn), out);
+            InputStream streamIn = this.getTask().getInputStream(strXmlFilename);
+            if (streamIn != null)
+            	Utility.transferURLStream(null, null, new InputStreamReader(streamIn), out);
+            else
+            	out.println("File not found: " + strXmlFilename + "<br/>");
             if (bHTML)
                 out.println(Utility.endTag(XMLTags.HTML));
         }
