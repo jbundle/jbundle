@@ -6,7 +6,7 @@
     <!-- groupId>org.jbundle.res</groupId -->
     <groupId>org.jbundle.config</groupId>
     <!-- artifactId>jbundle-res-docs-reactor</artifactId -->
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.4</version>
     <artifactId>jbundle-project</artifactId>
     <relativePath>../../..</relativePath>
   </parent>
