@@ -28,17 +28,13 @@
   </scm>
 
   <modules>
-    <!-- module>res</module>
+    <module>res</module>
     <module>thin</module>
     <module>base</module>
     <module>app</module>
     <module>model</module>
     <module>main</module>
-    <module>config</module -->	<!-- Must be last since obr is here -->
-    <module>base/model</module>
-    <module>base/screen/view/xml</module>
-    <module>res/data/data</module>
-    <module>res/docs/help</module>
+    <module>config</module>	<!-- Must be last since obr is here -->
   </modules>
 
   <repositories>

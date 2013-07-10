@@ -3,12 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <!-- artifactId>jbundle-base-reactor</artifactId -->
-    <artifactId>jbundle-project</artifactId>
-    <!-- groupId>org.jbundle.base</groupId -->
-    <groupId>org.jbundle.config</groupId>
+    <groupId>org.jbundle.base</groupId>
+    <artifactId>jbundle-base-reactor</artifactId>
     <version>1.0.5-SNAPSHOT</version>
-    <relativePath>../..</relativePath>
   </parent>
 
   <artifactId>org.jbundle.base.model</artifactId>
