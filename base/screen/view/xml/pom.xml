@@ -9,6 +9,7 @@
     <!-- artifactId>jbundle-base-screen-view-reactor</artifactId -->
     <artifactId>jbundle-project</artifactId>
     <version>1.0.4-SNAPSHOT</version>
+    <relativePath>../../../..</relativePath>
   </parent>
 
   <artifactId>org.jbundle.base.screen.view.xml</artifactId>
