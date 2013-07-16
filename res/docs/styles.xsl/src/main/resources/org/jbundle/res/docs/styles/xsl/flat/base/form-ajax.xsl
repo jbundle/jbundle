@@ -466,7 +466,7 @@ function(jbundle) {
 					</xsl:element>
 			</xsl:if>
 
-<script src="docs/styles/js/sha/sha1.js" type="text/javascript"></script>
+<script src="org/jbundle/res/docs/styles/js/pajhome/sha1.js" type="text/javascript"></script>
 
 		</head>
 	</xsl:template>
