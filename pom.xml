@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-parent</artifactId>
     <groupId>org.jbundle.config</groupId>
-    <version>1.3.5-SNAPSHOT</version>
+    <version>1.3.5</version>
     <relativePath>../jbundle-parent</relativePath>
   </parent>
 
@@ -28,13 +28,14 @@
   </scm>
 
   <modules>
-    <module>res</module>
+    <!-- module>res</module>
     <module>thin</module>
     <module>base</module>
     <module>app</module>
     <module>model</module>
     <module>main</module>
-    <module>config</module>	<!-- Must be last since obr is here -->
+    <module>config</module -->
+    <module>res/docs/styles.xsl</module>
   </modules>
 
   <repositories>
