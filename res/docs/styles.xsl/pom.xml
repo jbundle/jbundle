@@ -3,12 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <!-- groupId>org.jbundle.res</groupId>
-    <artifactId>jbundle-res-docs-reactor</artifactId -->
+    <groupId>org.jbundle.res</groupId>
+    <artifactId>jbundle-res-docs-reactor</artifactId>
     <version>1.0.6-SNAPSHOT</version>
-    <groupId>org.jbundle.config</groupId>
-    <artifactId>jbundle-project</artifactId>
-    <relativePath>../../..</relativePath>
   </parent>
 
   <artifactId>org.jbundle.res.docs.styles.xsl</artifactId>

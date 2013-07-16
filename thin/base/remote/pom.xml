@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbundle-thin-base-reactor</artifactId>
     <groupId>org.jbundle.thin.base</groupId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.6-SNAPSHOT</version
   </parent>
 
   <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->

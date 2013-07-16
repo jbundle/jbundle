@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jbundle.config.dep</groupId>
     <artifactId>jbundle-config-dep-reactor</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.6-SNAPSHOT</version
   </parent>
 
   <artifactId>jbundle-config-dep-main</artifactId>
