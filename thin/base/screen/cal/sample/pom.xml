@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.thin.base.screen</groupId>
     <artifactId>jbundle-thin-base-screen-cal-reactor</artifactId>
-    <version>1.0.6-SNAPSHOT</version
+    <version>1.0.6-SNAPSHOT</version>
   </parent>
 
   <artifactId>jbundle-thin-base-screen-cal-sample-reactor</artifactId>
