@@ -3,18 +3,11 @@
 
   <modelVersion>4.0.0</modelVersion>
  
-  <!-- parent>
+  <parent>
     <groupId>org.jbundle.res</groupId>
     <artifactId>jbundle-res-data-reactor</artifactId>
     <version>1.0.6-SNAPSHOT</version>
-  </parent -->
-  <parent>
-    <groupId>org.jbundle.config</groupId>
-    <artifactId>jbundle-project</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
-    <relativePath>../../..</relativePath>
   </parent>
-    <groupId>org.jbundle.res</groupId>
 
   <artifactId>org.jbundle.res.data</artifactId>
   <name>jbundle-res-data - jbundle data</name>
