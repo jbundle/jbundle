@@ -2,12 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
+  <!-- parent>
     <groupId>org.jbundle.res</groupId>
     <artifactId>jbundle-res-docs-reactor</artifactId>
     <version>1.0.6-SNAPSHOT</version>
+  </parent -->
+  <parent>
+    <groupId>org.jbundle.config</groupId>
+    <artifactId>jbundle-project</artifactId>
+    <version>1.0.6-SNAPSHOT</version>
+    <relativePath>../../..</relativePath>
   </parent>
-
+    <groupId>org.jbundle.res</groupId>
+  
   <artifactId>org.jbundle.res.docs.styles.xsl</artifactId>
   <name>jbundle-res-docs-styles-xsl</name>
   <packaging>bundle</packaging>
