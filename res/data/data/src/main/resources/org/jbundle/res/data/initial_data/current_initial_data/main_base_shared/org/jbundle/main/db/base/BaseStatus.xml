@@ -5,27 +5,27 @@
 		<Description>A</Description>
 		<Icon/>
 	</BaseStatus>
-	<BaseStatus ID="2">
-		<LastChanged/>
-		<Deleted>N</Deleted>
-		<Description>B</Description>
-		<Icon/>
-	</BaseStatus>
-	<BaseStatus ID="3">
-		<LastChanged/>
-		<Deleted>N</Deleted>
-		<Description>C</Description>
-		<Icon/>
-	</BaseStatus>
 	<BaseStatus ID="4">
 		<LastChanged/>
 		<Deleted>N</Deleted>
 		<Description>D</Description>
 		<Icon/>
 	</BaseStatus>
-	<BaseStatus ID="7">
+	<BaseStatus ID="5">
 		<LastChanged/>
 		<Deleted>N</Deleted>
+		<Description>E</Description>
+		<Icon/>
+	</BaseStatus>
+	<BaseStatus ID="6">
+		<LastChanged/>
+		<Deleted>N</Deleted>
+		<Description>F</Description>
+		<Icon/>
+	</BaseStatus>
+	<BaseStatus ID="7">
+		<LastChanged/>
+		<Deleted/>
 		<Description>G</Description>
 		<Icon/>
 	</BaseStatus>

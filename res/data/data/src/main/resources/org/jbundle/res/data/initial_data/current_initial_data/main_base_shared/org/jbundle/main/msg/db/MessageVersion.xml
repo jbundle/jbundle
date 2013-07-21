@@ -251,4 +251,98 @@ JAXBPackage=org.opentravel.ota2008b
 JAXBPackage=org.opentravel.ota2009a
 ]]></Properties>
 	</MessageVersion>
+	<MessageVersion ID="19">
+		<LastChanged>2011-03-10T13:51:09</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>2010A</Description>
+		<Code>2010A</Code>
+		<Namespace/>
+		<SchemaLocation/>
+		<NumericVersion/>
+		<messageVersionID/>
+		<Properties><![CDATA[#Field properties
+#Thu Mar 10 13:51:04 PST 2011
+JAXBPackage=org.opentravel.ota2010a
+xjibx.bindingName=binding
+xjibx.packageName=org.ota
+]]></Properties>
+	</MessageVersion>
+	<MessageVersion ID="20">
+		<LastChanged>2011-03-10T13:45:54</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>2010B</Description>
+		<Code>2010B</Code>
+		<Namespace/>
+		<SchemaLocation/>
+		<NumericVersion/>
+		<messageVersionID/>
+		<Properties><![CDATA[#Field properties
+#Thu Mar 10 13:45:52 PST 2011
+]]></Properties>
+	</MessageVersion>
+	<MessageVersion ID="21">
+		<LastChanged>2011-03-10T13:45:54</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>2011A</Description>
+		<Code>2011A</Code>
+		<Namespace/>
+		<SchemaLocation/>
+		<NumericVersion/>
+		<messageVersionID/>
+		<Properties><![CDATA[#Field properties
+#Thu Mar 10 13:45:52 PST 2011
+]]></Properties>
+	</MessageVersion>
+	<MessageVersion ID="22">
+		<LastChanged>2011-03-10T13:45:54</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>2011B</Description>
+		<Code>2011B</Code>
+		<Namespace/>
+		<SchemaLocation/>
+		<NumericVersion/>
+		<messageVersionID/>
+		<Properties><![CDATA[#Field properties
+#Thu Mar 10 13:45:52 PST 2011
+]]></Properties>
+	</MessageVersion>
+	<MessageVersion ID="23">
+		<LastChanged>2011-03-10T13:45:54</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>2012A</Description>
+		<Code>2012A</Code>
+		<Namespace/>
+		<SchemaLocation/>
+		<NumericVersion/>
+		<messageVersionID/>
+		<Properties><![CDATA[#Field properties
+#Thu Mar 10 13:45:52 PST 2011
+]]></Properties>
+	</MessageVersion>
+	<MessageVersion ID="24">
+		<LastChanged>2011-03-10T13:45:54</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>2012B</Description>
+		<Code>2012B</Code>
+		<Namespace/>
+		<SchemaLocation/>
+		<NumericVersion/>
+		<messageVersionID/>
+		<Properties><![CDATA[#Field properties
+#Thu Mar 10 13:45:52 PST 2011
+]]></Properties>
+	</MessageVersion>
+	<MessageVersion ID="25">
+		<LastChanged>2011-03-10T13:45:54</LastChanged>
+		<Deleted>N</Deleted>
+		<Description>2013A</Description>
+		<Code>2013A</Code>
+		<Namespace/>
+		<SchemaLocation/>
+		<NumericVersion/>
+		<messageVersionID/>
+		<Properties><![CDATA[#Field properties
+#Thu Mar 10 13:45:52 PST 2011
+]]></Properties>
+	</MessageVersion>
 </file>
