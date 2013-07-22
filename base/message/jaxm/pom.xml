@@ -3,11 +3,18 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
+  <!-- parent>
     <groupId>org.jbundle.base.message</groupId>
     <artifactId>jbundle-base-message-reactor</artifactId>
     <version>1.0.6-SNAPSHOT</version>
+  </parent -->
+  <parent>
+    <groupId>org.jbundle.config</groupId>
+    <relativePath>../../..</relativePath>
+    <artifactId>jbundle-project</artifactId>
+    <version>1.0.7-SNAPSHOT</version>
   </parent>
+    <groupId>org.jbundle.base.message</groupId>
 
   <artifactId>org.jbundle.base.message.jaxm</artifactId>
   <name>jbundle-base-message-jaxm</name>
@@ -30,6 +37,7 @@
             </Private-Package>
             <Import-Package>
             	*;resolution:=optional,
+            	com.sun.xml.messaging.saaj.soap;resolution:=optional,	<!-- Required of JAXM -->
             </Import-Package>
           </instructions>
         </configuration>

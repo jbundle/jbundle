@@ -3,21 +3,24 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
+  <!-- parent>
     <groupId>org.jbundle.base.message</groupId>
     <artifactId>jbundle-base-message-reactor</artifactId>
     <version>1.0.6-SNAPSHOT</version>
+  </parent -->
+  <parent>
+    <groupId>org.jbundle.config</groupId>
+    <relativePath>../../..</relativePath>
+    <artifactId>jbundle-project</artifactId>
+    <version>1.0.7-SNAPSHOT</version>
   </parent>
+    <groupId>org.jbundle.base.message</groupId>
 
   <artifactId>org.jbundle.base.message.trx</artifactId>
   <name>jbundle-base-message-trx</name>
   <packaging>bundle</packaging>
 
   <dependencies>
-    <dependency>
-        <groupId>javax.mail</groupId>
-        <artifactId>mail</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.jbundle.model</groupId>
       <artifactId>org.jbundle.model.main</artifactId>
@@ -41,6 +44,10 @@
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
     </dependency>
   </dependencies>
 

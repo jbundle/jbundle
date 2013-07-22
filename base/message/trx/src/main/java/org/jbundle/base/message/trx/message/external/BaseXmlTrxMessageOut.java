@@ -94,7 +94,13 @@ public class BaseXmlTrxMessageOut extends ExternalTrxMessageOut
     public int convertInternalToExternal(Object recordOwner)
     {
         if (this.getConvertToNative() == null)
-            return ((RecordOwner)recordOwner).getTask().setLastError("Converter does not exist");
+        {
+            BaseMessageHeader trxMessageHeader = this.getMessage().getMessageHeader();
+            String strMessageClass = (String)trxMessageHeader.get(TrxMessageHeader.MESSAGE_MARSHALLER_CLASS);
+            String strPackage = (String)trxMessageHeader.get(TrxMessageHeader.BASE_PACKAGE);
+            strMessageClass = ClassServiceUtility.getFullClassName(strPackage, strMessageClass);
+            return ((RecordOwner)recordOwner).getTask().setLastError("Converter does not exist: " + strMessageClass);
+        }
         Object root = this.getConvertToNative().convertInternalToMarshallableObject((RecordOwner)recordOwner);
         if (root != null)
         {
