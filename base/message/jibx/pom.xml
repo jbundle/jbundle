@@ -2,18 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <!-- parent>
+  <parent>
     <artifactId>jbundle-base-message-reactor</artifactId>
     <groupId>org.jbundle.base.message</groupId>
     <version>1.0.6-SNAPSHOT</version>
-  </parent -->
-  <parent>
-    <groupId>org.jbundle.config</groupId>
-    <relativePath>../../..</relativePath>
-    <artifactId>jbundle-project</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
   </parent>
-    <groupId>org.jbundle.base.message</groupId>
 
   <artifactId>org.jbundle.base.message.jibx</artifactId>
   <packaging>bundle</packaging>
