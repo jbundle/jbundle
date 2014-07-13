@@ -42,7 +42,9 @@
     <dependency>
         <groupId>org.jibx.schema.org.apache.maven</groupId>
         <artifactId>org.jibx.schema.org.apache.maven.maven_v4_0_0</artifactId>
-        <version>${jibx-schema-version-range}</version>
+        <version>1.1.3</version>
+        <!-- version>${jibx-schema-version-range}</version --> <!-- TODO(don) Remove this -->
+
         </dependency>
   </dependencies>
 </project>
