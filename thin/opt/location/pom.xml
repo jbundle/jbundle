@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbundle-thin-opt-reactor</artifactId>
     <groupId>org.jbundle.thin.opt</groupId>
-    <version>1.0.8</version>
+    <version>1.0.9-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.jbundle.thin.opt.location</artifactId>
