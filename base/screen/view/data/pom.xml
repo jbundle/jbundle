@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.base.screen</groupId>
     <artifactId>jbundle-base-screen-view-reactor</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.8</version>
   </parent>
 
   <artifactId>org.jbundle.base.screen.view.data</artifactId>
