@@ -34,7 +34,7 @@ import org.osgi.framework.BundleContext;
  * When you have servicemix started you will need start the SOAP and REST
  * servers (but not the service!) as detailed in the
  * JiBX example. Then, you will need to start the activator that you overrode this class with: 
- * # obr:addurl http://www.jibx.org/repository.xml
+ * # obr:url-add http://www.jibx.org/repository.xml
  * # obr:deploy org.jibx.schema.org.opentravel._2011B.ping.ws.service  (NO!)
  * obr:deploy org.jibx.schema.org.opentravel._2011B.ping.ws.rest
  * obr:deploy org.jibx.schema.org.opentravel._2011B.ping.ws.soap
