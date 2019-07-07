@@ -12,4 +12,5 @@ skeleton_test_data*
 *.releaseBackup
 release.properties
 derby.log
-
+*.iml
+.idea
