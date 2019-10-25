@@ -24,8 +24,8 @@
             <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Export-Package>
-                ${project.artifactId}.*;version=${project.version}
-                org.jbundle.thin.app.test.hotel.*;version=${project.version}
+                ${project.artifactId}.*;
+                org.jbundle.thin.app.test.hotel.*;
             </Export-Package>
             <Import-Package>
                 *;resolution:=optional,
