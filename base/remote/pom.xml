@@ -20,7 +20,7 @@
     </jbundle-package-export>	<!-- Bundle packages to export -->
     <jbundle-package-import>
     	*;resolution:=optional,
-	    org.jbundle.thin.base.remote;resolution:=optional, <!-- RMI Requires access to .ApplicationServer class -->
+	   <!-- org.jbundle.thin.base.remote;resolution:=optional, TODO - Remove this include --> <!-- RMI Requires access to .ApplicationServer class -->
     </jbundle-package-import>
   </properties>  
 
