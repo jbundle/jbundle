@@ -33,7 +33,7 @@
     
     <dependency>    <!-- There is only one call that relies on this, get rid of it! -->
       <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
+      <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
 

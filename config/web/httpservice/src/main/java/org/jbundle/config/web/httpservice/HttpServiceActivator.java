@@ -59,8 +59,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
 
     /**
      * Make sure the dependent services are up, then call startupService.
-     * @param versionRange Bundle version
-     * @param baseBundleServiceClassName
+     * @param context
      * @return false if I'm waiting for the service to startup.
      */
     public boolean checkDependentServices(BundleContext context)
@@ -82,7 +81,7 @@ public class HttpServiceActivator extends MultipleHttpServiceActivator
     /**
      * Make a servlet tracker for the servlet at this alias.
      */
-    public ServiceTracker makeServletTracker(String alias, Dictionary<String, String> properties)
+    public ServiceTracker makeServletTracker(String alias, Dictionary<String, Object> properties)
     {
 
 //?        dictionary.put(HttpServiceTracker.SERVICE_PID, getServicePid(context));

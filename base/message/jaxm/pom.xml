@@ -22,15 +22,14 @@
         <configuration>
           <instructions>
             <Export-Package>
-            org.jbundle.base.message.trx.transport.jaxm.*;version=${project.version},
+              org.jbundle.base.message.trx.transport.jaxm.*;version=${project.version},
             </Export-Package>
             <Private-Package>
-            javax.xml.messaging.*;
-            com.sun.messaging.*;
+              javax.xml.messaging.*;
             </Private-Package>
             <Import-Package>
             	*;resolution:=optional,
-            	com.sun.xml.messaging.saaj.soap;resolution:=optional,	<!-- Required of JAXM -->
+            	<!-- com.sun.xml.messaging.saaj.soap;resolution:=optional, -->	<!-- Required of JAXM -->
             </Import-Package>
           </instructions>
         </configuration>
@@ -67,12 +66,57 @@
 
     <dependency>
       <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
+      <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>com.sun.messaging.mq</groupId>
       <artifactId>jaxm-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.sun.xml.messaging.saaj</groupId>
+      <artifactId>saaj-impl</artifactId>
+      <version>${saaj-impl-version}</version>
+    </dependency>
+
+    <!-- Note: The remaining dependencies are not used directly here. They are included until you can move them to a bindex pom -->
+    <dependency>
+      <groupId>jakarta.xml.soap</groupId>
+      <artifactId>jakarta.xml.soap-api</artifactId>
+      <version>${soap-api-version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.activation</groupId>
+      <artifactId>jakarta.activation-api</artifactId>
+      <version>${jaf-version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.activation</groupId>
+      <artifactId>jakarta.activation</artifactId>
+      <version>${jaf-version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jvnet.mimepull</groupId>
+      <artifactId>mimepull</artifactId>
+      <version>1.9.11</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jvnet.staxex</groupId>
+      <artifactId>stax-ex</artifactId>
+      <version>1.8.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>2.3.2</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

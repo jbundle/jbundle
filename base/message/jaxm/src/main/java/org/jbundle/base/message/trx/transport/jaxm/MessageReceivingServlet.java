@@ -58,6 +58,11 @@ public class MessageReceivingServlet extends JAXMServlet
      */
     public void init(ServletConfig servletConfig) throws ServletException
     {
+        if (System.getProperty(javax.xml.soap.MessageFactory.class.getName()) == null)
+            System.setProperty(javax.xml.soap.MessageFactory.class.getName(), com.sun.xml.messaging.saaj.soap.ver1_1.SOAPMessageFactory1_1Impl.class.getName());
+        if (System.getProperty(javax.xml.soap.SAAJMetaFactory.class.getName()) == null)
+            System.setProperty(javax.xml.soap.SAAJMetaFactory.class.getName(), com.sun.xml.messaging.saaj.soap.SAAJMetaFactoryImpl.class.getName());
+
         super.init(servletConfig);
         ServletTask.initServlet(this, BasicServlet.SERVLET_TYPE.MESSAGE);
         Enumeration<?> paramNames = this.getInitParameterNames();
@@ -167,7 +172,7 @@ public class MessageReceivingServlet extends JAXMServlet
     /**
      * Set the content type for this type of servlet.
      * (From the BasicServlet interface).
-     * @param The http response to set.
+     * @param res The http response to set.
      */
     public void setContentType(HttpServletResponse res)
     {
@@ -176,7 +181,7 @@ public class MessageReceivingServlet extends JAXMServlet
     /**
      * Get the output stream.
      * (From the BasicServlet interface).
-     * @param The http response to set.
+     * @param res The http response to set.
      * @return The output stream.
      */
     public PrintWriter getOutputStream(HttpServletResponse res)
@@ -187,8 +192,7 @@ public class MessageReceivingServlet extends JAXMServlet
     /**
      * Get the main screen (with the correct view factory!).
      * (From the BasicServlet interface).
-     * @param parent The record owner parent.
-     * @param recordMain The main record.
+     * @param task The task
      * @param properties The properties for this screen.
      * @return The top screen.
      */
@@ -200,7 +204,7 @@ public class MessageReceivingServlet extends JAXMServlet
      * Get the physical path for this internet path.
      * (From the BasicServlet interface).
      * @param request The http request.
-     * @param strFileName The file name to find in this context.
+     * @param strFilename The file name to find in this context.
      * @return The physical path to this file.
      */
     public String getRealPath(HttpServletRequest request, String strFilename)

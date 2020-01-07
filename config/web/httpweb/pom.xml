@@ -26,7 +26,11 @@
 						<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Export-Package>${project.artifactId}.*;version=${project.version}</Export-Package>
-						<Import-Package>*;resolution:=optional</Import-Package>
+						<Import-Package>
+                            *;resolution:=optional,
+							com.sun.xml.messaging.saaj.soap.ver1_1;resolution:=optional,	<!-- Required of JAXM - Note: This class owns the classloader -->
+							com.sun.xml.messaging.saaj.soap;resolution:=optional,	<!-- Required of JAXMServlet / SOAPMessage -->
+						</Import-Package>
 						<Bundle-Activator>${project.artifactId}.HttpServiceActivator</Bundle-Activator>
 					</instructions>
 				</configuration>
@@ -158,15 +162,15 @@
 		</resources>
 	</build>
 
-	<dependencies>	    
+	<dependencies>
 		<dependency>
 			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
+			<artifactId>osgi.core</artifactId>
 			<scope>provided</scope> <!-- This better be provided -->
 		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.compendium</artifactId>
+			<artifactId>osgi.cmpn</artifactId>
 			<scope>provided</scope> <!-- This better be provided -->
 		</dependency>
 
