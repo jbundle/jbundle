@@ -146,7 +146,6 @@ public interface Constants extends Constant
     public static final int PREVIOUS_RECORD = -1;
     /**
      * The TEMP_KEY_AREA are a temporary copy of the fields that belong to a key.
-     * @see FILE_KEY_AREA.
      */
     public static final int TEMP_KEY_AREA = 1;
 
