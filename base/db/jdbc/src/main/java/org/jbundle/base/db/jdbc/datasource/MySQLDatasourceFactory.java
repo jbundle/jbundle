@@ -29,9 +29,9 @@ public class MySQLDatasourceFactory extends BaseDatasourceFactory {
      */
     public DataSource getDataSource(JdbcDatabase database)
     {
-      com.mysql.jdbc.jdbc2.optional.MysqlDataSource dataSource = new com.mysql.jdbc.jdbc2.optional.MysqlDataSource();
-      this.setDatasourceParams(database, dataSource);
-      return dataSource;
+        com.mysql.cj.jdbc.MysqlDataSource dataSource = new com.mysql.cj.jdbc.MysqlDataSource();
+        this.setDatasourceParams(database, dataSource);
+        return dataSource;
     }
     /**
      * Get and populate the pooled data source object for this database.
@@ -40,7 +40,7 @@ public class MySQLDatasourceFactory extends BaseDatasourceFactory {
      */
     public ConnectionPoolDataSource getPooledDataSource(JdbcDatabase database)
     {
-        com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource dataSource = new com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource();
+        com.mysql.cj.jdbc.MysqlConnectionPoolDataSource dataSource = new com.mysql.cj.jdbc.MysqlConnectionPoolDataSource();
         this.setDatasourceParams(database, dataSource);
         return dataSource;
     }
@@ -49,7 +49,7 @@ public class MySQLDatasourceFactory extends BaseDatasourceFactory {
      * @param database
      * @param dataSource
      */
-    public void setDatasourceParams(JdbcDatabase database, com.mysql.jdbc.jdbc2.optional.MysqlDataSource dataSource)
+    public void setDatasourceParams(JdbcDatabase database, com.mysql.cj.jdbc.MysqlDataSource dataSource)
     {
         String strURL = database.getProperty(SQLParams.JDBC_URL_PARAM);
         if ((strURL == null) || (strURL.length() == 0))
