@@ -25,7 +25,7 @@
     <dependency>
       <groupId>org.jbundle.util.osgi</groupId>
       <artifactId>org.jbundle.util.osgi.webstart.util</artifactId>
-      <version>${jbundle-auto-webstart-version-range}</version>
+      <version>${jbundle-util-osgi-webstart-version-range}</version>
     </dependency>
   </dependencies>
   
