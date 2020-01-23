@@ -17,22 +17,22 @@
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
       <artifactId>org.jbundle.app.program.db</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.model</groupId>
       <artifactId>org.jbundle.model.app.program</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.app.program</artifactId> <!-- I should be able to eventually change this to jbundle-thinbase -->
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-main</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
 	  <type>pom</type>
     </dependency>
     <dependency>
@@ -87,12 +87,12 @@
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.jdbc</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.model</groupId>
       <artifactId>org.jbundle.model.app.program</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </profile>

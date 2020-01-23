@@ -63,7 +63,7 @@
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
       <artifactId>org.jbundle.model.app.test</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
 	<dependency>
 	  <groupId>log4j</groupId>
@@ -74,12 +74,12 @@
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
       <artifactId>org.jbundle.app.test.db</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-main</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
 	  <type>pom</type>
     </dependency>
     <dependency>
@@ -89,12 +89,12 @@
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.cal.other</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.cal.grid</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.util.wsdl</groupId>
@@ -114,7 +114,7 @@
     <dependency>
       <groupId>org.jbundle.thin.main</groupId>
       <artifactId>org.jbundle.thin.main</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>
@@ -130,28 +130,28 @@
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
       <artifactId>org.jbundle.thin.app.test</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.base</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.jdbc</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.client</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.serial</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
 	<dependency>
 	    <groupId>org.apache.derby</groupId>

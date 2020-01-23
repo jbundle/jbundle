@@ -15,132 +15,132 @@
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-thin</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.app</groupId>
       <artifactId>org.jbundle.thin.app.program</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
       <artifactId>org.jbundle.app.test.test</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.app.program</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.data</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.data.app</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.data.test</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-base-db-all</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-main</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
     
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.view.xml</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.view.html</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.docs.styles.xsl</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.docs.help</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.images</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.images.misc</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res.project.template</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
       <artifactId>org.jbundle.app.program.screen</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
       <artifactId>org.jbundle.app.program.packages</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
       <artifactId>org.jbundle.app.program.demo</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
       <artifactId>org.jbundle.app.program.manual.util</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
       <artifactId>org.jbundle.app.program.manual.importexport</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
       <artifactId>org.jbundle.app.test.db</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
       <artifactId>org.jbundle.app.test.manual</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
 
 </dependencies>

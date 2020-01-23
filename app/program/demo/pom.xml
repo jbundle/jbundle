@@ -17,7 +17,7 @@
 		<dependency>
 	      <groupId>org.jbundle.app.program</groupId>
 	      <artifactId>org.jbundle.app.program.screen</artifactId>
-	      <version>${jbundle-version-range}</version>
+	      <version>1.0.10-SNAPSHOT</version>
 		</dependency>
 	
 		<dependency>

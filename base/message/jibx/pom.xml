@@ -21,7 +21,7 @@
     <dependency>
 	  <groupId>org.jbundle.config.dep</groupId>
 	  <artifactId>jbundle-config-dep-base</artifactId>
-	  <version>${jbundle-version-range}</version>
+	  <version>1.0.10-SNAPSHOT</version>
 	  <type>pom</type>
     </dependency>
 

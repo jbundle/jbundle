@@ -59,7 +59,7 @@
     <dependency>
       <groupId>com.tourgeek.config</groupId>
       <artifactId>tourgeek-config-dep-all</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
   </dependencies>

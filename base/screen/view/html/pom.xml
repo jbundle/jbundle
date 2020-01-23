@@ -16,19 +16,19 @@
   <dependencies>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
       <artifactId>org.jbundle.base.screen.view.data</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-main</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
 	  <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.jbundle.model</groupId>
       <artifactId>org.jbundle.model.app.program</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     
     <dependency>

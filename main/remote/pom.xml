@@ -33,30 +33,30 @@
     <dependency>
       <groupId>org.jbundle.main</groupId>
       <artifactId>org.jbundle.main.db</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.main</groupId>
       <artifactId>org.jbundle.main.calendar</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base</groupId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
       <artifactId>org.jbundle.base.remote</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
       <artifactId>org.jbundle.base.screen.model</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.control.servlet</artifactId>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <version>${jbundle-version-range}</version>
+      <version>1.0.10-SNAPSHOT</version>
       <groupId>org.jbundle.thin.main</groupId>
       <artifactId>org.jbundle.thin.main</artifactId>
     </dependency>
@@ -64,7 +64,7 @@
     <dependency>
 	    <groupId>org.jbundle.config.dep</groupId>
 	    <artifactId>jbundle-config-dep-thin-base</artifactId>
-	    <version>${jbundle-version-range}</version>
+	    <version>1.0.10-SNAPSHOT</version>
 	    <type>pom</type>
     </dependency>
   </dependencies>
