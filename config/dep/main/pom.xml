@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jbundle.config.dep</groupId>
     <artifactId>jbundle-config-dep-reactor</artifactId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.0.10</version>
   </parent>
 
   <artifactId>jbundle-config-dep-main</artifactId>
@@ -15,42 +15,42 @@
     <dependency>
 	    <groupId>org.jbundle.config.dep</groupId>
 	    <artifactId>jbundle-config-dep-base</artifactId>
-	    <version>1.0.10-SNAPSHOT</version>
+	    <version>1.0.10</version>
 	    <type>pom</type>
     </dependency>
     <dependency>
 	  <groupId>org.jbundle.main</groupId>
 	  <artifactId>org.jbundle.main.calendar</artifactId>
-	  <version>1.0.10-SNAPSHOT</version>
+	  <version>1.0.10</version>
     </dependency>
     <dependency>
 	  <groupId>org.jbundle.main</groupId>
 	  <artifactId>org.jbundle.main.db</artifactId>
-	  <version>1.0.10-SNAPSHOT</version>
+	  <version>1.0.10</version>
     </dependency>
     <dependency>
 	  <groupId>org.jbundle.main</groupId>
 	  <artifactId>org.jbundle.main.screen</artifactId>
-	  <version>1.0.10-SNAPSHOT</version>
+	  <version>1.0.10</version>
     </dependency>
     <dependency>
 	  <groupId>org.jbundle.main</groupId>
 	  <artifactId>org.jbundle.main.msg</artifactId>
-	  <version>1.0.10-SNAPSHOT</version>
+	  <version>1.0.10</version>
     </dependency>
     <dependency>
 	  <groupId>org.jbundle.main</groupId>
 	  <artifactId>org.jbundle.main.remote</artifactId>
-	  <version>1.0.10-SNAPSHOT</version>
+	  <version>1.0.10</version>
     </dependency>
     <dependency>
 	  <groupId>org.jbundle.main</groupId>
 	  <artifactId>org.jbundle.main.schedule</artifactId>
-	  <version>1.0.10-SNAPSHOT</version>
+	  <version>1.0.10</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
       <artifactId>org.jbundle.res.main</artifactId>
     </dependency>
   </dependencies>

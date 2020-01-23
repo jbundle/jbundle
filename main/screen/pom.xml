@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-main-reactor</artifactId>
     <groupId>org.jbundle.main</groupId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.0.10</version>
   </parent>
 
   <artifactId>org.jbundle.main.screen</artifactId>
@@ -35,23 +35,23 @@
     <dependency>
       <groupId>org.jbundle.main</groupId>
       <artifactId>org.jbundle.main.db</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
       <artifactId>org.jbundle.base.screen.model</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.control.servlet</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
 
     <dependency>
 	    <groupId>org.jbundle.config.dep</groupId>
 	    <artifactId>jbundle-config-dep-thin-base</artifactId>
-	    <version>1.0.10-SNAPSHOT</version>
+	    <version>1.0.10</version>
 	    <type>pom</type>
     </dependency>
     <dependency>

@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.app.program</groupId>
     <artifactId>jbundle-app-program-manual-reactor</artifactId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.0.10</version>
   </parent>
   
   <artifactId>org.jbundle.app.program.manual.util</artifactId>
@@ -17,7 +17,7 @@
     <dependency>
       <groupId>org.jbundle.app.program</groupId>
       <artifactId>org.jbundle.app.program.db</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
 </dependencies>
 </project>

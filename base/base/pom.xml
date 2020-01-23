@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-base-reactor</artifactId>
     <groupId>org.jbundle.base</groupId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.0.10</version>
   </parent>
 
   <artifactId>org.jbundle.base</artifactId>
@@ -39,40 +39,40 @@
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-thin-db</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.main</groupId>
       <artifactId>org.jbundle.thin.main</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.model</groupId>
       <artifactId>org.jbundle.model.main</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.base.model</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res</artifactId> <!-- I should be able to eventually change this to jbundle-thinbase -->
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.base.message</groupId>
       <artifactId>org.jbundle.base.message.core</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.message</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>

@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbundle-thin-base-db-reactor</artifactId>
     <groupId>org.jbundle.thin.base.db</groupId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.0.10</version>
   </parent>
 
   <artifactId>org.jbundle.thin.base.db.misc</artifactId>
@@ -38,13 +38,13 @@
     <dependency>
       <groupId>org.jbundle</groupId>
       <artifactId>org.jbundle.model</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.util</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

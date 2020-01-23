@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.base.message</groupId>
     <artifactId>jbundle-base-message-reactor</artifactId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.0.10</version>
   </parent>
 
   <artifactId>org.jbundle.base.message.trx</artifactId>
@@ -17,22 +17,22 @@
     <dependency>
       <groupId>org.jbundle.model</groupId>
       <artifactId>org.jbundle.model.main</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.base.model</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.base</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.message</groupId>
       <artifactId>org.jbundle.base.message.core</artifactId>
-      <version>1.0.10-SNAPSHOT</version>
+      <version>1.0.10</version>
     </dependency>
     <dependency>
       <groupId>joda-time</groupId>
