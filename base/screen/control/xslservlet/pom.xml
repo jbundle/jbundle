@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbundle-base-screen-control-reactor</artifactId>
     <groupId>org.jbundle.base.screen</groupId>
-    <version>1.0.10</version>
+    <version>1.0.11-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.jbundle.base.screen.control.xslservlet</artifactId>
@@ -18,7 +18,7 @@
     <dependency>
 	  <groupId>org.jbundle.config.dep</groupId>
 	  <artifactId>jbundle-config-dep-base</artifactId>
-	  <version>1.0.10</version>
+	  <version>1.0.11-SNAPSHOT</version>
 	  <type>pom</type>
     </dependency>
 	<dependency>

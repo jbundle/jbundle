@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbundle-thin-app-reactor</artifactId>
     <groupId>org.jbundle.thin.app</groupId>
-    <version>1.0.10</version>
+    <version>1.0.11-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.jbundle.thin.app.program</artifactId>
@@ -17,23 +17,23 @@
     <dependency>
       <groupId>org.jbundle.model</groupId>
       <artifactId>org.jbundle.model.app.program</artifactId>
-      <version>1.0.10</version>
+      <version>1.0.11-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.db</groupId>
       <artifactId>org.jbundle.thin.base.db</artifactId>
-      <version>1.0.10</version>
+      <version>1.0.11-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-thin-base</artifactId>
-      <version>1.0.10</version>
+      <version>1.0.11-SNAPSHOT</version>
 	  <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.main</groupId>
       <artifactId>org.jbundle.thin.main</artifactId>
-      <version>1.0.10</version>
+      <version>1.0.11-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

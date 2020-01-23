@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbundle-thin-base-screen-reactor</artifactId>
     <groupId>org.jbundle.thin.base.screen</groupId>
-    <version>1.0.10</version>
+    <version>1.0.11-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.jbundle.thin.base.screen.grid</artifactId>
@@ -17,28 +17,28 @@
     <dependency>
       <groupId>org.jbundle</groupId>
       <artifactId>org.jbundle.model</artifactId>
-      <version>1.0.10</version>
+      <version>1.0.11-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.thin.base.db</groupId>
       <artifactId>org.jbundle.thin.base.db</artifactId>
-      <version>1.0.10</version>
+      <version>1.0.11-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.remote</artifactId>
-      <version>1.0.10</version>
+      <version>1.0.11-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen</artifactId>
-      <version>1.0.10</version>
+      <version>1.0.11-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.util</artifactId>
-      <version>1.0.10</version>
+      <version>1.0.11-SNAPSHOT</version>
     </dependency>
     <dependency>	<!-- No No No -->
       <groupId>org.jbundle.util.jcalendarbutton</groupId>
