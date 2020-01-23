@@ -11,6 +11,7 @@ skeleton_test_data*
 .metadata
 *.releaseBackup
 release.properties
+*.versionsBackup
 derby.log
 *.iml
 .idea
