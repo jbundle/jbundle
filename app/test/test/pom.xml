@@ -158,6 +158,11 @@
 	    <artifactId>derby</artifactId>
 	    <scope>test</scope>
 	</dependency>
+    <dependency>
+      <groupId>org.jbundle.base.db</groupId>
+      <version>1.0.11-SNAPSHOT</version>
+    <artifactId>org.jbundle.base.db.mongodb</artifactId>
+    </dependency>
   </dependencies>
 
 </project>
