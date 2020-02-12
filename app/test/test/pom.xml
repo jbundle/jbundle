@@ -30,13 +30,14 @@
             <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Export-Package>
-                ${project.artifactId}.screen.*;version=${project.version},
+              org.jbundle.test.manual.*;version=${project.version}
+<!--                ${project.artifactId}.screen.*;version=${project.version},
                 ${project.artifactId}.db.analysis.*;version=${project.version},
 		org.jbundle.app.test.vet.screen.*;version=${project.version},
 		org.jbundle.app.test.vet.remote.*;version=${project.version},
 		org.jbundle.app.test.vet.shared.report.*;version=${project.version},
 		org.jbundle.app.test.vet.shared.screen.*;version=${project.version},
-		org.jbundle.app.test.vet.shared.xml.*;version=${project.version},
+		org.jbundle.app.test.vet.shared.xml.*;version=${project.version}, -->
             </Export-Package>
             <Import-Package>
                 *;resolution:=optional,
@@ -152,16 +153,6 @@
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.serial</artifactId>
       <version>1.0.11-SNAPSHOT</version>
-    </dependency>
-	<dependency>
-	    <groupId>org.apache.derby</groupId>
-	    <artifactId>derby</artifactId>
-	    <scope>test</scope>
-	</dependency>
-    <dependency>
-      <groupId>org.jbundle.base.db</groupId>
-      <version>1.0.11-SNAPSHOT</version>
-    <artifactId>org.jbundle.base.db.mongodb</artifactId>
     </dependency>
   </dependencies>
 

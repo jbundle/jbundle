@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jbundle.app.test</groupId>
+    <artifactId>jbundle-app-test-suite-db-reactor</artifactId>
+    <version>1.0.11-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>org.jbundle.app.test.jdbc</artifactId>
+  <packaging>bundle</packaging>
+  <name>jbundle-app-test-jdbc - Test code</name>
+
+  <properties>
+  <!-- Note: The tests won't run in maven because I can't figure out how to pass these arguments to the surefire plugin:
+   -Dremotehost=localhost -Dcodebase=localhost:8181/ -->
+    <maven.test.skip>true</maven.test.skip>  <!-- TODO Need to add a profile that will run this on the build server (ie if jdbc.url exists) -->
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jbundle.app.test</groupId>
+      <artifactId>org.jbundle.app.test.base</artifactId>
+      <version>1.0.11-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+	<dependency>
+	    <groupId>org.apache.derby</groupId>
+	    <artifactId>derby</artifactId>
+	    <scope>test</scope>
+	</dependency>
+  </dependencies>
+
+</project>
