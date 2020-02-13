@@ -72,7 +72,7 @@ public interface Field extends Convert
     /**
      * Get this field's name.
      * @param bAddQuotes All quotes to the name.
-     * @param bInclude the FileName (ie., filename.fieldname).
+     * @param bIncludeFileName the FileName (ie., filename.fieldname).
      * @return The field name.
      */
     public String getFieldName(boolean bAddQuotes, boolean bIncludeFileName);

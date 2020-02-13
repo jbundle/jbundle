@@ -17,7 +17,7 @@ public interface MessageReceiver {
 
     /**
      * Add this message filter to this receive queue.
-     * @param The message filter to add.
+     * @param messageFilter The message filter to add.
      */
     public void addMessageFilter(MessageFilter messageFilter);
     /**

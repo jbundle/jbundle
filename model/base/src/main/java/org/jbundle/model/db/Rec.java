@@ -152,7 +152,7 @@ public interface Rec
      * Note: The thin version (this one) keeps a flag for changes, the thick version surveys the fields.
      * @param field The field that changed.
      * @param iChangeType The type of change (See record for the list).
-     * @param iDisplayOtion The display option.
+     * @param bDisplayOption The display option.
      * @return The error code.
      */
     public int doRecordChange(Field field, int iChangeType, boolean bDisplayOption);
@@ -197,7 +197,6 @@ public interface Rec
      * Set the current edit mode for this record.
      * @param dbEditMode The edit mode.
      * @return Old edit mode.
-     * @see getEditMode.
      */
     public int setEditMode(int dbEditMode);
     /**
@@ -205,7 +204,6 @@ public interface Rec
      * Set this before you call Open.
      * @param dbOpenMode The current open mode.
      * @return The edit mode.
-     * @see getOpenMode
      */
     public int setOpenMode(int dbOpenMode);
     /**
@@ -251,7 +249,7 @@ public interface Rec
     public void setKeyName(String strKeyName);
     /**
      * Set the default key order.
-     * @param String strKeyName the current index.
+     * @param strKeyName the current index.
      * @return The new default key area (null if not found).
      */
     public Key setKeyArea(String strKeyName);

@@ -48,10 +48,8 @@ public class Util extends UrlUtil
 {	
     /**
      * Add this param to this path.
-     * @param strOldURL The original URL to add this param to.
-     * @param strParam The parameter to add.
-     * @param strData The data this parameter is set to.
-     * @param bAddIfNull Add an empty param if the data is null?
+     * @param basePath The original URL to add this param to.
+     * @param fileName The parameter to add.
      * @return The new URL string.
      */
     public static String addToPath(String basePath, String fileName)
@@ -60,10 +58,9 @@ public class Util extends UrlUtil
     }
     /**
      * Add this param to this path.
-     * @param strOldURL The original URL to add this param to.
-     * @param strParam The parameter to add.
-     * @param strData The data this parameter is set to.
-     * @param bAddIfNull Add an empty param if the data is null?
+     * @param basePath The original URL to add this param to.
+     * @param fileName The parameter to add.
+     * @param chFileSeparator Add an empty param if the data is null?
      * @return The new URL string.
      */
     public static String addToPath(String basePath, String fileName, char chFileSeparator)
@@ -311,7 +308,7 @@ public class Util extends UrlUtil
    }
    /**
     * Convert this value to a XML string.
-    * @param This value's tag.
+    * @param strParam This value's tag.
     * @param objValue The raw data value.
     * @return The XML string for this value.
     */
@@ -462,7 +459,7 @@ public class Util extends UrlUtil
     * Convert this class name by inserting this package after the domain.
     * ie., if location = 2, com.xyz.abc.ClassName -> com.xyz.newpackage.abc.ClassName.
     * @param className
-    * @param package location (positive = from left, negative = from right; 0 = before package, -1 = before class name, etc.)
+    * @param location location (positive = from left, negative = from right; 0 = before package, -1 = before class name, etc.)
     * @param stringToInsert
     * @return Converted string
     */
@@ -570,14 +567,14 @@ public class Util extends UrlUtil
     * @param strSubDirectory The sub-directory.
     * @return The full (relative) filename for this image.
     */
-   public static String getImageFilename(String strFilename, String strSubDirectory)
+   public static String getImageFilename(String filename, String strSubDirectory)
    {
-       if ((strFilename == null) || (strFilename.length() == 0))
+       if ((filename == null) || (filename.length() == 0))
            return null;    // A null will tell a JButton not to load an image
-       if (strFilename.indexOf('.') == -1)
-           strFilename += ".gif";
-       strFilename = Util.getFullFilename(strFilename, strSubDirectory, Constant.IMAGE_LOCATION, true);
-       return strFilename;
+       if (filename.indexOf('.') == -1)
+           filename += ".gif";
+       filename = Util.getFullFilename(filename, strSubDirectory, Constant.IMAGE_LOCATION, true);
+       return filename;
    }
    /**
     * Get this image's full filename.
@@ -586,27 +583,27 @@ public class Util extends UrlUtil
  * @param filename The filename of this image (if no path, assumes images/buttons; if not ext assumes .gif).
     * @return The full (relative) filename for this image.
     */
-   public static String getFullFilename(String strFilename, String strSubDirectory, String fileLocation, boolean fixRelativePaths)
+   public static String getFullFilename(String filename, String strSubDirectory, String fileLocation, boolean fixRelativePaths)
    {
 	   String localLocation = fileLocation.substring(fileLocation.lastIndexOf('/') + 1);
-       if (((strFilename.indexOf(File.separator) == -1) && (strFilename.indexOf('/') == -1)) && (strSubDirectory != null))
-           strFilename = fileLocation + File.separator + strSubDirectory + File.separator + strFilename;
-       else if ((strFilename.indexOf(localLocation + File.separator) == -1) && (strFilename.indexOf(localLocation + "/") == -1))
-           strFilename = fileLocation + File.separator + strFilename;
-       else if ((strFilename.indexOf(localLocation + File.separator) == 0) || (strFilename.indexOf(localLocation + "/") == 0))
-           strFilename = fileLocation + strFilename.substring(localLocation.length());
+       if (((filename.indexOf(File.separator) == -1) && (filename.indexOf('/') == -1)) && (strSubDirectory != null))
+           filename = fileLocation + File.separator + strSubDirectory + File.separator + filename;
+       else if ((filename.indexOf(localLocation + File.separator) == -1) && (filename.indexOf(localLocation + "/") == -1))
+           filename = fileLocation + File.separator + filename;
+       else if ((filename.indexOf(localLocation + File.separator) == 0) || (filename.indexOf(localLocation + "/") == 0))
+           filename = fileLocation + filename.substring(localLocation.length());
 	   if (fixRelativePaths)
 	   {	// Remove '/../'
-		   while (strFilename.indexOf("/..") != -1)
+		   while (filename.indexOf("/..") != -1)
 		   {
-			   int startPath = strFilename.indexOf("/..");
-			   int startPrev = strFilename.lastIndexOf("/", startPath - 1);
+			   int startPath = filename.indexOf("/..");
+			   int startPrev = filename.lastIndexOf("/", startPath - 1);
 			   if (startPrev == -1)
 				   break;
-			   strFilename = strFilename.substring(0, startPrev) + strFilename.substring(startPath + 3);
+			   filename = filename.substring(0, startPrev) + filename.substring(startPath + 3);
 		   }
 	   }
-       return strFilename;
+       return filename;
    }
    /**
     * Get the logger.

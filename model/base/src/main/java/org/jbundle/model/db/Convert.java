@@ -35,12 +35,12 @@ public interface Convert
     public void init(Object obj);
     /**
      * This screen component is displaying this field.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField
+     * @param screenField The screen component.. either a awt.Component or a ScreenField
      */
-    public void addComponent(Object sField);
+    public void addComponent(Object screenField);
     /**
      * Remove this control from this field's control list.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField
+     * @param screenField The screen component.. either a awt.Component or a ScreenField
      */
     public void removeComponent(Object screenField);
     /**
@@ -104,13 +104,13 @@ public interface Convert
      * The default implementation (here) assumes the physical data is in string format.
      * Same as toString().
      * @return The data in string format.
-     * @see toString().
+     * @see this.toString().
      */
     public String getString();
     /**
      * Override Object.toString to convert this field to a String.
      * @return The data in string format.
-     * @see getString().
+     * @see this.getString().
      */
     public String toString ();
     /**
@@ -125,7 +125,7 @@ public interface Convert
      * Override this method to convert the String to the actual Physical Data Type.
      * @param strString the string to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
-     * @param iMoveMode INIT, SCREEN, or READ move mode.
+     * @param moveMode INIT, SCREEN, or READ move mode.
      * @return The error code.
      */
     public int setString(String strString, boolean bDisplayOption, int moveMode);
@@ -138,14 +138,14 @@ public interface Convert
     /**
      * Set the state of this field for binary fields (don't override this).
      * This calls setState with DISPLAY and SCREEN_MOVE.
-     * @param bState the state to set the data to.
+     * @param state the state to set the data to.
      * @return The error code.
      */
-    public int setState(boolean bState);
+    public int setState(boolean state);
     /**
      * Set the state of this field for binary fields (don't override this).
      * Usually overidden.
-     * @param bState the state to set the data to.
+     * @param state the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code.
@@ -167,9 +167,9 @@ public interface Convert
     /**
      * For numeric fields, set the current value.
      * Override this method to convert the value to the actual Physical Data Type.
-     * @param bState the state to set the data to.
+     * @param value the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
-     * @param iMoveMode INIT, SCREEN, or READ move mode.
+     * @param moveMode INIT, SCREEN, or READ move mode.
      * @return The error code.
      */
     public int setValue(double value, boolean bDisplayOption, int moveMode);

@@ -139,8 +139,7 @@ public abstract class DataConverters extends Object
     }
     /**
      * Get this property from the map and convert it to the target class.
-     * @param properties The map object to get the property from.
-     * @param strKey The key of the property.
+     * @param objData The key of the property.
      * @param classData The target class to convert the property to.
      * @param objDefault The default value.
      * @return The data in the correct class.
@@ -152,8 +151,7 @@ public abstract class DataConverters extends Object
     }   
     /**
      * Get this property from the map and convert it to the target class.
-     * @param properties The map object to get the property from.
-     * @param strKey The key of the property.
+     * @param objData The key of the property.
      * @param classData The target class to convert the property to.
      * @param objDefault The default value.
      * @return The data in the correct class.
@@ -219,8 +217,7 @@ public abstract class DataConverters extends Object
     }
     /**
      * Convert this object to an formatted string.
-     * @param properties The map object to get the property from.
-     * @param strKey The key of the property.
+     * @param objData The key of the property.
      * @param classData The target class to convert the property to.
      * @param objDefault The default value.
      * @return The data formatted as a string (note - this will never be null - since it is a string).

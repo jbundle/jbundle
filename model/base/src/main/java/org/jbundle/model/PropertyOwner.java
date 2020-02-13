@@ -30,7 +30,7 @@ public interface PropertyOwner
     public void setProperty(String strProperty, String strValue);
     /**
      * Set the properties.
-     * @param strProperties The properties to set.
+     * @param properties The properties to set.
      */
     public void setProperties(Map<String, Object> properties);
     /**
@@ -42,7 +42,7 @@ public interface PropertyOwner
     public Map<String, Object> getProperties();
     /**
      * Get the owner of this property key.
-     * @param strPropertyCode The key I'm looking for the owner to.
+     * @param strRegistrationKey The key I'm looking for the owner to.
      * @return The owner of this property key.
      */
     public PropertyOwner retrieveUserProperties(String strRegistrationKey);

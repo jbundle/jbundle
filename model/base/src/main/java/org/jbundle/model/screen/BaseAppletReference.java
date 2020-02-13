@@ -36,7 +36,7 @@ public interface BaseAppletReference extends Task, Freeable {
     public BaseAppletReference getApplet();
     /**
      * Display the status text.
-     * @param strMessage The message to display.
+     * @param comp The message to display.
      */
     public Object setStatus(int iStatus, Object comp, Object cursor);
     /**
@@ -60,7 +60,7 @@ public interface BaseAppletReference extends Task, Freeable {
      * Uses the applet or jnlp context.
      * @param strURL The local URL to display (not fully qualified).
      * @param iOptions ThinMenuConstants.HELP_WINDOW_CHANGE If help pane is already displayed, change to this content.
-     * @param The applet (optional).
+     * @param app The applet (optional).
      * @return True if successfully displayed.
      */
     public boolean showTheDocument(App app, String strURL, int iOptions);

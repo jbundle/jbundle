@@ -17,10 +17,10 @@ public interface Database
     /**
      * Constructor.
      * @param databaseOwner My databaseOwner.
-     * @param strDBName The database name.
+     * @param databaseName The database name.
      * @param iDatabaseType The database type (LOCAL/REMOTE).
      */
-    public void init(DatabaseOwner databaseOwner, String strDbName, int iDatabaseType, Map<String, Object> properties);
+    public void init(DatabaseOwner databaseOwner, String databaseName, int iDatabaseType, Map<String, Object> properties);
     /**
      * Get the databaseOwner.
      * @return The databaseOwner.

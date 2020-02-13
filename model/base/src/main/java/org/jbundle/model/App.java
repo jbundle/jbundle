@@ -20,8 +20,7 @@ public interface App
     /**
      * Initialize the Application.
      * @param env Environment is ignored in the thin context.
-     * @param strURL The application parameters as a URL.
-     * @param args The application parameters as an initial arg list.
+     * @param properties The application parameters as an initial arg list.
      * @param applet The application parameters coming from an applet.
      */
     public void init(Object env, Map<String,Object> properties, Object applet);
@@ -82,12 +81,12 @@ public interface App
       * @param classResource The resource to check the permission on.
       * @return NORMAL_RETURN if access is allowed, ACCESS_DENIED or LOGIN_REQUIRED otherwise.
       */
-     public int checkSecurity(String strClassResource);
+     public int checkSecurity(String classResource);
      /**
       * Change the current user to this user and (optionally) validate password.
       * @param strPassword
       * @param strDomain The domain
-      * @param strUser
+      * @param strUserName
       * @return normal_return if successful
       */
      public int login(Task task, String strUserName, String strPassword, String strDomain);
@@ -114,13 +113,13 @@ public interface App
      public Object getRemoteTask(Task localTaskOwner);
      /**
       * Add this session, screen, or task that belongs to this application.
-      * @param objSession Session to remove.
+      * @param remoteTask Session to remove.
       * @return Number of remaining sessions still active.
       */
      public int addTask(Task task, Object remoteTask);
      /**
       * Remove this session, screen, or task that belongs to this application.
-      * @param objSession Session to remove.
+      * @param task Session to remove.
       * @return True if all the potential main tasks have been removed.
       */
      public boolean removeTask(Task task);

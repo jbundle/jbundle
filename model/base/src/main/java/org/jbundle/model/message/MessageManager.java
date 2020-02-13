@@ -32,7 +32,7 @@ public interface MessageManager
     /**
      * Send this message to the appropriate queue.
      * The message's message header has the queue name and type.
-     * @param The message to send.
+     * @param message The message to send.
      * @return An error code.
      */
     public int sendMessage(Message message);

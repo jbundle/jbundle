@@ -44,7 +44,7 @@ public interface ScreenComponent extends Freeable
     public void setConverter(Convert converter);
     /**
      * Enable or disable this control.
-     * @param bEnable If true, enable this field.
+     * @param enabled If true, enable this field.
      */
     public void setEnabled(boolean enabled);
     /**

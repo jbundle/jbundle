@@ -33,7 +33,7 @@ public interface RecordOwnerModel
         public boolean removeRecord(Rec record);
         /**
          * Lookup this record for this recordowner.
-         * @param The record's name.
+         * @param strFileName The record's name.
          * @return The record with this name (or null if not found).
          */
         public Rec getRecord(String strFileName);

@@ -20,8 +20,6 @@ public class RemoteException extends Exception
     /**
      * Constructs a <code>RemoteTaskException</code> with the specified
      * detail message.
-     *
-     * @param s the detail message
      */
     public RemoteException() {
         super();
@@ -39,7 +37,7 @@ public class RemoteException extends Exception
 
     /**
      * Constructs a <code>RemoteException</code> with the specified detail
-     * message and cause.  This constructor sets the {@link #detail}
+     * message and cause.  This constructor sets the link: detail
      * field to the specified <code>Throwable</code>.
      *
      * @param s the detail message

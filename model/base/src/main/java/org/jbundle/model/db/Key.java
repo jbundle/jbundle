@@ -41,19 +41,19 @@ public interface Key
     /**
      * Add this field to this Key Area.
      * @param iFieldSeq The field to add.
-     * @param bKeyArea The order (ascending/descending).
+     * @param bKeyOrder The order (ascending/descending).
      */
     public void addKeyField(int iFieldSeq, boolean bKeyOrder);
     /**
      * Add this field to this Key Area.
      * @param strFieldName The field to add.
-     * @param bKeyArea The order (ascending/descending).
+     * @param bKeyOrder The order (ascending/descending).
      */
     public void addKeyField(String strFieldName, boolean bKeyOrder);
     /**
      * Add this field to this Key Area.
      * @param field The field to add.
-     * @param bKeyArea The order (ascending/descending).
+     * @param bKeyOrder The order (ascending/descending).
      */
     public void addKeyField(Field field, boolean bKeyOrder);
     /**
@@ -83,7 +83,7 @@ public interface Key
     /**
      * Get the key order for this key field (Ascending/Descending).
      * Note: This is not implemented for thin.
-     * @param iKeyFieldSeq The field to check.
+     * @param keyFieldSeq The field to check.
      * @return true if ascending order.
      */
     public boolean getKeyOrder(int keyFieldSeq);
@@ -100,7 +100,7 @@ public interface Key
     /**
      * Initialize the Key Fields.
      * @param iAreaDesc The (optional) temporary area to copy the current fields to.
-     * @see BaseField.zeroKeyFields(int).
+     * @see this.zeroKeyFields(int).
      */
     public void zeroKeyFields(int iAreaDesc);
     /**

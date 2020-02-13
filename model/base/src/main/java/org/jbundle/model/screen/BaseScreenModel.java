@@ -19,7 +19,7 @@ public interface BaseScreenModel extends Freeable {
     
     /**
      * Add a message handler for this record.
-     * @param The record to follow.
+     * @param record The record to follow.
      * @return The message listener.
      */
     public Object addMessageHandler(Rec record, Properties properties);
