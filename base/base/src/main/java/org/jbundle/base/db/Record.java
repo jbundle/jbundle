@@ -114,7 +114,7 @@ public class Record extends FieldList
     /**
      * Don't set record messages to your client?
      */
-    protected boolean m_bSupressRemoteMessages = false;
+    protected boolean m_bSuppressRemoteMessages = false;
 
     /**
      * Constructor.
@@ -414,7 +414,7 @@ public class Record extends FieldList
     /**
      * Set the next listener in the listener chain.
      * Note: You can pass the full class name, or the short class name or (preferably) the class.
-     * @param strListenerClass The name of the class I'm looking for.
+     * @param listener The name of the class I'm looking for.
      * @return The first listener of this class or null if no match.
      */
     public void setListener(FileListener listener)
@@ -423,7 +423,7 @@ public class Record extends FieldList
     }
     /**
      * Add a listener to the chain.
-     * @param theBehavior Listener or Filter to add to this record - calls doAddListener.
+     * @param listener Listener or Filter to add to this record - calls doAddListener.
      */
     public void addListener(BaseListener listener)
     {
@@ -436,7 +436,7 @@ public class Record extends FieldList
     /**
      * Internal method to add a listener to the end of the chain.
      * Sets the listener's owner to this.
-     * @param theBehavior Listener or Filter to add to this record.
+     * @param listener Listener or Filter to add to this record.
      */
     public void doAddListener(BaseListener listener)
     {
@@ -470,7 +470,7 @@ public class Record extends FieldList
     /**
      * Get the current status (enabled/disabled) for all the listeners.
      * @return a array of all the listener statuses.
-     * @see setEnableListener.
+     * @see #setEnableListeners(boolean[])
      */
     public boolean[] setEnableListeners(boolean flag)
     {
@@ -504,7 +504,7 @@ public class Record extends FieldList
     /**
      * Set the current status (enabled/disabled) for all the listeners.
      * @param rgbEnabled an array of all the listener statuses.
-     * @see setEnableListener.
+     * @see #setEnableListeners(boolean)
      */
     public void setEnableListeners(boolean[] rgbEnabled)
     {
@@ -610,7 +610,7 @@ public class Record extends FieldList
     }
     /**
      * Enable all the field listeners in this record according to this map.
-     * @param rgbEnabledFields The field listeners (in order) to enable/disable.
+     * @param rgobjEnabledFields The field listeners (in order) to enable/disable.
      */
     public void setEnableFieldListeners(Object[] rgobjEnabledFields)
     {
@@ -730,7 +730,7 @@ public class Record extends FieldList
     /**
      * Get the listener with this class identifier.
      * Note: You can pass the full class name, or the short class name or (preferably) the class.
-     * @param strListenerClass The name of the class I'm looking for.
+     * @param strBehaviorClass The name of the class I'm looking for.
      * @return The first listener of this class or null if no match.
      */
     public FileListener getListener(Object strBehaviorClass, boolean bExactMatch)
@@ -772,8 +772,8 @@ public class Record extends FieldList
      * Only used for querys and abstract-record queries.
      * Actually adds records not tables, but the records aren't physically
      * added here, the record's tables are added to my table.
-     * @param The recordOwner to pass to the records that are added.
-     * @see addTable
+     * @param recordOwner The recordOwner to pass to the records that are added.
+     * @see #addTable(Record)
      */
     public void addTables(RecordOwner recordOwner)
     {
@@ -818,7 +818,7 @@ public class Record extends FieldList
     /**
      * See if you are past the select range.
      * This is a utility for non-Sql queries where you have to test the EOF/BOF.
-     * @param The temp key area to test against the current field values.
+     * @param iAreaDesc The temp key area to test against the current field values.
      * @return true if past this range.
      */
     public boolean checkParams(int iAreaDesc)
@@ -983,7 +983,7 @@ public class Record extends FieldList
     }
     /**
      * Get this field in the record.
-     * @param The field name (If this is a queryrecord, you can pass Filename.fieldname).
+     * @param strFieldName The field name (If this is a queryrecord, you can pass Filename.fieldname).
      * @return The field.
      */
     public BaseField getField(String strFieldName)    // Lookup this field
@@ -1009,7 +1009,7 @@ public class Record extends FieldList
     /**
      * Get this field in the table/record.
      * @param strTableName the name of the table this field is in (for query records).
-     * @param The field name.
+     * @param strFieldName The field name.
      * @return The field.
      */
     public BaseField getField(String strTableName, String strFieldName)     // Lookup this field
@@ -1061,7 +1061,6 @@ public class Record extends FieldList
     /**
      * Get the field that references this record (from another record).
      * The field returned must be a ReferenceField, in a key area, and must override getReferenceRecordName().
-     * @param record The record to check.
      * @return The field which is used to reference this record or null if none.
      */
     public ReferenceField getReferringField()
@@ -1102,7 +1101,7 @@ public class Record extends FieldList
      * <p />Note: This only sets the order for the next query,
      * you must close(), then open() to see the new key order!
      * The actual recordset key order is set right before open().
-     * @param int iKeyArea the current index.
+     * @param iKeyArea the current index.
      * @return The new default key area.
      */
     public KeyArea setKeyArea(int iKeyArea)
@@ -1114,7 +1113,7 @@ public class Record extends FieldList
     }
     /**
      * Set the default key order.
-     * @param String strKeyName the current index.
+     * @param strKeyName the current index.
      * @return The new default key area (null if not found).
      */
     public KeyArea setKeyArea(String strKeyName)
@@ -1123,7 +1122,7 @@ public class Record extends FieldList
     }
     /**
      * Set the default key order.
-     * @param String strKeyName the current index.
+     * @param fldFirstFieldInKey the current index.
      * @return The new default key area (null if not found).
      */
     public KeyArea setKeyArea(BaseField fldFirstFieldInKey)
@@ -1141,7 +1140,7 @@ public class Record extends FieldList
     }
     /**
      * Set the default key order.
-     * @param String strKeyName the current index.
+     * @param strKeyName the current index.
      * @return The new default key area (null if not found).
      */
     public KeyArea getKeyArea(String strKeyName)
@@ -1253,7 +1252,6 @@ public class Record extends FieldList
     /**
      * Get a recordowner from this record.
      * This method does a deep search using the listeners and the database connections to find a recordowner.
-     * @param record
      * @return
      */
     public RecordOwner findRecordOwner()
@@ -1307,7 +1305,6 @@ public class Record extends FieldList
      * @param vParamList The parameter list.
      * @param bForceUniqueKey If params must be unique, if they aren't, add the unique key to the end.
      * @param bIncludeTempFields  If true, include any temporary key fields that have been added to the end if this keyarea
-     * @param iAreaDesc The key area to select.
      * @return The select string.
      */
     public String addSelectParams(String seekSign, int areaDesc, boolean bAddOnlyMods, boolean bIncludeFileName, boolean bUseCurrentValues, Vector<BaseField> vParamList, boolean bForceUniqueKey, boolean bIncludeTempFields)
@@ -1478,7 +1475,6 @@ public class Record extends FieldList
      * Get the SQL 'Update' string.
      * UPDATE table SET field1 = 'value1', field2 = 'value2' WHERE key = 'value'
      * @param bUseCurrentValues If true, use the current field value, otherwise, use '?'.
-     * @param vParamList The parameter list.
      * @return The SQL select string.
      * @return null if nothing to update.
      */
@@ -2052,7 +2048,6 @@ public class Record extends FieldList
     }
     /**
      * Get the field's modified status
-     * @param bNonKeyOnly If we are talking about non current key fields only.
      * @return true if any fields have changed.
      */
     public boolean[] getModified()
@@ -2068,7 +2063,7 @@ public class Record extends FieldList
     }
     /**
      * Restore the field's modified status to this.
-     * @param bNonKeyOnly If we are talking about non current key fields only.
+     * @param rgbModified If we are talking about non current key fields only.
      * @return true if any fields have changed.
      */
     public void setModified(boolean[] rgbModified)
@@ -2119,7 +2114,7 @@ public class Record extends FieldList
     /**
      * Make a new key index.
      * @param bUnique True if this is a unique key.
-     * @param The keyName.
+     * @param strKeyName
      * @return The new KeyArea.
      */
     public KeyArea makeIndex(int bUnique, String strKeyName)
@@ -2130,7 +2125,7 @@ public class Record extends FieldList
      * Create a default document for file maintenance or file display.
      * Usually overidden in the file's record class.
      * @param itsLocation The location of the screen in the parentScreen (usually null here).
-     * @param parentScreen The parent screen.
+     * @param screenParent The parent screen.
      * @param iDocMode The type of screen to create (MAINT/DISPLAY/SELECT/MENU/etc).
      * @return The new screen.
      */
@@ -2155,7 +2150,7 @@ public class Record extends FieldList
      * Clone, read same record, and create screen.
      * DONT OVERRIDE THIS METHOD!
      * @param itsLocation The location of the screen in the parentScreen (usually null here).
-     * @param parentScreen The parent screen.
+     * @param parent The parent screen.
      * @param iDocMode The type of screen to create (MAINT/DISPLAY/SELECT/MENU/etc).
      * @param bCloneThisQuery If true, use a clone of this record, if false use this record.
      * @param bReadCurrentRecord Read the currently selected record for the new query?
@@ -2354,8 +2349,7 @@ public class Record extends FieldList
     }
     /**
      * Convert the command to the screen document type.
-     * @param strCommand The command text.
-     * @param The standard document type (MAINT/DISPLAY/SELECT/MENU/etc).
+     * @param strCommand The command text. The standard document type (MAINT/DISPLAY/SELECT/MENU/etc).
      */
     public int commandToDocType(String strCommand)  // Standard file maint for this record (returns new record)
     {
@@ -2380,7 +2374,7 @@ public class Record extends FieldList
      * so you should update the current record if you want the new record to show the updates.
      * <br/>Note: Be careful of concurrency issues... Use OnSelectHandler to update from one screen
      * to another.
-     * @param currentRecord record that has the current record that I need to read.
+     * @param recordCurrent record that has the current record that I need to read.
      * @return true if successful.
      */
     public boolean readSameRecord(Record recordCurrent, boolean bWriteIfChanged, boolean bRefreshIfChanged)
@@ -2774,9 +2768,8 @@ public class Record extends FieldList
     /**
      * Set up a listener to notify when an external change is made to the current record.
      * @param listener The listener to set to the new filter. If null, use the record's recordowner.
-     * @param bTrackMultipleRecord Use a GridRecordMessageFilter to watch for multiple records.
+     * @param bTrackMultipleRecords Use a GridRecordMessageFilter to watch for multiple records.
      * @param bAllowEchos Allow this record to be notified of changes (usually for remotes hooked to grid tables).
-     * @param bReceiveAllAdds If true, receive all add notifications, otherwise just receive the adds on secondary reads.
      * @return The new filter.
      */
     public BaseMessageFilter setupRecordListener(JMessageListener listener, boolean bTrackMultipleRecords, boolean bAllowEchos)
@@ -2791,7 +2784,7 @@ public class Record extends FieldList
     /**
      * Set up a listener to notify when an external change is made to the current record.
      * @param listener The listener to set to the new filter. If null, use the record's recordowner.
-     * @param bTrackMultipleRecord Use a GridRecordMessageFilter to watch for multiple records.
+     * @param bTrackMultipleRecords Use a GridRecordMessageFilter to watch for multiple records.
      * @param bAllowEchos Allow this record to be notified of changes (usually for remotes hooked to grid tables).
      * @param bReceiveAllAdds If true, receive all add notifications, otherwise just receive the adds on secondary reads.
      * @return The new filter.
@@ -2842,11 +2835,11 @@ public class Record extends FieldList
     }
     /**
      * Don't set record messages to your client?
-     * @param boolean bSupressRemoteMessages If set, don't send record messages to your client.
+     * @param bSuppressRemoteMessages If set, don't send record messages to your client.
      */
-    public void setSupressRemoteMessages(boolean bSupressRemoteMessages)
+    public void setSuppressRemoteMessages(boolean bSuppressRemoteMessages)
     {
-        m_bSupressRemoteMessages = bSupressRemoteMessages;
+        m_bSuppressRemoteMessages = bSuppressRemoteMessages;
     }
     /**
      * Don't set record messages to your client?
@@ -2854,7 +2847,7 @@ public class Record extends FieldList
      */
     public boolean getSupressRemoteMessages()
     {
-        return m_bSupressRemoteMessages;
+        return m_bSuppressRemoteMessages;
     }
     /**
     * Optimize the query by only selecting the fields which are being displayed.

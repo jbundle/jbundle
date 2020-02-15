@@ -93,8 +93,7 @@ public class KeyArea extends KeyAreaInfo
     /**
      * Add this KeyField to this Key Area.
      * Note: Don't call this directly, it is called from KeyField.
-     * @param iFieldSeq The field to add.
-     * @param bKeyArea The order (ascending/descending).
+     * @param keyField The field to add.
      */
     public void addKeyField(KeyField keyField)
     { // Get the field with this seq
@@ -114,8 +113,8 @@ public class KeyArea extends KeyAreaInfo
     }
     /**
      * Add this field to this Key Area.
-     * @param iFieldSeq The field to add.
-     * @param bKeyArea The order (ascending/descending).
+     * @param field The field to add.
+     * @param bKeyOrder The order (ascending/descending).
      */
     public void addKeyField(Field field, boolean bKeyOrder)
     { // Get the field with this seq
@@ -151,7 +150,7 @@ public class KeyArea extends KeyAreaInfo
             KeyField keyField = this.getKeyField(iKeyFieldSeq, bForceUniqueKey);
             BaseField pParamField = keyField.getField(iAreaDesc);
             BaseField field = keyField.getField(DBConstants.FILE_KEY_AREA);
-            if (">=".equals(seekSign))
+            if ((">=".equals(seekSign)) || (">".equals(seekSign)) || ("<=".equals(seekSign)) || ("<".equals(seekSign)))
                 if (pParamField.isNull())
                     break;  // Can't say >=? if null.
             if (strFilter.length() > 0)
@@ -385,7 +384,7 @@ public class KeyArea extends KeyAreaInfo
     /**
      * Any of these key fields modified?
      * @param iAreaDesc The key field area to get the values from.
-     * @param iStartKeyFieldSeq The starting key field to check (from here on).
+     * @param bForceUniqueKey The starting key field to check (from here on).
      * @return true if any have been modified.
      */
     public int lastModified(int iAreaDesc, boolean bForceUniqueKey)
@@ -441,7 +440,7 @@ public class KeyArea extends KeyAreaInfo
      *      if (bufferSource != null)
      *      bufferSource.resetPosition();
      * </pre>
-     * @param destBuffer A BaseBuffer to fill with data (ignore if null).
+     * @param bufferSource A BaseBuffer to fill with data (ignore if null).
      * @param iAreaDesc The (optional) temporary area to copy the current fields to.
      */
     public void reverseKeyBuffer(BaseBuffer bufferSource, int iAreaDesc)        // Move these keys back to the record
@@ -505,7 +504,7 @@ public class KeyArea extends KeyAreaInfo
     /**
      * Initialize the Key Fields.
      * @param iAreaDesc The (optional) temporary area to copy the current fields to.
-     * @see BaseField.zeroKeyFields(int).
+     * @see #zeroKeyFields(int)
      */
     public void zeroKeyFields(int iAreaDesc)
     {   // Set up the initial key
@@ -573,7 +572,6 @@ public class KeyArea extends KeyAreaInfo
     }
     /**
      * Get the field's modified status
-     * @param bNonKeyOnly If we are talking about non current key fields only.
      * @return true if any fields have changed.
      */
     public boolean[] getModified()
@@ -591,7 +589,7 @@ public class KeyArea extends KeyAreaInfo
     }
     /**
      * Restore the field's modified status to this?
-     * @param bNonKeyOnly If we are talking about non current key fields only.
+     * @param rgbModified If we are talking about non current key fields only.
      * @return true if any fields have changed.
      */
     public void setModified(boolean[] rgbModified)
@@ -608,7 +606,7 @@ public class KeyArea extends KeyAreaInfo
     }
     /**
      * Get the field's modified status
-     * @param bNonKeyOnly If we are talking about non current key fields only.
+     * @param bNullable If we are talking about non current key fields only.
      * @return true if any fields have changed.
      */
     public boolean[] setNullable(boolean bNullable)
@@ -627,7 +625,7 @@ public class KeyArea extends KeyAreaInfo
     }
     /**
      * Restore the field's modified status to this?
-     * @param bNonKeyOnly If we are talking about non current key fields only.
+     * @param rgbNullable Array of nullable fields
      * @return true if any fields have changed.
      */
     public void setNullable(boolean[] rgbNullable)

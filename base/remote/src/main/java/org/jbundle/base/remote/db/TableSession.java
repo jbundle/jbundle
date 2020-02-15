@@ -297,7 +297,7 @@ public class TableSession extends Session
                     throw new DatabaseException(iErrorCode);
                 }
                 if (DBConstants.TRUE.equals(record.getTable().getProperty(DBParams.SUPRESSREMOTEDBMESSAGES)))
-                    record.setSupressRemoteMessages(true);
+                    record.setSuppressRemoteMessages(true);
                 record.add();
                 bookmarkLast = record.getLastModified(DBConstants.BOOKMARK_HANDLE);
             }
@@ -307,7 +307,7 @@ public class TableSession extends Session
             ex.printStackTrace();
             throw new DBException(ex.getMessage());
         } finally   {
-            record.setSupressRemoteMessages(false);
+            record.setSuppressRemoteMessages(false);
             this.getMainRecord().setOpenMode(iOldOpenMode);
         }
         return bookmarkLast;
@@ -368,7 +368,7 @@ public class TableSession extends Session
                 if (iErrorCode != DBConstants.NORMAL_RETURN)
                     ;   //?
                 if (DBConstants.TRUE.equals(record.getTable().getProperty(DBParams.SUPRESSREMOTEDBMESSAGES)))
-                    record.setSupressRemoteMessages(true);
+                    record.setSuppressRemoteMessages(true);
                 record.getTable().set(recordBase);
             }
         } catch (DBException ex)    {
@@ -377,7 +377,7 @@ public class TableSession extends Session
             ex.printStackTrace();
             throw new DBException(ex.getMessage());
         } finally   {
-            record.setSupressRemoteMessages(false);
+            record.setSuppressRemoteMessages(false);
             this.getMainRecord().setOpenMode(iOldOpenMode);
         }
     }
@@ -398,7 +398,7 @@ public class TableSession extends Session
                 if (record.getEditMode() == Constants.EDIT_CURRENT)
                     record.edit();
                 if (DBConstants.TRUE.equals(record.getTable().getProperty(DBParams.SUPRESSREMOTEDBMESSAGES)))
-                    record.setSupressRemoteMessages(true);
+                    record.setSuppressRemoteMessages(true);
                 record.remove();
             }
         } catch (DBException ex)    {
@@ -407,7 +407,7 @@ public class TableSession extends Session
             ex.printStackTrace();
             throw new DBException(ex.getMessage());
         } finally   {
-            record.setSupressRemoteMessages(false);
+            record.setSuppressRemoteMessages(false);
             this.getMainRecord().setOpenMode(iOldOpenMode);
         }
     }
