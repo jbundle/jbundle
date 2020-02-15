@@ -530,7 +530,7 @@ public class DatabaseTest extends BaseTest
         }
         if (bSuccess)
         {
-            if (testTable.getField(TestTable.kID).getString().equals("5"))
+            if (testTable.getField(TestTable.TEST_NAME).getString().startsWith("A"))
             {
                 cat.debug("Success, found key");
                 cat.debug(testTable.toString());
@@ -569,7 +569,7 @@ public class DatabaseTest extends BaseTest
         }
         if (bSuccess)
         {
-            if (testTable.getField(TestTable.kID).getString().equals("2"))
+            if (testTable.getField(TestTable.TEST_NAME).getString().startsWith("A"))
             {
                 cat.debug("Success, found key");
                 cat.debug(testTable.toString());
@@ -608,7 +608,7 @@ public class DatabaseTest extends BaseTest
         }
         if (bSuccess)
         {
-            if (testTable.getField(TestTable.kID).getString().equals("5"))
+            if (testTable.getField(TestTable.TEST_NAME).getString().startsWith("A"))
             {
                 cat.debug("Success, found key");
                 cat.debug(testTable.toString());
@@ -642,7 +642,7 @@ public class DatabaseTest extends BaseTest
             testTable.close();
             while (testTable.hasNext())   {
                 testTable.move(+1);
-                if (testTable.getField(TestTable.kID).getString().equals("2"))
+                if (testTable.getField(TestTable.TEST_NAME).getString().startsWith("B"))
                 {
                     bookmark = testTable.getHandle(DBConstants.BOOKMARK_HANDLE);
                 }
@@ -657,7 +657,7 @@ public class DatabaseTest extends BaseTest
         cat.debug("Now, try to position to the bookmark.");
         try   {
             testTable.setHandle(bookmark, DBConstants.BOOKMARK_HANDLE);
-            if (testTable.getField(TestTable.kID).getString().equals("2"))
+            if (testTable.getField(TestTable.TEST_NAME).getString().startsWith("B"))
             {
                 cat.debug("Success, found key");
                 cat.debug(testTable.toString());
