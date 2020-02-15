@@ -123,7 +123,7 @@ public class JdbcDatabase extends BaseDatabase
     /**
      * Constructor.
      * @param databaseOwner My databaseOwner.
-     * @param strDBName The database name.
+     * @param strDbName The database name.
      * @param iDatabaseType The database type (LOCAL/REMOTE).
      */
     public JdbcDatabase(DatabaseOwner databaseOwner, String strDbName, int iDatabaseType)
@@ -135,15 +135,14 @@ public class JdbcDatabase extends BaseDatabase
      * Initialize this database and add it to the databaseOwner.
      * @param databaseOwner My databaseOwner.
      * @param iDatabaseType The database type (LOCAL/REMOTE).
-     * @param strDBName The database name.
+     * @param strDbName The database name.
      */
     public void init(DatabaseOwner databaseOwner, String strDbName, int iDatabaseType, Map<String, Object> properties)
     {
         super.init(databaseOwner, strDbName, iDatabaseType, properties);
         // Typically, JDBC databases do not support locking (Change to "true" otherwise on JDBC open)
         this.setProperty(SQLParams.EDIT_DB_PROPERTY, SQLParams.DB_EDIT_NOT_SUPPORTED);
-        m_bAutosequenceSupport = false;     // JDBC databases generally do not support identity, and usually I don't use this capability.
-        
+
         // The following settings are true because JDBC is always running over a LAN (and the server version should send and receive messages).
         this.setProperty(DBParams.MESSAGES_TO_REMOTE, DBConstants.TRUE);   // Sent by server version
         this.setProperty(DBParams.CREATE_REMOTE_FILTER, DBConstants.TRUE);  // Yes, for remote tables
@@ -368,7 +367,7 @@ public class JdbcDatabase extends BaseDatabase
     /**
      * Convert this error to a DBException.
      * @param ex The exception to convert (usually a SQL exception).
-     * @param The DBException.
+     * @param ex DBException.
      */
     public DatabaseException convertError(Exception ex)
     {
@@ -746,7 +745,6 @@ public class JdbcDatabase extends BaseDatabase
     }
     /**
      * Get the initial DB properties (null means no properties).
-     * @param objDatabaseParam database specific parameter (ie., for jdbc this is the db name)
      * @return The initial properties.
      */
     public Map<String,String> getDatabaseProperties()
