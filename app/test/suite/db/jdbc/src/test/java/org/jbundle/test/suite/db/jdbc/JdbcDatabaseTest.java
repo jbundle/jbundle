@@ -12,6 +12,7 @@ import java.util.Map;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.jbundle.app.test.test.db.TestTable;
 import org.jbundle.app.test.test.db.TestTableNoAuto;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
@@ -67,7 +68,7 @@ public class JdbcDatabaseTest extends DatabaseTest
             Application app = new MainApplication(env, properties, null);
             Task task = new AutoTask(app, null, null);
             RecordOwner recordOwner = new BaseProcess(task, null, null);
-            testTable = new TestTableNoAuto(recordOwner);
+            testTable = new TestTable(recordOwner);
         }
         this.addTestTableRecords(testTable);
     }
