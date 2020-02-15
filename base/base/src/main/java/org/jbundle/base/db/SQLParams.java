@@ -56,6 +56,10 @@ public interface SQLParams
      */
     public static final String COUNTER_EXTRA = "COUNTER_EXTRA";
     /**
+     * Set the new auto-sequence start value.
+     */
+    public static final String RESET_AUTO_SEQUENCE = "RESET_AUTO_SEQUENCE";
+    /**
      * Use built in queries instead of complex sql queries?
      */
     public static final String USE_BUILT_IN_QUERIES = "USE_BUILT_IN_QUERIES";

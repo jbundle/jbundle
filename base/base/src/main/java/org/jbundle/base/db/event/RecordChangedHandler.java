@@ -68,7 +68,6 @@ public class RecordChangedHandler extends FileListener
     /**
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
-     * @param iMainFilesField The sequence of the date changed field in this record.
      * @param field The date changed field in this record.
      */
     public void init(Record record, DateTimeField field)
@@ -98,20 +97,20 @@ public class RecordChangedHandler extends FileListener
      * @param bDisplayOption If true, display any changes.
      * @return an error code.
      */
-    public int doRecordChange(FieldInfo field, int iChangeType, boolean bDisplayOption)
+    public int doRecordChange(FieldInfo field, int changeType, boolean bDisplayOption)
     { // Read a valid record
     	if ((this.getOwner().getMasterSlave() & RecordOwner.SLAVE) != 0)
     	{	// Only do this in the slave and shared code
-	        switch (iChangeType)
+	        switch (changeType)
 	        {
 	            case DBConstants.REFRESH_TYPE:
 	            case DBConstants.ADD_TYPE:
-	                this.setTheDate();
+	                this.setCurrentDate(bDisplayOption, DBConstants.INIT_MOVE); // Don't trigger a change
 	                break;
 	            case DBConstants.UPDATE_TYPE:
 	                if (this.getOwner().isModified(true))
 	                {   // Don't need to set the last changed date if the record hasn't changed
-	                    this.setTheDate();
+	                    this.setCurrentDate(bDisplayOption, DBConstants.INIT_MOVE); // Don't trigger a change
 	                    if (this.isModLockMode())
 	                        this.setTemporaryKeyField();
 	                }
@@ -122,7 +121,7 @@ public class RecordChangedHandler extends FileListener
 	                break;
 	        }
     	}
-        return super.doRecordChange(field, iChangeType, bDisplayOption);        // Initialize the record
+        return super.doRecordChange(field, changeType, bDisplayOption);        // Initialize the record
     }
     /**
      * Called when a error happens on a file operation, return the error code, or fix the problem.
@@ -130,9 +129,9 @@ public class RecordChangedHandler extends FileListener
      * @param iErrorCode The error code from the previous listener.
      * @return The new error code.
      */
-    public int doErrorReturn(int iChangeType, int iErrorCode)        // init this field override for other value
+    public int doErrorReturn(int changeType, int iErrorCode)        // init this field override for other value
     {
-        if (iChangeType == DBConstants.AFTER_UPDATE_TYPE)
+        if (changeType == DBConstants.AFTER_UPDATE_TYPE)
             if (this.isModLockMode())
             {
             	if (this.getOwner().getTable().getCurrentTable() == this.getOwner().getTable())
@@ -148,7 +147,7 @@ public class RecordChangedHandler extends FileListener
 	            		return this.refreshMergeAndRewrite(iErrorCode);		// Only do this in the master and shared code
             	}
             }
-        return super.doErrorReturn(iChangeType, iErrorCode);
+        return super.doErrorReturn(changeType, iErrorCode);
     }
     /**
      * Am I checking for modification locks?
@@ -165,13 +164,15 @@ public class RecordChangedHandler extends FileListener
     /**
      * Set the date field to the current time.
      * Also make sure the time is not the same as it is currently.
+     * @param bDisplayOption
+     * @param iChangeType
      */
-    public void setTheDate()
+    public void setCurrentDate(boolean bDisplayOption, int iChangeType)
     {
         boolean[] rgbEnabled = m_field.setEnableListeners(false);
         Calendar calAfter = m_field.getCalendar();
         Calendar calBefore = m_field.getCalendar();
-        m_field.setValue(DateTimeField.currentTime(), DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);   // File written or updated, set the update date
+        m_field.setValue(DateTimeField.currentTime(), bDisplayOption, iChangeType);   // File written or updated, set the update date
         calAfter = m_field.getCalendar();
         if (calBefore != null)
             if (calAfter.before(calBefore))
@@ -180,16 +181,13 @@ public class RecordChangedHandler extends FileListener
             if (calAfter.equals(calBefore))
         {
             calAfter.add(Calendar.SECOND, 1);   // Can't be the same as last time.
-            m_field.setCalendar(calAfter, DBConstants.DISPLAY, DBConstants.SCREEN_MOVE);
+            m_field.setCalendar(calAfter, bDisplayOption, iChangeType);
         }
         Utility.getLogger().info("Set date: " + m_field.toString());
         m_field.setEnableListeners(rgbEnabled);
     }
     /**
      * Set up/do the remote criteria.
-     * @param strbFilter The SQL query string to add to.
-     * @param bIncludeFileName Include the file name with this query?
-     * @param vParamList The param list to add the raw data to (for prepared statements).
      * @return True if you should not skip this record (does a check on the local data).
      */
     public void setTemporaryKeyField()
@@ -256,7 +254,7 @@ public class RecordChangedHandler extends FileListener
                 {   // Possible that refresh did a set or refresh is now the same as this.
                 	if ((this.getOwner().getMasterSlave() & RecordOwner.SLAVE) != 0)
                 	{		// Don't do this for master only code (slave will take care of the unique incrementing date)
-                        this.setTheDate();	// Add one second to the date (Only in server code)
+                        this.setCurrentDate(true, DBConstants.INIT_MOVE);	// Add one second to the date (Only in server code)
                 		this.setTemporaryKeyField();
                 	}
                     rgobjEnabledFields = record.setEnableFieldListeners(false);    // These will be called when I exit - Don't call now

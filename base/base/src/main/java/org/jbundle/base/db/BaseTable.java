@@ -347,7 +347,7 @@ public abstract class BaseTable extends FieldTable
      * Create a representation of the current record and optionally cache all the data fields.
      * <p>Use the setDataRecord call to make this record current again
      * @param bCacheData boolean Cache the data?
-     * @param iFieldTypes The types of fields to cache (see BaseBuffer).
+     * @param iFieldsTypes The types of fields to cache (see BaseBuffer).
      * @return DataRecord The information needed to recreate this record.
      */
     public DataRecord getDataRecord(boolean bCacheData, int iFieldsTypes)
@@ -676,8 +676,8 @@ public abstract class BaseTable extends FieldTable
      * @return RECORD_AT_BOF
      * @return RECORD_AT_EOF
      * @return RECORD_EMPTY (same as RECORD_AT_BOF | RECORD_AT_EOF)
-     * @exception FILE_NOT_OPEN.
-     * @exception INVALID_RECORD - Record position is not current or move past EOF or BOF.
+     * @exception DBException FILE_NOT_OPEN.
+     * @exception DBException INVALID_RECORD - Record position is not current or move past EOF or BOF.
      */
     public FieldList move(int iRelPosition) throws DBException
     {
@@ -846,7 +846,7 @@ public abstract class BaseTable extends FieldTable
      * Not implemented for a BaseTable, must use GridTable.
      * Be careful, if a record at a row is deleted, this method will return a new
      * (empty) record, so you need to check the record status before updating it.
-     * @param iRelPosition - Absolute position of the record to retrieve.
+     * @param iPosition - Absolute position of the record to retrieve.
      * @return The record at this location (or null if not found).
      * @exception DBException File exception.
      */
@@ -869,8 +869,8 @@ public abstract class BaseTable extends FieldTable
      *  "<=" - Look for the first record less than or equal to this.
      *  </pre>
      * @return true if successful, false if not found.
-     * @exception FILE_NOT_OPEN.
-     * @exception KEY_NOT_FOUND - The key was not found on read.
+     * @exception DBException FILE_NOT_OPEN.
+     * @exception DBException KEY_NOT_FOUND - The key was not found on read.
      */
     public boolean seek(String strSeekSign) throws DBException
     {
@@ -907,9 +907,9 @@ public abstract class BaseTable extends FieldTable
     }
     /**
      * Reposition to this record Using this bookmark.
-     * @param Object bookmark Bookmark.
-     * @param int iHandleType Type of handle (see getHandle).
-     * @exception FILE_NOT_OPEN.
+     * @param bookmark Bookmark.
+     * @param iHandleType Type of handle (see getHandle).
+     * @exception DBException FILE_NOT_OPEN.
      * @return record if found/null - record not found.
      */
     public FieldList setHandle(Object bookmark, int iHandleType) throws DBException
@@ -982,7 +982,7 @@ public abstract class BaseTable extends FieldTable
      * @param bookmark The handle to use to position the record.
      * @param iHandleType The type of handle (DATA_SOURCE/OBJECT_ID,OBJECT_SOURCE,BOOKMARK).
      * @return  - true - record found/false - record not found
-     * @exception FILE_NOT_OPEN.
+     * @exception DBException FILE_NOT_OPEN.
      * @exception DBException File exception.
      */
     public boolean doSetHandle(Object bookmark, int iHandleType) throws DBException
@@ -1026,14 +1026,14 @@ public abstract class BaseTable extends FieldTable
      *  system specific method, or just leave this default code).<p>
      * NOTE: In most cases, you should override and use the db specific technique for getting
      *  the bookmark of the last added record.
-     * @param int iHandleType 
+     * @param iHandleType
      *  BOOKMARK_HANDLE - long ID for access to native (DB) objects<br />
      *  OBJECT_ID_HANDLE - object ID of persistent object (remote or local)<br />
      *  DATA_SOURCE_HANDLE - pointer to the physical object (persistent or not)<br />
      *  OBJECT_SOURCE_HANDLE - source of this object (RMI Server or JDBC path)<br />
      *  FULL_OBJECT_HANDLE - full path to this object ObjectSource + ObjectID.
-     * @exception FILE_NOT_OPEN.
-     * @exception INVALID_RECORD - There is no current record.
+     * @exception DBException FILE_NOT_OPEN.
+     * @exception DBException INVALID_RECORD - There is no current record.
      */
     public Object getHandle(int iHandleType) throws DBException   
     {
@@ -1555,7 +1555,7 @@ public abstract class BaseTable extends FieldTable
     /**
      * Unlock this record if it is locked.
      * @param record The record to unlock.
-     * @param The bookmark to unlock (all if null).
+     * @param bookmark to unlock (all if null).
      * @return true if successful (it is usually okay to ignore this return).
      */
     public boolean unlockIfLocked(Record record, Object bookmark) throws DBException
@@ -1609,7 +1609,6 @@ public abstract class BaseTable extends FieldTable
     }
     /**
      * Get this property for this table.
-     * @param strProperty The property key.
      * @return The property value.
      */
     public Map<String, Object> getProperties()

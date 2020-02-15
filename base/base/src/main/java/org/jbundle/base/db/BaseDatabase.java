@@ -66,10 +66,6 @@ public class BaseDatabase extends Object
      */
     protected Map<String,Object> m_properties = null;
     /**
-     * Does this database support autosequence natively?
-     */
-    protected boolean m_bAutosequenceSupport = true;
-    /**
      * The first time this database is opened, an attempt is made to open
      * the language-specific version.
      * If it doesn't exist, this variable is set to this database.
@@ -93,7 +89,7 @@ public class BaseDatabase extends Object
     /**
      * Constructor.
      * @param databaseOwner My databaseOwner.
-     * @param strDBName The database name.
+     * @param strDbName The database name.
      * @param iDatabaseType The database type (LOCAL/REMOTE).
      */
     public BaseDatabase(DatabaseOwner databaseOwner, String strDbName, int iDatabaseType)
@@ -106,7 +102,7 @@ public class BaseDatabase extends Object
      * @param databaseOwner My databaseOwner.
      * @param iDatabaseType The database type (LOCAL/REMOTE).
      * @param properties Initial database properties
-     * @param strDBName The database name.
+     * @param strDbName The database name.
      */
     public void init(DatabaseOwner databaseOwner, String strDbName, int iDatabaseType, Map<String, Object> properties)
     {
@@ -115,7 +111,6 @@ public class BaseDatabase extends Object
         m_iDatabaseType = iDatabaseType;
         m_vTableList = new Vector<BaseTable>();
         m_iMasterSlave = RecordOwner.MASTER | RecordOwner.SLAVE;
-        m_bAutosequenceSupport = true;
         if (m_properties == null)
             m_properties = new Hashtable<String,Object>();
         if (properties != null)
@@ -294,7 +289,7 @@ public class BaseDatabase extends Object
     }
     /**
      * This database in the server space? (As opposed to the client space).
-     * @param bIsServer Turning this off, keeps server only behaviors from being executed.
+     * @param iMasterSlave Turning this off, keeps server only behaviors from being executed.
      */
     public void setMasterSlave(int iMasterSlave)
     {
@@ -367,7 +362,7 @@ public class BaseDatabase extends Object
      * Do this by opening a local version of this database and attaching a ResourceTable
      * to the record.
      * @param record The record to set up.
-     * @param table The table for the record.
+     * @param databaseLocale The table for the record.
      * @return The new locale-sensitive table that has been setup for this record.
      */
     public BaseDatabase makeDBLocale(Record record, BaseDatabase databaseLocale)
@@ -463,7 +458,7 @@ public class BaseDatabase extends Object
      */
     public boolean isAutosequenceSupport()
     {
-        return m_bAutosequenceSupport;
+        return DBConstants.TRUE.equalsIgnoreCase(this.getProperty(SQLParams.AUTO_SEQUENCE_ENABLED));
     }
     /**
      * Get this property.
@@ -504,7 +499,7 @@ public class BaseDatabase extends Object
     }
     /**
      * Get the owner of this property key.
-     * @param strPropertyCode The key I'm looking for the owner to.
+     * @param strRegistrationKey The key I'm looking for the owner to.
      * @return The owner of this property key.
      */
     public PropertyOwner retrieveUserProperties(String strRegistrationKey)
@@ -516,7 +511,7 @@ public class BaseDatabase extends Object
     }
     /**
      * Set the properties.
-     * @param strProperties The properties to set.
+     * @param properties The properties to set.
      */
     public void setProperties(Map<String, Object> properties)
     {
@@ -666,7 +661,6 @@ public class BaseDatabase extends Object
     public static final String DB_PROPERTIES_LOADED = "dbPropertiesLoaded";
     /**
      * Given the name of the database, get the properties file and optionally merge them with my current properties.
-     * @param strDatabaseName The name of the database engine (as returned in the meta call).
      * @return The ResourceBundle with all the database properties.
      */
     public boolean setupDatabaseProperties()
@@ -709,7 +703,6 @@ public class BaseDatabase extends Object
     /**
      * Get the initial DB properties (null means no properties).
      * Override this.
-     * @param objDatabaseParam database specific parameter (ie., for jdbc this is the db name)
      * @return The initial properties.
      */
     public Map<String,String> getDatabaseProperties()
