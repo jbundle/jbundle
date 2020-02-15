@@ -108,8 +108,7 @@ public class MongodbDatabase extends BaseDatabase
         super.init(databaseOwner, strDbName, iDatabaseType, properties);
         // Typically, JDBC databases do not support locking (Change to "true" otherwise on JDBC open)
         this.setProperty(SQLParams.EDIT_DB_PROPERTY, SQLParams.DB_EDIT_NOT_SUPPORTED);
-        m_bAutosequenceSupport = true;     // Mongo databases do support identity, and I do use this capability.
-        
+
         // The following settings are true because JDBC is always running over a LAN (and the server version should send and receive messages).
         this.setProperty(DBParams.MESSAGES_TO_REMOTE, DBConstants.TRUE);   // Sent by server version
         this.setProperty(DBParams.CREATE_REMOTE_FILTER, DBConstants.TRUE);  // Yes, for remote tables
