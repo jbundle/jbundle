@@ -94,7 +94,7 @@ public class EmptyField extends BaseField
      * Move the physical binary data to this field.
      * All ignored for this class.
      */
-    public int setString(String strString, boolean bDisplayOption, int moveMode)
+    public int setString(String string, boolean bDisplayOption, int moveMode)
     {
         return DBConstants.NORMAL_RETURN;
     }

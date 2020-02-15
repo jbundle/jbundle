@@ -31,7 +31,7 @@ public interface ThinPhysicalDatabaseParent
 
     /**
      * Add this physical table to my table list.
-     * @param physicalTable The raw data table to add.
+     * @param charPDatabaseType The raw data table to add.
      * @param bCreateIfNew Create a new database if this db is not here (requires the DBCLASS property).
      * @return The physical database.
      */
@@ -50,5 +50,5 @@ public interface ThinPhysicalDatabaseParent
      * @param key The parameter key value.
      * @param objValue The key's value.
      */
-    public void setProperty(String strKey, Object objValue);
+    public void setProperty(String key, Object objValue);
 }

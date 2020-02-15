@@ -150,14 +150,14 @@ public class StringField extends BaseField
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code.
      */
-    public int setString(String strString, boolean bDisplayOption, int iMoveMode)               // init this field override for other value
+    public int setString(String string, boolean bDisplayOption, int iMoveMode)               // init this field override for other value
     {
         int iMaxLength = this.getMaxLength();
-        if (strString != null) if (strString.length() > iMaxLength)
-            strString = strString.substring(0, iMaxLength);
-        if (strString == null)
-            strString = Constants.BLANK;    // To set a null internally, you must call setData directly
-        return this.setData(strString, bDisplayOption, iMoveMode);
+        if (string != null) if (string.length() > iMaxLength)
+            string = string.substring(0, iMaxLength);
+        if (string == null)
+            string = Constants.BLANK;    // To set a null internally, you must call setData directly
+        return this.setData(string, bDisplayOption, iMoveMode);
     }
     /**
      * Get this field to the maximum or minimum value.<p>

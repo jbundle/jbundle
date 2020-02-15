@@ -62,7 +62,7 @@ public class LinkedConverter extends Converter
     }
     /**
      * Add this component to the components displaying this field.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField.
+     * @param screenField The screen component.. either a awt.Component or a ScreenField.
      */
     public void addComponent(Object screenField)
     {
@@ -73,7 +73,7 @@ public class LinkedConverter extends Converter
     }
     /**
      * Remove this control from this field's control list.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField
+     * @param screenField The screen component.. either a awt.Component or a ScreenField
      */
     public void removeComponent(Object screenField)
     {
@@ -137,7 +137,7 @@ public class LinkedConverter extends Converter
      * Convert the display's index to the field value and move to field.
      * @param index The index to convert an set this field to.
      * @param bDisplayOption If true, display the change in the converters.
-     * @param iMoveMove The type of move.
+     * @param iMoveMode The type of move.
      */
     public int convertIndexToField(int index, boolean bDisplayOption, int iMoveMode)
     {       // Must be overidden
@@ -256,7 +256,7 @@ public class LinkedConverter extends Converter
     }
     /**
      * For binary fields, return the current state.
-     * @param True is this field is true.
+     * @return True is this field is true.
      */
     public boolean getState()               // init this field override for other value
     {       // Must be overidden
@@ -294,7 +294,7 @@ public class LinkedConverter extends Converter
     /**
      * For numeric fields, set the current value.
      * Override this method to convert the value to the actual Physical Data Type.
-     * @param bState the state to set the data to.
+     * @param value the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code.

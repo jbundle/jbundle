@@ -43,7 +43,7 @@ public class StrBuffer extends BaseBuffer
     }
     /**
      * Constructor - Init the physical data.
-     * @param data The physical string to initialize this buffer to.
+     * @param string The physical string to initialize this buffer to.
      */
     public StrBuffer(String string)
     {
@@ -53,7 +53,7 @@ public class StrBuffer extends BaseBuffer
     /**
      * Constructor - Init the physical data.
      * @param data The physical string to initialize this buffer to.
-     * @param iFieldTypes The default field types to cache.
+     * @param iFieldsTypes The default field types to cache.
      */
     public StrBuffer(String data, int iFieldsTypes)
     {
@@ -63,7 +63,7 @@ public class StrBuffer extends BaseBuffer
     /**
      * Constructor - Init the physical data.
      * @param data The physical data to initialize this buffer to.
-     * @param iFieldTypes The default field types to cache.
+     * @param iFieldsTypes The default field types to cache.
      */
     public void init(Object data, int iFieldsTypes)
     {
@@ -139,7 +139,7 @@ public class StrBuffer extends BaseBuffer
      * You must override this method.
      * @param field The field to set.
      * @param bDisplayOption The display option for setting the field.
-     * @param iMoveMove The move mode for setting the field.
+     * @param iMoveMode The move mode for setting the field.
      * @return The error code.
      */
     public int getNextField(FieldInfo field, boolean bDisplayOption, int iMoveMode)   // Must be to call right Get calls

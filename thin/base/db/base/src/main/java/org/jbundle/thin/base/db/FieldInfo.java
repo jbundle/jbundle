@@ -151,17 +151,17 @@ public class FieldInfo extends Converter
     }
     /**
      * This screen component is displaying this field.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField.
+     * @param screenField The screen component.. either a awt.Component or a ScreenField.
      */
-    public void addComponent(Object sField)
+    public void addComponent(Object screenField)
     {
         if (m_vScreenField == null)
             m_vScreenField = new Vector<Object>();
-        m_vScreenField.addElement(sField);        // Notify this screen field if I change
+        m_vScreenField.addElement(screenField);        // Notify this screen field if I change
     }
     /**
      * Remove this control from this field's control list.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField
+     * @param screenField The screen component.. either a awt.Component or a ScreenField
      */
     public void removeComponent(Object screenField)
     {   // DO NOT call Object or inherited
@@ -327,7 +327,6 @@ public class FieldInfo extends Converter
     /**
      * Lame method, since awt, swing, and android components all have setText methods.
      * @param obj
-     * @param text
      */
     public String getNameByReflection(Object obj)
     {
@@ -404,7 +403,7 @@ public class FieldInfo extends Converter
     /**
      * Get this field's name.
      * @param bAddQuotes All quotes to the name.
-     * @param bInclude the FileName (ie., filename.fieldname).
+     * @param bIncludeFileName the FileName (ie., filename.fieldname).
      * @return The field name.
      */
     public String getFieldName(boolean bAddQuotes, boolean bIncludeFileName)
@@ -488,15 +487,15 @@ public class FieldInfo extends Converter
     /**
      * Convert and move string to this field.
      * Override this method to convert the String to the actual Physical Data Type.
-     * @param bState the state to set the data to.
+     * @param string the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code (or NORMAL_RETURN).
      */
-    public int setString(String strString, boolean bDisplayOption, int iMoveMode) // init this field override for other value
+    public int setString(String string, boolean bDisplayOption, int iMoveMode) // init this field override for other value
     {
         try {
-            Object objData = Converter.convertObjectToDatatype(strString, this.getDataClass(), null, m_ibScale);
+            Object objData = Converter.convertObjectToDatatype(string, this.getDataClass(), null, m_ibScale);
             if (objData == null)
                 if (this.getDataClass() != Boolean.class)
                     if (!(Number.class.isAssignableFrom(this.getDataClass())))
@@ -563,7 +562,7 @@ public class FieldInfo extends Converter
     /**
      * For numeric fields, set the current value.
      * Override this method to convert the value to the actual Physical Data Type.
-     * @param bState the state to set the data to.
+     * @param dValue the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code.

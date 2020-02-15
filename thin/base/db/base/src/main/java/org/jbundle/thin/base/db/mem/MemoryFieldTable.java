@@ -59,7 +59,7 @@ public class MemoryFieldTable extends BufferFieldTable
      * Constructor.
      * @param record The record to handle.
      * @param tableRemote The remote table.
-     * @param server The remote server (only used for synchronization).
+     * @param dbOwner The remote server (only used for synchronization).
      */
     public void init(Rec record, PTable tableRemote, PhysicalDatabaseParent dbOwner)
     {
@@ -128,7 +128,7 @@ public class MemoryFieldTable extends BufferFieldTable
     /**
      * Set the current record to this (new) record.
      * NOTE: In the thin model, it is not necessary to call edit() before set.
-     * @exception Throws an exception if there is no current record.
+     * @exception DBException Throws an exception if there is no current record.
      */
     public void doSet(Rec record) throws DBException
     {
@@ -214,7 +214,7 @@ public class MemoryFieldTable extends BufferFieldTable
      * Returns the record at this absolute row position.
      * Be careful, if a record at a row is deleted, this method will return a new
      * (empty) record, so you need to check the record status before updating it.
-     * @param iRelPosition Absolute position of the record to retrieve.
+     * @param iRowIndex Absolute position of the record to retrieve.
      * @return The record at this location (or an Integer with the record status or null if not found).
      * @exception DBException File exception.
      */
@@ -255,7 +255,7 @@ public class MemoryFieldTable extends BufferFieldTable
     }
     /**
      * Set the ptable that I am an owner of.
-     * @param pTable
+     * @param pDatabase
      */
     public void setPDatabase(PDatabase pDatabase)
     {

@@ -59,7 +59,7 @@ public class KeyAreaInfo extends Object
      * The m_rgobjTempData is a replacement for the temporary field area's for the thin model.
      * If setupKeyBuffer() is called, this array will contain the current data for this key
      * area's fields.
-     * @see setupKeyBuffer.
+     * @see #setupKeyBuffer(BaseBuffer, int).
      */
     protected Object[] m_rgobjTempData = null;
     /**
@@ -123,7 +123,7 @@ public class KeyAreaInfo extends Object
     /**
      * Add this field to this Key Area.
      * @param iFieldSeq The field to add.
-     * @param bKeyArea The order (ascending/descending).
+     * @param bKeyOrder The order (ascending/descending).
      */
     public void addKeyField(int iFieldSeq, boolean bKeyOrder)
     {
@@ -132,7 +132,7 @@ public class KeyAreaInfo extends Object
     /**
      * Add this field to this Key Area.
      * @param strFieldName The field to add.
-     * @param bKeyArea The order (ascending/descending).
+     * @param bKeyOrder The order (ascending/descending).
      */
     public void addKeyField(String strFieldName, boolean bKeyOrder)
     {
@@ -141,7 +141,7 @@ public class KeyAreaInfo extends Object
     /**
      * Add this field to this Key Area.
      * @param field The field to add.
-     * @param bKeyArea The order (ascending/descending).
+     * @param bKeyOrder The order (ascending/descending).
      */
     public void addKeyField(Field field, boolean bKeyOrder)
     { // Get the field with this seq
@@ -190,7 +190,7 @@ public class KeyAreaInfo extends Object
     /**
      * Get the key order for this key field (Ascending/Descending).
      * Note: This is not implemented for thin.
-     * @param iKeyFieldSeq The field to check.
+     * @param keyFieldSeq The field to check.
      * @return true if ascending order.
      */
     public boolean getKeyOrder(int keyFieldSeq)
@@ -215,7 +215,7 @@ public class KeyAreaInfo extends Object
     }
     /**
      * Move the key area to the record.
-     * @param destBuffer A BaseBuffer to fill with data (ignored for thin).
+     * @param bufferSource A BaseBuffer to fill with data (ignored for thin).
      * @param iAreaDesc The (optional) temporary area to copy the current fields to ().
      */
     public void reverseKeyBuffer(BaseBuffer bufferSource, int iAreaDesc)        // Move these keys back to the record
@@ -245,7 +245,7 @@ public class KeyAreaInfo extends Object
     /**
      * Initialize the Key Fields.
      * @param iAreaDesc The (optional) temporary area to copy the current fields to.
-     * @see BaseField.zeroKeyFields(int).
+     * @see #zeroKeyFields(int).
      */
     public void zeroKeyFields(int iAreaDesc)
     {   // Set up the initial key

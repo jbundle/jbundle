@@ -167,18 +167,18 @@ public abstract class NumberField extends BaseField
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code.
      */
-    public int setString(String strField, boolean bDisplayOption, int iMoveMode)                 // init this field override for other value
+    public int setString(String string, boolean bDisplayOption, int iMoveMode)                 // init this field override for other value
     {
         int iFieldLength = 0;
         Object objTempBinary = null;
-        if (strField != null)
+        if (string != null)
         {
-            iFieldLength = strField.length();
+            iFieldLength = string.length();
             int iMaxLength = this.getMaxLength();
             if ((iFieldLength > iMaxLength) || (iFieldLength > 40))
                 iFieldLength = iMaxLength;
             try   {
-                objTempBinary = this.stringToBinary(strField);
+                objTempBinary = this.stringToBinary(string);
             } catch (Exception ex)  {
                 String strError = ex.getMessage();
                 if (strError == null)

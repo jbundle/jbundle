@@ -48,7 +48,7 @@ public class VectorBuffer extends BaseBuffer
     /**
      * Constructor - Init the physical data.
      * @param data The physical data to initialize this buffer to.
-     * @param iFieldTypes The default field types to cache.
+     * @param iFieldsTypes The default field types to cache.
      */
     public VectorBuffer(Vector<Object> data, int iFieldsTypes)
     {
@@ -58,7 +58,7 @@ public class VectorBuffer extends BaseBuffer
     /**
      * Constructor - Init the physical data.
      * @param data The physical data to initialize this buffer to.
-     * @param iFieldTypes The default field types to cache.
+     * @param iFieldsTypes The default field types to cache.
      */
     public void init(Object data, int iFieldsTypes)
     {
@@ -91,7 +91,7 @@ public class VectorBuffer extends BaseBuffer
     }
     /**
      * Add this string to the buffer.
-     * @param string The string to add.
+     * @param data The string to add.
      */
     public void addNextData(Object data)
     {
@@ -169,9 +169,8 @@ public class VectorBuffer extends BaseBuffer
      * This is a utility method that populates this record.
      * Note: This only adds synchronization as VectorBuffer is not thread safe.
      * @param record The target record.
-     * @param iFieldTypes The field types to move.
      * @param bDisplayOption The display option for the movetofield call.
-     * @param iMoveMove The move mode for the movetofield call.
+     * @param iMoveMode The move mode for the movetofield call.
      * @return The error code.
      */
     public synchronized int bufferToFields(FieldList record, boolean bDisplayOption, int iMoveMode)

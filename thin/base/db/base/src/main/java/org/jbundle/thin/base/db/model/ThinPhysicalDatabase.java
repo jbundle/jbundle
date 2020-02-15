@@ -29,7 +29,7 @@ public interface ThinPhysicalDatabase {
     /**
      * Get the physical table that matches this BaseTable and create it if it doesn't exist.
      * Note: If the bCreateIfNotFound flag was set, create the new table or bump the use count.
-     * @param table The table to create a raw data table from.
+     * @param record The table to create a raw data table from.
      * @return The raw data table (creates a new one if it doesn't already exist).
      */
     public ThinPhysicalTable getPTable(FieldList record, boolean bCreateIfNotFound, boolean  bEnableGridAccess);

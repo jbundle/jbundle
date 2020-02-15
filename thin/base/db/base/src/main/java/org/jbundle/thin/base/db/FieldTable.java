@@ -268,7 +268,7 @@ public class FieldTable extends Object
     /**
      * Set the current record to this (new) record.
      * NOTE: In the thin model, it is not necessary to call edit() before set.
-     * @exception Throws an exception if there is no current record.
+     * @exception DBException Throws an exception if there is no current record.
      */
     public void set(Rec record) throws DBException
     {
@@ -284,7 +284,7 @@ public class FieldTable extends Object
     /**
      * Set the current record to this (new) record.
      * NOTE: In the thin model, it is not necessary to call edit() before set.
-     * @exception Throws an exception if there is no current record.
+     * @exception DBException Throws an exception if there is no current record.
      */
     public void doSet(Rec record) throws DBException
     {
@@ -311,8 +311,8 @@ public class FieldTable extends Object
      * <p>NOTE: You do not need to Open to do a seek or addNew.
      * @param strSeekSign - Seek sign:
      * @return true if successful, false if not found.
-     * @exception FILE_NOT_OPEN.
-     * @exception KEY_NOT_FOUND - The key was not found on read.
+     * @exception DBException FILE_NOT_OPEN.
+     * @exception DBException KEY_NOT_FOUND - The key was not found on read.
      */
     public boolean seek(String strSeekSign) throws DBException
     {
@@ -417,7 +417,7 @@ public class FieldTable extends Object
      * Returns the record at this absolute row position.
      * Be careful, if a record at a row is deleted, this method will return a new
      * (empty) record, so you need to check the record status before updating it.
-     * @param iRelPosition Absolute position of the record to retrieve.
+     * @param iRowIndex Absolute position of the record to retrieve.
      * @return The record at this location (or an Integer with the record status or null if not found).
      * @exception DBException File exception.
      */
@@ -460,8 +460,8 @@ public class FieldTable extends Object
     }
     /**
      * Get a unique object that can be used to reposition to this record.
-     * @exception FILE_NOT_OPEN.
-     * @exception INVALID_RECORD - There is no current record.
+     * @exception DBException FILE_NOT_OPEN.
+     * @exception DBException INVALID_RECORD - There is no current record.
      */
     public Object getHandle(int iHandleType) throws DBException   
     {
@@ -469,9 +469,9 @@ public class FieldTable extends Object
     }
     /**
      * Reposition to this record Using this bookmark.
-     * @param Object bookmark Bookmark.
-     * @param int iHandleType Type of handle (see getHandle).
-     * @exception FILE_NOT_OPEN.
+     * @param bookmark Bookmark.
+     * @param iHandleType Type of handle (see getHandle).
+     * @exception DBException FILE_NOT_OPEN.
      * @return record if found/null - record not found.
      */
     public FieldList setHandle(Object bookmark, int iHandleType) throws DBException
@@ -486,7 +486,7 @@ public class FieldTable extends Object
      * @param bookmark The handle to use to position the record.
      * @param iHandleType The type of handle (DATA_SOURCE/OBJECT_ID,OBJECT_SOURCE,BOOKMARK).
      * @return  - true - record found/false - record not found
-     * @exception FILE_NOT_OPEN.
+     * @exception DBException FILE_NOT_OPEN.
      * @exception DBException File exception.
      */
     public boolean doSetHandle(Object bookmark, int iHandleType) throws DBException

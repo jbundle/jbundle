@@ -84,7 +84,7 @@ public class BaseBuffer extends Object
     /**
      * Constructor - Init the physical data.
      * @param data The physical data to initialize this buffer to.
-     * @param iFieldTypes The default field types to cache.
+     * @param iFieldsTypes The default field types to cache.
      */
     public BaseBuffer(Object data, int iFieldsTypes)
     {
@@ -94,7 +94,7 @@ public class BaseBuffer extends Object
     /**
      * Constructor.
      * @param data The physical data to initialize this buffer to (optional).
-     * @param iFieldTypes The default field types to cache.
+     * @param iFieldsTypes The default field types to cache.
      */
     public void init(Object data, int iFieldsTypes)
     {
@@ -127,7 +127,7 @@ public class BaseBuffer extends Object
     /**
      * Add this header string.
      * Header fields are not included in the record, but are used to hold extra information.
-     * @param string Add this string to the header fields.
+     * @param data Add this string to the header fields.
      */
     public void addHeader(Object data)
     {
@@ -155,7 +155,7 @@ public class BaseBuffer extends Object
     }
     /**
      * Add this data to the buffer.
-     * @param string The string to add.
+     * @param data The string to add.
      */
     public void addNextData(Object data)
     {
@@ -165,7 +165,7 @@ public class BaseBuffer extends Object
      * This is a utility method that populates the record.
      * @param record The target record.
      * @param bDisplayOption The display option for the movetofield call.
-     * @param iMoveMove The move mode for the movetofield call.
+     * @param iMoveMode The move mode for the movetofield call.
      * @return The error code.
      */
     public int bufferToFields(FieldList record, boolean bDisplayOption, int iMoveMode)
@@ -190,9 +190,9 @@ public class BaseBuffer extends Object
      * Move the output buffer to all the fields.
      * This is the same as the bufferToFields method, specifying the fieldTypes to move.
      * @param record The target record.
-     * @param iFieldTypes The field types to move.
+     * @param iFieldsTypes The field types to move.
      * @param bDisplayOption The display option for the movetofield call.
-     * @param iMoveMove The move mode for the movetofield call.
+     * @param iMoveMode The move mode for the movetofield call.
      * @return The error code.
      */
     public int bufferToFields(FieldList record, int iFieldsTypes, boolean bDisplayOption, int iMoveMode)
@@ -220,7 +220,7 @@ public class BaseBuffer extends Object
      * Move all the fields to the output buffer.
      * This is the same as the fieldsToBuffer method, specifying the fieldTypes to move.
      * @param record The target record.
-     * @param iFieldTypes The field types to move.
+     * @param iFieldsTypes The field types to move.
      */
     public void fieldsToBuffer(FieldList record, int iFieldsTypes)
     {
@@ -330,7 +330,7 @@ public class BaseBuffer extends Object
      * You must override this method.
      * @param field The field to set.
      * @param bDisplayOption The display option for setting the field.
-     * @param iMoveMove The move mode for setting the field.
+     * @param iMoveMode The move mode for setting the field.
      * @return The error code.
      */
     public int getNextField(FieldInfo field, boolean bDisplayOption, int iMoveMode)   // Must be to call right Get calls
@@ -346,7 +346,7 @@ public class BaseBuffer extends Object
     }
     /**
      * Get next next string.
-     * @param Retrieve the next object from this buffer and return it if it is a string.
+     * @return Retrieve the next object from this buffer and return it if it is a string.
      */
     public String getNextString()
     {
