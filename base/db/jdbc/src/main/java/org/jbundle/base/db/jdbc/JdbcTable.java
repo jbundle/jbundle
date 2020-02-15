@@ -1182,12 +1182,12 @@ public class JdbcTable extends BaseTable
      */
     public Object getLastModified(int iHandleType)
     {   // Change this to call "SELECT @@IDENTITY"
-        if (this.getDatabase().isAutosequenceSupport())
-            return super.getLastModified(iHandleType);
-        else
-        { // No auto-sequence support
+//        if (this.getDatabase().isAutosequenceSupport())
+//            return super.getLastModified(iHandleType);
+//        else
+//        { // No auto-sequence support
             return m_LastModifiedBookmark;      // Ignore the iHandleType (Always bookmark type for JDBC)
-        }
+//        }
     }
     /**
      * Create a new empty table using the definition in the record.
