@@ -92,7 +92,7 @@ public interface ScreenModel extends ComponentParent {
     public ScreenFieldView getScreenFieldView();
     /**
      * Make sure I am allowed access to this screen.
-     * @param strClassResource
+     * @param screen
      * @return
      */
     public ScreenModel checkSecurity(ScreenModel screen, ScreenModel parentScreen);

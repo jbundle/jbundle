@@ -59,7 +59,7 @@ public interface ScreenFieldView extends FieldComponent
     public Object getControl();
     /**
      * Get one of the physical components associated with this SField.
-     * @param int iLevel    CONTROL_TOP - Parent physical control; CONTROL_BOTTOM - Lowest child control
+     * @param iLevel    CONTROL_TOP - Parent physical control; CONTROL_BOTTOM - Lowest child control
      * NOTE: This method is used for complex controls such as a scroll box, where this control must be
      * added to the parent, but sub-controls must be added to a lower level physical control.
      * @param iLevel The level for this control (top/bottom/etc).
@@ -247,12 +247,11 @@ public interface ScreenFieldView extends FieldComponent
     public int moveControlInput(String strSuffix) throws DBException;
     /**
      * Set the default button for this basepanel.
-     * @param The button to default to on return.
+     * @param button to default to on return.
      */
     public void setDefaultButton(ScreenFieldView button);
     /**
      * Move the HTML input format to the fields and do the action requested.
-     * @param bDefaultParamsFound If the params have been found yet.
      * @return true if input params have been found.
      * @exception DBException File exception.
      */
