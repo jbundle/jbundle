@@ -170,7 +170,7 @@ public class BaseField extends FieldInfo
     }
     /**
      * Clone the record behaviors of this table and add them to newTable.
-     * @param record The record to clone listeners from.
+     * @param field The record to clone listeners from.
      * @param bCloneListeners Clone listeners that do not exist?
      * @param bMatchEnabledState If source listener is disabled, disable the new (or existing) listener.
      * @param bSyncReferenceFields Make sure any reference fields are referencing the same record.
@@ -252,7 +252,7 @@ public class BaseField extends FieldInfo
     /**
      * Set the next listener in the listener chain.
      * Note: You can pass the full class name, or the short class name or (preferably) the class.
-     * @param strListenerClass The name of the class I'm looking for.
+     * @param listener The name of the class I'm looking for.
      * @return The first listener of this class or null if no match.
      */
     public void setListener(FieldListener listener)
@@ -313,11 +313,11 @@ public class BaseField extends FieldInfo
     }
     /**
      * This screen component is displaying this field.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField.
+     * @param screenField sField The screen component.. either a awt.Component or a ScreenField.
      */
-    public void addComponent(Object sField)
+    public void addComponent(Object screenField)
     {
-        super.addComponent(sField);     // Notify this screen field if I change
+        super.addComponent(screenField);     // Notify this screen field if I change
         this.displayField();    // Tell field to redisplay itself using this field's value
     }
     /**
@@ -373,7 +373,7 @@ public class BaseField extends FieldInfo
      * Convert the display's index to the field value and move to field.
      * @param index The index to convert an set this field to.
      * @param bDisplayOption If true, display the change in the converters.
-     * @param iMoveMove The type of move.
+     * @param iMoveMode The type of move.
      */
     public int convertIndexToField(int index, boolean bDisplayOption, int iMoveMode)
     {
@@ -401,7 +401,7 @@ public class BaseField extends FieldInfo
     }
     /**
      * Convert the field's value to a index (for popup) (usually overidden).
-     * @param string The string to convert to an index.
+     * @param tempString The string to convert to an index.
      * @return The resulting index.
      */
     public int convertStringToIndex(String tempString)
@@ -496,7 +496,7 @@ public class BaseField extends FieldInfo
     }
     /**
      * Get the listener with this identifier.
-     * @param strListenerClass The name of the class I'm looking for.
+     * @param strBehaviorClass The name of the class I'm looking for.
      * @return The first listener of this class or null if no match.
      */
     public FieldListener getListener(Object strBehaviorClass)
@@ -507,7 +507,7 @@ public class BaseField extends FieldInfo
      * Get the listener with this class identifier.
      * Note: You can pass the full class name, or the short class name or (preferably) the class.
      * @param bExactMatch Only returns classes that are an exact match... if false, return classes that are an instanceof the class
-     * @param strListenerClass The name of the class I'm looking for.
+     * @param strBehaviorClass The name of the class I'm looking for.
      * @return The first listener of this class or null if no match.
      */
     public FieldListener getListener(Object strBehaviorClass, boolean bExactMatch)
@@ -884,7 +884,7 @@ public class BaseField extends FieldInfo
     }
     /**
      * For binary fields, return the current state.
-     * @param True is this field is true.
+     * @return True is this field is true.
      */
     public boolean getState()
     {
@@ -1028,8 +1028,8 @@ public class BaseField extends FieldInfo
      * in one at a time, and if a listener modifies or accesses
      * another field, the field may not have been moved from the db yet.
      * @param data The raw data to move to this field.
-     * @param iDisplayOption If true, display the new field.
-     * @param iMoveMove The move mode.
+     * @param bDisplayOption If true, display the new field.
+     * @param iMoveMode The move mode.
      * @return An error code (NORMAL_RETURN for success).
      */
     public int setData(Object data, boolean bDisplayOption, int iMoveMode)
@@ -1096,7 +1096,7 @@ public class BaseField extends FieldInfo
     }
     /**
      * Enable/Disable the associated control(s).
-     * @param state If false, disable all this field's screen fields.
+     * @param bEnable If false, disable all this field's screen fields.
      */
     public void setEnabled(boolean bEnable)
     {
@@ -1110,7 +1110,7 @@ public class BaseField extends FieldInfo
     }
     /**
      * Set the minimum field length.
-     * @param iMinumum string field length.
+     * @param iMinumumLength string field length.
      */
     public void setMinimumLength(int iMinumumLength)
     {
@@ -1297,7 +1297,7 @@ public class BaseField extends FieldInfo
      * Displays a [Key to record (opt)] [Record Description] [Lookup button] [Form button (opt)]
      * @param record Record to display in a popup
      * @param iQueryKeySeq Key to use for code-lookup operation (-1 = None)
-     * @param iDisplayFieldSeq Description field for the display field (-1 = third field)
+     * @param iDisplayFieldDesc Description field for the display field (-1 = third field)
      * @param bIncludeFormButton Include a form button (in addition to the lookup button)?
      * @return  Return the component or ScreenField that is created for this field.
      */
@@ -1313,7 +1313,7 @@ public class BaseField extends FieldInfo
      * Displays a [Key to record (opt)] [Record Description] [Lookup button] [Form button (opt)]
      * @param record Record to display in a popup
      * @param keyAreaName Key to use for code-lookup operation (-1 = None)
-     * @param iDisplayFieldSeq Description field for the display field (-1 = third field)
+     * @param iDisplayFieldDesc Description field for the display field (-1 = third field)
      * @param bIncludeFormButton Include a form button (in addition to the lookup button)?
      * @return  Return the component or ScreenField that is created for this field.
      */
@@ -1404,7 +1404,7 @@ public class BaseField extends FieldInfo
      * @param componentType
      * @param itsLocation
      * @param targetScreen
-     * @param convert
+     * @param converter
      * @param iDisplayFieldDesc
      * @param properties
      * @return

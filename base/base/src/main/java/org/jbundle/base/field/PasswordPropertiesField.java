@@ -99,8 +99,8 @@ public class PasswordPropertiesField extends PropertiesField
      * Set this property in the user's property area.
      * @param strProperty The property key.
      * @param strValue The property value.
-     * @param iDisplayOption If true, display the new field.
-     * @param iMoveMove The move mode.
+     * @param bDisplayOption If true, display the new field.
+     * @param iMoveMode The move mode.
      * @return An error code (NORMAL_RETURN for success).
      */
     public int setProperty(String strProperty, String strValue, boolean bDisplayOption, int iMoveMode)

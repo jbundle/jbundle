@@ -184,8 +184,8 @@ public class IntegerField extends NumberField
     /*
      * Set the Value of this field as a double.
      * @param value The value of this field.
-     * @param iDisplayOption If true, display the new field.
-     * @param iMoveMove The move mode.
+     * @param bDisplayOption If true, display the new field.
+     * @param iMoveMode The move mode.
      * @return An error code (NORMAL_RETURN for success).
      */
     public int setValue(double value, boolean bDisplayOption, int moveMode)

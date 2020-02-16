@@ -77,7 +77,7 @@ public abstract class NumberField extends BaseField
      * Convert the display's index to the field value and move to field.
      * @param index The index to convert an set this field to.
      * @param bDisplayOption If true, display the change in the converters.
-     * @param iMoveMove The type of move.
+     * @param iMoveMode The type of move.
      */
     public int convertIndexToField(int index, boolean bDisplayOption, int iMoveMode)
     {

@@ -170,7 +170,7 @@ public class ByteBuffer extends BaseBuffer
      * You must override this method.
      * @param field The field to set.
      * @param bDisplayOption The display option for setting the field.
-     * @param iMoveMove The move mode for setting the field.
+     * @param iMoveMode The move mode for setting the field.
      * @return The error code.
      */
     public int getNextField(FieldInfo field, boolean bDisplayOption, int iMoveMode)   // Must be to call right Get calls

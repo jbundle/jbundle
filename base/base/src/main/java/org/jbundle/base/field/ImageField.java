@@ -116,8 +116,8 @@ public class ImageField extends ObjectField
      * in one at a time, and if a listener modifies or accesses
      * another field, the field may not have been moved from the db yet.
      * @param data The raw data to move to this field.
-     * @param iDisplayOption If true, display the new field.
-     * @param iMoveMove The move mode.
+     * @param bDisplayOption If true, display the new field.
+     * @param iMoveMode The move mode.
      * @return An error code (NORMAL_RETURN for success).
      */
     public int setData(Object data, boolean bDisplayOption, int iMoveMode)
