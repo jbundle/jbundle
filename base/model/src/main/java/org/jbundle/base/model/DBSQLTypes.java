@@ -23,11 +23,14 @@ public interface DBSQLTypes extends Params
     public static final String CURRENCY = "CURRENCY";
     public static final String FLOAT = "FLOAT";
 
-    public static final String INTEGER = "INTEGER";
-    public static final String SHORT = "SHORT";
+    public static final String INTEGER = "INTEGER"; // 32 bits
     public static final String DOUBLE = "DOUBLE";
     public static final String STRING = "STRING";
-    public static final String SMALLINT = "SMALLINT";
+    public static final String SMALLINT = "SMALLINT";   // 16 bits
+    public static final String BIGINT = "BIGINT";   // 64 bits
+
+    public static final String SHORT = "SHORT";     // Java short -> SMALLINT (typically)
+    public static final String COUNTER = "COUNTER";     // Counter -> INTEGER (typically)
 
     public static final String DATETIME = "DATETIME";
     public static final String DATE = "DATE";

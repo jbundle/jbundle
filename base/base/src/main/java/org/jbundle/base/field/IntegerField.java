@@ -44,11 +44,11 @@ public class IntegerField extends NumberField
     /**
      * The minimum integer value.
      */
-    public static final Integer MIN = new Integer(Integer.MIN_VALUE);     // Lowest value
+    public static final Integer MIN = Integer.MIN_VALUE;     // Lowest value
     /**
      * The maximum integer value.
      */
-    public static final Integer MAX = new Integer(Integer.MAX_VALUE);     // Highest value
+    public static final Integer MAX = Integer.MAX_VALUE;     // Highest value
     /**
      * The not-a-number integer value.
      */
@@ -292,7 +292,7 @@ public class IntegerField extends NumberField
     {
         String strType = (String)properties.get(DBSQLTypes.INTEGER);
         if (strType == null)
-            strType = DBSQLTypes.INTEGER;   // The default SQL Type (Byte)
+            strType = DBSQLTypes.INTEGER;   // The default SQL Type (4 Bytes)
         return  strType;        // The default SQL Type
     }
 }
