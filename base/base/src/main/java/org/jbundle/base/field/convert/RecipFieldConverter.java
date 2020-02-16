@@ -69,7 +69,7 @@ public class RecipFieldConverter extends FieldConverter
     /**
      * Convert and move string to this field.
      * Get the recriprical of this string and set the string.
-     * @param bState the state to set the data to.
+     * @param strField the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code (or NORMAL_RETURN).

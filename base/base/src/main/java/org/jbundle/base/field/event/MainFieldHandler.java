@@ -50,7 +50,7 @@ public class MainFieldHandler extends FieldListener
     }
     /**
      * Constructor.
-     * @param iKeySeq The key area this field accesses.
+     * @param keyName The key area this field accesses.
      */
     public MainFieldHandler(String keyName)
     {
@@ -60,7 +60,7 @@ public class MainFieldHandler extends FieldListener
     /**
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
-     * @param iKeySeq The key area this field accesses.
+     * @param keyName The key area this field accesses.
      */
     public void init(BaseField field, String keyName)
     {
@@ -88,8 +88,8 @@ public class MainFieldHandler extends FieldListener
     /**
      * Set this cloned listener to the same state at this listener.
      * @param field The field this new listener will be added to.
-     * @param The new listener to sync to this.
-     * @param Has the init method been called?
+     * @param listener The new listener to sync to this.
+     * @param bInitCalled Has the init method been called?
      * @return True if I called init.
      */
     public boolean syncClonedListener(BaseField field, FieldListener listener, boolean bInitCalled)
@@ -103,7 +103,7 @@ public class MainFieldHandler extends FieldListener
      * The code here is kinda complicated. This is the unique key field.
      * If this is a new record and there haven't been any changes yet,
      * I do a seek on this index.
-     * @param objData the raw data to set the basefield to.
+     * @param data the raw data to set the basefield to.
      * @param bDisplayOption If true, display the change.
      * @param iMoveMode The type of move being done (init/read/screen).
      * @return The error code (or NORMAL_RETURN if okay).
@@ -230,8 +230,7 @@ public class MainFieldHandler extends FieldListener
      * Read the record (assumes record has correct data in it to do the read).
      * This method can be overidden if keyed access is not what you want to do (see SCF file).
      * @param record The record to seek from.
-     * @param return true if successful.
-     * @exception DBExcepition seek exceptions.
+     * @exception DBException seek exceptions.
      */
     public boolean seek(Record record) throws DBException
     {

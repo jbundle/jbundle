@@ -149,7 +149,7 @@ public abstract class NumberField extends BaseField
      * For binary fields, set the current state.
      * @param state The state to set this field.
      * @param bDisplayOption Display changed fields if true.
-     * @param iMoveMode The move mode.
+     * @param moveMode The move mode.
      * @return The error code (or NORMAL_RETURN).
      */
     public int setState(boolean state, boolean bDisplayOption, int moveMode)
@@ -162,7 +162,7 @@ public abstract class NumberField extends BaseField
     /**
      * Convert and move string to this field.
      * This Data is in a binary format, so convert it and move it.
-     * @param bState the state to set the data to.
+     * @param string the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code.

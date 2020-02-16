@@ -32,7 +32,7 @@ public class MainReadOnlyHandler extends MainFieldHandler
     }
     /**
      * Constructor.
-     * @param iKeySeq The key area this field accesses.
+     * @param keyName The key area this field accesses.
      */
     public MainReadOnlyHandler(String keyName)
     {
@@ -42,7 +42,7 @@ public class MainReadOnlyHandler extends MainFieldHandler
     /**
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
-     * @param iKeySeq The key area to read.
+     * @param keyName The key area to read.
      */
     public void init(BaseField field, String keyName)
     {

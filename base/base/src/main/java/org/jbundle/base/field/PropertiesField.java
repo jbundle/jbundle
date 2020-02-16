@@ -171,8 +171,7 @@ public class PropertiesField extends MemoField
     }
     /**
      * Set this property in the user's property area.
-     * @param strProperty The property key.
-     * @param strValue The property value.
+     * @param properties The property key.
      */
     public int setProperties(Map<String,Object> properties)
     {
@@ -180,8 +179,7 @@ public class PropertiesField extends MemoField
     }
     /**
      * Set this property in the user's property area.
-     * @param strProperty The property key.
-     * @param strValue The property value.
+     * @param properties The property key.
      * @param bDisplayOption If true, display the new field.
      * @param iMoveMode The move mode.
      * @return An error code (NORMAL_RETURN for success).
@@ -260,7 +258,7 @@ public class PropertiesField extends MemoField
     public static final String PROPERTIES_COMMENT = "Field properties";
     /**
      * Convert these java properties to a string.
-     * @param properties The java properties.
+     * @param map The java properties.
      * @return The properties string.
      */
     public static String propertiesToString(Map<String,Object> map)
@@ -355,7 +353,7 @@ public class PropertiesField extends MemoField
         }
         /**
          * Constructor.
-         * @param record My owner (usually passed as null, and set on addListener in setOwner()).
+         * @param recPropertiesField My owner (usually passed as null, and set on addListener in setOwner()).
          */
         public SyncPropertiesRecordToField(PropertiesField recPropertiesField)
         {
@@ -364,7 +362,7 @@ public class PropertiesField extends MemoField
         }
         /**
          * Constructor.
-         * @param record My owner (usually passed as null, and set on addListener in setOwner()).
+         * @param recPropertiesField My owner (usually passed as null, and set on addListener in setOwner()).
          */
         public void init(PropertiesField recPropertiesField)
         {
@@ -436,7 +434,7 @@ public class PropertiesField extends MemoField
         }
         /**
          * Constructor.
-         * @param owner The basefield owner of this listener (usually null and set on setOwner()).
+         * @param recPropertiesInput The basefield owner of this listener (usually null and set on setOwner()).
          */
         public SyncFieldToPropertiesRecord(Record recPropertiesInput)
         {
@@ -445,7 +443,7 @@ public class PropertiesField extends MemoField
         }
         /**
          * Constructor.
-         * @param owner The basefield owner of this listener (usually null and set on setOwner()).
+         * @param recPropertiesInput The basefield owner of this listener (usually null and set on setOwner()).
          */
         public void init(Record recPropertiesInput)
         {
@@ -582,7 +580,6 @@ public class PropertiesField extends MemoField
      * Given the read, original, and current values for this key, update the original key value.
      * @param propOrig
      * @param strKey
-     * @param strReadValue
      * @param strOrigValue
      * @param strNewValue
      * @param bOrigChange
@@ -603,7 +600,7 @@ public class PropertiesField extends MemoField
     }
     /**
      * Merge my changed data back into field that I just restored from disk.
-     * @param objData The value this field held before I refreshed from disk.
+     * @param strKey The value this field held before I refreshed from disk.
      * @return The setData error code.
      */
     public String mergeKey(String strKey, String strReadValue, String strCurrentValue)

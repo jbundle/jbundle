@@ -56,7 +56,6 @@ public class MoveOnChangeHandler extends FieldListener
     /**
      * Constructor.
      * @param fldDest The destination field.
-     * @param fldSource The source field.
      */
     public MoveOnChangeHandler(Converter fldDest)
     {

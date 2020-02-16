@@ -164,7 +164,7 @@ public class SortOrderHandler extends FieldReSelectHandler
     }
     /**
      * Set an index to a key area.
-     * @param iKeyArea The key area to set to this index.
+     * @param keyAreaName The key area to set to this index.
      * @param gridTable The record to set.
      * @param index The index to relate to this keyarea/gridtable combo.
      */

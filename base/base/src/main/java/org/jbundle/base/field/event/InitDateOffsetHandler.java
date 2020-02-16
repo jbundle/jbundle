@@ -56,9 +56,6 @@ public class InitDateOffsetHandler extends InitFieldHandler
     /**
      * Constructor.
      * @param fldSource The field with the source number of days to use as an offset.
-     * @param lYears Offset by this number of years.
-     * @param lMonths Offset by this number of months.
-     * @param lDays Offset by this number of days.
      */
     public InitDateOffsetHandler(BaseField fldSource, DateTimeField startDate)
     {
@@ -97,8 +94,8 @@ public class InitDateOffsetHandler extends InitFieldHandler
     /**
      * Set this cloned listener to the same state at this listener.
      * @param field The field this new listener will be added to.
-     * @param The new listener to sync to this.
-     * @param Has the init method been called?
+     * @param listener The new listener to sync to this.
+     * @param bInitCalled Has the init method been called?
      * @return True if I called init.
      */
     public boolean syncClonedListener(BaseField field, FieldListener listener, boolean bInitCalled)

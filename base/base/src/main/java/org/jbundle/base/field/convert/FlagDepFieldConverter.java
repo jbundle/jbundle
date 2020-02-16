@@ -37,7 +37,7 @@ public class FlagDepFieldConverter extends MultipleFieldConverter
      * Constructor.
      * @param converter The next converter in the converter chain.
      * @param convCheckmark The converter to check the state of (if true, use the alternate converter).
-     * @param converterAlt The converter to use if the checkmark is true.
+     * @param convAlternate The converter to use if the checkmark is true.
      */
     public FlagDepFieldConverter(Converter converter, Converter convAlternate, Converter convCheckmark)
     {
@@ -48,7 +48,7 @@ public class FlagDepFieldConverter extends MultipleFieldConverter
      * Initialize this converter.
      * @param converter The next converter in the converter chain.
      * @param convCheckmark The converter to check the state of (if true, use the alternate converter).
-     * @param converterAlt The converter to use if the checkmark is true.
+     * @param convAlternate The converter to use if the checkmark is true.
      */
     public void init(Converter converter, Converter convAlternate, Converter convCheckmark)
     {
@@ -66,7 +66,7 @@ public class FlagDepFieldConverter extends MultipleFieldConverter
     /**
      * Add this component to the components displaying this field.
      * Make sure all the converter have this screenfield on their list.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField.
+     * @param screenField The screen component.. either a awt.Component or a ScreenField.
      */
     public void addComponent(Object screenField)
     { // Set up the dependencies, This will recompute if any change from these three fields
@@ -75,7 +75,7 @@ public class FlagDepFieldConverter extends MultipleFieldConverter
     }
     /**
      * Remove this control from this field's control list.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField
+     * @param screenField The screen component.. either a awt.Component or a ScreenField
      */
     public void removeComponent(Object screenField)
     { // Set up the dependencies, This will recompute if any change from these three fields

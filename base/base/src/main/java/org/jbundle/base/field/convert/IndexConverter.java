@@ -75,9 +75,9 @@ public class IndexConverter extends FieldConverter
      * Convert and move string to this field.
      * Convert this string to an index and set the index value.
      * Override this method to convert the String to the actual Physical Data Type.
-     * @param strString the state to set the data to.
+     * @param fieldPtr the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
-     * @param iMoveMode INIT, SCREEN, or READ move mode.
+     * @param moveMode INIT, SCREEN, or READ move mode.
      * @return The error code (or NORMAL_RETURN).
      */
     public int setString(String fieldPtr, boolean bDisplayOption, int moveMode)                 // init this field override for other value

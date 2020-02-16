@@ -96,7 +96,7 @@ public class BitConverter extends FieldConverter
     /**
      * For binary fields, return the current state.
      * Gets the state of the target bit.
-     * @param True is this field is true.
+     * @return True is this field is true.
      */
     public boolean getState()
     {
@@ -119,12 +119,12 @@ public class BitConverter extends FieldConverter
      * @param iMoveMode The move mode.
      * @return The error code (or NORMAL_RETURN).
      */
-    public int setState(boolean bState, boolean bDisplayOption, int iMoveMode)
+    public int setState(boolean state, boolean bDisplayOption, int iMoveMode)
     {
         int iFieldValue = (int)this.getValue();
         if (!m_bTrueIfMatch)
-            bState = !bState; // Do opposite operation
-        if (bState)
+            state = !state; // Do opposite operation
+        if (state)
             iFieldValue |= (1 << m_iBitNumber);     // Set the bit
         else
             iFieldValue &= ~(1 << m_iBitNumber);    // Clear the bit

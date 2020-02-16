@@ -68,7 +68,7 @@ public class FirstMLastConverter extends FieldConverter
      * @param iNamePrefix Field sequence of the prefix field.
      * @param iNameFirst Field sequence of the First name field.
      * @param iNameMiddle Field sequence of the middle name field.
-     * @param iNameSuffix Field sequence of the suffix field.
+     * @param iNameSur Field sequence of the suffix field.
      */
     public FirstMLastConverter(Record thisFile, String iNamePrefix, String iNameFirst, String iNameMiddle, String iNameSur)
     {
@@ -92,7 +92,7 @@ public class FirstMLastConverter extends FieldConverter
     }
     /**
      * Constructor.
-     * @param thisFile Target record.
+     * @param convFullName Target record.
      * @param iNamePrefix Field sequence of the prefix field.
      * @param iNameFirst Field sequence of the First name field.
      * @param iNameMiddle Field sequence of the middle name field.
@@ -144,7 +144,7 @@ public class FirstMLastConverter extends FieldConverter
     }
     /**
      * Add this component to the components displaying this field.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField.
+     * @param screenField sField The screen component.. either a awt.Component or a ScreenField.
      */
     public void addComponent(Object screenField)
     { // Set up the dependencies
@@ -164,7 +164,7 @@ public class FirstMLastConverter extends FieldConverter
     }
     /**
      * Remove this control from this field's control list.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField.
+     * @param screenField sField The screen component.. either a awt.Component or a ScreenField.
      */
     public void removeComponent(Object screenField)
     { // Set up the dependencies
@@ -262,7 +262,7 @@ public class FirstMLastConverter extends FieldConverter
      * Convert and move string to this field.
      * Split the part of this string into the target fields.
      * Override this method to convert the String to the actual Physical Data Type.
-     * @param bState the state to set the data to.
+     * @param strSource the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code (or NORMAL_RETURN).
@@ -278,7 +278,7 @@ public class FirstMLastConverter extends FieldConverter
     /**
      * Split the part of this string into the target fields.
      * Override this method to convert the String to the actual Physical Data Type.
-     * @param bState the state to set the data to.
+     * @param strSource the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code (or NORMAL_RETURN).

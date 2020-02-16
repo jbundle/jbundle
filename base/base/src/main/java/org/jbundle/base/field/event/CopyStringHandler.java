@@ -34,7 +34,7 @@ public class CopyStringHandler extends CopyDataHandler
      * Constructor.
      * @param fldDest The destination field.
      * @param stringValue The string to set the destination field to.
-     * @param convconvCheckMark If this evaluates to false, don't do the move.
+     * @param convCheckMark If this evaluates to false, don't do the move.
      */
     public CopyStringHandler(BaseField fldDest, String stringValue, Converter convCheckMark)
     {
@@ -46,7 +46,7 @@ public class CopyStringHandler extends CopyDataHandler
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      * @param fldDest The destination field.
      * @param stringValue The string to set the destination field to.
-     * @param convconvCheckMark If this evaluates to false, don't do the move.
+     * @param convCheckMark If this evaluates to false, don't do the move.
      */
     public void init(BaseField field, BaseField fldDest, String stringValue, Converter convCheckMark)
     {

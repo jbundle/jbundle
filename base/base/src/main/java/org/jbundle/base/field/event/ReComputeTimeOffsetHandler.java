@@ -39,7 +39,7 @@ public class ReComputeTimeOffsetHandler extends ReComputeFieldHandler
     }
     /**
      * Constructor.
-     * @param iTargetFieldSeq The date field sequence in this owner to use to calc the difference.
+     * @param targetFieldName The date field sequence in this owner to use to calc the difference.
      * @param fldOtherDate The other date field to use in calculating the date difference. If null, uses the current time.
      */
     public ReComputeTimeOffsetHandler(String targetFieldName, DateTimeField fldOtherDate)
@@ -49,7 +49,7 @@ public class ReComputeTimeOffsetHandler extends ReComputeFieldHandler
     }
     /**
      * Constructor - Using the current time as the offset.
-     * @param iTargetFieldSeq The date field sequence in this owner to use to calc the difference.
+     * @param targetFieldName The date field sequence in this owner to use to calc the difference.
      */
     public ReComputeTimeOffsetHandler(String targetFieldName)
     {
@@ -59,7 +59,7 @@ public class ReComputeTimeOffsetHandler extends ReComputeFieldHandler
     /**
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
-     * @param iTargetFieldSeq The date field sequence in this owner to use to calc the difference.
+     * @param targetFieldName The date field sequence in this owner to use to calc the difference.
      * @param fldOtherDate The other date field to use in calculating the date difference. If null, uses the current time.
      */
     public void init(BaseField field, String targetFieldName, DateTimeField fldOtherDate)

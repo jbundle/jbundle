@@ -59,7 +59,7 @@ public class DisableBehOnFieldHandler extends FieldListener
      * Constructor.
      * @param listenerToDisable Listener to disable on string match.
      * @param strDisableOnMatch String to match to determine whether to disable the listener.
-     * @param bDisableIfMatch If true disable if match, else disable if not matched.
+     * @param strDisableOnMatch If true disable if match, else disable if not matched.
      */
     public DisableBehOnFieldHandler(BaseListener listenerToDisable, String strDisableOnMatch)
     {
@@ -102,7 +102,7 @@ public class DisableBehOnFieldHandler extends FieldListener
      * The Field has Changed.
      * Enable/disable the target listener if this field now matches the target string.
      * @param bDisplayOption If true, display the change.
-     * @param iMoveMode The type of move being done (init/read/screen).
+     * @param moveMode The type of move being done (init/read/screen).
      * @return The error code (or NORMAL_RETURN if okay).
      */
     public int fieldChanged(boolean bDisplayOption, int moveMode)

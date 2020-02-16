@@ -205,7 +205,7 @@ public class DateTimeField extends NumberField
     }
     /**
      * Set the type of quote that goes around this SQL value.
-     * @param gchSqlDateQuote The character to use to quote the date.
+     * @param chSqlDateQuote The character to use to quote the date.
      */
     public static void setSQLQuote(char chSqlDateQuote)
     {
@@ -467,7 +467,7 @@ public class DateTimeField extends NumberField
     /**
      * Move this physical binary data to this field.
      * Must be java Date type.
-     * @param data The physical data to move to this field (must be the correct raw data class).
+     * @param vpData The physical data to move to this field (must be the correct raw data class).
      * @param bDisplayOption If true, display after setting the data.
      * @param iMoveMode The type of move.
      * @return an error code (0 if success).

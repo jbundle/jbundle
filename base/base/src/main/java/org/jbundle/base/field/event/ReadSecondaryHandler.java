@@ -80,7 +80,7 @@ public class ReadSecondaryHandler extends FieldListener
     /**
      * Constructor.
      * @param record The secondary record to read.
-     * @param iQueryKeyArea The key area to read from.
+     * @param keyAreaName The key area to read from.
      */
     public ReadSecondaryHandler(Record record, String keyAreaName)
     {
@@ -90,7 +90,7 @@ public class ReadSecondaryHandler extends FieldListener
     /**
      * Constructor.
      * @param record The secondary record to read.
-     * @param iQueryKeyArea The key area to read from.
+     * @param keyAreaName The key area to read from.
      * @param bCloseOnFree Close the record when this behavior is removed?
      * @param bUpdateRecord Update the secondary record before reading (if it has changed)?
      * @param bAllowNull If true, a null field value will trigger a new record; if false a key not found error.
@@ -104,7 +104,7 @@ public class ReadSecondaryHandler extends FieldListener
      * Initialize this listener.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      * @param record The secondary record that this field triggers a read to.
-     * @param iQueryKeyArea The key area in the secondary record to read from.
+     * @param keyAreaName The key area in the secondary record to read from.
      * @param bCloseOnFree Close the record when this behavior is removed?
      * @param bUpdateRecord Update the secondary record before reading (if it has changed)?
      * @param bAllowNull If true, a null field value will trigger a new record; if false a key not found error.

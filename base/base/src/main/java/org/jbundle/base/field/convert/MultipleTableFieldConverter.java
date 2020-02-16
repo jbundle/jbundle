@@ -71,7 +71,7 @@ public class MultipleTableFieldConverter extends MultipleFieldConverter
     /**
      * Constructor.
      * @param record The merge record.
-     * @param iFieldSeq The sequence of the field in the target records.
+     * @param fieldName The sequence of the field in the target records.
      */
     public MultipleTableFieldConverter(Record record, String fieldName)
     {
@@ -91,7 +91,7 @@ public class MultipleTableFieldConverter extends MultipleFieldConverter
     /**
      * Constructor.
      * @param record The merge record.
-     * @param iFieldSeq The sequence of the field in the target records.
+     * @param fieldName The sequence of the field in the target records.
      */
     public MultipleTableFieldConverter(Record record, String fieldName, String secondaryFieldName)
     {

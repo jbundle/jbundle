@@ -37,7 +37,7 @@ public class EncoderConverter extends FieldConverter
     }
     /**
      * Constructor.
-     * @param numberField The percent field target.
+     * @param field The percent field target.
      */
     public EncoderConverter(Converter field)
     {
@@ -47,7 +47,6 @@ public class EncoderConverter extends FieldConverter
     /**
      * Initialize this converter.
      * @param converter The next converter in the converter chain.
-     * @param iFakeLength The maximum field length to return.
      */
     public void init(Converter converter)
     {
@@ -92,7 +91,7 @@ public class EncoderConverter extends FieldConverter
     }
     /**
      * Convert and move string to this field.
-     * @param strString the state to set the data to.
+     * @param strValue the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code (or NORMAL_RETURN).

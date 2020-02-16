@@ -33,7 +33,7 @@ public class CopyLastHandler extends CopyFieldHandler
     }
     /**
      * Constructor.
-     * @param iFieldSeq The sequence of the last name field in this record.
+     * @param fieldName The sequence of the last name field in this record.
      */
     public CopyLastHandler(String fieldName)
     {
@@ -43,7 +43,6 @@ public class CopyLastHandler extends CopyFieldHandler
     /**
      * Constructor.
      * @param fldTarget The destination last name field.
-     * @param checkMark If false, do not move the last name.
      */
     public CopyLastHandler(BaseField fldTarget)
     { // Split name into title/first/middle/last
@@ -64,7 +63,7 @@ public class CopyLastHandler extends CopyFieldHandler
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      * @param field The destination last name field.
-     * @param iFieldSeq The sequence of the last name field in this record.
+     * @param fieldName The sequence of the last name field in this record.
      * @param checkMark If false, do not move the last name.
      */
     public void init(BaseField field, BaseField fldTarget, Converter checkMark, String fieldName)

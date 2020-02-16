@@ -145,7 +145,7 @@ public class StringField extends BaseField
     /**
      * Convert and move string to this field.
      *  Data is already in string format, so just move it!
-     * @param bState the state to set the data to.
+     * @param string the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code.
@@ -174,7 +174,7 @@ public class StringField extends BaseField
     }
     /**
      * Move this physical binary data to this field.
-     * @param data The physical data to move to this field (must be the String data class).
+     * @param vpData The physical data to move to this field (must be the String data class).
      * @param bDisplayOption If true, display after setting the data.
      * @param iMoveMode The type of move.
      * @return an error code (0 if success).

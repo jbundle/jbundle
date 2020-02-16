@@ -92,7 +92,7 @@ public class StringPopupField extends StringField
     }
     /**
      * Convert the field's value to a index (for popup) (usually overidden).
-     * @param string The string to convert to an index.
+     * @param tempString The string to convert to an index.
      * @return The resulting index.
      */
     public int convertStringToIndex(String tempString)

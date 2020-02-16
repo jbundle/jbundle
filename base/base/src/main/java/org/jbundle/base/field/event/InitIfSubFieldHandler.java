@@ -53,7 +53,7 @@ public class InitIfSubFieldHandler extends FieldListener
     /**
      * Move the physical binary data to this field.
      * If there is not SubFileFilter, then don't allow the field to be inited.
-     * @param objData the raw data to set the basefield to.
+     * @param fieldPtr the raw data to set the basefield to.
      * @param bDisplayOption If true, display the change.
      * @param iMoveMode The type of move being done (init/read/screen).
      * @return The error code (or NORMAL_RETURN if okay).

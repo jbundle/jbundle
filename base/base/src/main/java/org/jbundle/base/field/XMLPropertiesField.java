@@ -123,7 +123,7 @@ public class XMLPropertiesField extends PropertiesField
     }
     /**
      * Convert these java properties to a string.
-     * @param properties The java properties.
+     * @param map The java properties.
      * @return The properties string.
      */
     public static String propertiesToXML(Map<String,Object> map)

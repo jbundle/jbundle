@@ -50,7 +50,7 @@ public class InitOnceFieldHandler extends FieldListener
     }
     /**
      * Constructor.
-     * @param field The basefield owner of this listener (usually null and set on setOwner()).
+     * @param bFirstTime The basefield owner of this listener (usually null and set on setOwner()).
      */
     public InitOnceFieldHandler(boolean bFirstTime)
     {
@@ -73,8 +73,8 @@ public class InitOnceFieldHandler extends FieldListener
     /**
      * Set this cloned listener to the same state at this listener.
      * @param field The field this new listener will be added to.
-     * @param The new listener to sync to this.
-     * @param Has the init method been called?
+     * @param listener The new listener to sync to this.
+     * @param bInitCalled Has the init method been called?
      * @return True if I called init.
      */
     public boolean syncClonedListener(BaseField field, FieldListener listener, boolean bInitCalled)

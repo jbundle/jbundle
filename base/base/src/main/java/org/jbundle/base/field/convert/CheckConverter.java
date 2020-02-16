@@ -148,7 +148,7 @@ public class CheckConverter extends FieldDescConverter
      * @param iMoveMode The move mode.
      * @return The error code (or NORMAL_RETURN).
      */
-    public int setState(boolean bState, boolean bDisplayOption, int iMoveMode)
+    public int setState(boolean state, boolean bDisplayOption, int iMoveMode)
     {
         if (m_strTargetValue != null)
         {
@@ -156,7 +156,7 @@ public class CheckConverter extends FieldDescConverter
             if (m_boolMaskValue.booleanValue())
             {
                 int index = fieldString.indexOf(m_strTargetValue);
-                if (bState == m_bTrueIfMatch)
+                if (state == m_bTrueIfMatch)
                 {   // Add target string to field!
                     if (index == -1) // Is the target value in the field string?
                     {   // No, Add it!
@@ -177,14 +177,14 @@ public class CheckConverter extends FieldDescConverter
         }
         else if (m_fldTargetValue != null)
         {
-            if (bState == m_bTrueIfMatch)
+            if (state == m_bTrueIfMatch)
             	return ((BaseField)this.getField()).moveFieldToThis(m_fldTargetValue, bDisplayOption, iMoveMode);
             else
                 return ((BaseField)this.getField()).setString(null);	// Unchecked = clear it.
         }
         else    // Target = null
         {
-            if (bState == m_bTrueIfMatch)
+            if (state == m_bTrueIfMatch)
                 return ((BaseField)this.getField()).setString(null);
             else
                 return DBConstants.NORMAL_RETURN; //?

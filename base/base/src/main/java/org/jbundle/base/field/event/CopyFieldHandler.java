@@ -42,7 +42,7 @@ public class CopyFieldHandler extends MoveOnChangeHandler
     }
     /**
      * Constructor.
-     * @param iFieldSeq The field sequence in this record to move this listener's field to.
+     * @param fieldName The field sequence in this record to move this listener's field to.
      */
     public CopyFieldHandler(String fieldName)
     {
@@ -52,7 +52,6 @@ public class CopyFieldHandler extends MoveOnChangeHandler
     /**
      * Constructor.
      * @param field The field to move this listener's field to.
-     * @param fldCheckMark Only move if this field evaluates to true.
      */
     public CopyFieldHandler(BaseField field)
     {
@@ -72,7 +71,7 @@ public class CopyFieldHandler extends MoveOnChangeHandler
     /**
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
-     * @param iFieldSeq The field sequence in this record to move this listener's field to.
+     * @param fieldName The field sequence in this record to move this listener's field to.
      * @param field The field to move this listener's field to.
      * @param fldCheckMark Only move if this field evaluates to true.
      */

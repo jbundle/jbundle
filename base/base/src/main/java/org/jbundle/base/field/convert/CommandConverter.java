@@ -41,9 +41,6 @@ public class CommandConverter extends FieldConverter
     /**
      * Constructor.
      * @param converter The target converter to set to this string.
-     * @param strTargetValue The string to set the converter to is set to true.
-     * @param strAltFieldDesc An alternate description to display.
-     * @param bTrueIfMatch If true, set to the alternate value.
      */
     public CommandConverter(Converter converter)
     {
@@ -53,11 +50,6 @@ public class CommandConverter extends FieldConverter
     /**
      * Init this converter.
      * @param converter The target converter to set to this string.
-     * @param strTargetValue The string to set the converter to is set to true.
-     * @param fldTargetValue The string to set this field if set to true.
-     * @param strAltFieldDesc An alternate description to display.
-     * @param bTrueIfMatch If true, set to the alternate value.
-     * @param boolMaskValue
      */
     public void init(Converter converter)
     {

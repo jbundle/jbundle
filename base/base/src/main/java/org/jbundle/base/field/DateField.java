@@ -110,7 +110,7 @@ public class DateField extends DateTimeField
      * Calls the DateConverter method.
      * @param tempBinary The physical data convert to a string (must be the raw data class).
      * @return A display string representing this binary data.
-     * @see DateConverter#binaryToString(tempBinary, DBConstants.DATE_ONLY_FORMAT).
+     * @see DateConverter#binaryToString(Object, int)
      */
     public String binaryToString(Object tempBinary) 
     {
@@ -150,7 +150,7 @@ public class DateField extends DateTimeField
      * SetValue in current calendar.
      * @param value The date (as a calendar value) to set (only date portion is used).
      * @param bDisplayOption Display changed fields if true.
-     * @param iMoveMode The move mode.
+     * @param moveMode The move mode.
      * @return The error code (or NORMAL_RETURN).
      */
     public int setCalendar(Calendar value, boolean bDisplayOption, int moveMode)

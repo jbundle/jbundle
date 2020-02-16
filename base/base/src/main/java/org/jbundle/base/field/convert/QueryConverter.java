@@ -75,7 +75,7 @@ public class QueryConverter extends FieldConverter
      * This method was created by a SmartGuide.
      * @param converter The field that controls this grid query (should be a reference field).
      * @param record tour.db.Record The record to control (note, this converter adds a GridTable to the record's table).
-     * @param iDisplayFieldSeq int The description field sequence in the grid record.
+     * @param displayFieldName int The description field sequence in the grid record.
      * @param bIncludeBlankOption boolean Include a blank line in the popup?
      */
     public QueryConverter(Converter converter, Record record, String displayFieldName, boolean bIncludeBlankOption)

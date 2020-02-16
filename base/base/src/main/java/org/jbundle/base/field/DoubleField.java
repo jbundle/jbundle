@@ -209,7 +209,7 @@ public class DoubleField extends NumberField
     }
     /**
      * Convert the native data type (double) to a string.
-     * @param tempBinary The physical data convert to a string (must be the raw data class).
+     * @param objData The physical data convert to a string (must be the raw data class).
      * @return A display string representing this binary data.
      */
     public String binaryToString(Object objData) 
@@ -236,7 +236,7 @@ public class DoubleField extends NumberField
     }
     /**
      * Convert this string to the native data type (date).
-     * @param tempString A string to be converted to this field's binary data.
+     * @param string A string to be converted to this field's binary data.
      * @return The physical data converted from this string (must be the raw data class).
      */
     public Object stringToBinary(String string) throws Exception

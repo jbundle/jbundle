@@ -87,7 +87,7 @@ public class MultipleFieldConverter extends FieldConverter
     /**
      * Add this component to the components displaying this field.
      * Make sure all the converter have this screenfield on their list.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField.
+     * @param screenField The screen component.. either a awt.Component or a ScreenField.
      */
     public void addComponent(Object screenField)
     { // Set up the dependencies, This will recompute if any change from these three fields
@@ -104,7 +104,7 @@ public class MultipleFieldConverter extends FieldConverter
     }
     /**
      * Remove this control from this field's control list.
-     * @param Object sField The screen component.. either a awt.Component or a ScreenField
+     * @param screenField The screen component.. either a awt.Component or a ScreenField
      */
     public void removeComponent(Object screenField)
     { // Set up the dependencies, This will recompute if any change from these three fields
@@ -165,7 +165,7 @@ public class MultipleFieldConverter extends FieldConverter
     /**
      * For numeric fields, set the current value.
      * Override this method to convert the value to the actual Physical Data Type.
-     * @param bState the state to set the data to.
+     * @param value the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code.

@@ -72,7 +72,7 @@ public class GlConverter extends FieldConverter
      * Override this method to convert the String to the actual Physical Data Type.
      * @param strString the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
-     * @param iMoveMode INIT, SCREEN, or READ move mode.
+     * @param moveMode INIT, SCREEN, or READ move mode.
      * @return The error code.
      */
     public int setString(String strString, boolean bDisplayOption, int moveMode)                    // init this field override for other value

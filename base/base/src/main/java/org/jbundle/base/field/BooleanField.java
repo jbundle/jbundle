@@ -121,7 +121,7 @@ public class BooleanField extends NumberField
     }
     /**
      * Convert the field's value to a index (for popup) (usually overidden).
-     * @param string The string to convert to an index.
+     * @param tempString The string to convert to an index.
      * @return The resulting index.
      */
     public int convertStringToIndex(String tempString)
@@ -272,9 +272,9 @@ public class BooleanField extends NumberField
     }
     /**
      * Move this physical binary data to this field.
-     * @param data The physical data to move to this field (must be the Boolean class).
+     * @param vpData The physical data to move to this field (must be the Boolean class).
      * @param bDisplayOption If true, display after setting the data.
-     * @param iMoveMode The type of move.
+     * @param moveMode The type of move.
      * @return an error code (0 if success).
      */
     public int doSetData(Object vpData, boolean bDisplayOption, int moveMode)
@@ -304,7 +304,7 @@ public class BooleanField extends NumberField
     }
     /**
      * Convert this field's binary data to a string.
-     * @param tempBinary The physical data convert to a string (must be the raw data class).
+     * @param tempString The physical data convert to a string (must be the raw data class).
      * @return A display string representing this binary data.
      */
     public Object stringToBinary(String tempString) throws Exception

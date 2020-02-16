@@ -126,7 +126,7 @@ public class TimeField extends DateTimeField
      * Change the date and time of day.
      * @param date The date to set (only time portion is used).
      * @param bDisplayOption Display changed fields if true.
-     * @param iMoveMode The move mode.
+     * @param moveMode The move mode.
      * @return The error code (or NORMAL_RETURN).
      */
     public int setDateTime(java.util.Date date, boolean bDisplayOption, int moveMode)
@@ -147,7 +147,7 @@ public class TimeField extends DateTimeField
      * SetValue in current calendar.
      * @param value The date (as a calendar value) to set (only time portion is used).
      * @param bDisplayOption Display changed fields if true.
-     * @param iMoveMode The move mode.
+     * @param moveMode The move mode.
      * @return The error code (or NORMAL_RETURN).
      */
     public int setCalendar(Calendar value, boolean bDisplayOption, int moveMode)

@@ -97,13 +97,13 @@ public class RecordReferenceField extends IntegerField
      * @param recordOwner The recordowner to initialize the reference record to if it doesn't already exist.
      * @return tour.db.Record The record this field references.
      */
-    public Record getReferenceRecord(RecordOwner screen)
+    public Record getReferenceRecord(RecordOwner recordOwner)
     {
-        return this.getReferenceRecord(screen, true);
+        return this.getReferenceRecord(recordOwner, true);
     }
     /**
      * Get the record that this field references.
-     * @param recordOwner The recordowner to initialize the reference record to if it doesn't already exist.
+     * @param screen The recordowner to initialize the reference record to if it doesn't already exist.
      * @param bCreateIfNotFound Create the record reference if it isn't set up yet.
      * @return tour.db.Record The record this field references.
      */
@@ -155,7 +155,6 @@ public class RecordReferenceField extends IntegerField
      * For Example:
      *  return new RecordName(screen);
      * </pre>
-     * @param recordOwner The recordowner.
      * @return tour.db.Record
      */
     public final Record makeReferenceRecord()

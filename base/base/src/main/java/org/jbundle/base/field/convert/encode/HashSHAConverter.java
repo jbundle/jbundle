@@ -36,7 +36,7 @@ public class HashSHAConverter extends Base64Converter
     }
     /**
      * Constructor.
-     * @param numberField The percent field target.
+     * @param converter The percent field target.
      */
     public HashSHAConverter(Converter converter)
     {
@@ -46,7 +46,7 @@ public class HashSHAConverter extends Base64Converter
     /**
      * Initialize this converter.
      * @param converter The next converter in the converter chain.
-     * @param iFakeLength The maximum field length to return.
+     * @param bDoBase64Conversion The maximum field length to return.
      */
     public void init(Converter converter, boolean bDoBase64Conversion)
     {
@@ -66,7 +66,7 @@ public class HashSHAConverter extends Base64Converter
     public static final String TEN_SPACES = "          ";
     /**
      * Convert and move string to this field.
-     * @param strString the state to set the data to.
+     * @param strValue the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code (or NORMAL_RETURN).

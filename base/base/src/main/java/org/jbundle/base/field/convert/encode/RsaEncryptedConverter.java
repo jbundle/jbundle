@@ -53,7 +53,7 @@ public class RsaEncryptedConverter extends Base64Converter
     }
     /**
      * Constructor.
-     * @param numberField The percent field target.
+     * @param converter The percent field target.
      */
     public RsaEncryptedConverter(Converter converter)
     {
@@ -63,7 +63,7 @@ public class RsaEncryptedConverter extends Base64Converter
     /**
      * Initialize this converter.
      * @param converter The next converter in the converter chain.
-     * @param iFakeLength The maximum field length to return.
+     * @param bDoBase64Conversion The maximum field length to return.
      */
     public void init(Converter converter, boolean bDoBase64Conversion)
     {

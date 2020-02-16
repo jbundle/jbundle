@@ -51,7 +51,7 @@ public class CheckForTheHandler extends FieldListener
      * Move the physical binary data to this field.
      * @param objData the raw data to set the basefield to.
      * @param bDisplayOption If true, display the change.
-     * @param iMoveMode The type of move being done (init/read/screen).
+     * @param moveMode The type of move being done (init/read/screen).
      * @return The error code (or NORMAL_RETURN if okay).
      */
     public int doSetData(Object objData, boolean bDisplayOption, int moveMode)

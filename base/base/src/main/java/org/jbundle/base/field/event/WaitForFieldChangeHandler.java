@@ -54,7 +54,7 @@ public class WaitForFieldChangeHandler extends FieldListener
     }
     /**
      * Constructor.
-     * @param owner The basefield owner of this listener (usually null and set on setOwner()).
+     * @param lTimeOut The basefield owner of this listener (usually null and set on setOwner()).
      */
     public WaitForFieldChangeHandler(long lTimeOut)
     {
@@ -63,7 +63,7 @@ public class WaitForFieldChangeHandler extends FieldListener
     }
     /**
      * Constructor.
-     * @param owner The basefield owner of this listener (usually null and set on setOwner()).
+     * @param lTimeOut The basefield owner of this listener (usually null and set on setOwner()).
      */
     public void init(long lTimeOut)
     {
@@ -119,7 +119,7 @@ public class WaitForFieldChangeHandler extends FieldListener
     }
     /**
      * Set the timeout value in ms.
-     * @param iTimeOut
+     * @param lTimeOut
      */
     public void setTimeout(long lTimeOut)
     {

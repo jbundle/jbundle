@@ -92,8 +92,8 @@ public class CheckRangeHandler extends FieldScratchHandler
     /**
      * Set this cloned listener to the same state at this listener.
      * @param field The field this new listener will be added to.
-     * @param The new listener to sync to this.
-     * @param Has the init method been called?
+     * @param listener The new listener to sync to this.
+     * @param bInitCalled Has the init method been called?
      * @return True if I called init.
      */
     public boolean syncClonedListener(BaseField field, FieldListener listener, boolean bInitCalled)
@@ -105,7 +105,7 @@ public class CheckRangeHandler extends FieldScratchHandler
     /**
      * Move the physical binary data to this field.
      * If this value is out of range, return an error.
-     * @param objData the raw data to set the basefield to.
+     * @param data the raw data to set the basefield to.
      * @param bDisplayOption If true, display the change.
      * @param iMoveMode The type of move being done (init/read/screen).
      * @return The error code (or NORMAL_RETURN if okay).

@@ -53,7 +53,7 @@ public class ReadSecondIfCheckHandler extends ReadSecondaryHandler
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
      * @param record The secondary record to read.
-     * @param iQueryKeyArea The key area to read from.
+     * @param keyAreaName The key area to read from.
      * @param bCloseOnFree Close the record when this behavior is removed?
      * @param convFlag The flag to check.
      */

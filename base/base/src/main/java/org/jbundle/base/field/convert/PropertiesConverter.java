@@ -77,15 +77,15 @@ public class PropertiesConverter extends FieldConverter
     /**
      * Convert and move string to this field.
      * Set this property in the property field.
-     * @param strString the state to set the data to.
+     * @param string the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code (or NORMAL_RETURN).
      */
-    public int setString(String fieldPtr, boolean bDisplayOption, int iMoveMode)                    // init this field override for other value
+    public int setString(String string, boolean bDisplayOption, int iMoveMode)                    // init this field override for other value
     {
         if (this.getField() instanceof PropertiesField)   // Always
-            return ((PropertiesField)this.getField()).setProperty(m_strProperty, fieldPtr, bDisplayOption, iMoveMode);
+            return ((PropertiesField)this.getField()).setProperty(m_strProperty, string, bDisplayOption, iMoveMode);
         return DBConstants.NORMAL_RETURN;
     }
 }

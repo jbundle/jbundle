@@ -47,7 +47,7 @@ public class ReComputeFieldHandler extends FieldListener
     }
     /**
      * Constructor.
-     * @param iTargetFieldSeq The target field sequence to recompute on field change.
+     * @param targetFieldName The target field sequence to recompute on field change.
      */
     public ReComputeFieldHandler(String targetFieldName)
     {
@@ -66,7 +66,7 @@ public class ReComputeFieldHandler extends FieldListener
     /**
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
-     * @param iTargetFieldSeq The target field sequence to recompute on field change.
+     * @param targetFieldName The target field sequence to recompute on field change.
      * @param fldTarget The target field to recompute on field change.
      */
     public void init(BaseField field, String targetFieldName, BaseField fldTarget)

@@ -142,7 +142,7 @@ public class BaseListener extends Object
     /**
      * Remove this listener from the chain.
      * This just calls the owner's removelistener(true) method which should do the right stuff.
-     * @param deleteFlag If true, free this listener.
+     * @param bFreeFlag If true, free this listener.
      */
     public void removeListener(boolean bFreeFlag)
     {
@@ -161,7 +161,7 @@ public class BaseListener extends Object
     /**
      * Remove a specific listener from the chain.
      * @param listener The listener to remove.
-     * @param bDeleteFlag If true, free the listener.
+     * @param bFreeFlag If true, free the listener.
      */
     public void removeListener(BaseListener listener, boolean bFreeFlag)
     {
@@ -283,7 +283,7 @@ public class BaseListener extends Object
     /**
      * Set the next listener in the listener chain.
      * Note: You can pass the full class name, or the short class name or (preferably) the class.
-     * @param strListenerClass The name of the class I'm looking for.
+     * @param listener The name of the class I'm looking for.
      * @return The old "next" listener.
      */
     public BaseListener setNextListener(BaseListener listener)
@@ -304,7 +304,7 @@ public class BaseListener extends Object
      * Get the listener with this class identifier.
      * Note: You can pass the full class name, or the short class name or (preferably) the class.
      * @param bExactMatch Only returns classes that are an exact match... if false, return classes that are an instanceof the class
-     * @param strListenerClass The name of the class I'm looking for.
+     * @param strBehaviorClass The name of the class I'm looking for.
      * @return The first listener of this class or null if no match.
      */
     public BaseListener getListener(Object strBehaviorClass, boolean bExactMatch)

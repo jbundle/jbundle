@@ -94,7 +94,7 @@ public class DateConverter extends FieldConverter
     }
     /**
      * Convert and move string to this field.
-     * @param bState the state to set the data to.
+     * @param strField the state to set the data to.
      * @param bDisplayOption Display the data on the screen if true.
      * @param iMoveMode INIT, SCREEN, or READ move mode.
      * @return The error code.

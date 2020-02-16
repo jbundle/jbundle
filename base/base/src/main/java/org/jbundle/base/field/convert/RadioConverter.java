@@ -43,7 +43,7 @@ public class RadioConverter extends FieldDescConverter
     /**
      * Constructor.
      * @param converter The next converter in the converter chain.
-     * @param strTarget If the radio button is set, set this converter to this target string.
+     * @param objTarget If the radio button is set, set this converter to this target string.
      * @param bTrueIfMatch If true, sets value on setState(true), otherwise sets it to blank.
      */
     public RadioConverter(Converter converter, Object objTarget, boolean bTrueIfMatch)
@@ -54,7 +54,7 @@ public class RadioConverter extends FieldDescConverter
     /**
      * Constructor.
      * @param converter The next converter in the converter chain.
-     * @param strTarget If the radio button is set, set this converter to this target string.
+     * @param objTarget If the radio button is set, set this converter to this target string.
      * @param bTrueIfMatch If true, sets value on setState(true), otherwise sets it to blank.
      */
     public void init(Converter converter, Object objTarget, boolean bTrueIfMatch)
@@ -73,7 +73,7 @@ public class RadioConverter extends FieldDescConverter
     }
     /**
      * For binary fields, return the current state.
-     * @param True is this field is true.
+     * @return True if this field is true.
      */
     public boolean getState()
     {
@@ -100,10 +100,10 @@ public class RadioConverter extends FieldDescConverter
      * @param iMoveMode The move mode.
      * @return The error code (or NORMAL_RETURN).
      */
-    public int setState(boolean bState, boolean bDisplayOption, int iMoveMode)
+    public int setState(boolean state, boolean bDisplayOption, int iMoveMode)
     {
         int iErrorCode = DBConstants.NORMAL_RETURN;
-        if (bState)      // Only if turned ON (can't turn a radio button off!)
+        if (state)      // Only if turned ON (can't turn a radio button off!)
         {
             if (m_objTarget instanceof String)
             {

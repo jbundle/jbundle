@@ -36,7 +36,7 @@ public class Base64Converter extends EncoderConverter
     }
     /**
      * Constructor.
-     * @param numberField The percent field target.
+     * @param field The percent field target.
      */
     public Base64Converter(Converter field, boolean bDoBase64Conversion)
     {
@@ -46,7 +46,7 @@ public class Base64Converter extends EncoderConverter
     /**
      * Initialize this converter.
      * @param converter The next converter in the converter chain.
-     * @param iFakeLength The maximum field length to return.
+     * @param bDoBase64Conversion The maximum field length to return.
      */
     public void init(Converter converter, boolean bDoBase64Conversion)
     {
