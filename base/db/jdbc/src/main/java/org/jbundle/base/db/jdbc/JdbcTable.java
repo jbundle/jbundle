@@ -738,12 +738,12 @@ public class JdbcTable extends BaseTable
         if (fldID != null)
             if (!this.getDatabase().isAutosequenceSupport())
         { // If the db does not support identity, you must get the next larger key by doing a select desc on the primary key
-            this.doAddAutosequence(record);     // Special code to get next sequence
+            this.doAddAutoSequence(record);     // Special code to get next sequence
             return;
         }
         String strRecordset = record.getSQLInsert(SQLParams.USE_INSERT_UPDATE_LITERALS);
-        int iType = DBConstants.SQL_INSERT_TABLE_TYPE;
-        this.executeUpdate(strRecordset, iType);
+        int statementType = DBConstants.SQL_INSERT_TABLE_TYPE;
+        this.executeUpdate(strRecordset, statementType);
     }
     /**
      * Add this record.
@@ -753,7 +753,7 @@ public class JdbcTable extends BaseTable
      * <br />Save the counter for possible get last modified call.
      * @exception DBException File exception.
      */
-    public void doAddAutosequence(Record record) throws DBException
+    public void doAddAutoSequence(Record record) throws DBException
     {
         record = record.getBaseRecord();    // Must operate on the raw table
         
@@ -815,10 +815,10 @@ public class JdbcTable extends BaseTable
         {
             fldID.setValue(fldID.getValue() + 1, DBConstants.DONT_DISPLAY, DBConstants.READ_MOVE);  // Bump counter
             strRecordset = record.getSQLInsert(SQLParams.USE_INSERT_UPDATE_LITERALS);
-            int iType = DBConstants.SQL_INSERT_TABLE_TYPE;
+            int statementType = DBConstants.SQL_INSERT_TABLE_TYPE;
             int iRowsUpdated = 0;
             try   {
-                iRowsUpdated = this.executeUpdate(strRecordset, iType);
+                iRowsUpdated = this.executeUpdate(strRecordset, statementType);
             } catch (DBException ex)    {
                 if (ex.getErrorCode() == DBConstants.DUPLICATE_COUNTER)   // Duplicate key
                 {
@@ -869,9 +869,9 @@ public class JdbcTable extends BaseTable
             if (record.isAutoSequence())
                 fldID.setModified(false); // Never set a counter field
         String strRecordset = record.getSQLUpdate(SQLParams.USE_INSERT_UPDATE_LITERALS);
-        int iType = DBConstants.SQL_UPDATE_TYPE;
+        int statementType = DBConstants.SQL_UPDATE_TYPE;
             if (strRecordset != null)
-                /*iRowsUpdated =*/ this.executeUpdate(strRecordset, iType);
+                /*iRowsUpdated =*/ this.executeUpdate(strRecordset, statementType);
 //            else
 //                iRowsUpdated = 1; // No changes
         if (this.lockOnDBTrxType(null, DBConstants.AFTER_UPDATE_TYPE, false))  // ADD_TYPE = Add new; Should I do the unlock in my code?
@@ -883,12 +883,12 @@ public class JdbcTable extends BaseTable
      * same SQL query. Also, if the table doesn't exist, it can be created automatically
      * and re-do the call.
      * @param strSQL The SQL statement to prepare.
+     * @param statementType the type of SQL statement.
      * @param vParamList The list of params for the query.
-     * @param iType the type of SQL statement.
      * @return number of rows updated.
      * @exception DBException Converts and returns SQLExceptions, or if no rows updated, throws INVALID_RECORD.
      */
-    public ResultSet executeQuery(String strSQL, int iType, Vector<BaseField> vParamList)
+    public ResultSet executeQuery(String strSQL, int statementType, Vector<BaseField> vParamList)
         throws DBException
     {
         ResultSet resultSet = null;
@@ -898,44 +898,44 @@ public class JdbcTable extends BaseTable
             Utility.getLogger().info(strSQL);
             if (SQLParams.USE_SELECT_LITERALS)
             {
-                if (this.getStatement(iType) instanceof PreparedStatement)
-                    this.setStatement(null, iType); // Close old prepared statement
-                if (this.getStatement(iType) == null)
-                    this.setStatement(((JdbcDatabase)this.getDatabase()).getJDBCConnection().createStatement(), iType);
-                resultSet = this.getStatement(iType).executeQuery(strSQL);
+                if (this.getStatement(statementType) instanceof PreparedStatement)
+                    this.setStatement(null, statementType); // Close old prepared statement
+                if (this.getStatement(statementType) == null)
+                    this.setStatement(((JdbcDatabase)this.getDatabase()).getJDBCConnection().createStatement(), statementType);
+                resultSet = this.getStatement(statementType).executeQuery(strSQL);
             }
             else
             {
-                if (this.getStatement(iType) != null)
+                if (this.getStatement(statementType) != null)
                 {
-                    if (!strSQL.equals(this.getLastSQLStatement(iType)))
-                        this.setStatement(null, iType);   // Not the same as last time.
+                    if (!strSQL.equals(this.getLastSQLStatement(statementType)))
+                        this.setStatement(null, statementType);   // Not the same as last time.
                 }
-                if (this.getStatement(iType) == null)
-                    this.setStatement(((JdbcDatabase)this.getDatabase()).getJDBCConnection().prepareStatement(strSQL), iType);
-                this.setLastSQLStatement(strSQL, iType);
+                if (this.getStatement(statementType) == null)
+                    this.setStatement(((JdbcDatabase)this.getDatabase()).getJDBCConnection().prepareStatement(strSQL), statementType);
+                this.setLastSQLStatement(strSQL, statementType);
                 m_iNextParam = 1;           // First param row
                 this.getRecord().getKeyArea(0); // Primary index
-                if ((iType == DBConstants.SQL_SELECT_TYPE) || (iType == DBConstants.SQL_AUTOSEQUENCE_TYPE) || (iType == DBConstants.SQL_SEEK_TYPE)) // Have WHERE X=?
+                if ((statementType == DBConstants.SQL_SELECT_TYPE) || (statementType == DBConstants.SQL_AUTOSEQUENCE_TYPE) || (statementType == DBConstants.SQL_SEEK_TYPE)) // Have WHERE X=?
                 {
                     if (vParamList != null)
                     {
                         for (Enumeration<BaseField> e = vParamList.elements() ; e.hasMoreElements() ;)
                         {
                             BaseField field = e.nextElement();
-                            field.getSQLFromField((PreparedStatement)this.getStatement(iType), iType, m_iNextParam);
+                            field.getSQLFromField((PreparedStatement)this.getStatement(statementType), statementType, m_iNextParam);
                             m_iNextParam++;
                         }
                     }
                 }
-                resultSet = ((PreparedStatement)this.getStatement(iType)).executeQuery();
+                resultSet = ((PreparedStatement)this.getStatement(statementType)).executeQuery();
             }
         } catch (SQLException e)    {
             DBException ex = this.getDatabase().convertError(e);
             if (this.createIfNotFoundError(ex))
             { // Table not found, the previous line created the table, re-do the query.
                 this.getRecord().setOpenMode((this.getRecord().getOpenMode() | DBConstants.OPEN_DONT_CREATE));   // Only try to create once.
-                return this.executeQuery(strSQL, iType, vParamList);
+                return this.executeQuery(strSQL, statementType, vParamList);
             }
             else if (ex.getErrorCode() == DBConstants.BROKEN_PIPE)
             { // If there is a pipe timeout or a broken pipe, try to re-establish the connection and try again
@@ -945,7 +945,7 @@ public class JdbcTable extends BaseTable
 
                     this.close();
                     this.getDatabase().close();     // Next access will force an open.
-                    ResultSet result = this.executeQuery(strSQL, iType, vParamList);
+                    ResultSet result = this.executeQuery(strSQL, statementType, vParamList);
 
                     m_bInRecursiveCall = false;
                     return result;
@@ -963,11 +963,11 @@ public class JdbcTable extends BaseTable
     /**
      * Get/create the JDBC statement object.
      * @param strSQL The SQL statement to prepare.
-     * @param iType the type of SQL statement.
+     * @param statementType the type of SQL statement.
      * @return number of rows updated.
      * @exception DBException Converts and returns SQLExceptions, or if no rows updated, throws INVALID_RECORD.
      */
-    public int executeUpdate(String strSQL, int iType)
+    public int executeUpdate(String strSQL, int statementType)
         throws DBException
     {
         int iRowsUpdated = 0;
@@ -976,47 +976,47 @@ public class JdbcTable extends BaseTable
             Utility.getLogger().info(strSQL);
             if (SQLParams.USE_INSERT_UPDATE_LITERALS)
             {   // Convert all field values to literals
-                if (this.getStatement(iType) == null)
-                    this.setStatement(((JdbcDatabase)this.getDatabase()).getJDBCConnection().createStatement(), iType);
-                iRowsUpdated = this.getStatement(iType).executeUpdate(strSQL);
+                if (this.getStatement(statementType) == null)
+                    this.setStatement(((JdbcDatabase)this.getDatabase()).getJDBCConnection().createStatement(), statementType);
+                iRowsUpdated = this.getStatement(statementType).executeUpdate(strSQL);
             }
             else
             {   // Set the field values in the prepared statement, then execute it!
-                if (this.getStatement(iType) != null)
+                if (this.getStatement(statementType) != null)
                 {
-                    if (!strSQL.equals(this.getLastSQLStatement(iType)))
-                        this.setStatement(null, iType);   // Not the same as last time.
+                    if (!strSQL.equals(this.getLastSQLStatement(statementType)))
+                        this.setStatement(null, statementType);   // Not the same as last time.
                 }
                 int autoGeneratedKeys = this.getDatabase().isAutosequenceSupport() ? Statement.RETURN_GENERATED_KEYS : 0;
-                if (this.getStatement(iType) == null)
-                    this.setStatement(((JdbcDatabase)this.getDatabase()).getJDBCConnection().prepareStatement(strSQL, autoGeneratedKeys), iType);
-                this.setLastSQLStatement(strSQL, iType);
+                if (this.getStatement(statementType) == null)
+                    this.setStatement(((JdbcDatabase)this.getDatabase()).getJDBCConnection().prepareStatement(strSQL, autoGeneratedKeys), statementType);
+                this.setLastSQLStatement(strSQL, statementType);
                 m_iNextParam = 1;           // First param row
-                if ((iType == DBConstants.SQL_UPDATE_TYPE) || (iType == DBConstants.SQL_INSERT_TABLE_TYPE))   // Have WHERE X=?
+                if ((statementType == DBConstants.SQL_UPDATE_TYPE) || (statementType == DBConstants.SQL_INSERT_TABLE_TYPE))   // Have WHERE X=?
                 {
                     Record record = this.getRecord();
                     for (int iFieldSeq = DBConstants.MAIN_FIELD; iFieldSeq <= record.getFieldCount() + DBConstants.MAIN_FIELD - 1; iFieldSeq++)
                     {
                         BaseField field = record.getField(iFieldSeq);
-                        if (field.getSkipSQLParam(iType))
+                        if (field.getSkipSQLParam(statementType))
                             continue; // Skip this param
-                        field.getSQLFromField((PreparedStatement)this.getStatement(iType), iType, m_iNextParam++);
+                        field.getSQLFromField((PreparedStatement)this.getStatement(statementType), statementType, m_iNextParam++);
                     }
                 }
                 if (m_iNextParam == 1)
                     iRowsUpdated = 1; // No data = no need to update
                 KeyArea keyArea = this.getRecord().getKeyArea(0); // Primary index
-                boolean bIncludeTempFields = (iType == DBConstants.SQL_UPDATE_TYPE);
+                boolean bIncludeTempFields = (statementType == DBConstants.SQL_UPDATE_TYPE);
                 if (!keyArea.isNull(DBConstants.TEMP_KEY_AREA, bIncludeTempFields))
-                    if ((iType == DBConstants.SQL_UPDATE_TYPE) || (iType == DBConstants.SQL_DELETE_TYPE)) // Have WHERE X=?
-                        m_iNextParam = keyArea.getSQLFromField((PreparedStatement)this.getStatement(iType), iType, m_iNextParam, DBConstants.TEMP_KEY_AREA, false, bIncludeTempFields);    // Always add!?   
-                iRowsUpdated = ((PreparedStatement)this.getStatement(iType)).executeUpdate();
+                    if ((statementType == DBConstants.SQL_UPDATE_TYPE) || (statementType == DBConstants.SQL_DELETE_TYPE)) // Have WHERE X=?
+                        m_iNextParam = keyArea.getSQLFromField((PreparedStatement)this.getStatement(statementType), statementType, m_iNextParam, DBConstants.TEMP_KEY_AREA, false, bIncludeTempFields);    // Always add!?
+                iRowsUpdated = ((PreparedStatement)this.getStatement(statementType)).executeUpdate();
             }
             if (iRowsUpdated == 1)
                 if (this.getDatabase().isAutosequenceSupport())
                     if (this.getRecord().isAutoSequence())
-                        if (iType == DBConstants.SQL_INSERT_TABLE_TYPE) {
-                            ResultSet resultSet = ((PreparedStatement) this.getStatement(iType)).getGeneratedKeys();
+                        if (statementType == DBConstants.SQL_INSERT_TABLE_TYPE) {
+                            ResultSet resultSet = ((PreparedStatement) this.getStatement(statementType)).getGeneratedKeys();
                             if ((resultSet != null) && (resultSet.next())) {
                                 try {
                                     this.getRecord().getField(VirtualRecord.kID).moveSQLToField(resultSet, 1);
@@ -1035,7 +1035,7 @@ public class JdbcTable extends BaseTable
             if (this.createIfNotFoundError(ex))
             { // Table not found, create it.
                 this.getRecord().setOpenMode((this.getRecord().getOpenMode() | DBConstants.OPEN_DONT_CREATE));   // Only try to create once.
-                return this.executeUpdate(strSQL, iType);
+                return this.executeUpdate(strSQL, statementType);
             }
             else if (ex.getErrorCode() == DBConstants.BROKEN_PIPE)
             { // If there is a pipe timeout or a broken pipe, try to re-establish the connection and try again
@@ -1045,7 +1045,7 @@ public class JdbcTable extends BaseTable
 
                     this.close();
                     this.getDatabase().close();     // Next access will force an open.
-                    int iResult = this.executeUpdate(strSQL, iType);
+                    int iResult = this.executeUpdate(strSQL, statementType);
 
                     m_bInRecursiveCall = false;
                     return iResult;
@@ -1060,7 +1060,7 @@ public class JdbcTable extends BaseTable
         } finally {
             m_iNextParam = -1;  // This way dataToFields is not confused.
             if (CLEANUP_STATEMENTS)
-                this.setStatement(null, iType);
+                this.setStatement(null, statementType);
         }
         Utility.getLogger().info("Rows updated: " + iRowsUpdated);
         if (iRowsUpdated == 0)
