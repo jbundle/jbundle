@@ -30,17 +30,17 @@ public interface DBConstants extends Constants
     public static final boolean NOT_NULL = false;
     /**
      * The FILE_KEY_AREA is the physical fields that belong to a key.
-     * @see TEMP_KEY_AREA.
+     * @see #TEMP_KEY_AREA
      */
     public static final int FILE_KEY_AREA = 0;
     /**
      * The START_SELECT_KEY is the starting fields that belong to a key.
-     * @see TEMP_KEY_AREA.
+     * @see #TEMP_KEY_AREA
      */
     public static final int START_SELECT_KEY = 2;
     /**
      * The END_SELECT_KEY are the ending fields that belong to a key.
-     * @see TEMP_KEY_AREA.
+     * @see #TEMP_KEY_AREA
      */
     public static final int END_SELECT_KEY = 3;
     // for BaseApplet.setStatusText(xxx)
@@ -226,42 +226,42 @@ public interface DBConstants extends Constants
     // DBConstants
     /**
      * A bookmark handle is a  Native long bookmark, usually the counter field's data.
-     * @see OBJECT_ID_HANDLE.
-     * @see DATA_SOURCE_HANDLE.
-     * @see OBJECT_SOURCE_HANDLE.
-     * @see FULL_OBJECT_HANDLE.
+     * @see #OBJECT_ID_HANDLE
+     * @see #DATA_SOURCE_HANDLE
+     * @see #OBJECT_SOURCE_HANDLE
+     * @see #FULL_OBJECT_HANDLE
      */
     public static final int BOOKMARK_HANDLE = 0;
     /**
      * A bookmark handle is a Handle in persistent store, usually the counter field's data.
-     * @see BOOKMARK_HANDLE.
-     * @see DATA_SOURCE_HANDLE.
-     * @see OBJECT_SOURCE_HANDLE.
-     * @see FULL_OBJECT_HANDLE.
+     * @see #BOOKMARK_HANDLE
+     * @see #DATA_SOURCE_HANDLE
+     * @see #OBJECT_SOURCE_HANDLE
+     * @see #FULL_OBJECT_HANDLE
      */
     public static final int OBJECT_ID_HANDLE = 1;
     /**
      * A bookmark handle is a Remote object reference, usually the data reference.
-     * @see BOOKMARK_HANDLE.
-     * @see OBJECT_ID_HANDLE.
-     * @see OBJECT_SOURCE_HANDLE.
-     * @see FULL_OBJECT_HANDLE.
+     * @see #BOOKMARK_HANDLE
+     * @see #OBJECT_ID_HANDLE
+     * @see #OBJECT_SOURCE_HANDLE
+     * @see #FULL_OBJECT_HANDLE
      */
     public static final int DATA_SOURCE_HANDLE = 2;
     /**
      * A bookmark handle is a  Remote path; Can be used with HANDLE_OBJECT_ID, always serializable.
-     * @see BOOKMARK_HANDLE.
-     * @see OBJECT_ID_HANDLE.
-     * @see DATA_SOURCE_HANDLE.
-     * @see FULL_OBJECT_HANDLE.
+     * @see #BOOKMARK_HANDLE
+     * @see #OBJECT_ID_HANDLE
+     * @see #DATA_SOURCE_HANDLE
+     * @see #FULL_OBJECT_HANDLE
      */
     public static final int OBJECT_SOURCE_HANDLE = 4;
     /**
      * A bookmark handle is a  Native long bookmark, usually the counter field's data.
-     * @see BOOKMARK_HANDLE.
-     * @see OBJECT_ID_HANDLE.
-     * @see DATA_SOURCE_HANDLE.
-     * @see OBJECT_SOURCE_HANDLE.
+     * @see #BOOKMARK_HANDLE
+     * @see #OBJECT_ID_HANDLE
+     * @see #DATA_SOURCE_HANDLE
+     * @see #OBJECT_SOURCE_HANDLE
      */
     public static final int FULL_OBJECT_HANDLE = OBJECT_SOURCE_HANDLE | OBJECT_ID_HANDLE;
     public static final String STRING_OBJECT_ID_HANDLE = OBJECT_ID;     // Handle in persistent store
