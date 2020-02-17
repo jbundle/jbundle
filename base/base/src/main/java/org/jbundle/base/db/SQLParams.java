@@ -52,6 +52,10 @@ public interface SQLParams
      */
     public static final String AUTO_SEQUENCE_PRIMARY_KEY = "AUTO_SEQUENCE_PRIMARY_KEY";
     /**
+     * Counter field name in external database (default = "ID")
+     */
+    public static final String ALTERNATE_COUNTER_NAME = "ALTERNATE_COUNTER_NAME";
+    /**
      * ie., NOT NULL (on other DBs).
      */
     public static final String COUNTER_EXTRA = "COUNTER_EXTRA";

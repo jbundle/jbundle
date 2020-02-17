@@ -116,7 +116,7 @@ public class KeyField extends Object
             {
                 try   {
                     m_fieldTempParam = (BaseField)m_field.clone();  // Buffer areas
-                    m_fieldTempParam.setFieldName(new String(m_field.getFieldName(false, false) + "Temp"));
+                    m_fieldTempParam.setFieldName(new String(m_field.getFieldName(false, false, false) + "Temp"));
                     m_fieldTempParam.setNullable(true);
                 } catch (CloneNotSupportedException ex)   {
                     m_fieldTempParam = null;
@@ -128,7 +128,7 @@ public class KeyField extends Object
             {
                 try   {
                     m_fieldStartParam = (BaseField)m_field.clone();   // Buffer areas
-                    m_fieldStartParam.setFieldName(new String(m_field.getFieldName(false, false) + "Start"));
+                    m_fieldStartParam.setFieldName(new String(m_field.getFieldName(false, false, false) + "Start"));
                     m_fieldStartParam.setNullable(true);
                 } catch (CloneNotSupportedException ex)   {
                     m_fieldStartParam = null;
@@ -140,7 +140,7 @@ public class KeyField extends Object
             {
                 try   {
                     m_fieldEndParam = (BaseField)m_field.clone();
-                    m_fieldEndParam.setFieldName(new String(m_field.getFieldName(false, false) + "End"));
+                    m_fieldEndParam.setFieldName(new String(m_field.getFieldName(false, false, false) + "End"));
                     m_fieldEndParam.setNullable(true);
                 } catch (CloneNotSupportedException ex)   {
                     m_fieldEndParam = null;

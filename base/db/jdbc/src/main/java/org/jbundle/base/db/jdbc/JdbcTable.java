@@ -260,11 +260,11 @@ public class JdbcTable extends BaseTable
             if (iColumn == -1)
             {
                 boolean bIsQueryRecord = false;     //this.getRecord().isQueryRecord(); // For some some reason, can't pass filefile.fieldname
-                String strFieldName = field.getFieldName(true, bIsQueryRecord);
+                String strFieldName = field.getFieldName(true, bIsQueryRecord, true);
                 try {
                     iColumn = resultSet.findColumn(strFieldName);
                 } catch (Exception e)    {
-                    Utility.getLogger().warning( e.getMessage() + "JDBC Table/dataToField Field = [" + field.getFieldName(false, true) + "]");
+                    Utility.getLogger().warning( e.getMessage() + "JDBC Table/dataToField Field = [" + field.getFieldName(false, true, false) + "]");
                     throw this.getDatabase().convertError(e);
                 }
                 if (iColumn == 0)
@@ -292,7 +292,7 @@ public class JdbcTable extends BaseTable
                     ResultSetMetaData md = resultSet.getMetaData();
                     boolean bFirstFound = false;
                     int iColumnCount = md.getColumnCount();
-                    String strFieldName = field.getFieldName(true, false);
+                    String strFieldName = field.getFieldName(true, false, true);
                     for (iColumn = 1; iColumn <= iColumnCount; iColumn++)
                     {
                         String strColumnName = md.getColumnName(iColumn);
@@ -1243,14 +1243,14 @@ public class JdbcTable extends BaseTable
                     if (strAltSecondaryIndex != null)
                         if (this.checkIndexField(field))
                             strType += ' ' + strAltSecondaryIndex;
-                    sql.append(field.getFieldName(true, false)).append(' ').append(strType);
+                    sql.append(field.getFieldName(true, false, true)).append(' ').append(strType);
                 }
                 String strPrimaryKey = (String)this.getDatabase().getProperties().get(SQLParams.AUTO_SEQUENCE_PRIMARY_KEY);
                 if (strPrimaryKey != null)
                     if (record.getCounterField() != null)
                         if (this.getDatabase().isAutosequenceSupport())
                 {
-                    sql.append(", ").append(strPrimaryKey).append(" (").append(record.getCounterField().getFieldName(true, false)).append(")");
+                    sql.append(", ").append(strPrimaryKey).append(" (").append(record.getCounterField().getFieldName(true, false, true)).append(")");
                     iFirstIndex = 1;    // No need to build primary index
                 }
                 sql.append(")");
@@ -1334,8 +1334,8 @@ public class JdbcTable extends BaseTable
                             strFields += ", ";
                             strFieldAndOrder += ", ";
                         }
-                        strFields += field.getFieldName(true, false) + " ";
-                        strFieldAndOrder += field.getFieldName(true, false) + " ";
+                        strFields += field.getFieldName(true, false, true) + " ";
+                        strFieldAndOrder += field.getFieldName(true, false, true) + " ";
                         if (keyField.getKeyOrder() == DBConstants.DESCENDING)
                             strFieldAndOrder += "DESC ";
                     }

@@ -246,7 +246,7 @@ public class CompareFileFilter extends FileFilter
             this.writeField(daOut, m_fldToCompare);
             String strFieldNameToCheck = DBConstants.BLANK;
             if (m_fldToCheck != null)
-                strFieldNameToCheck = m_fldToCheck.getFieldName(false, true);   // Full file.fieldname
+                strFieldNameToCheck = m_fldToCheck.getFieldName(false, true, false);   // Full file.fieldname
             daOut.writeUTF(strFieldNameToCheck);
         } catch (IOException ex)    {
             ex.printStackTrace();

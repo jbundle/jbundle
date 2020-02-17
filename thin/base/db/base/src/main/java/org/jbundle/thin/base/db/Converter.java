@@ -110,7 +110,7 @@ public abstract class Converter extends DataConverters
         if (this.getField() == null)
             return null;
         else
-            return this.getField().getFieldName(false, false);
+            return this.getField().getFieldName(false, false, false);
     }
     /**
      * Get the field description.

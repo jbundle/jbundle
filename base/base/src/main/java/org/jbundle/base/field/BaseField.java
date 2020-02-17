@@ -651,23 +651,24 @@ public class BaseField extends FieldInfo
     }
     /**
      * Get this field's name.
-     * @param bAddQuotes Add quotes if this field contains a space.
-     * @param bIncludeFileName include the file name as file.field.
+     * @param addQuotes Add quotes if this field contains a space.
+     * @param includeFileName include the file name as file.field.
+     * @param externalName Retrieve the field name in the external (SQL?) table
      * @return The field name.
      */
-    public String getFieldName(boolean bAddQuotes, boolean bIncludeFileName)
+    public String getFieldName(boolean addQuotes, boolean includeFileName, boolean externalName)
     {
-        if (!bAddQuotes) if (!bIncludeFileName)
-            return super.getFieldName(bAddQuotes, bIncludeFileName);    // Return m_sFieldName
+        if (!addQuotes) if (!includeFileName)
+            return super.getFieldName(addQuotes, includeFileName, externalName);    // Return m_sFieldName
         String strFieldName = Constants.BLANK;
-        if (bIncludeFileName)
+        if (includeFileName)
             if (this.getRecord() != null)
         {
-            strFieldName = this.getRecord().getTableNames(bAddQuotes);
+            strFieldName = this.getRecord().getTableNames(addQuotes);
             if (strFieldName.length() != 0)
                 strFieldName += ".";
         }
-        strFieldName += Record.formatTableNames(m_strFieldName, bAddQuotes);
+        strFieldName += Record.formatTableNames(m_strFieldName, addQuotes);
         return strFieldName;
     }
     /**
@@ -1087,7 +1088,7 @@ public class BaseField extends FieldInfo
         {
             ScreenComponent sField = this.getComponent(0);
             ComponentParent parentScreen = sField.getParentScreen();
-            String strParam = this.getFieldName(false, true);
+            String strParam = this.getFieldName(false, true, false);
             String strParamValue = parentScreen.getProperty(strParam);
             if (strParamValue != null)
                 this.setString(strParamValue, DBConstants.DISPLAY, DBConstants.READ_MOVE);

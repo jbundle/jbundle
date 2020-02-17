@@ -503,7 +503,7 @@ public abstract class ScreenField extends Object
                 if ((field.getListener("org.jbundle.base.field.eventMainReadOnlyHandler") == null)   // Special case - If this is reading a secondary file there is a huge chance of name collision
                 	|| (field.getComponent(0) == this))	// Only allow the first one to use this name
                 {
-                    strFieldName = field.getFieldName(false, true);	// Recordname.fieldname
+                    strFieldName = field.getFieldName(false, true, false);	// Recordname.fieldname
                     int iCount = 0;
                     for (int i = 0; ; i++)
                     {   // From second component on, add the component count

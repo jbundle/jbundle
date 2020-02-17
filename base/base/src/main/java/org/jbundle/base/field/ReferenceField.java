@@ -141,10 +141,10 @@ public class ReferenceField extends RecordReferenceField
         {   // This code just takes a guess
             if (this.getClass().getName().indexOf("Field") != -1)
                 return this.getClass().getName().substring(Math.max(0, this.getClass().getName().lastIndexOf('.') + 1), this.getClass().getName().indexOf("Field"));
-            else if (this.getFieldName(false, false).indexOf("ID") != -1)
-                return this.getFieldName(false, false).substring(0, this.getFieldName(false, false).indexOf("ID"));
+            else if (this.getFieldName(false, false, false).indexOf("ID") != -1)
+                return this.getFieldName(false, false, false).substring(0, this.getFieldName(false, false, false).indexOf("ID"));
             else
-                this.getFieldName(false, false);
+                this.getFieldName(false, false, false);
         }
         return Constants.BLANK;   // Never
     }

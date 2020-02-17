@@ -34,6 +34,11 @@ public class CounterField extends ObjectField
 	private static final long serialVersionUID = 1L;
 
     /**
+     * Alternate counter field name
+     */
+	protected String alternateFieldName = null;
+
+    /**
      * An Integer zero.
      */
     public static final Long ZERO = new Long(0);
@@ -313,5 +318,26 @@ public class CounterField extends ObjectField
             return true;        // Skip auto sequence inserts
         }
         return false;   // For other query types, don't skip
+    }
+    /**
+     * Get this field's name.
+     * @param addQuotes Add quotes if this field contains a space.
+     * @param includeFileName include the file name as file.field.
+     * @param externalName Retrieve the field name in the external (SQL?) table
+     * @return The field name.
+     */
+    public String getFieldName(boolean addQuotes, boolean includeFileName, boolean externalName)
+    {
+        if (externalName)
+            if (alternateFieldName != null)
+                return alternateFieldName;
+        return super.getFieldName(addQuotes, includeFileName, externalName);
+    }
+    /**
+     * Set the alternate field name.
+     * @param alternateFieldName
+     */
+    public void setAlternateFieldName(String alternateFieldName) {
+        this.alternateFieldName = alternateFieldName;
     }
 }

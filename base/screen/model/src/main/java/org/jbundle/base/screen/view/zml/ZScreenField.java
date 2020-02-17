@@ -254,7 +254,7 @@ public abstract class ZScreenField extends ScreenFieldViewAdapter
                 strImageServlet = Utility.addURLParam(strImageServlet, DBParams.DATATYPE, strGraphicFormat);
                 strImageServlet = Utility.addURLParam(strImageServlet, DBParams.RECORD, record.getClass().getName());
                 strImageServlet = Utility.addURLParam(strImageServlet, DBConstants.STRING_OBJECT_ID_HANDLE, strObjectID);
-                strImageServlet = Utility.addURLParam(strImageServlet, "field", field.getFieldName(false, false));
+                strImageServlet = Utility.addURLParam(strImageServlet, "field", field.getFieldName(false, false, false));
 //?                String strImageSize = "";
 //+             strSize = " width=" + strWidth + " height=" + strHeight;
                 strImage = strImageServlet;

@@ -9,17 +9,10 @@ import java.util.*;
 
 import org.jbundle.base.db.*;
 import org.jbundle.thin.base.util.*;
-import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
 import org.jbundle.base.db.filter.*;
 import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
 import org.jbundle.base.model.*;
-import org.jbundle.base.util.*;
 import org.jbundle.model.*;
-import org.jbundle.model.db.*;
-import org.jbundle.model.screen.*;
 import org.jbundle.base.thread.*;
 import org.jbundle.app.program.script.db.*;
 import java.io.*;
@@ -228,7 +221,7 @@ public class RunScriptProcess extends BaseProcess
             return DBConstants.ERROR_RETURN;
         for (int iKeySeq = 0; iKeySeq < record.getKeyAreaCount(); iKeySeq++)
         {
-            String strKeyFieldName = record.getKeyArea(iKeySeq).getKeyField(0).getField(DBConstants.FILE_KEY_AREA).getFieldName(false, false);
+            String strKeyFieldName = record.getKeyArea(iKeySeq).getKeyField(0).getField(DBConstants.FILE_KEY_AREA).getFieldName(false, false, false);
             if (recScript.getProperty(strKeyFieldName) != null)
             {
                 record.setKeyArea(iKeySeq);

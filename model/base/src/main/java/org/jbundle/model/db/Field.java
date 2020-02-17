@@ -71,11 +71,12 @@ public interface Field extends Convert
     public Rec getRecord();
     /**
      * Get this field's name.
-     * @param bAddQuotes All quotes to the name.
-     * @param bIncludeFileName the FileName (ie., filename.fieldname).
+     * @param addQuotes All quotes to the name.
+     * @param includeFileName the FileName (ie., filename.fieldname).
+     * @param externalName Retrieve the field name in the external (SQL?) table
      * @return The field name.
      */
-    public String getFieldName(boolean bAddQuotes, boolean bIncludeFileName);
+    public String getFieldName(boolean addQuotes, boolean includeFileName, boolean externalName);
     /**
      * Set this field's name.
      * @param sString The field name.

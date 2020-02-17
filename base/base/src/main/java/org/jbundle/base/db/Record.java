@@ -174,17 +174,19 @@ public class Record extends FieldList
                 new org.jbundle.base.db.shared.MultiTable(null, this);     // Special - base class - Add the overriding classes.
         }
         if (this.getTable() != null)
-            if (this.getTable().getDatabase() != null)
+            if (this.getTable().getDatabase() != null) {
+                if (this.getCounterField() != null)
+                    ((CounterField)this.getCounterField()).setAlternateFieldName(this.getTable().getDatabase().getProperty(SQLParams.ALTERNATE_COUNTER_NAME)); // Null = default "ID"
                 if (this.getTable().getDatabase().getDatabaseOwner() != null)
-                if (this.getTable().getDatabase().getDatabaseOwner().getEnvironment() != null)
-                if ((DBConstants.YES.equalsIgnoreCase(((Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getProperty(DBParams.LOG_TRXS))) || (DBConstants.TRUE.equalsIgnoreCase(((Environment)this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getProperty(DBParams.LOG_TRXS))))
-            if ((this.getMasterSlave() & RecordOwner.SLAVE) != 0)   // Slaves do the logging.
-                if ((this.getDatabaseType() & DBConstants.DONT_LOG_TRX) == 0)
-        {
-            if ((this.getRecordOwner() == null)
-                || ((this.getRecordOwner().getMasterSlave() & RecordOwner.SLAVE) != 0))
-                    new org.jbundle.base.db.util.log.MessageLogTable(null, this);    // Special - base class of a shared table
-        }
+                    if (this.getTable().getDatabase().getDatabaseOwner().getEnvironment() != null)
+                        if ((DBConstants.YES.equalsIgnoreCase(((Environment) this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getProperty(DBParams.LOG_TRXS))) || (DBConstants.TRUE.equalsIgnoreCase(((Environment) this.getTable().getDatabase().getDatabaseOwner().getEnvironment()).getProperty(DBParams.LOG_TRXS))))
+                            if ((this.getMasterSlave() & RecordOwner.SLAVE) != 0)   // Slaves do the logging.
+                                if ((this.getDatabaseType() & DBConstants.DONT_LOG_TRX) == 0) {
+                                    if ((this.getRecordOwner() == null)
+                                            || ((this.getRecordOwner().getMasterSlave() & RecordOwner.SLAVE) != 0))
+                                        new org.jbundle.base.db.util.log.MessageLogTable(null, this);    // Special - base class of a shared table
+                                }
+            }
         m_iDefaultOrder = Constants.MAIN_KEY_AREA;      // Key Area to use on next operation
         this.addListeners();
     }
@@ -1375,7 +1377,7 @@ public class Record extends FieldList
                 if (bUseCurrentValues == false)
                     strCompare = "?";
                 if (iType != DBConstants.SQL_INSERT_VALUE_TYPE)
-                    strFields += " " + field.getFieldName(true, bIsQueryRecord);    // Full name if QueryRecord
+                    strFields += " " + field.getFieldName(true, bIsQueryRecord, true);    // Full name if QueryRecord
                 else    // kInsertValueType
                     strFields += field.getSQLFilter("", strCompare, false);   // Full name if QueryRecord
                 if (iType == DBConstants.SQL_UPDATE_TYPE)

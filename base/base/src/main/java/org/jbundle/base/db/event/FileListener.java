@@ -291,7 +291,7 @@ public class FileListener extends BaseListener
             String strSign = strSeekSign;
             if ((strSeekSign == null) || (strSeekSign.equals("==")))
                 strSign = DBConstants.EQUALS;
-            strbFilter.append(recordField.getFieldName(true, bIncludeFileName) + " " + recordField.getSQLFilter(strSign, strCompare, true));
+            strbFilter.append(recordField.getFieldName(true, bIncludeFileName, true) + " " + recordField.getSQLFilter(strSign, strCompare, true));
             return true;
         }
         else
@@ -358,7 +358,7 @@ public class FileListener extends BaseListener
                 strCompare = "?";
                 vParamList.add(compareField);
             }
-            strbFilter.append(recordField.getFieldName(true, bIncludeFileName) + compareField.getSQLFilter(strSeekSign, strCompare, true));   //**FIX THIS**
+            strbFilter.append(recordField.getFieldName(true, bIncludeFileName, true) + compareField.getSQLFilter(strSeekSign, strCompare, true));   //**FIX THIS**
             return true;
         }
         else

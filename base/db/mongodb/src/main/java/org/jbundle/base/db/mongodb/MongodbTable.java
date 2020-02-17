@@ -12,7 +12,6 @@ package org.jbundle.base.db.mongodb;
  */
 import com.mongodb.client.*;
 import com.mongodb.client.model.*;
-import org.bson.BsonType;
 import org.bson.Document;
 
 import java.util.*;
@@ -20,20 +19,15 @@ import java.util.*;
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.KeyArea;
-import org.jbundle.base.db.KeyField;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.CounterField;
 import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.model.DBParams;
-import org.jbundle.base.model.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
-import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.db.FieldList;
 import org.jbundle.thin.base.db.buff.str.StrBuffer;
 
 
@@ -155,7 +149,7 @@ public class MongodbTable extends BaseTable
     public void fieldToData(Field field) throws DBException
     {
         if (!field.isNull())
-            document.append(field.getFieldName(true, false), field.getData());
+            document.append(field.getFieldName(true, false, true), field.getData());
     }
     /**
      * Open this table (re-query the table).
@@ -192,7 +186,7 @@ public class MongodbTable extends BaseTable
                 if ((!record.getField(iIndex).isNullable()) && (!record.getField(iIndex).isVirtual())) {
                     if (requiredFieldList.length() != 0)
                         requiredFieldList.append(", ");
-                    requiredFieldList.append(record.getField(iIndex).getFieldName(true, false));
+                    requiredFieldList.append(record.getField(iIndex).getFieldName(true, false, true));
                 }
             }
             requiredFieldList.append(" ]");
@@ -222,7 +216,7 @@ public class MongodbTable extends BaseTable
                 KeyArea keyArea = record.getKeyArea(iIndex);
                 Document keys = new Document();
                 for (int iIndexSeq = DBConstants.MAIN_FIELD; iIndexSeq < keyArea.getKeyFields() + DBConstants.MAIN_FIELD; iIndexSeq++) {   // Make sure the index key is selected!
-                    keys.append(keyArea.getField(iIndexSeq).getFieldName(true, false), keyArea.getKeyOrder() ? ASCENDING : DESCENDING);
+                    keys.append(keyArea.getField(iIndexSeq).getFieldName(true, false, true), keyArea.getKeyOrder() ? ASCENDING : DESCENDING);
                 }
 
                 IndexOptions indexOptions = new IndexOptions();

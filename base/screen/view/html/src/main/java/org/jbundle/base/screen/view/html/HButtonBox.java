@@ -163,7 +163,7 @@ public class HButtonBox extends HBaseButton
     {
         if (this.getScreenField().getConverter() != null)
         {
-            String strFieldName = this.getScreenField().getConverter().getField().getFieldName(false, false);
+            String strFieldName = this.getScreenField().getConverter().getField().getFieldName(false, false, false);
             this.printInputControl(out, null, strFieldName, null, null, null, HtmlConstants.BUTTON, 0);   // Button that does nothing?
         }
         else if (this.getScreenField().getParentScreen() instanceof GridScreen)

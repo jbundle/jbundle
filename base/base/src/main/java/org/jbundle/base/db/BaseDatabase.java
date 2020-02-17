@@ -15,6 +15,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
 
+import org.jbundle.base.field.CounterField;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.RecordOwner;
@@ -304,7 +305,7 @@ public class BaseDatabase extends Object
     public final BaseTable makeTable(Record record)
     {
         BaseTable table = this.doMakeTable(record);
-        
+
         if (DBConstants.TRUE.equalsIgnoreCase(this.getProperty(DBConstants.BASE_TABLE_ONLY)))
         	return this.returnBaseTable(table);
         int iRawDBType = (record.getDatabaseType() & DBConstants.TABLE_TYPE_MASK);

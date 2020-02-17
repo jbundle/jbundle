@@ -27,6 +27,7 @@ public class DBProperties_mongodb extends ListResourceBundle
   }
   static final Object[][] contents = {
   // LOCALIZE THIS
+      {SQLParams.ALTERNATE_COUNTER_NAME, "_id"},
       {SQLParams.TABLE_NOT_FOUND_ERROR_TEXT, " does not exist"},    // Table not found 42X05"42Y07},
       {SQLParams.AUTO_SEQUENCE_ENABLED, DBConstants.TRUE},
       {SQLParams.NO_NULL_UNIQUE_KEYS, DBConstants.TRUE},	// A null is considered a indexable value and will produce a dup error

@@ -99,7 +99,7 @@ public class KeyArea extends KeyAreaInfo
     { // Get the field with this seq
         m_vKeyFieldList.addElement(keyField);           // Set this key field
         if (m_strKeyName == null)
-            m_strKeyName = keyField.getField(DBConstants.FILE_KEY_AREA).getFieldName(false, false);   //x + "Key";  // Default key name
+            m_strKeyName = keyField.getField(DBConstants.FILE_KEY_AREA).getFieldName(false, false, false);   //x + "Key";  // Default key name
     }
     /**
      * Remove this KeyField to this Key Area.
@@ -150,13 +150,13 @@ public class KeyArea extends KeyAreaInfo
             KeyField keyField = this.getKeyField(iKeyFieldSeq, bForceUniqueKey);
             BaseField pParamField = keyField.getField(iAreaDesc);
             BaseField field = keyField.getField(DBConstants.FILE_KEY_AREA);
-            if ((">=".equals(seekSign)) || (">".equals(seekSign)) || ("<=".equals(seekSign)) || ("<".equals(seekSign)))
-                if (pParamField.isNull())
+            if (pParamField.isNull())
+                if ((">=".equals(seekSign)) || (">".equals(seekSign)) || ("<=".equals(seekSign)) || ("<".equals(seekSign)))
                     break;  // Can't say >=? if null.
             if (strFilter.length() > 0)
                 strFilter += " AND ";
             String strCompare = null;
-            strFilter += field.getFieldName(true, bIncludeFileName);
+            strFilter += field.getFieldName(true, bIncludeFileName, true);
             String strSign = seekSign;
             if (bUseCurrentValues == false)
             {
@@ -207,7 +207,7 @@ public class KeyArea extends KeyAreaInfo
                 if (iKeyFieldSeq > DBConstants.MAIN_KEY_FIELD)
                     strFilter += " AND ";
                 String strCompare = null;
-                strFilter += field.getFieldName(true, bIncludeFileName);
+                strFilter += field.getFieldName(true, bIncludeFileName, true);
                 String strSign = seekSign;
                 if (iCount < iKeyFieldCount - 1)
                     strSign = seekSign.substring(0, 1);
@@ -242,7 +242,7 @@ public class KeyArea extends KeyAreaInfo
             BaseField field = keyField.getField(DBConstants.FILE_KEY_AREA);
             if (strSort.length() > 0)
                 strSort += ",";
-            strSort += field.getFieldName(true, bIncludeFileName);
+            strSort += field.getFieldName(true, bIncludeFileName, true);
             if (keyField.getKeyOrder() == DBConstants.DESCENDING)
                 strSort += " DESC";     // Descending
         }

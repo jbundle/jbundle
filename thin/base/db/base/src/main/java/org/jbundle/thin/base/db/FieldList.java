@@ -323,7 +323,7 @@ public class FieldList extends Object
         for (int i = 0; i < this.getFieldCount(); i++)
         {
             FieldInfo field = this.getField(i);
-            if (field.getFieldName(bAddQuotes, false).toString().equalsIgnoreCase(strFieldName))        // Don't add quotes on compare
+            if (field.getFieldName(bAddQuotes, false, false).toString().equalsIgnoreCase(strFieldName))        // Don't add quotes on compare
                 return field;
         }
         return null;        // Not found

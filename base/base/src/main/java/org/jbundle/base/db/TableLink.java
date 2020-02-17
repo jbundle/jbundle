@@ -184,13 +184,22 @@ public class TableLink extends Object
         // Note that the right record does NOT get the current record (because you will need the BASE record to do a seek).
         return this.getRightRecord().getField(m_rgiFldRight[iFieldSeq]);
     }
-    public String getLeftFieldNameOrValue(int iFieldSeq, boolean bAddQuotes, boolean bIncludeFileName)
+
+    /**
+     * getLeftFieldNameOrValue
+     * @param iFieldSeq
+     * @param addQuotes
+     * @param includeFileName
+     * @param externalName
+     * @return
+     */
+    public String getLeftFieldNameOrValue(int iFieldSeq, boolean addQuotes, boolean includeFileName, boolean externalName)
     {
         if (m_rgiFldLeft.length <= iFieldSeq)
             return null;
         BaseField field = this.getLeftField(iFieldSeq);
         if (field != null)
-            return field.getFieldName(bAddQuotes, bIncludeFileName);
+            return field.getFieldName(addQuotes, includeFileName, externalName);
         if ((m_rgiFldLeft[iFieldSeq] instanceof String))
             if (!Utility.isNumeric((String)m_rgiFldLeft[iFieldSeq]))
                 return (String)m_rgiFldLeft[iFieldSeq];
@@ -229,9 +238,9 @@ public class TableLink extends Object
                 break;
             if (i > 1)
                 strString += " AND ";
-            strString += this.getLeftFieldNameOrValue(i, bAddQuotes, true); // Include file name
+            strString += this.getLeftFieldNameOrValue(i, bAddQuotes, true, true); // Include file name
             strString += " = ";
-            strString += this.getRightField(i).getFieldName(bAddQuotes, true); // Include file name
+            strString += this.getRightField(i).getFieldName(bAddQuotes, true, true); // Include file name
         }
         return strString;
     }
@@ -245,7 +254,7 @@ public class TableLink extends Object
             if (this.getRightField(i) == null)
                 break;
             if (this.getLeftField(i) == null)
-                this.getRightField(i).setString(this.getLeftFieldNameOrValue(i, true, true), DBConstants.DONT_DISPLAY, DBConstants.SCREEN_MOVE);
+                this.getRightField(i).setString(this.getLeftFieldNameOrValue(i, true, true, true), DBConstants.DONT_DISPLAY, DBConstants.SCREEN_MOVE);
             else
                 this.getRightField(i).moveFieldToThis(this.getLeftField(i), DBConstants.DONT_DISPLAY, DBConstants.SCREEN_MOVE);
         }
@@ -277,7 +286,7 @@ public class TableLink extends Object
                 else
                 {
                     if (fldLeft == null)
-                        fldRight.setString(this.getLeftFieldNameOrValue(index, true, true), DBConstants.DONT_DISPLAY, DBConstants.SCREEN_MOVE);
+                        fldRight.setString(this.getLeftFieldNameOrValue(index, true, true, true), DBConstants.DONT_DISPLAY, DBConstants.SCREEN_MOVE);
                     else
                         fldRight.moveFieldToThis(fldLeft, DBConstants.DONT_DISPLAY, DBConstants.SCREEN_MOVE);
                 }
