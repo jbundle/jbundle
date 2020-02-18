@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.jbundle.base.db.KeyArea;
 import org.jbundle.base.db.Record;
+import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.db.event.ClearFieldReferenceOnCloseHandler;
 import org.jbundle.base.db.event.MoveOnValidHandler;
 import org.jbundle.base.field.convert.FieldConverter;
@@ -24,6 +25,7 @@ import org.jbundle.base.field.event.MainReadOnlyHandler;
 import org.jbundle.base.field.event.MoveOnChangeHandler;
 import org.jbundle.base.field.event.ReadSecondaryHandler;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBSQLTypes;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.ScreenModel;
 import org.jbundle.model.DBException;
@@ -377,5 +379,40 @@ public class ReferenceField extends RecordReferenceField
         }
         
         return screenField;
+    }
+    /**
+     * Get the class of the m_data field.
+     * @return the java class of the raw data.
+     */
+    public Class<?> getDataClass()
+    {
+        if (m_classData == Object.class) {    // First time only
+            if (this.getRecord() != null) // Always
+                if (this.getRecord().getTable() != null)
+                    if (this.getRecord().getTable().getDatabase() != null)
+                        if (this.getRecord().getTable().getProperty(SQLParams.COUNTER_OBJECT_CLASS) != null) {
+                            try {
+                                this.setDataClass(Class.forName(this.getRecord().getTable().getProperty(SQLParams.COUNTER_OBJECT_CLASS)));
+                            } catch (ClassNotFoundException e) {
+                                // Ignore - Integer is fine
+                            }
+                        }
+            if (m_classData == Object.class)
+                this.setDataClass(Integer.class);   // Default
+        }
+        return super.getDataClass();
+    }
+    /**
+     * Get the SQL type of this field.
+     * Typically OBJECT or LONGBINARY.
+     * @param bIncludeLength Include the field length in this description.
+     * @param properties Database properties to determine the SQL type.
+     */
+    public String getSQLType(boolean bIncludeLength, Map<String, Object> properties)
+    {
+        String strType = (String)properties.get(DBSQLTypes.COUNTER);
+        if (strType == null)
+            strType = DBSQLTypes.INTEGER;     // The default SQL Type (Integer)
+        return strType;        // The default SQL Type
     }
 }

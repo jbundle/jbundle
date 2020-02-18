@@ -121,6 +121,7 @@ public class ObjectField extends BaseField
     /**
      * Get the SQL type of this field.
      * Typically OBJECT or LONGBINARY.
+     * Note: Counter and Reference fields will override this with native type
      * @param bIncludeLength Include the field length in this description.
      * @param properties Database properties to determine the SQL type.
      */
@@ -132,6 +133,23 @@ public class ObjectField extends BaseField
         return  strType;        // The default SQL Type
     }
     /**
+     * Get the JDBC SQL Type
+     * @return the JDBC SQL Type
+     */
+    protected int getSQLTypes() {
+        if (this.getDataClass() == Object.class)
+            return Types.BLOB;
+        else if (this.getDataClass() == Long.class)
+            return Types.BIGINT;
+        else if (this.getDataClass() == Short.class)
+            return Types.SMALLINT;
+        else if (this.getDataClass() == Integer.class)
+            return Types.INTEGER;
+        else if (this.getDataClass() == String.class)
+            return Types.VARCHAR;
+        return Types.BLOB;
+    }
+    /**
      * Move the physical binary data to this SQL parameter row.
      * This method uses the getBinaryStream resultset method.
      * @param resultset The resultset to get the SQL data from.
@@ -140,43 +158,66 @@ public class ObjectField extends BaseField
      */
     public void moveSQLToField(ResultSet resultset, int iColumn) throws SQLException
     {
-        InputStream inStream = resultset.getBinaryStream(iColumn);
-        if (resultset.wasNull())
-            this.setData(null, false, DBConstants.READ_MOVE); // Null value
-        else
-        {
-            try   {
-                // This is kind of weird, but for some reason, the inStream will only accept read(byte[]), so I have to do this:
-                byte rgBytes[] = new byte[2048];
-                ByteArrayOutputStream baOut = new ByteArrayOutputStream();
-                while (true)
-                {
-                    int iRead = 0;
-                    try   {
-                        iRead = inStream.read(rgBytes);
-                    } catch (EOFException ex) {
-                        iRead = 0;
+        if (this.getSQLTypes() == Types.BLOB) {
+            InputStream inStream = resultset.getBinaryStream(iColumn);
+            if (resultset.wasNull())
+                this.setData(null, false, DBConstants.READ_MOVE); // Null value
+            else {
+                try {
+                    // This is kind of weird, but for some reason, the inStream will only accept read(byte[]), so I have to do this:
+                    byte rgBytes[] = new byte[2048];
+                    ByteArrayOutputStream baOut = new ByteArrayOutputStream();
+                    while (true) {
+                        int iRead = 0;
+                        try {
+                            iRead = inStream.read(rgBytes);
+                        } catch (EOFException ex) {
+                            iRead = 0;
+                        }
+                        if (iRead > 0)
+                            baOut.write(rgBytes, 0, iRead);
+                        if (iRead < rgBytes.length)
+                            break;      // End of stream
                     }
-                    if (iRead > 0)
-                        baOut.write(rgBytes, 0, iRead);
-                    if (iRead < rgBytes.length)
-                        break;      // End of stream
-                }
-                rgBytes = baOut.toByteArray();
-                Object objData = null;
-                if (rgBytes.length > 0)
-                {
-                    String string = new String(rgBytes, BundleConstants.OBJECT_ENCODING);
-                    objData = ClassServiceUtility.getClassService().convertStringToObject(string, null);
+                    rgBytes = baOut.toByteArray();
+                    Object objData = null;
+                    if (rgBytes.length > 0) {
+                        String string = new String(rgBytes, BundleConstants.OBJECT_ENCODING);
+                        objData = ClassServiceUtility.getClassService().convertStringToObject(string, null);
 //x                    ByteArrayInputStream ibyStream = new ByteArrayInputStream(rgBytes);
 //x                    ObjectInputStream iStream = new ObjectInputStream(ibyStream);
 //x                    objData = iStream.readObject();
+                    }
+                    this.setData(objData, false, DBConstants.READ_MOVE);
+                } catch (IOException ex) {
+                    ex.printStackTrace();   // Never
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();   // Never
                 }
-                this.setData(objData, false, DBConstants.READ_MOVE);
-            } catch (IOException ex)    {
-                ex.printStackTrace();   // Never
-            } catch (ClassNotFoundException ex)   {
-                ex.printStackTrace();   // Never
+            }
+        } else {
+            long result = 0;
+            if (this.getSQLTypes() == Types.BIGINT)
+                result = resultset.getLong(iColumn);
+            else if (this.getSQLTypes() == Types.SMALLINT)
+                result = resultset.getShort(iColumn);
+            else if (this.getSQLTypes() == Types.INTEGER)
+                result = resultset.getInt(iColumn);
+            else {
+                super.moveSQLToField(resultset, iColumn);
+                return;
+            }
+            if (resultset.wasNull())
+                this.setString(Constants.BLANK, false, DBConstants.READ_MOVE);  // Null value
+            else
+            {
+                if ((!this.isNullable()) &&
+                        (((this.getSQLTypes() == Types.BIGINT) && (result == CounterField.NAN)) ||
+                         ((this.getSQLTypes() == Types.INTEGER) && (result == IntegerField.NAN)) ||
+                         ((this.getSQLTypes() == Types.SMALLINT) && (result == ShortField.NAN))))
+                    this.setString(Constants.BLANK, false, DBConstants.READ_MOVE);  // Null value
+                else
+                    this.setValue(result, false, DBConstants.READ_MOVE);
             }
         }
     }
@@ -188,32 +229,64 @@ public class ObjectField extends BaseField
      * @param iParamColumn The column in the prepared statement to set the data.
      * @exception SQLException From SQL calls.
      */
-    public void getSQLFromField(PreparedStatement statement, int iType, int iParamColumn) throws SQLException
-    {
-        if (this.isNull())
-            statement.setNull(iParamColumn, Types.BLOB);
-        else
-        {
-            Object data = this.getData();
-            ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-            ObjectOutputStream p = null;
-            try   {
-                p = new ObjectOutputStream(ostream);
-                p.writeObject(data);
-                p.flush();
-                ostream.close();
-            } catch (IOException ex)    {
-                ex.printStackTrace();   // Never
+    public void getSQLFromField(PreparedStatement statement, int iType, int iParamColumn) throws SQLException {
+        if (this.isNull()) {
+            if ((this.isNullable()) && (iType != DBConstants.SQL_SELECT_TYPE) && (iType != DBConstants.SQL_SEEK_TYPE))
+                statement.setNull(iParamColumn, this.getSQLTypes());
+            else {
+                if (this.getSQLTypes() == Types.BIGINT)
+                    statement.setLong(iParamColumn, CounterField.NAN);
+                else if (this.getSQLTypes() == Types.SMALLINT)
+                    statement.setShort(iParamColumn, ShortField.NAN);
+                else if (this.getSQLTypes() == Types.INTEGER)
+                    statement.setInt(iParamColumn, IntegerField.NAN);
+                else
+                    super.getSQLFromField(statement, iType, iParamColumn);
             }
+        } else {
+            if (this.getSQLTypes() == Types.BLOB) {
+                Object data = this.getData();
+                ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+                ObjectOutputStream p = null;
+                try {
+                    p = new ObjectOutputStream(ostream);
+                    p.writeObject(data);
+                    p.flush();
+                    ostream.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();   // Never
+                }
 
-            byte[] rgBytes = ostream.toByteArray();
-            InputStream iStream = new ByteArrayInputStream(rgBytes);
-            try {
-                statement.setBinaryStream(iParamColumn, iStream, rgBytes.length);
-            } catch (java.lang.ArrayIndexOutOfBoundsException ex) {
-                ex.printStackTrace();
+                byte[] rgBytes = ostream.toByteArray();
+                InputStream iStream = new ByteArrayInputStream(rgBytes);
+                try {
+                    statement.setBinaryStream(iParamColumn, iStream, rgBytes.length);
+                } catch (java.lang.ArrayIndexOutOfBoundsException ex) {
+                    ex.printStackTrace();
+                }
             }
+            else if (this.getSQLTypes() == Types.BIGINT)
+                statement.setLong(iParamColumn, (long)this.getValue());
+            else if (this.getSQLTypes() == Types.SMALLINT)
+                statement.setShort(iParamColumn, (short)this.getValue());
+            else if (this.getSQLTypes() == Types.INTEGER)
+                statement.setInt(iParamColumn, (int)this.getValue());
+            else
+                super.getSQLFromField(statement, iType, iParamColumn);
         }
+    }
+    /**
+     * Move this physical binary data to this field.
+     * @param vpData The physical data to move to this field (must be an Integer raw data class).
+     * @param bDisplayOption If true, display after setting the data.
+     * @param iMoveMode The type of move.
+     * @return an error code (0 if success).
+     */
+    public int doSetData(Object vpData, boolean bDisplayOption, int iMoveMode)
+    {
+        if ((vpData != null) && (vpData.getClass() != this.getDataClass()))
+            return DBConstants.ERROR_RETURN;
+        return super.doSetData(vpData, bDisplayOption, iMoveMode);
     }
     /**
      * Read the physical data from a stream file and set this field.
@@ -223,18 +296,37 @@ public class ObjectField extends BaseField
      */
     public boolean read(DataInputStream daIn, boolean bFixedLength) // Fixed length = false
     {
-        ObjectInputStream iStream = null;
-        try   {
-            iStream = new ObjectInputStream(daIn);
-            Object objData = iStream.readObject();
-            if (objData instanceof String) if (((String)objData).length() == 0)
-                objData = null;
-            int errorCode = this.setData(objData, false, DBConstants.READ_MOVE);
-            iStream.close();    // Unlink ObjectInputStream
-            return (errorCode == DBConstants.NORMAL_RETURN);    // Success
-        } catch (IOException ex)    {
+        try {
+            if (this.getSQLTypes() == Types.BLOB) {
+                ObjectInputStream iStream = null;
+                iStream = new ObjectInputStream(daIn);
+                Object objData = iStream.readObject();
+                if (objData instanceof String) if (((String) objData).length() == 0)
+                    objData = null;
+                int errorCode = this.setData(objData, false, DBConstants.READ_MOVE);
+                iStream.close();    // Unlink ObjectInputStream
+                return (errorCode == DBConstants.NORMAL_RETURN);    // Success
+            } else {
+                Object inData = null;
+                if (this.getSQLTypes() == Types.BIGINT)
+                    inData = daIn.readLong();
+                else if (this.getSQLTypes() == Types.SMALLINT)
+                    inData = daIn.readShort();
+                else if (this.getSQLTypes() == Types.INTEGER)
+                    inData = daIn.readInt();
+                else
+                    return super.read(daIn, bFixedLength);  // String
+                if ((!this.isNullable()) &&
+                        (((this.getSQLTypes() == Types.BIGINT) && (inData.equals(CounterField.NAN))) ||
+                                ((this.getSQLTypes() == Types.INTEGER) && (inData.equals(IntegerField.NAN))) ||
+                                ((this.getSQLTypes() == Types.SMALLINT) && (inData.equals(ShortField.NAN)))))
+                    return (this.setString(Constants.BLANK, false, DBConstants.READ_MOVE) == DBConstants.NORMAL_RETURN);  // Null value
+                else
+                    return (this.setData(inData, false, DBConstants.READ_MOVE) == DBConstants.NORMAL_RETURN);
+            }
+        } catch (IOException ex) {
             ex.printStackTrace();   // Never
-        } catch (ClassNotFoundException ex)   {
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();   // Never
         }
         return false; // Error

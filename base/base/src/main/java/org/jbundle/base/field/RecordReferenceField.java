@@ -9,12 +9,16 @@ package org.jbundle.base.field;
  * If you want the capability to read a reference, use ReferenceField.
  */
 import org.jbundle.base.db.Record;
+import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.db.event.ClearFieldReferenceOnCloseHandler;
 import org.jbundle.base.db.event.FreeOnFreeHandler;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.DBSQLTypes;
 import org.jbundle.base.model.RecordOwner;
 
-public class RecordReferenceField extends IntegerField
+import java.util.Map;
+
+public class RecordReferenceField extends ObjectField
 {
 	private static final long serialVersionUID = 1L;
 

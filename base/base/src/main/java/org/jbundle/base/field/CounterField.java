@@ -102,9 +102,9 @@ public class CounterField extends ObjectField
             if (this.getRecord() != null) // Always
                 if (this.getRecord().getTable() != null)
                     if (this.getRecord().getTable().getDatabase() != null)
-                        if (this.getRecord().getTable().getProperty("COUNTER_OBJECT_CLASS") != null) {
+                        if (this.getRecord().getTable().getProperty(SQLParams.COUNTER_OBJECT_CLASS) != null) {
                             try {
-                                this.setDataClass(Class.forName(this.getRecord().getTable().getProperty("COUNTER_OBJECT_CLASS")));
+                                this.setDataClass(Class.forName(this.getRecord().getTable().getProperty(SQLParams.COUNTER_OBJECT_CLASS)));
                             } catch (ClassNotFoundException e) {
                                 // Ignore - Integer is fine
                             }
@@ -130,13 +130,13 @@ public class CounterField extends ObjectField
      * Set this field to the maximum or minimum value.
      * @param iAreaDesc END_SELECT_KEY means set to largest value, others mean smallest.
      */
-//    public void setToLimit(int iAreaDesc)   // Set this field to the largest or smallest value
-//    {   // By default compare as ASCII strings
-//        Integer tempLong = MIN;   // Lowest value
-//        if (iAreaDesc == DBConstants.END_SELECT_KEY)
-//            tempLong = MAX;   // Highest value
-//        this.doSetData(tempLong, DBConstants.DONT_DISPLAY, DBConstants.SCREEN_MOVE);
-//    }
+    public void setToLimit(int iAreaDesc)   // Set this field to the largest or smallest value
+    {   // By default compare as ASCII strings
+        Object tempLong = MIN;   // Lowest value
+        if (iAreaDesc == DBConstants.END_SELECT_KEY)
+            tempLong = MAX;   // Highest value
+        this.doSetData(tempLong, DBConstants.DONT_DISPLAY, DBConstants.SCREEN_MOVE);
+    }
     /**
      * Get the SQL type of this field.
      * Typically OBJECT or LONGBINARY.
@@ -148,75 +148,7 @@ public class CounterField extends ObjectField
         String strType = (String)properties.get(DBSQLTypes.COUNTER);
         if (strType == null)
             strType = DBSQLTypes.INTEGER;     // The default SQL Type (Integer)
-        if (DBSQLTypes.BIGINT.equals(strType))
-            sqlType = Types.BIGINT;
-        else if (DBSQLTypes.SMALLINT.equals(strType))
-            sqlType = Types.SMALLINT;
         return strType;        // The default SQL Type
-    }
-    protected int sqlType = Types.INTEGER;  // Cached SQL Type
-    /**
-     * Move the physical binary data to this SQL parameter row.
-     * This is overidden to move the physical data type.
-     * @param statement The SQL prepare statement.
-     * @param iType the type of SQL statement.
-     * @param iParamColumn The column in the prepared statement to set the data.
-     * @exception SQLException From SQL calls.
-     */
-    public void getSQLFromField(PreparedStatement statement, int iType, int iParamColumn) throws SQLException
-    {
-        if (this.isNull())
-        {
-            if ((this.isNullable()) && (iType != DBConstants.SQL_SELECT_TYPE))
-                statement.setNull(iParamColumn, Types.INTEGER);
-            else {
-                if (sqlType == Types.BIGINT)
-                    statement.setLong(iParamColumn, NAN);
-                else if (sqlType == Types.SMALLINT)
-                    statement.setShort(iParamColumn, ShortField.NAN);
-                else
-                    statement.setInt(iParamColumn, IntegerField.NAN);
-            }
-        }
-        else {
-            if (sqlType == Types.BIGINT)
-                statement.setLong(iParamColumn, (long)this.getValue());
-            else if (sqlType == Types.SMALLINT)
-                statement.setShort(iParamColumn, (short)this.getValue());
-            else
-                statement.setInt(iParamColumn, (int)this.getValue());
-        }
-    }
-    /**
-     * Move the physical binary data to this SQL parameter row.
-     * This is overidden to move the physical data type.
-     * @param resultset The resultset to get the SQL data from.
-     * @param iColumn the column in the resultset that has my data.
-     * @exception SQLException From SQL calls.
-     */
-    public void moveSQLToField(ResultSet resultset, int iColumn) throws SQLException
-    {
-//        ResultSetMetaData metaData = resultset.getMetaData();
-//        int type = metaData.getColumnType(iColumn);
-        long result = 0;
-        if (sqlType == Types.BIGINT)
-            result = resultset.getLong(iColumn);
-        else if (sqlType == Types.SMALLINT)
-            result = resultset.getShort(iColumn);
-        else
-            result = resultset.getInt(iColumn);
-        if (resultset.wasNull())
-            this.setString(Constants.BLANK, false, DBConstants.READ_MOVE);  // Null value
-        else
-        {
-            if ((!this.isNullable()) &&
-                    (((sqlType == Types.BIGINT) && (result == NAN)) ||
-                     ((sqlType == Types.INTEGER) && (result == IntegerField.NAN)) ||
-                     ((sqlType == Types.SMALLINT) && (result == ShortField.NAN))))
-                this.setString(Constants.BLANK, false, DBConstants.READ_MOVE);  // Null value
-            else
-                this.setValue(result, false, DBConstants.READ_MOVE);
-        }
     }
     /**
      * Convert the native data type (Integer) to a string.
@@ -242,59 +174,6 @@ public class CounterField extends ObjectField
     public Object stringToBinary(String string) throws Exception
     {
         return Converter.convertObjectToDatatype(string, this.getDataClass(), null);
-    }
-    /**
-     * Move this physical binary data to this field.
-     * @param vpData The physical data to move to this field (must be an Integer raw data class).
-     * @param bDisplayOption If true, display after setting the data.
-     * @param iMoveMode The type of move.
-     * @return an error code (0 if success).
-     */
-    public int doSetData(Object vpData, boolean bDisplayOption, int iMoveMode)
-    {
-        if ((vpData != null) && (vpData.getClass() != this.getDataClass()))
-            return DBConstants.ERROR_RETURN;
-        return super.doSetData(vpData, bDisplayOption, iMoveMode);
-    }
-    /**
-     * Read the physical data from a stream file and set this field.
-     * @param daIn Input stream to read this field's data from
-     * @return boolean Success?
-     */
-    public boolean read(DataInputStream daIn, boolean bFixedLength) // Fixed length = false
-    {
-        try   {
-            long iData = daIn.readLong();
-            Long inData = null;
-            if (iData != NAN)
-                inData = new Long(iData);
-            int iErrorCode = this.setData(inData, DBConstants.DONT_DISPLAY, DBConstants.READ_MOVE);
-            return (iErrorCode == DBConstants.NORMAL_RETURN);    // Success
-        } catch (IOException ex)    {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-    /**
-     * Write the physical data in this field to a stream file.
-     * @param daOut Output stream to add this field to.
-     * @return boolean Success?
-     */
-    public boolean write(DataOutputStream daOut, boolean bFixedLength)
-    {
-        try   {
-            Long inData = (Long)this.getData();
-            long iData;
-            if (inData == null)
-                iData = NAN;
-            else
-                iData = inData.longValue();
-            daOut.writeLong(iData);
-            return true;
-        } catch (IOException ex)    {
-            ex.printStackTrace();
-            return false;
-        }
     }
     /**
      * Do I skip getting/putting this field into the SQL param list?
