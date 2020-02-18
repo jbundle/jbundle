@@ -181,7 +181,7 @@ public class XmlUtilities extends Object
             {
                 String string = field.toString();
                 String type = TEXT;
-                if (field instanceof ObjectField)
+                if ((field instanceof ObjectField) && (field.getDataClass() == Object.class))
                 {
                     string = XmlUtilities.encodeFieldData(field);
                     type = CDATA;

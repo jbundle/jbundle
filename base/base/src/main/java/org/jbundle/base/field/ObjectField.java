@@ -91,6 +91,7 @@ public class ObjectField extends BaseField
     {
         BaseField field = new ObjectField(null, m_strFieldName, m_iMaxLength, m_strFieldDesc, null);
         field.setRecord(m_record);     // Set table without adding to table field list
+        field.setDataClass(this.getDataClass());
         return field;
     }
     /**

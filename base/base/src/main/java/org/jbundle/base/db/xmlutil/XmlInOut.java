@@ -523,7 +523,7 @@ public class XmlInOut extends BaseProcess
             }
             if (field != null)
             {   // Set the data
-                if (field instanceof ObjectField)
+                if ((field instanceof ObjectField) && (field.getDataClass() == Object.class))
                 {
                     try {
 						XmlUtilities.decodeFieldData(field, strValue);
