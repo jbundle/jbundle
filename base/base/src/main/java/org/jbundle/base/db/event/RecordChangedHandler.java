@@ -105,12 +105,12 @@ public class RecordChangedHandler extends FileListener
 	        {
 	            case DBConstants.REFRESH_TYPE:
 	            case DBConstants.ADD_TYPE:
-	                this.setCurrentDate(bDisplayOption, DBConstants.INIT_MOVE); // Don't trigger a change
+	                this.setCurrentDate(bDisplayOption, DBConstants.SCREEN_MOVE); // Don't trigger a change
 	                break;
 	            case DBConstants.UPDATE_TYPE:
 	                if (this.getOwner().isModified(true))
 	                {   // Don't need to set the last changed date if the record hasn't changed
-	                    this.setCurrentDate(bDisplayOption, DBConstants.INIT_MOVE); // Don't trigger a change
+	                    this.setCurrentDate(bDisplayOption, DBConstants.SCREEN_MOVE); // Don't trigger a change
 	                    if (this.isModLockMode())
 	                        this.setTemporaryKeyField();
 	                }
@@ -254,7 +254,7 @@ public class RecordChangedHandler extends FileListener
                 {   // Possible that refresh did a set or refresh is now the same as this.
                 	if ((this.getOwner().getMasterSlave() & RecordOwner.SLAVE) != 0)
                 	{		// Don't do this for master only code (slave will take care of the unique incrementing date)
-                        this.setCurrentDate(true, DBConstants.INIT_MOVE);	// Add one second to the date (Only in server code)
+                        this.setCurrentDate(true, DBConstants.SCREEN_MOVE);	// Add one second to the date (Only in server code)
                 		this.setTemporaryKeyField();
                 	}
                     rgobjEnabledFields = record.setEnableFieldListeners(false);    // These will be called when I exit - Don't call now
