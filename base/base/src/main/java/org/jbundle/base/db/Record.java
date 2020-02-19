@@ -17,13 +17,7 @@ import java.util.Vector;
 
 import org.jbundle.base.db.event.ClearFieldReferenceOnCloseHandler;
 import org.jbundle.base.db.event.FileListener;
-import org.jbundle.base.field.BaseField;
-import org.jbundle.base.field.BaseListener;
-import org.jbundle.base.field.CounterField;
-import org.jbundle.base.field.IntegerField;
-import org.jbundle.base.field.ListenerOwner;
-import org.jbundle.base.field.ReferenceField;
-import org.jbundle.base.field.StringField;
+import org.jbundle.base.field.*;
 import org.jbundle.base.field.event.FieldDataScratchHandler;
 import org.jbundle.base.field.event.FieldListener;
 import org.jbundle.base.field.event.ReadSecondaryHandler;
@@ -1960,6 +1954,8 @@ public class Record extends FieldList
                         if ((field instanceof CounterField)
                             || (this.getCounterField() == null))
                                 return DBConstants.NORMAL_RETURN;   // Don't acknowledge a counter field change or a non auto file
+                        if (field instanceof RecordChangedField)
+                            return DBConstants.NORMAL_RETURN;   // Don't acknowledge a 'last changed' field change
                         this.handleRecordChange(DBConstants.REFRESH_TYPE);     // Tell listeners I'm going to refresh the record
                         rgobjEnabledFields = this.setEnableNonFilter(null, false, false, false, false, false);
                         boolean[] rgbModified = this.getModified();
