@@ -13,6 +13,7 @@ package org.jbundle.base.field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.jbundle.base.db.KeyArea;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.SQLParams;
@@ -28,6 +29,8 @@ import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBSQLTypes;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.ScreenModel;
+import org.jbundle.base.util.Environment;
+import org.jbundle.base.util.MainApplication;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.BaseAppletReference;
@@ -401,6 +404,22 @@ public class ReferenceField extends RecordReferenceField
                 this.setDataClass(Integer.class);   // Default
         }
         return super.getDataClass();
+    }
+    /**
+     * Get the data from this field in the native mongo format
+     * @return The data from this field in raw format.
+     */
+    public Object getBsonData() throws DBException
+    {
+        if (this.isNull())
+            return null;
+        try {
+            return new ObjectId(this.getString());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
+            throw this.getRecord().getTable().getDatabase().convertError(ex);
+        }
     }
     /**
      * Get the SQL type of this field.

@@ -10,9 +10,7 @@ package org.jbundle.base.db.mongodb;
  *      don@tourgeek.com
  */
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
 
 import java.util.Date;
 import java.util.Enumeration;
@@ -21,7 +19,6 @@ import java.util.ListResourceBundle;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import com.mongodb.client.MongoIterable;
 import org.jbundle.base.db.BaseDatabase;
 import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.DatabaseException;
@@ -160,8 +157,9 @@ public class MongodbDatabase extends BaseDatabase
      */
     protected boolean doesTableExist(String tableName) throws DBException {
         MongoIterable<String> names = this.getMongoDatabase().listCollectionNames();
-        while (names.iterator().hasNext()) {
-            if (tableName.equals(names.iterator().next())) {
+        MongoCursor<String> list = names.iterator();
+        while (list.hasNext()) {
+            if (tableName.equals(list.next())) {
                 return true;    // Table exists
             }
         }

@@ -157,28 +157,7 @@ public class MongodbTable extends BaseTable
     public void fieldToData(Field field) throws DBException
     {
         if (!field.isNull()) {
-            document.append(field.getFieldName(true, false, true), this.getFieldData(field));
-        }
-    }
-    /**
-     * Get the data from this field in the native mongo format
-     * @param field The field to move to the data area.
-     * @return The data from this field in raw format.
-     */
-    public Object getFieldData(Field field) throws DBException
-    {
-        if (field.isNull())
-            return null;
-        if (field != this.getRecord().getCounterField())
-            return field.getData();
-        else {
-            try {
-                return new ObjectId(field.getString());
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                System.out.println(ex.getMessage());
-                throw this.getDatabase().convertError(ex);
-            }
+            document.append(field.getFieldName(true, false, true), ((BaseField)field).getBsonData());
         }
     }
     /**
@@ -191,9 +170,11 @@ public class MongodbTable extends BaseTable
         // get a handle to the "table" collection
         String tableName = this.getRecord().makeTableNames(false);
         // Seems like a lame way to see if the collection exists
-        if (!((MongodbDatabase)this.getDatabase()).doesTableExist(tableName))
-            this.create();
-        collection = ((MongodbDatabase)this.getDatabase()).getMongoDatabase().getCollection(tableName);
+        if (collection == null) {
+            if (!((MongodbDatabase) this.getDatabase()).doesTableExist(tableName))
+                this.create();
+            collection = ((MongodbDatabase) this.getDatabase()).getMongoDatabase().getCollection(tableName);
+        }
 
         mongoCursor = null;
         document = null;
@@ -447,13 +428,7 @@ public class MongodbTable extends BaseTable
             BaseField field = this.getRecord().getKeyArea().getKeyField(iKeyFieldSeq).getField(iAreaDesc);
             if (field.isNull())
                 continue;
-            Document compareDoc = new Document();
-            compareDoc.append(this.getJSONOperator(seekSign), this.getFieldData(field));
-            String fieldName = this.getRecord().getKeyArea().getKeyField(iKeyFieldSeq).getField(DBConstants.FILE_KEY_AREA).getFieldName(false, false, true);
-            if (doc.get(fieldName) == null)
-                doc.append(fieldName, compareDoc);
-            else
-                ((Document)doc.get(fieldName)).put(this.getJSONOperator(seekSign), this.getFieldData(field));
+            doc = FileListener.addComparisonToDoc(doc, FileListener.getJSONOperator(seekSign), this.getRecord().getKeyArea().getKeyField(iKeyFieldSeq).getField(DBConstants.FILE_KEY_AREA).getFieldName(false, false, true), field.getBsonData());
         }
         return doc;
     }
@@ -485,10 +460,7 @@ public class MongodbTable extends BaseTable
         doc = this.addSelectParams(FileListener.GREATER_THAN_EQUAL, DBConstants.START_SELECT_KEY,true, true, false, doc);   // Add only if changed
         this.getRecord().handleEndKey();            // Set up the larger key
         doc = this.addSelectParams(FileListener.LESS_THAN_EQUAL, DBConstants.END_SELECT_KEY,true, true, false, doc);   // Add only if changed
-        StringBuffer strbFilter = new StringBuffer();
-        boolean bIsQueryRecord = this.getRecord().isQueryRecord();
-        Vector<BaseField> vParamList = null;
-        this.getRecord().handleRemoteCriteria(strbFilter, bIsQueryRecord, vParamList);  // Add any selection criteria (from behaviors)
+        this.getRecord().handleRemoteCriteria(null, this.getRecord().isQueryRecord(), null, doc);  // Add any selection criteria (from behaviors)
         return doc;
     }
     /**
@@ -505,30 +477,10 @@ public class MongodbTable extends BaseTable
             if (field.isNull())
                 continue;
             Document compareDoc = new Document();
-            compareDoc.append(this.getJSONOperator(null), this.getFieldData(field));
+            compareDoc.append(FileListener.getJSONOperator(null), field.getBsonData());
             doc.append(field.getFieldName(false, false, true), compareDoc);
         }
         return doc;
-    }
-    /**
-     * Get the mongo operator for this SQL operator.
-     * @param seekSign The standard SQL operator
-     * @return The mongodb comparison operator
-     */
-    public static String getJSONOperator(String seekSign) {
-        if (FileListener.EQUALS.equals(seekSign))
-            return "$eq";
-        else if (FileListener.NOT_EQUAL.equals(seekSign))
-            return "$ne";
-        else if (FileListener.LESS_THAN_EQUAL.equals(seekSign))
-            return "$lte";
-        else if (FileListener.GREATER_THAN_EQUAL.equals(seekSign))
-            return "$gte";
-        else if (FileListener.LESS_THAN.equals(seekSign))
-            return "$lt";
-        else if (FileListener.GREATER_THAN.equals(seekSign))
-            return "$gt";
-        return "$eq";
     }
     /**
      * Read the record given the ID to this persistent object.

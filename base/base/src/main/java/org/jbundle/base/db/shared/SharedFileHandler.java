@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Vector;
 
+import org.bson.Document;
 import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.db.filter.FileFilter;
 import org.jbundle.base.field.BaseField;
@@ -101,7 +102,7 @@ public class SharedFileHandler extends FileFilter
     /**
      * Add the criteria to the SQL string.
      */
-    public boolean doRemoteCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean doRemoteCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
         BaseField fldTarget = null;
         if (typeFieldName != null)
@@ -109,11 +110,11 @@ public class SharedFileHandler extends FileFilter
         else
             fldTarget = this.getOwner().getField(m_iTypeField);
         String strToCompare = Integer.toString(m_iTargetValue);
-        boolean bDontSkip = this.fieldCompare(fldTarget, strToCompare, DBConstants.EQUALS, strbFilter, bIncludeFileName, vParamList);
+        boolean bDontSkip = this.fieldCompare(fldTarget, strToCompare, DBConstants.EQUALS, strbFilter, bIncludeFileName, vParamList, doc);
         if (strbFilter != null)
             bDontSkip = true; // Don't need to compare, if I'm creating a filter to pass to SQL 
         if (bDontSkip)
-            return super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList);    // Dont skip this record
+            return super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList, doc);    // Dont skip this record
         else
             return false;   // Skip this one
     }

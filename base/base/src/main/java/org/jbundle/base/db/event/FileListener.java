@@ -14,11 +14,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Vector;
 
+import org.bson.Document;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.BaseListener;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.RecordOwner;
+import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.thin.base.db.FieldInfo;
 import org.jbundle.util.osgi.finder.ClassServiceUtility;
@@ -188,20 +190,21 @@ public class FileListener extends BaseListener
      * @param strbFilter The SQL query string to add to.
      * @param bIncludeFileName Include the file name with this query?
      * @param vParamList The param list to add the raw data to (for prepared statements).
+     * @param doc
      * @return True if you should not skip this record (does a check on the local data).
      */
-    public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
         boolean bDontSkip = true;
         FileListener nextListener = (FileListener)this.getNextEnabledListener();
         if (nextListener != null)
         {
             boolean bOldState = nextListener.setEnabledListener(false);  // Don't allow it to be called again
-            bDontSkip = nextListener.doLocalCriteria(strbFilter, bIncludeFileName, vParamList);
+            bDontSkip = nextListener.doLocalCriteria(strbFilter, bIncludeFileName, vParamList, doc);
             nextListener.setEnabledListener(bOldState);
         }
         else if (this.getOwner() != null)
-            bDontSkip = this.getOwner().doLocalCriteria(strbFilter, bIncludeFileName, vParamList);
+            bDontSkip = this.getOwner().doLocalCriteria(strbFilter, bIncludeFileName, vParamList, doc);
         return bDontSkip; // Don't skip (no criteria)
     }
     /**
@@ -209,20 +212,21 @@ public class FileListener extends BaseListener
      * @param strbFilter The SQL query string to add to.
      * @param bIncludeFileName Include the file name with this query?
      * @param vParamList The param list to add the raw data to (for prepared statements).
+     * @param doc
      * @return True if you should not skip this record (does a check on the local data).
      */
-    public boolean doRemoteCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean doRemoteCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
         boolean bDontSkip = true;
         FileListener nextListener = (FileListener)this.getNextEnabledListener();
         if (nextListener != null)
         {
             boolean bOldState = nextListener.setEnabledListener(false);  // Don't allow it to be called again
-            bDontSkip = nextListener.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList);
+            bDontSkip = nextListener.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList, doc);
             nextListener.setEnabledListener(bOldState);
         }
         else if (this.getOwner() != null)
-            bDontSkip = this.getOwner().doRemoteCriteria(strbFilter, bIncludeFileName, vParamList);
+            bDontSkip = this.getOwner().doRemoteCriteria(strbFilter, bIncludeFileName, vParamList, doc);
         return bDontSkip; // Don't skip (no criteria)
     }
     /**
@@ -269,9 +273,10 @@ public class FileListener extends BaseListener
      * @param strbFilter The SQL query string to add to.
      * @param bIncludeFileName Include the file name with this query?
      * @param vParamList The param list to add the raw data to (for prepared statements).
+     * @param doc
      * @return true if the comparison is valid (For local Criteria or LTable).
      */
-    public boolean fieldCompare(BaseField recordField, String strCompare, String strSeekSign, StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean fieldCompare(BaseField recordField, String strCompare, String strSeekSign, StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
         if (strbFilter != null)
         { // Set up the SQL search string
@@ -293,9 +298,15 @@ public class FileListener extends BaseListener
                 strSign = DBConstants.EQUALS;
             strbFilter.append(recordField.getFieldName(true, bIncludeFileName, true) + " " + recordField.getSQLFilter(strSign, strCompare, true));
             return true;
-        }
-        else
-        {
+        } else if (doc != null) { // Set up the SQL search string
+            try {
+                FileListener.addComparisonToDoc(doc, FileListener.getJSONOperator(strSeekSign), recordField.getFieldName(true, bIncludeFileName, true), strCompare);
+            } catch (DBException ex) {
+                ex.printStackTrace();
+                System.out.println(ex.getMessage());
+            }
+            return true;
+        } else {
             String strRecord = recordField.getString();
             if ((strCompare == null) || (strRecord == null))
             {
@@ -333,9 +344,10 @@ public class FileListener extends BaseListener
      * @param strbFilter The SQL query string to add to.
      * @param bIncludeFileName Include the file name with this query?
      * @param vParamList The param list to add the raw data to (for prepared statements).
+     * @param doc
      * @return true if the comparison is valid (For local Criteria or LTable).
      */
-    public boolean fieldCompare(BaseField recordField, BaseField compareField, String strSeekSign, StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean fieldCompare(BaseField recordField, BaseField compareField, String strSeekSign, StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
         if (strbFilter != null)
         { // Set up the SQL search string
@@ -360,9 +372,15 @@ public class FileListener extends BaseListener
             }
             strbFilter.append(recordField.getFieldName(true, bIncludeFileName, true) + compareField.getSQLFilter(strSeekSign, strCompare, true));   //**FIX THIS**
             return true;
-        }
-        else
-        {
+        } else if (doc != null) { // Set up the SQL search string
+            try {
+                FileListener.addComparisonToDoc(doc, FileListener.getJSONOperator(strSeekSign), recordField.getFieldName(true, bIncludeFileName, true), compareField.getBsonData());
+            } catch (DBException ex) {
+                ex.printStackTrace();
+                System.out.println(ex.getMessage());
+            }
+            return true;
+        } else {
             int compare = recordField.compareTo(compareField);
             if ((strSeekSign.equals("!=")) || (strSeekSign.equals(NOT_EQUAL)))
                 return (compare != 0);
@@ -377,6 +395,45 @@ public class FileListener extends BaseListener
         //  All Others
             return (compare == 0);
         }
+    }
+    /**
+     * Add this comparison to the search doc
+     * @param doc The search document
+     * @param jsonOperator
+     * @param fieldName
+     * @param data
+     * @return doc with modifications
+     * @throws DBException
+     */
+    public static Document addComparisonToDoc(Document doc, String jsonOperator, String fieldName, Object data) throws DBException {
+        if (doc.get(fieldName) == null) {
+            Document compareDoc = new Document();
+            compareDoc.append(jsonOperator, data);
+            doc.append(fieldName, compareDoc);
+        } else {
+            ((Document) doc.get(fieldName)).put(jsonOperator, data);
+        }
+        return doc;
+    }
+    /**
+     * Get the mongo operator for this SQL operator.
+     * @param seekSign The standard SQL operator
+     * @return The mongodb comparison operator
+     */
+    public static String getJSONOperator(String seekSign) {
+        if (FileListener.EQUALS.equals(seekSign))
+            return "$eq";
+        else if (FileListener.NOT_EQUAL.equals(seekSign))
+            return "$ne";
+        else if (FileListener.LESS_THAN_EQUAL.equals(seekSign))
+            return "$lte";
+        else if (FileListener.GREATER_THAN_EQUAL.equals(seekSign))
+            return "$gte";
+        else if (FileListener.LESS_THAN.equals(seekSign))
+            return "$lt";
+        else if (FileListener.GREATER_THAN.equals(seekSign))
+            return "$gt";
+        return "$eq";
     }
     /**
      * Marshall all of this listener's params to pass to mirror copy to initialize a new object.

@@ -472,8 +472,8 @@ public class QueryRecord extends Record
         // Sync the mode
         if (recordLeft != null)
         {   // Special test for local criteria
-            if ((this.handleLocalCriteria(null, false, null) == false)
-                || (this.handleRemoteCriteria(null, false, null) == false))
+            if ((this.handleLocalCriteria(null, false, null, null) == false)
+                || (this.handleRemoteCriteria(null, false, null, null) == false))
             { // This record didn't pass the test, get the next one that matches
                 if ((iRelPosition > 0) || (iRelPosition == DBConstants.FIRST_RECORD))
                     return this.moveTableQuery(+1);

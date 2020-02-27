@@ -7,6 +7,7 @@ package org.jbundle.base.db.filter;
 import java.util.HashSet;
 import java.util.Vector;
 
+import org.bson.Document;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.ListenerOwner;
 
@@ -84,12 +85,12 @@ public class ListFileFilter extends FileFilter
     /**
      * Check the record locally.
      */
-    public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
         Object objTargetValue = m_fldTarget.getData();
         if ((m_hsFilter != null) && (!m_hsFilter.isEmpty()) && (!m_hsFilter.contains(objTargetValue)))
             return false;
-        return super.doLocalCriteria(strbFilter, bIncludeFileName, vParamList);
+        return super.doLocalCriteria(strbFilter, bIncludeFileName, vParamList, doc);
     }
     /**
      * ClearFilter Method.

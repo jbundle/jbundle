@@ -22,6 +22,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.db.event.FileListener;
@@ -37,8 +38,10 @@ import org.jbundle.base.model.Debug;
 import org.jbundle.base.model.ScreenConstants;
 import org.jbundle.base.model.ScreenModel;
 import org.jbundle.base.model.Utility;
+import org.jbundle.model.DBException;
 import org.jbundle.model.Freeable;
 import org.jbundle.model.db.Convert;
+import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
 import org.jbundle.model.screen.ComponentParent;
 import org.jbundle.model.screen.GridScreenParent;
@@ -747,7 +750,7 @@ public class BaseField extends FieldInfo
         String strValue = null;
         String strSign = strSeekSign;
         if ((strSign == null) || (strSign.equals("==")))
-            strSign = "=";
+            strSign = DBConstants.EQUALS;
         FieldInfo field = this.getField();
         boolean bIsNull = true;
         if (field != null) if (!field.isNull())
@@ -868,6 +871,16 @@ public class BaseField extends FieldInfo
     public String getSQLString()
     {
         return this.toString();     // By Default
+    }
+    /**
+     * Get the data from this field in the native mongo format
+     * @return The data from this field in raw format.
+     */
+    public Object getBsonData() throws DBException
+    {
+        if (this.isNull())
+            return null;
+        return this.getData();
     }
     /**
      * For binary fields, set the current state.

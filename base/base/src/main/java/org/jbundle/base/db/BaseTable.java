@@ -219,7 +219,7 @@ public abstract class BaseTable extends FieldTable
     public boolean doLocalCriteria(StringBuffer strFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
     {   // Default BaseListener
         if (this.isTable())   // For tables, do the remote criteria now
-            return this.getRecord().handleRemoteCriteria(strFilter, bIncludeFileName, vParamList);  // If can't handle remote
+            return this.getRecord().handleRemoteCriteria(strFilter, bIncludeFileName, vParamList, null);  // If can't handle remote
         else
             return true;    // Record okay, don't skip it
     }
@@ -805,7 +805,7 @@ public abstract class BaseTable extends FieldTable
             this.getRecord().setEditMode(Constants.EDIT_CURRENT);
 
             // Special test for local criteria
-            if (this.getRecord().handleLocalCriteria(null, false, null) == false)
+            if (this.getRecord().handleLocalCriteria(null, false, null, null) == false)
             { // This record didn't pass the test, get the next one that matches
                 if ((iRelPosition > 0) || (iRelPosition == DBConstants.FIRST_RECORD))
                 {

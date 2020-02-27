@@ -7,24 +7,17 @@ package org.jbundle.app.program.project.screen;
 
 import java.util.*;
 
+import org.bson.Document;
 import org.jbundle.base.db.*;
-import org.jbundle.thin.base.util.*;
 import org.jbundle.thin.base.db.*;
-import org.jbundle.base.db.event.*;
 import org.jbundle.base.db.filter.*;
 import org.jbundle.base.field.*;
-import org.jbundle.base.field.convert.*;
-import org.jbundle.base.field.event.*;
 import org.jbundle.base.screen.model.*;
 import org.jbundle.base.screen.model.util.*;
 import org.jbundle.base.model.*;
-import org.jbundle.base.util.*;
-import org.jbundle.model.*;
 import org.jbundle.model.db.*;
-import org.jbundle.model.screen.*;
 import org.jbundle.app.program.project.db.*;
 import org.jbundle.base.screen.model.calendar.*;
-import javax.swing.*;
 import org.jbundle.util.calendarpanel.model.*;
 
 /**
@@ -111,13 +104,13 @@ public class ProjectTaskCalendar extends CalendarScreen
         this.setEditing(true);
         this.getMainRecord().addListener(new FileFilter(null)
         {
-            public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+            public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
             {   // Between start and end dates? (Defaults to Currentdate thru +1 year)
                 boolean bDontSkip = true;
                 if (this.getOwner().getField(ProjectTask.START_DATE_TIME).isNull())
                     bDontSkip = false;
                 if (bDontSkip)
-                    return super.doLocalCriteria(strbFilter, bIncludeFileName, vParamList);    // Dont skip this record
+                    return super.doLocalCriteria(strbFilter, bIncludeFileName, vParamList, doc);    // Dont skip this record
                 else
                     return false;   // Skip this one
             }

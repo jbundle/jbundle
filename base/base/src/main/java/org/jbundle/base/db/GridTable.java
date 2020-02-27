@@ -854,7 +854,7 @@ public class GridTable extends PassThruTable
                         // Fake the handleCriteria to think this is a slave. NOTE: This is not cool in a multitasked environment.
                         int iDBMasterSlave = record.getTable().getCurrentTable().getDatabase().getMasterSlave();
                         record.getTable().getCurrentTable().getDatabase().setMasterSlave(RecordOwner.MASTER | RecordOwner.SLAVE);
-                        boolean bMatch = record.handleRemoteCriteria(null, false, null);
+                        boolean bMatch = record.handleRemoteCriteria(null, false, null, null);
                         record.getTable().getCurrentTable().getDatabase().setMasterSlave(iDBMasterSlave);
                         if (bMatch)
                         {

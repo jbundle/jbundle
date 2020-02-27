@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Vector;
 
+import org.bson.Document;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.field.BaseField;
@@ -203,12 +204,13 @@ public class CompareFileFilter extends FileFilter
      * @param strbFilter The SQL query string to add to.
      * @param bIncludeFileName Include the file name with this query?
      * @param vParamList The param list to add the raw data to (for prepared statements).
+     * @param doc
      * @return True if you should not skip this record (does a check on the local data).
      */
-    public boolean doRemoteCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean doRemoteCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
         if (m_convFlag != null) if (!m_convFlag.getState())
-            return super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList);    // Flag not set, don't process it
+            return super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList, doc);    // Flag not set, don't process it
         BaseField recordField = m_fldToCheck;
         if (m_fldToCheck == null)
             if (fieldNameToCheck != null)
@@ -216,16 +218,16 @@ public class CompareFileFilter extends FileFilter
         if (m_fldToCompare != null)
             if (m_bDontFilterIfNullCompare)
                 if ((m_fldToCompare.isNull()) && (m_fldToCompare.isNullable()))    // Null field
-                    return super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList);    // Dont skip this record
+                    return super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList, doc);    // Dont skip this record
         boolean bDontSkip;
         if (m_fldToCompare != null)
-            bDontSkip = this.fieldCompare(recordField, m_fldToCompare, m_strSeekSign, strbFilter, bIncludeFileName, vParamList);
+            bDontSkip = this.fieldCompare(recordField, m_fldToCompare, m_strSeekSign, strbFilter, bIncludeFileName, vParamList, doc);
         else
-            bDontSkip = this.fieldCompare(recordField, m_strToCompare, m_strSeekSign, strbFilter, bIncludeFileName, vParamList);
+            bDontSkip = this.fieldCompare(recordField, m_strToCompare, m_strSeekSign, strbFilter, bIncludeFileName, vParamList, doc);
         if (strbFilter != null)
             bDontSkip = true; // Don't need to compare, if I'm creating a filter to pass to SQL 
         if (bDontSkip)
-            return super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList);    // Dont skip this record
+            return super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList, doc);    // Dont skip this record
         else
             return false;   // Skip this one
     }

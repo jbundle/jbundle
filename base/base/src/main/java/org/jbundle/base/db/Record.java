@@ -15,6 +15,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import org.bson.Document;
 import org.jbundle.base.db.event.ClearFieldReferenceOnCloseHandler;
 import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.field.*;
@@ -1425,7 +1426,7 @@ public class Record extends FieldList
         }
         //      Next, get the recordset filter
             StringBuffer strbFilter = new StringBuffer();
-            this.handleRemoteCriteria(strbFilter, bIsQueryRecord, vParamList);  // Add any selection criteria (from behaviors)
+            this.handleRemoteCriteria(strbFilter, bIsQueryRecord, vParamList, null);  // Add any selection criteria (from behaviors)
             if (strbFilter.length() > 0)
             {
                 if (strWhere.length() == 0)
@@ -1633,17 +1634,18 @@ public class Record extends FieldList
      * @param strFilter The current SQL WHERE string.
      * @param bIncludeFileName Include the Filename.fieldName in the string.
      * @param vParamList The list of params.
+     * @param doc
      * @return true if the criteria passes.
      * @return false if the criteria fails, and returns without checking further.
      */
-    public boolean handleLocalCriteria(StringBuffer strFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean handleLocalCriteria(StringBuffer strFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
         BaseListener  nextListener = this.getNextEnabledListener();
         boolean bDontSkip = true;
         if (nextListener != null)
-            bDontSkip = ((FileListener)nextListener).doLocalCriteria(strFilter, bIncludeFileName, vParamList);
+            bDontSkip = ((FileListener)nextListener).doLocalCriteria(strFilter, bIncludeFileName, vParamList, doc);
         else
-            bDontSkip = this.doLocalCriteria(strFilter, bIncludeFileName, vParamList);
+            bDontSkip = this.doLocalCriteria(strFilter, bIncludeFileName, vParamList, doc);
         if (bDontSkip == false)
             return bDontSkip; // skip it
         return this.getTable().doLocalCriteria(strFilter, bIncludeFileName, vParamList);    // Give the table a shot at it
@@ -1654,10 +1656,11 @@ public class Record extends FieldList
      * @param strFilter The current SQL WHERE string.
      * @param bIncludeFileName Include the Filename.fieldName in the string.
      * @param vParamList The list of params.
+     * @param doc
      * @return true if the criteria passes.
      * @return false if the criteria fails, and returns without checking further.
      */
-    public boolean doLocalCriteria(StringBuffer strFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean doLocalCriteria(StringBuffer strFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {   // Default BaseListener
         return true;        // Don't skip (default)
     }
@@ -1666,26 +1669,28 @@ public class Record extends FieldList
      * @param strFilter The current SQL WHERE string.
      * @param bIncludeFileName Include the Filename.fieldName in the string.
      * @param vParamList The list of params.
+     * @param doc
      * @return true if the criteria passes.
      * @return false if the criteria fails, and returns without checking further.
      */
-    public boolean handleRemoteCriteria(StringBuffer strFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean handleRemoteCriteria(StringBuffer strFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
         BaseListener  nextListener = this.getNextEnabledListener();
         if (nextListener != null)
-            return ((FileListener)nextListener).doRemoteCriteria(strFilter, bIncludeFileName, vParamList);
+            return ((FileListener)nextListener).doRemoteCriteria(strFilter, bIncludeFileName, vParamList, doc);
         else
-            return this.doRemoteCriteria(strFilter, bIncludeFileName, vParamList);
+            return this.doRemoteCriteria(strFilter, bIncludeFileName, vParamList, doc);
     }
     /**
      * Set up/do the remote criteria.
      * @param strFilter The current SQL WHERE string.
      * @param bIncludeFileName Include the Filename.fieldName in the string.
      * @param vParamList The list of params.
+     * @param doc
      * @return true if the criteria passes.
      * @return false if the criteria fails, and returns without checking further.
      */
-    public boolean doRemoteCriteria(StringBuffer strFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean doRemoteCriteria(StringBuffer strFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {   // Default BaseListener
         return true;            // Default to... don't skip record
     }

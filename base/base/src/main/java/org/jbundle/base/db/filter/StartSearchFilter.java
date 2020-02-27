@@ -11,6 +11,7 @@ package org.jbundle.base.db.filter;
  */
 import java.util.Vector;
 
+import org.bson.Document;
 import org.jbundle.base.db.KeyArea;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
@@ -97,7 +98,7 @@ public class StartSearchFilter extends CompareFileFilter
      * @param vParamList The param list to add the raw data to (for prepared statements).
      * @return True if you should not skip this record (does a check on the local data).
      */
-    public boolean doRemoteCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean doRemoteCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
         BaseField fldToCompare = m_fldToCompare; // Cache this in case it is changed
     
@@ -113,7 +114,7 @@ public class StartSearchFilter extends CompareFileFilter
                 // Now, we have to convert the field to a CDate for the compare to use
         if (m_fldToCheck instanceof DateField)
             this.fakeTheDate();   // Convert the string field to a date for compare
-        boolean bDontSkip = super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList); // Dont skip this record
+        boolean bDontSkip = super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList, doc); // Dont skip this record
         m_fldToCheck = null;
         m_fldToCompare = fldToCompare;   // Set this value back
         m_strSeekSign = strSeekSignSave;  // Restore this.

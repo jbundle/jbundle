@@ -11,6 +11,7 @@ package org.jbundle.base.db.event;
  */
 import java.util.Vector;
 
+import org.bson.Document;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.model.DBConstants;
@@ -95,11 +96,12 @@ public class SoftDeleteHandler extends FileListener
      * @param strbFilter The SQL query string to add to.
      * @param bIncludeFileName Include the file name with this query?
      * @param vParamList The param list to add the raw data to (for prepared statements).
+     * @param doc
      * @return True if you should not skip this record (does a check on the local data).
      */
-    public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
-        boolean bDontSkip = super.doLocalCriteria(strbFilter, bIncludeFileName, vParamList);
+        boolean bDontSkip = super.doLocalCriteria(strbFilter, bIncludeFileName, vParamList, doc);
         if (bDontSkip == true)
         {
             if (m_bFilterThisRecord)

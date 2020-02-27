@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Vector;
 
+import org.bson.Document;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.field.BaseField;
@@ -162,15 +163,16 @@ public class ExtractRangeFilter extends FileFilter
      * @param strbFilter The SQL query string to add to.
      * @param bIncludeFileName Include the file name with this query?
      * @param vParamList The param list to add the raw data to (for prepared statements).
+     * @param doc
      * @return True if you should not skip this record (does a check on the local data).
      */
-    public boolean doRemoteCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean doRemoteCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {   // Between start and end dates? (Defaults to Currentdate thru +1 year)
         boolean bDontSkip2 = true;
         if (!m_fldStart.isNull())
         {
             BaseField endField = this.getOwner().getField(endFieldName);
-            bDontSkip2 = this.fieldCompare(endField, m_fldStart, GREATER_THAN_EQUAL, strbFilter, bIncludeFileName, vParamList);
+            bDontSkip2 = this.fieldCompare(endField, m_fldStart, GREATER_THAN_EQUAL, strbFilter, bIncludeFileName, vParamList, doc);
         }
         BaseField pfldHigh = m_fldEnd;
         if (m_iPadfldEnd != DONT_PAD_END_FIELD)
@@ -190,7 +192,7 @@ public class ExtractRangeFilter extends FileFilter
         if (!m_fldEnd.isNull())
         {
             BaseField startField = this.getOwner().getField(startFieldName);
-            bDontSkip = this.fieldCompare(startField, pfldHigh, LESS_THAN_EQUAL, strbFilter, bIncludeFileName, vParamList);
+            bDontSkip = this.fieldCompare(startField, pfldHigh, LESS_THAN_EQUAL, strbFilter, bIncludeFileName, vParamList, doc);
         }
         if (m_iPadfldEnd != DONT_PAD_END_FIELD)
         {
@@ -203,7 +205,7 @@ public class ExtractRangeFilter extends FileFilter
             bDontSkip2 = true;
         }
         if (bDontSkip && bDontSkip2)
-            return super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList);    // Dont skip this record
+            return super.doRemoteCriteria(strbFilter, bIncludeFileName, vParamList, doc);    // Dont skip this record
         else
             return false;   // Skip this one
     }

@@ -60,6 +60,9 @@ public class DatabaseTest extends BaseTest
     public void testDatabase()
     {
         this.addTestTableRecords(testTable);
+        boolean auto = false;
+        if (testTable.getField(TestTable.kID) instanceof CounterField)
+            auto = true;
 
         testTable.setOpenMode(DBConstants.OPEN_NORMAL);  // Make sure refresh is turned off.
 
@@ -684,8 +687,9 @@ public class DatabaseTest extends BaseTest
 
     BaseField fieldKey = new StringField(null, null, -1, null, null);
     fieldKey.setString("B");
-    BaseField fieldID = new ReferenceField(null, null, -1, null, null);
-    fieldID.setValue(2);
+    BaseField fieldID = new ReferenceField(testTable, null, -1, null, null);
+    fieldID.setString(recordTwo);
+    testTable.removeField(fieldID);
 
     cat.debug("Now, try to read through a range of records (Compare field!)");
     try   {     
@@ -787,7 +791,12 @@ public class DatabaseTest extends BaseTest
     cat.debug("Now, start the concurrency testing");
 
     cat.debug("First, open a second copy of the file");
-    TestTable testTable2 = new TestTableNoAuto(testTable.getRecordOwner());
+
+    TestTable testTable2 = null;
+    if (auto)
+        testTable2 = new TestTable(testTable.getRecordOwner());
+    else
+        testTable2 = new TestTableNoAuto(testTable.getRecordOwner());
     try   {
         testTable2.open();              // Open the table
     } catch (DBException e)   {
@@ -818,10 +827,10 @@ public class DatabaseTest extends BaseTest
     try   {     
         testTable.setKeyArea(DBConstants.MAIN_KEY_AREA);
         testTable2.setKeyArea(DBConstants.MAIN_KEY_AREA);
-        testTable.getField(TestTable.kID).setString("2");
+        testTable.getField(TestTable.kID).setString(recordTwo);
         bSuccess = testTable.seek("=");
         cat.debug("Seek file 1 - Primary: " + bSuccess + "");
-        testTable2.getField(TestTable.kID).setString("2");
+        testTable2.getField(TestTable.kID).setString(recordTwo);
         bSuccess = testTable2.seek("=");
         cat.debug("Seek file 2 - Primary: " + bSuccess + "");
         cat.debug("Lock(edit) file 1");

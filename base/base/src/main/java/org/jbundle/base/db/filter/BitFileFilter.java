@@ -6,6 +6,7 @@ package org.jbundle.base.db.filter;
 
 import java.util.Vector;
 
+import org.bson.Document;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.BitReferenceField;
@@ -89,7 +90,7 @@ public class BitFileFilter extends FileFilter
     /**
      * Check the record locally.
      */
-    public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList)
+    public boolean doLocalCriteria(StringBuffer strbFilter, boolean bIncludeFileName, Vector<BaseField> vParamList, Document doc)
     {
         Integer objTargetValue = (Integer)m_fldToCompare.getData();
         if (m_fldRecordTarget == null)
@@ -114,7 +115,7 @@ public class BitFileFilter extends FileFilter
         if (bCheckForMatch)
             if ((iMask & iTargetValue & iRecordValue) == 0)
                 return false;   // No match
-        return super.doLocalCriteria(strbFilter, bIncludeFileName, vParamList);
+        return super.doLocalCriteria(strbFilter, bIncludeFileName, vParamList, doc);
     }
     /**
      * Get the foreign field that references this record.

@@ -10,10 +10,12 @@ package org.jbundle.base.field;
  *      don@tourgeek.com
  */
 
+import org.bson.types.ObjectId;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.SQLParams;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBSQLTypes;
+import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
 import org.jbundle.util.osgi.BundleConstants;
@@ -115,6 +117,22 @@ public class CounterField extends ObjectField
                 this.setDataClass(Integer.class);   // Default
         }
         return super.getDataClass();
+    }
+    /**
+     * Get the data from this field in the native mongo format
+     * @return The data from this field in raw format.
+     */
+    public Object getBsonData() throws DBException
+    {
+        if (this.isNull())
+            return null;
+            try {
+                return new ObjectId(this.getString());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println(ex.getMessage());
+                throw this.getRecord().getTable().getDatabase().convertError(ex);
+            }
     }
     /**
      * Creates a new object of the same class as this object.
