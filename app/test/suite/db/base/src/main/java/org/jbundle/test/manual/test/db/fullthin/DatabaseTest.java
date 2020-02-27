@@ -300,14 +300,14 @@ public abstract class DatabaseTest extends BaseTest
             record.getField("TestKey").setString("X");
             bSuccess = testTable.seek("=");
         } catch (DBException e)   {
-            assertTrue("Error on read non-existant 2nd key", false);
+            assertTrue("Error on read non-existent 2nd key", false);
             cat.debug("Error: " + e.getMessage() + "");
             cat.debug(testTable.toString());
             System.exit(0);
         }
         if (bSuccess)
         {
-            assertTrue("Error found non-existant key", false);
+            assertTrue("Error found non-existent key", false);
             cat.debug("Error, found key");
             cat.debug(testTable.toString());
             System.exit(0);

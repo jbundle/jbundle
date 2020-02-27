@@ -6,6 +6,7 @@ package org.jbundle.test.manual.test.db.thick;
 //******************************************************************************
 // Test the basic table functions (add, remove, move, etc.)
 //******************************************************************************
+import com.sun.corba.se.spi.ior.ObjectId;
 import org.apache.log4j.Category;
 import org.jbundle.app.test.test.db.TestTable;
 import org.jbundle.app.test.test.db.TestTableNoAuto;
@@ -15,10 +16,12 @@ import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.db.filter.CompareFileFilter;
 import org.jbundle.base.db.filter.StringSubFileFilter;
 import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.CounterField;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.field.StringField;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 
 /**
@@ -261,7 +264,10 @@ public class DatabaseTest extends BaseTest
         try   {
             testTable.setKeyArea("PrimaryKey");
             testTable.addNew();
-            testTable.getField(TestTable.kID).setString("3");
+            if (testTable.getField(TestTable.kID).getDataClass() == Integer.class)
+                testTable.getField(TestTable.kID).setString("3");
+            else
+                testTable.getField(TestTable.kID).setString("000000000000000000000003");
             bSuccess = testTable.seek("=");
         } catch (DBException e)   {
             assertTrue("Error on seek", false);
@@ -271,7 +277,7 @@ public class DatabaseTest extends BaseTest
         }
         if (bSuccess)
         {
-            assertTrue("Error found non-existant key", false);
+            assertTrue("Error found non-existent key", false);
             cat.debug("Error, found key");
             cat.debug(testTable.toString());
             System.exit(0);
@@ -325,14 +331,14 @@ public class DatabaseTest extends BaseTest
             testTable.getField(TestTable.TEST_KEY).setString("X");
             bSuccess = testTable.seek("=");
         } catch (DBException e)   {
-            assertTrue("Error on read non-existant 2nd key", false);
+            assertTrue("Error on read non-existent 2nd key", false);
             cat.debug("Error: " + e.getMessage() + "");
             cat.debug(testTable.toString());
             System.exit(0);
         }
         if (bSuccess)
         {
-            assertTrue("Error found non-existant key", false);
+            assertTrue("Error found non-existent key", false);
             cat.debug("Error, found key");
             cat.debug(testTable.toString());
             System.exit(0);
@@ -897,6 +903,10 @@ public class DatabaseTest extends BaseTest
 
         GridTable recordList = new GridTable(null, testTable);
         try   {
+            boolean auto = false;
+            if (testTable.getField(TestTable.kID) instanceof CounterField)
+                auto = true;
+
             Record newRecord = null;
 //          testTable.addListener(new CompareFileFilter(TestTable.TEST_KEY, "B", ">", null, false));
 
@@ -987,7 +997,8 @@ public class DatabaseTest extends BaseTest
             cat.debug("Adding a new record!");
             newRecord = recordList.getRecord();
             newRecord.addNew();
-            newRecord.getField(TestTable.kID).setString("5");
+            if (!auto)
+                newRecord.getField(TestTable.kID).setString("5");
             newRecord.getField(TestTable.TEST_NAME).setString("B - Good Agent");
             newRecord.getField(TestTable.TEST_KEY).setString("B");
             newRecord.add();

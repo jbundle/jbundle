@@ -73,10 +73,10 @@ public class CompareFileFilter extends FileFilter
     }
     /**
      * Constructor.
-     * @param fsToCheck The field sequence in this record to compare (see m_fldToCheck).
-     * @param szstrSeekSign The comparison sign.
+     * @param fieldNameToCheck The field sequence in this record to compare (see m_fldToCheck).
+     * @param strSeekSign The comparison sign.
      * @param pconvFlag If this field is non-null and the state is false, don't do this comparison.
-     * @param bValidOnNull Is this record valid if the compare field is null?
+     * @param bDontFilterIfNullCompare Is this record valid if the compare field is null?
      */
     public CompareFileFilter(String fieldNameToCheck, String strToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare)
     {
@@ -85,10 +85,10 @@ public class CompareFileFilter extends FileFilter
     }
     /**
      * Constructor.
-     * @param fsToCheck The field sequence in this record to compare (see m_fldToCheck).
-     * @param szstrSeekSign The comparison sign.
+     * @param fieldNameToCheck The field sequence in this record to compare (see m_fldToCheck).
+     * @param strSeekSign The comparison sign.
      * @param pconvFlag If this field is non-null and the state is false, don't do this comparison.
-     * @param bValidOnNull Is this record valid if the compare field is null?
+     * @param bDontFilterIfNullCompare Is this record valid if the compare field is null?
      */
     public CompareFileFilter(String fieldNameToCheck, BaseField fldToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare)
     {
@@ -97,10 +97,10 @@ public class CompareFileFilter extends FileFilter
     }
     /**
      * Constructor.
-     * @param fsToCheck The field sequence in this record to compare (see m_fldToCheck).
-     * @param szstrSeekSign The comparison sign.
+     * @param fieldToCheck The field sequence in this record to compare (see m_fldToCheck).
+     * @param strSeekSign The comparison sign.
      * @param pconvFlag If this field is non-null and the state is false, don't do this comparison.
-     * @param bValidOnNull Is this record valid if the compare field is null?
+     * @param bDontFilterIfNullCompare Is this record valid if the compare field is null?
      */
     public CompareFileFilter(BaseField fieldToCheck, String strToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare)
     {
@@ -110,8 +110,8 @@ public class CompareFileFilter extends FileFilter
     /**
      * Constructor.
      * @param fldToCheck The field in this record to compare.
-     * @param szstrSeekSign The comparison sign.
-     * @param pfldToCompare The field to compare the target field to.
+     * @param strSeekSign The comparison sign.
+     * @param fldToCompare The field to compare the target field to.
      */
     public CompareFileFilter(BaseField fldToCheck, BaseField fldToCompare, String strSeekSign)
     {
@@ -121,10 +121,10 @@ public class CompareFileFilter extends FileFilter
     /**
      * Constructor.
      * @param fldToCheck The field in this record to compare.
-     * @param szstrSeekSign The comparison sign.
+     * @param strSeekSign The comparison sign.
      * @param pconvFlag If this field is non-null and the state is false, don't do this comparison.
-     * @param pfldToCompare The field to compare the target field to.
-     * @param bValidOnNull Is this record valid if the compare field is null?
+     * @param fldToCompare The field to compare the target field to.
+     * @param bDontFilterIfNullCompare Is this record valid if the compare field is null?
      */
     public CompareFileFilter(BaseField fldToCheck, BaseField fldToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare)
     {
@@ -133,13 +133,13 @@ public class CompareFileFilter extends FileFilter
     }
     /**
      * Constructor.
-     * @param fsToCheck The field sequence in this record to compare (see m_fldToCheck).
+     * @param fieldNameToCheck The field sequence in this record to compare (see m_fldToCheck).
      * @param fldToCheck The field in this record to compare.
-     * @param szstrSeekSign The comparison sign.
+     * @param strSeekSign The comparison sign.
      * @param pconvFlag If this field is non-null and the state is false, don't do this comparison.
-     * @param pfldToCompare The field to compare the target field to.
+     * @param fldToCompare The field to compare the target field to.
      * @param strToCompare The string to compare the target field to.
-     * @param bValidOnNull Is this record valid if the compare field is null?
+     * @param bDontFilterIfNullCompare Is this record valid if the compare field is null?
      */
     public void init(Record record, String fieldNameToCheck, String strToCompare, String strSeekSign, Converter pconvFlag, boolean bDontFilterIfNullCompare, BaseField fldToCheck, BaseField fldToCompare)
     {
@@ -285,7 +285,7 @@ public class CompareFileFilter extends FileFilter
     /**
      * Get the foreign field that references this record.
      * There can be more than one, so supply an index until you get a null.
-     * @param iCount The index of the reference to retrieve
+     * @param iIndex The index of the reference to retrieve
      * @return The referenced field
      */
     public BaseField getReferencedField(int iIndex)

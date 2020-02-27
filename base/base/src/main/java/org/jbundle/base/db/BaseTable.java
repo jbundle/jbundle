@@ -916,6 +916,7 @@ public abstract class BaseTable extends FieldTable
     {
         if ((iHandleType == DBConstants.BOOKMARK_HANDLE) && (bookmark instanceof String))     // It is okay to pass in a string, but convert it first!
             if ((this.getRecord().getCounterField() != null) || (this.getRecord().getKeyArea(DBConstants.MAIN_KEY_AREA).getKeyFields() > 1))
+                if (this.getRecord().getCounterField().getData() == Integer.class)
         {   // As a convenience convert a string bookmark to the proper bookmark
             try   {
             	bookmark = Converter.stripNonNumber(bookmark.toString());
@@ -1364,7 +1365,7 @@ public abstract class BaseTable extends FieldTable
      * Is the first record in the file?
      * @return false if file position is at first record.
      */
-    public boolean doHasPrevious()
+    public boolean doHasPrevious() throws DBException
     {
         if ((m_iRecordStatus & DBConstants.RECORD_AT_BOF) != 0)
             return false; // Already at BOF (can't be one before)

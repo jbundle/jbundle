@@ -57,7 +57,9 @@ public class CounterField extends ObjectField
     /**
      * The not-a-number integer value.
      */
-    public static Long MINUS_ONE = new Long(-1);
+    public static final Long MINUS_ONE = new Long(-1);
+    public static final String MINHEX = "000000000000000000000000";
+    public static final String MAXHEX = "ffffffffffffffffffffffff";
 
     /**
      * Constructor.
@@ -102,9 +104,9 @@ public class CounterField extends ObjectField
             if (this.getRecord() != null) // Always
                 if (this.getRecord().getTable() != null)
                     if (this.getRecord().getTable().getDatabase() != null)
-                        if (this.getRecord().getTable().getProperty(SQLParams.COUNTER_OBJECT_CLASS) != null) {
+                        if (this.getRecord().getTable().getDatabase().getProperty(SQLParams.COUNTER_OBJECT_CLASS) != null) {
                             try {
-                                this.setDataClass(Class.forName(this.getRecord().getTable().getProperty(SQLParams.COUNTER_OBJECT_CLASS)));
+                                this.setDataClass(Class.forName(this.getRecord().getTable().getDatabase().getProperty(SQLParams.COUNTER_OBJECT_CLASS)));
                             } catch (ClassNotFoundException e) {
                                 // Ignore - Integer is fine
                             }
@@ -132,9 +134,27 @@ public class CounterField extends ObjectField
      */
     public void setToLimit(int iAreaDesc)   // Set this field to the largest or smallest value
     {   // By default compare as ASCII strings
-        Object tempLong = MIN;   // Lowest value
-        if (iAreaDesc == DBConstants.END_SELECT_KEY)
-            tempLong = MAX;   // Highest value
+        Object tempLong = null;
+        if (iAreaDesc == DBConstants.START_SELECT_KEY) {
+            if (this.getDataClass() == Long.class)
+                tempLong = MIN;   // Lowest value
+            else if (this.getDataClass() == Short.class)
+                tempLong = ShortField.MIN;   // Lowest value
+            else if (this.getDataClass() == Integer.class)
+                tempLong = IntegerField.MIN;   // Lowest value
+            else if (this.getDataClass() == String.class)
+                tempLong = MINHEX;   // Lowest value
+        }
+        if (iAreaDesc == DBConstants.END_SELECT_KEY) {
+            if (this.getDataClass() == Long.class)
+                tempLong = MAX;   // Highest value
+            else if (this.getDataClass() == Short.class)
+                tempLong = ShortField.MAX;   // Highest value
+            else if (this.getDataClass() == Integer.class)
+                tempLong = IntegerField.MAX;   // Highest value
+            else if (this.getDataClass() == String.class)
+                tempLong = MAXHEX;   // Highest value
+        }
         this.doSetData(tempLong, DBConstants.DONT_DISPLAY, DBConstants.SCREEN_MOVE);
     }
     /**

@@ -205,7 +205,7 @@ public class HierarchicalTable extends BaseSharedTable
      * Is the first record in the file?
      * @return false if file position is at first record.
      */
-    public boolean hasPrevious()
+    public boolean hasPrevious() throws DBException
     {
         return this.doHasPrevious();
     }

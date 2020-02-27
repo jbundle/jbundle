@@ -16,11 +16,10 @@ import org.bson.Document;
 
 import java.util.*;
 
-import org.jbundle.base.db.BaseDatabase;
-import org.jbundle.base.db.BaseTable;
-import org.jbundle.base.db.KeyArea;
-import org.jbundle.base.db.Record;
-import org.jbundle.base.db.SQLParams;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
+import org.jbundle.base.db.*;
+import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.CounterField;
 import org.jbundle.base.model.DBConstants;
@@ -28,8 +27,6 @@ import org.jbundle.model.DBException;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.thin.base.db.buff.str.StrBuffer;
-
 
 /**
  * MongodbTable - Table for JDBC queries.
@@ -120,16 +117,27 @@ public class MongodbTable extends BaseTable
         BaseField field = (BaseField)fieldInfo;
         if (!field.isSelected())
             return field.initField(DBConstants.DONT_DISPLAY);   // Not selected, don't move data
-        Object data = document.get(field.getFieldName());
-        if (data != null)
-            if (data.getClass() != field.getDataClass()) {
-                try {
-                    data = Converter.convertObjectToDatatype(data, field.getDataClass(), null);
-                } catch (Exception ex) {
-                    return field.setString(data.toString(), DBConstants.DONT_DISPLAY, DBConstants.READ_MOVE);   // TODO Fix this
-                }
-            }
+        Object data = this.getDataField(field, true);
         return field.setData(data, DBConstants.DONT_DISPLAY, DBConstants.READ_MOVE);
+    }
+    /**
+     * Get the raw data for this field from the current mongo document.
+     * @param field The field to move the current data to.
+     * @return The raw data from the mongo document.
+     */
+    public Object getDataField(Field field, boolean convertToFieldDataType)
+    {
+        Object data = document.get(field.getFieldName(false, false, true));
+        if (convertToFieldDataType)
+            if (data != null)
+                if (data.getClass() != field.getDataClass()) {
+                    try {
+                        data = Converter.convertObjectToDatatype(data, field.getDataClass(), null);
+                    } catch (Exception ex) {
+                        return field.setString(data.toString(), DBConstants.DONT_DISPLAY, DBConstants.READ_MOVE);   // TODO Fix this
+                    }
+            }
+        return data;
     }
     /**
      * Move all the fields to the output buffer.
@@ -148,8 +156,30 @@ public class MongodbTable extends BaseTable
      */
     public void fieldToData(Field field) throws DBException
     {
-        if (!field.isNull())
-            document.append(field.getFieldName(true, false, true), field.getData());
+        if (!field.isNull()) {
+            document.append(field.getFieldName(true, false, true), this.getFieldData(field));
+        }
+    }
+    /**
+     * Get the data from this field in the native mongo format
+     * @param field The field to move to the data area.
+     * @return The data from this field in raw format.
+     */
+    public Object getFieldData(Field field) throws DBException
+    {
+        if (field.isNull())
+            return null;
+        if (field != this.getRecord().getCounterField())
+            return field.getData();
+        else {
+            try {
+                return new ObjectId(field.getString());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println(ex.getMessage());
+                throw this.getDatabase().convertError(ex);
+            }
+        }
     }
     /**
      * Open this table (re-query the table).
@@ -162,7 +192,7 @@ public class MongodbTable extends BaseTable
         String tableName = this.getRecord().makeTableNames(false);
         // Seems like a lame way to see if the collection exists
         if (!((MongodbDatabase)this.getDatabase()).doesTableExist(tableName))
-            this.createNewCollection();
+            this.create();
         collection = ((MongodbDatabase)this.getDatabase()).getMongoDatabase().getCollection(tableName);
 
         mongoCursor = null;
@@ -171,7 +201,7 @@ public class MongodbTable extends BaseTable
     /**
      * Create new collection
      */
-    public void createNewCollection() throws DBException {
+    public boolean create() throws DBException {
         try {
             Record record = this.getRecord();
             String tableName = this.getRecord().makeTableNames(false);
@@ -227,7 +257,7 @@ public class MongodbTable extends BaseTable
                 list.add(indexModel);
             }
             collection.createIndexes(list);
-
+            return true;
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
@@ -259,8 +289,8 @@ public class MongodbTable extends BaseTable
         if (mongoCursor == null)
             throw new DBException(DBConstants.INVALID_RECORD);
         try {
-            Object key = document.getObjectId("_id");
-            document = new Document("_id", key);
+            Object key = this.getDataField(this.getRecord().getCounterField(), false);
+            document = new Document(this.getRecord().getCounterField().getFieldName(false, false, true), key);
             collection.deleteOne(document);
             document = null;
         } catch (Exception ex) {
@@ -308,7 +338,35 @@ public class MongodbTable extends BaseTable
 //                    if ((m_iRecordStatus & DBConstants.RECORD_INVALID) != 0)
             {
                 try {
-                    mongoCursor = collection.find().iterator();
+                    Bson search = this.getSearchParams(true);
+                    Bson sort = this.getSortParams(true, DBConstants.FILE_KEY_AREA);
+                    mongoCursor = collection.find(search).sort(sort).iterator();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    System.out.println(ex.getMessage());
+                }
+            }
+//        m_iRecordStatus |= DBConstants.RECORD_NEXT_PENDING;     // If next call is a moveNext(), return unchanged!
+        return mongoCursor == null ? false : mongoCursor.hasNext();
+    }
+    /**
+     * Is the first record in the file?
+     * @return false if file position is at first record.
+     */
+    public boolean doHasPrevious() throws DBException
+    {
+//        if ((m_iRecordStatus & DBConstants.RECORD_AT_BOF) != 0)
+//            return false; // Already at BOF (can't be one before)
+        if (!this.isOpen())
+            this.open();    // Make sure any listeners are called before disabling.
+        if (mongoCursor == null)
+//                if (isBOF())
+//                    if ((m_iRecordStatus & DBConstants.RECORD_INVALID) != 0)
+            {
+                try {
+                    Bson search = this.getSearchParams(true);
+                    Bson sort = this.getSortParams(false, DBConstants.FILE_KEY_AREA);
+                    mongoCursor = collection.find(search).sort(sort).iterator();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     System.out.println(ex.getMessage());
@@ -330,8 +388,20 @@ public class MongodbTable extends BaseTable
      */
     public int doMove(int iRelPosition) throws DBException
     {   // Do the move
+        if (iRelPosition == DBConstants.FIRST_RECORD) {
+            this.close();
+            if (!this.doHasNext())
+                return DBConstants.RECORD_INVALID | DBConstants.RECORD_AT_EOF;
+        }
+        if (iRelPosition == DBConstants.LAST_RECORD) {
+            this.close();
+            if (!this.doHasPrevious())
+                return DBConstants.RECORD_INVALID | DBConstants.RECORD_AT_BOF;
+        }
         if (mongoCursor == null)
             return DBConstants.RECORD_INVALID;
+        if (!mongoCursor.hasNext())  // TODO If this does a call to mongo, change code to catch EOF error on 'Next'
+            return DBConstants.RECORD_INVALID | (iRelPosition < 0 ? DBConstants.RECORD_AT_BOF : DBConstants.RECORD_AT_EOF);
         document = mongoCursor.next();
         if (document == null)
             return DBConstants.RECORD_INVALID;
@@ -347,8 +417,118 @@ public class MongodbTable extends BaseTable
      */
     public boolean doSeek(String strSeekSign) throws DBException
     {
-//            ResultSet resultSet = this.executeQuery(strRecordset, DBConstants.SQL_SEEK_TYPE, vParamList);
+        Document find = this.addSelectParams(strSeekSign, DBConstants.FILE_KEY_AREA, true, true, false, null);
+        if ((find == null) || (find.isEmpty()))
+            return false;
+        FindIterable<Document>docs = collection.find(find);
+        if (docs == null)
+            return false;
+        MongoCursor<Document> cursor = docs.cursor();
+        if ((cursor == null) || (!cursor.hasNext()))
+            return false;
+        document = cursor.next();
         return true;
+    }
+    /**
+     * Get the document for the current search.
+     * @param seekSign The seek sign (defaults to '=').
+     * @param iAreaDesc The temp key are to use
+     * @param doc The document to add query to (if null, create a new document)
+     * @return The search document if successful.
+     * @exception DBException File exception.
+     */
+    public Document addSelectParams(String seekSign, int iAreaDesc, boolean bAddOnlyMods, boolean bForceUniqueKey, boolean bIncludeTempFields, Document doc) throws DBException {
+        if (doc == null)
+            doc = new Document();
+        int iKeyFieldCount = this.getRecord().getKeyArea().getKeyFields(bForceUniqueKey, bIncludeTempFields);
+        if (bAddOnlyMods)
+            iKeyFieldCount = this.getRecord().getKeyArea().lastModified(iAreaDesc, bForceUniqueKey) + 1;
+        for (int iKeyFieldSeq = DBConstants.MAIN_KEY_FIELD; iKeyFieldSeq < iKeyFieldCount; iKeyFieldSeq++) {
+            BaseField field = this.getRecord().getKeyArea().getKeyField(iKeyFieldSeq).getField(iAreaDesc);
+            if (field.isNull())
+                continue;
+            Document compareDoc = new Document();
+            compareDoc.append(this.getJSONOperator(seekSign), this.getFieldData(field));
+            String fieldName = this.getRecord().getKeyArea().getKeyField(iKeyFieldSeq).getField(DBConstants.FILE_KEY_AREA).getFieldName(false, false, true);
+            if (doc.get(fieldName) == null)
+                doc.append(fieldName, compareDoc);
+            else
+                ((Document)doc.get(fieldName)).put(this.getJSONOperator(seekSign), this.getFieldData(field));
+        }
+        return doc;
+    }
+    /**
+     * Get the document describing the sort order
+     * @param normalOrder True equals ascending
+     * @param keyArea The key are to use for the field name
+     * @return The document describing the sort order
+     */
+    public Document getSortParams(boolean normalOrder, int keyArea) {
+        Document bson = new Document();
+        for (int i = DBConstants.MAIN_KEY_FIELD ; i < this.getRecord().getKeyArea().getKeyFields() + DBConstants.MAIN_KEY_FIELD; i++) {
+            int order = normalOrder ? ASCENDING : DESCENDING;
+            if (!this.getRecord().getKeyArea().getKeyField(i).getKeyOrder())
+                order = normalOrder ? DESCENDING : ASCENDING;
+            bson.append(this.getRecord().getKeyArea().getKeyField(i).getField(keyArea).getFieldName(false, false, true), order);    // Opposite
+        }
+        return bson;
+    }
+    /**
+     * Get the SQL SELECT string.
+     * @param bUseCurrentValues If true, use the current field value, otherwise, use '?'.
+     * @return The SQL select string.
+     */
+    public Bson getSearchParams(boolean bUseCurrentValues) throws DBException {
+        Document doc = new Document();
+
+        this.getRecord().handleInitialKey();        // Set up the smaller key
+        doc = this.addSelectParams(FileListener.GREATER_THAN_EQUAL, DBConstants.START_SELECT_KEY,true, true, false, doc);   // Add only if changed
+        this.getRecord().handleEndKey();            // Set up the larger key
+        doc = this.addSelectParams(FileListener.LESS_THAN_EQUAL, DBConstants.END_SELECT_KEY,true, true, false, doc);   // Add only if changed
+        StringBuffer strbFilter = new StringBuffer();
+        boolean bIsQueryRecord = this.getRecord().isQueryRecord();
+        Vector<BaseField> vParamList = null;
+        this.getRecord().handleRemoteCriteria(strbFilter, bIsQueryRecord, vParamList);  // Add any selection criteria (from behaviors)
+        return doc;
+    }
+    /**
+     * Get the document for the current search.
+     * @param doc The document to add query to (if null, create a new document)
+     * @return The search document if successful.
+     * @exception DBException File exception.
+     */
+    public Document getSearchDocument(Document doc) throws DBException {
+        if (doc == null)
+            doc = new Document();
+        for (int i = DBConstants.MAIN_KEY_FIELD; i < this.getRecord().getKeyArea().getKeyFields() + DBConstants.MAIN_KEY_FIELD; i++) {
+            BaseField field = this.getRecord().getKeyArea().getKeyField(i).getField(0);
+            if (field.isNull())
+                continue;
+            Document compareDoc = new Document();
+            compareDoc.append(this.getJSONOperator(null), this.getFieldData(field));
+            doc.append(field.getFieldName(false, false, true), compareDoc);
+        }
+        return doc;
+    }
+    /**
+     * Get the mongo operator for this SQL operator.
+     * @param seekSign The standard SQL operator
+     * @return The mongodb comparison operator
+     */
+    public static String getJSONOperator(String seekSign) {
+        if (FileListener.EQUALS.equals(seekSign))
+            return "$eq";
+        else if (FileListener.NOT_EQUAL.equals(seekSign))
+            return "$ne";
+        else if (FileListener.LESS_THAN_EQUAL.equals(seekSign))
+            return "$lte";
+        else if (FileListener.GREATER_THAN_EQUAL.equals(seekSign))
+            return "$gte";
+        else if (FileListener.LESS_THAN.equals(seekSign))
+            return "$lt";
+        else if (FileListener.GREATER_THAN.equals(seekSign))
+            return "$gt";
+        return "$eq";
     }
     /**
      * Read the record given the ID to this persistent object.
@@ -359,17 +539,7 @@ public class MongodbTable extends BaseTable
     public boolean doSetHandle(Object objectID, int iHandleType) throws DBException
     {
         if (iHandleType == DBConstants.OBJECT_ID_HANDLE)
-        {
-            if (objectID instanceof String)     // It is okay to pass in a string, but convert it first!
-            {
-                try   {
-                    objectID = new Integer(Converter.stripNonNumber((String)objectID));
-                } catch (NumberFormatException ex)  {
-                    objectID = new StrBuffer((String)objectID);
-                }
-            }
             iHandleType = DBConstants.BOOKMARK_HANDLE;
-        }
         if (iHandleType == DBConstants.DATA_SOURCE_HANDLE)
             iHandleType = DBConstants.BOOKMARK_HANDLE;
         return super.doSetHandle(objectID, iHandleType);    // Same logic (for JDBC)
@@ -385,11 +555,34 @@ public class MongodbTable extends BaseTable
 //        this.executeUpdate(strRecordset, iType);
         try {
             collection.insertOne(document);
+            this.dataToField(this.getRecord().getCounterField());   // Grab the id
+            m_objLastModHint = this.getRecord().getCounterField().getData();
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
         }
         document = null;
+    }
+    /**
+     * Optionally set a hint to be used to find the last modified record.
+     * This method is only called immediately before adding the physical record to the table.
+     * The default logic saves the first field it finds that is modified,
+     * since this is the field that would have triped the add logic.
+     * NOTE: This is a last resort, try to override getLastModified and use a DB Specific call.
+     */
+    public void setLastModHint(Record record)
+    {
+        m_objLastModHint = null;
+        m_iLastModType = DBConstants.MAIN_FIELD;
+    }
+    /**
+     * Get the Handle to the last modified or added record.
+     * @param iHandleType The handle type.
+     * @return The bookmark.
+     */
+    public Object getLastModified(int iHandleType)
+    {
+        return m_objLastModHint;
     }
     /**
      * Update this record (Always called from the record class).
@@ -403,10 +596,21 @@ public class MongodbTable extends BaseTable
         if (fldID != null)
             if (record.isAutoSequence())
                 fldID.setModified(false); // Never set a counter field
-        String strRecordset = record.getSQLUpdate(SQLParams.USE_INSERT_UPDATE_LITERALS);
-        int iType = DBConstants.SQL_UPDATE_TYPE;
-            if (strRecordset != null)
-                /*iRowsUpdated =*/ this.executeUpdate(strRecordset, iType);
+//        String strRecordset = record.getSQLUpdate(SQLParams.USE_INSERT_UPDATE_LITERALS);
+//        int iType = DBConstants.SQL_UPDATE_TYPE;
+//            if (strRecordset != null)
+//                /*iRowsUpdated =*/ this.executeUpdate(strRecordset, iType);
+        if (mongoCursor == null)
+            throw new DBException(DBConstants.INVALID_RECORD);
+        try {
+            Object key = this.getDataField(this.getRecord().getCounterField(), false);
+            Bson bson = new Document(this.getRecord().getCounterField().getFieldName(false, false, true), key);
+            collection.replaceOne(bson, document);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
+        }
+        document = null;
     }
     /**
      * Execute this SQL seek or open statement.
@@ -492,94 +696,6 @@ public class MongodbTable extends BaseTable
         return null; // resultSet;
     }
     /**
-     * Get/create the JDBC statement object.
-     * @param strSQL The SQL statement to prepare.
-     * @param iType the type of SQL statement.
-     * @return number of rows updated.
-     * @exception DBException Converts and returns SQLExceptions, or if no rows updated, throws INVALID_RECORD.
-     */
-    public int executeUpdate(String strSQL, int iType)
-        throws DBException
-    {
-        int iRowsUpdated = 0;
-//        try
-//        {
-//            Utility.getLogger().info(strSQL);
-//            if (SQLParams.USE_INSERT_UPDATE_LITERALS)
-//            {   // Convert all field values to literals
-//                if (this.getStatement(iType) == null)
-//                    this.setStatement(((MongodbDatabase)this.getDatabase()).getJDBCConnection().createStatement(), iType);
-//                iRowsUpdated = this.getStatement(iType).executeUpdate(strSQL);
-//            }
-//            else
-//            {   // Set the field values in the prepared statement, then execute it!
-//                if (this.getStatement(iType) != null)
-//                {
-//                    if (!strSQL.equals(this.getLastSQLStatement(iType)))
-//                        this.setStatement(null, iType);   // Not the same as last time.
-//                }
-//                if (this.getStatement(iType) == null)
-//                    this.setStatement(((MongodbDatabase)this.getDatabase()).getJDBCConnection().prepareStatement(strSQL), iType);
-//                this.setLastSQLStatement(strSQL, iType);
-//                m_iNextParam = 1;           // First param row
-//                if ((iType == DBConstants.SQL_UPDATE_TYPE) || (iType == DBConstants.SQL_INSERT_TABLE_TYPE))   // Have WHERE X=?
-//                {
-//                    Record record = this.getRecord();
-//                    for (int iFieldSeq = DBConstants.MAIN_FIELD; iFieldSeq <= record.getFieldCount() + DBConstants.MAIN_FIELD - 1; iFieldSeq++)
-//                    {
-//                        BaseField field = record.getField(iFieldSeq);
-//                        if (field.getSkipSQLParam(iType))
-//                            continue; // Skip this param
-//                        field.getSQLFromField((PreparedStatement)this.getStatement(iType), iType, m_iNextParam++);
-//                    }
-//                }
-//                if (m_iNextParam == 1)
-//                    iRowsUpdated = 1; // No data = no need to update
-//                KeyArea keyArea = this.getRecord().getKeyArea(0); // Primary index
-//                boolean bIncludeTempFields = (iType == DBConstants.SQL_UPDATE_TYPE);
-//                if (!keyArea.isNull(DBConstants.TEMP_KEY_AREA, bIncludeTempFields))
-//                    if ((iType == DBConstants.SQL_UPDATE_TYPE) || (iType == DBConstants.SQL_DELETE_TYPE)) // Have WHERE X=?
-//                        m_iNextParam = keyArea.getSQLFromField((PreparedStatement)this.getStatement(iType), iType, m_iNextParam, DBConstants.TEMP_KEY_AREA, false, bIncludeTempFields);    // Always add!?
-//                iRowsUpdated = ((PreparedStatement)this.getStatement(iType)).executeUpdate();
-//            }
-//        } catch (SQLException e)    {
-//            DBException ex = this.getDatabase().convertError(e);
-//            if (this.createIfNotFoundError(ex))
-//            { // Table not found, create it.
-//                this.getRecord().setOpenMode((this.getRecord().getOpenMode() | DBConstants.OPEN_DONT_CREATE));   // Only try to create once.
-//                return this.executeUpdate(strSQL, iType);
-//            }
-//            else if (ex.getErrorCode() == DBConstants.BROKEN_PIPE)
-//            { // If there is a pipe timeout or a broken pipe, try to re-establish the connection and try again
-//                if (!m_bInRecursiveCall)
-//                {
-//                    m_bInRecursiveCall = true;  // Only try once
-//
-//                    this.close();
-//                    this.getDatabase().close();     // Next access will force an open.
-//                    int iResult = this.executeUpdate(strSQL, iType);
-//
-//                    m_bInRecursiveCall = false;
-//                    return iResult;
-//                }
-//            }
-//            String strError = "SQL Excep: " + e.getMessage() + " -> DB Ex: " + ex.getMessage() + " on " + strSQL;
-//            if ((ex.getErrorCode() == DBConstants.DUPLICATE_COUNTER) || (ex.getErrorCode() == DBConstants.DUPLICATE_KEY))
-//            	Utility.getLogger().info(strError);
-//            else
-//            	Utility.getLogger().warning(strError);
-//            throw ex;
-//        } finally {
-//            m_iNextParam = -1;  // This way dataToFields is not confused.
-//            if (CLEANUP_STATEMENTS)
-//                this.setStatement(null, iType);
-//        }
-//        Utility.getLogger().info("Rows updated: " + iRowsUpdated);
-//        if (iRowsUpdated == 0)
-//            throw new DBException(DBConstants.INVALID_RECORD);
-        return iRowsUpdated;
-    }
-    /**
      * Rename this table
      * @param tableName
      * @param newTableName
@@ -636,181 +752,6 @@ public class MongodbTable extends BaseTable
     public Record nextRecord()
     {
         return null;
-    }
-    /**
-     * Get the DATA_SOURCE_HANDLE to the last modified or added record.
-     * If the database is not using auto-sequence, this returns the bookmark object cached on add.
-     * @param iHandleType The type of handle to return.
-     * @return The bookmark of this type.
-     */
-    public Object getLastModified(int iHandleType)
-    {   // Change this to call "SELECT @@IDENTITY"
-        return super.getLastModified(iHandleType);
-    }
-    /**
-     * Create a new empty table using the definition in the record.
-     * Use a SQL string such as: "CREATE TABLE Temp (ID int, Name Char(40))";
-     * @exception DBException Open errors passed from SQL.
-     * @return true if successful.
-     */
-    public boolean create() throws DBException
-    {
-        boolean bSuccess = true;
-//        this.setResultSet(null, DBConstants.SQL_CREATE_TYPE);
-//        ResultSet resultSet = (ResultSet)this.getResultSet();
-//        if (resultSet == null)
-//        {
-//            Map<String,Object> properties = this.getDatabase().getProperties();
-//            String strAltSecondaryIndex = (String)this.getDatabase().getProperties().get(SQLParams.ALT_SECONDARY_INDEX);
-//            try   {
-//                int iFirstIndex = 0;
-//                Record record = this.getRecord();
-//                StringBuilder sql = new StringBuilder();
-//                sql.append("CREATE TABLE ");
-//                sql.append(record.makeTableNames(true));
-//                sql.append(" (");
-//                for (int iIndex = 0; iIndex < record.getFieldCount(); iIndex++)
-//                {
-//                    BaseField field = record.getField(iIndex);
-//                    if (field.isVirtual())
-//                        continue;
-//                    String strType = field.getSQLType(true, properties);
-//                    if (field instanceof CounterField)
-//                        if (this.getDatabase().isAutosequenceSupport())
-//                        {
-//                            String strCounterType = (String)this.getDatabase().getProperties().get(SQLParams.AUTO_SEQUENCE_TYPE);
-//                            if (strCounterType != null)
-//                                strType = strCounterType;
-//                            String strAutoseqExtra = (String)this.getDatabase().getProperties().get(SQLParams.AUTO_SEQUENCE_EXTRA);
-//                            if (strAutoseqExtra != null)
-//                                strType += strAutoseqExtra;
-//                            String strCounterExtra = (String)this.getDatabase().getProperties().get(SQLParams.COUNTER_EXTRA);
-//                            if (strCounterExtra != null)
-//                            {
-//                                strType += strCounterExtra;
-//                                iFirstIndex = 1;    // No need to build primary index
-//                            }
-//                        }
-//                    if (iIndex > 0)
-//                        sql.append(", ");
-//                    if (DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_NULL_KEY_SUPPORT)))
-//                        this.checkNullableKey(field, strAltSecondaryIndex != null); // Set the key to not nullable for create.
-//                    if (!field.isNullable())
-//                    	if (!DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_NULL_FIELD_SUPPORT)))	// Rare (or for locale dbs)
-//                    		strType += " NOT NULL";
-//                    if (strAltSecondaryIndex != null)
-//                        if (this.checkIndexField(field))
-//                            strType += ' ' + strAltSecondaryIndex;
-//                    sql.append(field.getFieldName(true, false)).append(' ').append(strType);
-//                }
-//                String strPrimaryKey = (String)this.getDatabase().getProperties().get(SQLParams.AUTO_SEQUENCE_PRIMARY_KEY);
-//                if (strPrimaryKey != null)
-//                    if (record.getCounterField() != null)
-//                        if (this.getDatabase().isAutosequenceSupport())
-//                {
-//                    sql.append(", ").append(strPrimaryKey).append(" (").append(record.getCounterField().getFieldName(true, false)).append(")");
-//                    iFirstIndex = 1;    // No need to build primary index
-//                }
-//                sql.append(")");
-//                Utility.getLogger().info(sql.toString());
-//                if (DBConstants.TRUE.equals((String)this.getDatabase().getProperties().get(SQLParams.NO_PREPARED_STATEMENTS_ON_CREATE)))
-//                    this.setStatement(null, DBConstants.SQL_CREATE_TYPE);
-//                if (this.getStatement(DBConstants.SQL_CREATE_TYPE) == null)
-//                    this.setStatement(((MongodbDatabase)this.getDatabase()).getJDBCConnection().createStatement(), DBConstants.SQL_CREATE_TYPE);
-//                this.getStatement(DBConstants.SQL_CREATE_TYPE).execute(sql.toString());
-//                // Now set up the index(es)
-//                sql = new StringBuilder();
-//                String strPrimaryKeySQL = (String)this.getDatabase().getProperties().get(SQLParams.CREATE_PRIMARY_INDEX);
-//                if (strPrimaryKeySQL == null)   // null=use default, If empty string, not supported.
-//                    strPrimaryKeySQL = "CREATE ${unique} INDEX ${keyname} ON ${table} (${fieldsandorder})";    // Default
-//                String strCreateIndexSQL = (String)this.getDatabase().getProperties().get(SQLParams.CREATE_INDEX);
-//                if (strCreateIndexSQL == null)   // null=use default, If empty string, not supported.
-//                    strCreateIndexSQL = strPrimaryKeySQL;    // Default
-//                for (int iIndex = iFirstIndex; iIndex < record.getKeyAreaCount(); iIndex++)
-//                {
-//                    KeyArea keyArea = record.getKeyArea(iIndex);
-//                    if ((keyArea.getUniqueKeyCode() == DBConstants.UNIQUE)
-//                        && (iIndex == iFirstIndex)
-//                            && (keyArea.getKeyFields() == 1))
-//                        sql = new StringBuilder(strPrimaryKeySQL);
-//                    else
-//                        sql = new StringBuilder(strCreateIndexSQL);
-//                    if (sql.length() == 0)
-//                        continue;   // Not supported.
-//                    boolean indexCanBeUnique = true;
-//                	if (DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_NULL_UNIQUE_KEYS)))
-//                        if (iIndex > 0)
-//                    {	// This db considers null a valid index value and will throw a unique key error on write
-//                        for (int iFieldIndex = 0; iFieldIndex < keyArea.getKeyFields(); iFieldIndex++)
-//                        {
-//                            KeyField keyField = keyArea.getKeyField(iFieldIndex);
-//                            BaseField field = keyField.getField(DBConstants.FILE_KEY_AREA);
-//                            if (field.isNullable())
-//                            	indexCanBeUnique = false;
-//                        }
-//                    }
-//                    if (iIndex > 0)
-//                    	if (DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_NULL_FIELD_SUPPORT)))	// Rare (or for locale dbs)
-//                    		indexCanBeUnique = false;
-//
-//                    if ((keyArea.getUniqueKeyCode() == DBConstants.UNIQUE) && (indexCanBeUnique))
-//                        sql = Utility.replace(sql, "${unique}", "UNIQUE");
-//                    else
-//                        sql = Utility.replace(sql, "${unique}", DBConstants.BLANK);
-//                    String strKeyName = keyArea.getKeyName();
-//                    String strTableNames = record.makeTableNames(true);
-//                    if (DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_DUPLICATE_KEY_NAMES)))
-//                    {
-//                    	if (strTableNames.endsWith("_temp"))
-//                    		strKeyName = strTableNames.substring(0, strTableNames.length() - 5) + "_" + strKeyName;
-//                    	else
-//                    		strKeyName = strTableNames + "_" + strKeyName;
-//                    }
-//                    String strMaxKeyNameLength = (String)this.getDatabase().getProperties().get(SQLParams.MAX_KEY_NAME_LENGTH);
-//                    if (strMaxKeyNameLength != null)
-//                    {
-//                        int iMaxKeyNameLength = Integer.parseInt(strMaxKeyNameLength);
-//                        if (strKeyName.length() > iMaxKeyNameLength)
-//                        {
-//                        	strKeyName = strKeyName + (int)(Math.random() * 100000);
-//                            strKeyName = strKeyName.substring(strKeyName.length() - iMaxKeyNameLength);
-//                            while (!Character.isLetter(strKeyName.charAt(0))) {
-//                            	strKeyName = strKeyName.substring(1);
-//                            }
-//                        }
-//                    }
-//                    sql = Utility.replace(sql, "${keyname}", strKeyName);
-//                    sql = Utility.replace(sql, "${table}", strTableNames);
-//                    String strFields = DBConstants.BLANK;
-//                    String strFieldAndOrder = DBConstants.BLANK;
-//                    for (int iFieldIndex = 0; iFieldIndex < keyArea.getKeyFields(); iFieldIndex++)
-//                    {
-//                        KeyField keyField = keyArea.getKeyField(iFieldIndex);
-//                        BaseField field = keyField.getField(DBConstants.FILE_KEY_AREA);
-//                        if (iFieldIndex > 0)
-//                        {
-//                            strFields += ", ";
-//                            strFieldAndOrder += ", ";
-//                        }
-//                        strFields += field.getFieldName(true, false) + " ";
-//                        strFieldAndOrder += field.getFieldName(true, false) + " ";
-//                        if (keyField.getKeyOrder() == DBConstants.DESCENDING)
-//                            strFieldAndOrder += "DESC ";
-//                    }
-//                    sql = Utility.replace(sql, "${fields}", strFields);
-//                    sql = Utility.replace(sql, "${fieldsandorder}", strFieldAndOrder);
-//                    Utility.getLogger().info(sql.toString());
-//                    this.getStatement(DBConstants.SQL_CREATE_TYPE).execute(sql.toString());
-//                }
-//            } catch (SQLException e)    {
-//                throw this.getDatabase().convertError(e);
-//            } finally {
-//                if (DBConstants.TRUE.equals(this.getDatabase().getProperties().get(SQLParams.NO_PREPARED_STATEMENTS_ON_CREATE)))
-//                    this.setStatement(null, DBConstants.SQL_CREATE_TYPE);
-//            }
-//        }
-//        this.setResultSet(null, DBConstants.SQL_CREATE_TYPE);
-        return bSuccess;    // Success!!!
     }
     /**
      * This is a special method - If the db doesn't allow null keys,

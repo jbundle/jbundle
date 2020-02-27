@@ -390,9 +390,9 @@ public class ReferenceField extends RecordReferenceField
             if (this.getRecord() != null) // Always
                 if (this.getRecord().getTable() != null)
                     if (this.getRecord().getTable().getDatabase() != null)
-                        if (this.getRecord().getTable().getProperty(SQLParams.COUNTER_OBJECT_CLASS) != null) {
+                        if (this.getRecord().getTable().getDatabase().getProperty(SQLParams.COUNTER_OBJECT_CLASS) != null) {
                             try {
-                                this.setDataClass(Class.forName(this.getRecord().getTable().getProperty(SQLParams.COUNTER_OBJECT_CLASS)));
+                                this.setDataClass(Class.forName(this.getRecord().getTable().getDatabase().getProperty(SQLParams.COUNTER_OBJECT_CLASS)));
                             } catch (ClassNotFoundException e) {
                                 // Ignore - Integer is fine
                             }

@@ -1410,9 +1410,9 @@ public class Record extends FieldList
         String strSortParams = this.addSortParams(bIsQueryRecord, true);
 
         this.handleInitialKey();        // Set up the smaller key
-        String strStartRange = this.addSelectParams(">=", DBConstants.START_SELECT_KEY, true, bIsQueryRecord, bUseCurrentValues, vParamList, true, false);   // Add only if changed
+        String strStartRange = this.addSelectParams(FileListener.GREATER_THAN_EQUAL, DBConstants.START_SELECT_KEY, true, bIsQueryRecord, bUseCurrentValues, vParamList, true, false);   // Add only if changed
         this.handleEndKey();            // Set up the larger key
-        String strEndRange = this.addSelectParams("<=", DBConstants.END_SELECT_KEY, true, bIsQueryRecord, bUseCurrentValues, vParamList, true, false);   // Add only if changed
+        String strEndRange = this.addSelectParams(FileListener.LESS_THAN_EQUAL, DBConstants.END_SELECT_KEY, true, bIsQueryRecord, bUseCurrentValues, vParamList, true, false);   // Add only if changed
         String strWhere = DBConstants.BLANK;
         if (strStartRange.length() == 0)
             strWhere = strEndRange;

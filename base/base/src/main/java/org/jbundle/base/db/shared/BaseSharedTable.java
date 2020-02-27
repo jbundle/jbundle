@@ -137,7 +137,7 @@ public class BaseSharedTable extends PassThruTable
      * Add a field listener to the chain.
      * The listener must be cloned and added to all records on the list.
      * @param listener The listener to add.
-     * @param The field to add to.
+     * @param field The field to add to.
      */
     public void addListener(FieldListener listener, BaseField field)
     {

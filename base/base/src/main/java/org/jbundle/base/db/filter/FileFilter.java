@@ -23,9 +23,6 @@ import org.jbundle.base.field.BaseField;
  */
 public class FileFilter extends FileListener
 {
-    public static final String LESS_THAN_EQUAL = "<=";
-    public static final String GREATER_THAN_EQUAL = ">=";
-
     /**
      * DependentFileFilter.
      */
@@ -35,9 +32,6 @@ public class FileFilter extends FileListener
     }
     /**
      * Constructor.
-     * @param iFieldSeq The First field sequence of the key.
-     * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
-     * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
      */
     public FileFilter(Record record)
     {
@@ -47,9 +41,6 @@ public class FileFilter extends FileListener
     /**
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
-     * @param iFieldSeq The First field sequence of the key.
-     * @param iFieldSeq2 The Second field sequence of the key (-1 for none).
-     * @param iFieldSeq3 The Third field sequence of the key (-1 for none).
      */
     public void init(Record record)
     {
@@ -58,7 +49,7 @@ public class FileFilter extends FileListener
     /**
      * Get the foreign field that references this record.
      * There can be more than one, so supply an index until you get a null.
-     * @param iCount The index of the reference to retrieve
+     * @param iIndex The index of the reference to retrieve
      * @return The referenced field
      */
     public BaseField getReferencedField(int iIndex)
