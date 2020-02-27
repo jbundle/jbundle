@@ -28,8 +28,7 @@ public class EnableOnPhysicalHandler extends EnableOnValidHandler
     }
     /**
      * This constructor enable/disables ALL non-unique key fields.
-     * @param bEnbleOnValid Enable/disable the fields on valid.
-     * @param bEnableOnNew Enable/disable the fields on new.
+     * @param record
      */
     public EnableOnPhysicalHandler(Record record)
     {
@@ -39,11 +38,7 @@ public class EnableOnPhysicalHandler extends EnableOnValidHandler
     /**
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
-     * @param field Target field.
-     * @param iFieldSeq Target field.
-     * @param bEnbleOnValid Enable/disable the fields on valid.
-     * @param bEnableOnNew Enable/disable the fields on new.
-     * @param flagField If this flag is true, do the opposite enable/disable.
+     * @param record
      */
     public void init(Record record)
     {

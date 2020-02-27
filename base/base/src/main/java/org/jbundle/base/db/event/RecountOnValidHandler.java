@@ -93,7 +93,6 @@ public class RecountOnValidHandler extends FileListener
     /**
      * Called when a valid record is read from the table/query.
      * Re-read the sub-file on change.
-     * @param bDisplayOption If true, display any changes.
      */
     public void recountRecords()
     {

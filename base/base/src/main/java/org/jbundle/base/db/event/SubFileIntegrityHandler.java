@@ -48,7 +48,7 @@ public class SubFileIntegrityHandler extends FreeOnFreeHandler
     }
     /**
      * Constructor.
-     * @param record The sub-record to check.
+     * @param recSubFile The sub-record to check.
      */
     public SubFileIntegrityHandler(Record recSubFile)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
@@ -66,7 +66,7 @@ public class SubFileIntegrityHandler extends FreeOnFreeHandler
     }
     /**
      * Constructor.
-     * @param record The sub-record to check.
+     * @param recSubFile The sub-record to check.
      */
     public SubFileIntegrityHandler(Record recSubFile, boolean bRemoveSubRecords)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
@@ -85,8 +85,8 @@ public class SubFileIntegrityHandler extends FreeOnFreeHandler
     /**
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
-     * @param recordMain The main record to create a sub-query for.
-     * @param bRemoteSubRecords Remove sub-records on delete main?
+     * @param recSubFile The main record to create a sub-query for.
+     * @param bRemoveSubRecords Remove sub-records on delete main?
      */
     public void init(Record record, Record recSubFile, String strSubFile, boolean bRemoveSubRecords)
     {   // For this to work right, the booking number field needs a listener to re-select this file whenever it changes
@@ -98,7 +98,6 @@ public class SubFileIntegrityHandler extends FreeOnFreeHandler
     /**
      * Set the record that owns this listener.
      * If a record is passed in, this method makes sure the correct key area is set on this record.
-     * @param owner My owner.
      */
     public void free()
     {

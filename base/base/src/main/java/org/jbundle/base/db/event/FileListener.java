@@ -119,7 +119,7 @@ public class FileListener extends BaseListener
     }
     /**
      * Set the client/server flag.
-     * @param iClientServer The client server flag.
+     * @param iMasterSlave The client server flag.
      */
     public void setMasterSlaveFlag(int iMasterSlave)
     {

@@ -135,7 +135,7 @@ public class UpdateOnCloseHandler extends FileListener
     /**
      * Called when a change in the record status is about to happen/has happened.
      * @param field If this file change is due to a field, this is the field.
-     * @param changeType The type of change that occurred.
+     * @param iChangeType The type of change that occurred.
      * @param bDisplayOption If true, display any changes.
      * @return an error code.
      * Synchronize records after an update or add.
@@ -203,7 +203,7 @@ public class UpdateOnCloseHandler extends FileListener
     }
     /**
      * Constructor - set this field to "modified" if any changes to record.
-     * @param recordToUpdate Record to update on close (if null, defaults to this file).
+     * @param fieldToUpdate Record to update on close (if null, defaults to this file).
      */
     public void setFieldToUpdate(BaseField fieldToUpdate)
     {

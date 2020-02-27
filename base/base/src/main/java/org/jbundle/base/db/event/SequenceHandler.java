@@ -38,7 +38,7 @@ public class SequenceHandler extends MoveOnValidHandler
     }
     /**
      * This Constructor moves the source field to the dest field on valid.
-     * @param pfldDest tour.field.BaseField The destination field.
+     * @param fldDest tour.field.BaseField The destination field.
      * @param fldSource The source field.
      */
     public SequenceHandler(BaseField fldDest, BaseField fldSource)
@@ -49,7 +49,7 @@ public class SequenceHandler extends MoveOnValidHandler
     /**
      * This Constructor moves the source field to the dest field on valid.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
-     * @param pfldDest tour.field.BaseField The destination field.
+     * @param fldDest tour.field.BaseField The destination field.
      * @param fldSource The source field.
      */
     public void init(Record record, BaseField fldDest, BaseField fldSource)

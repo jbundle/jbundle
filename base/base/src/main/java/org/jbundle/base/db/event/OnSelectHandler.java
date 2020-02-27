@@ -55,8 +55,7 @@ public class OnSelectHandler extends FileListener
     }
     /**
      * OnSelectHandler - Constructor.
-     * @param recordToSync The record to synchronize with this one.
-     * @param bUpdateOnSelect If true, update or add a record in progress before syncing this record.
+     * @param recordOwner The record to synchronize with this one.
      */
     public OnSelectHandler(RecordOwner recordOwner)
     {
@@ -65,8 +64,8 @@ public class OnSelectHandler extends FileListener
     }
     /**
      * OnSelectHandler - Constructor.
-     * @param recordToSync The record to synchronize with this one.
-     * @param bUpdateOnSelect If true, update or add a record in progress before syncing this record.
+     * @param recordOwner The record to synchronize with this one.
+     * @param iEventToTrigger If true, update or add a record in progress before syncing this record.
      */
     public OnSelectHandler(RecordOwner recordOwner, int iEventToTrigger)
     {

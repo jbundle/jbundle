@@ -55,8 +55,7 @@ public class SendMessageAfterUpdateHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param record My owner (usually passed as null, and set on addListener in setOwner()).
-     * @param freeable A object to free when this record is freed.
+     * @param message My owner (usually passed as null, and set on addListener in setOwner()).
      */
     public SendMessageAfterUpdateHandler(BaseMessage message)
     {
@@ -66,9 +65,7 @@ public class SendMessageAfterUpdateHandler extends FileListener
     /**
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
-     * @param freeable A object to free when this record is freed.
-     * @param recDependent The record to free when this record is freed.
-     * @param bCloseOnFree If true, the record is freed.
+     * @param message
      */
     public void init(Record record, BaseMessage message)
     {

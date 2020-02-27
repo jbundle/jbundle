@@ -42,7 +42,7 @@ public class UniqueKeyHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param record The sub-record to check.
+     * @param fieldToBump The sub-record to check.
      */
     public UniqueKeyHandler(BaseField fieldToBump)
     {

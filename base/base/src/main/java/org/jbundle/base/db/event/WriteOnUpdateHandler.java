@@ -30,7 +30,7 @@ public class WriteOnUpdateHandler extends UpdateOnCloseHandler
     /**
     * SelectOnUpdateHandler - Constructor.
      * @param recordToSync The record to synchronize with this one.
-     * @param bUpdateOnSelect If true, update or add a record in progress before syncing this record.
+     * @param bRefreshAfterUpdate If true, update or add a record in progress before syncing this record.
     */
     public WriteOnUpdateHandler(Record recordToSync, boolean bRefreshAfterUpdate)
     {

@@ -39,7 +39,6 @@ public class RequeryOnUpdateHandler extends FileListener
     /**
     * SelectOnUpdateHandler - Constructor.
      * @param recordToSync The record to synchronize with this one.
-     * @param bUpdateOnSelect If true, update or add a record in progress before syncing this record.
     */
     public RequeryOnUpdateHandler(Record recordToSync)
     {
@@ -49,7 +48,6 @@ public class RequeryOnUpdateHandler extends FileListener
     /**
     * SelectOnUpdateHandler - Constructor.
      * @param recordToSync The record to synchronize with this one.
-     * @param bUpdateOnSelect If true, update or add a record in progress before syncing this record.
     */
     public void init(Record record, Record recordToSync)
     {

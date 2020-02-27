@@ -58,7 +58,7 @@ public class ControlFileHandler extends FileListener
     /**
      * Set the field or file that owns this listener.
      * This method calls doNewRecord when the owner is set.
-     * @see doNewRecord.
+     * @see #doNewRecord(boolean)
      * @param owner My owner.
      */
     public void setOwner(ListenerOwner owner)

@@ -38,9 +38,9 @@ public class DisplayReadHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param iMainField The field to use as a key in the file to read.
+     * @param mainFieldName The field to use as a key in the file to read.
      * @param fileToRead The secondary file to read when I read a record from the owner (onvalidrecord).
-     * @param iFileKeyField The key field in the secondary file.
+     * @param fileKeyAreaName The key field in the secondary file.
      */
     public DisplayReadHandler(String mainFieldName, Record fileToRead, String fileKeyAreaName)
     {
@@ -49,9 +49,7 @@ public class DisplayReadHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param iMainField The field to use as a key in the file to read.
      * @param fileToRead The secondary file to read when I read a record from the owner (onvalidrecord).
-     * @param iFileKeyField The key field in the secondary file.
      */
     public DisplayReadHandler(Record fileToRead)
     {
@@ -61,7 +59,7 @@ public class DisplayReadHandler extends FileListener
     /**
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
-     * @param iMainField The field to use as a key in the file to read.
+     * @param mainFieldName The field to use as a key in the file to read.
      * @param fileToRead The secondary file to read when I read a record from the owner (onvalidrecord).
      * @param iFileKeyField The key field in the secondary file.
      */

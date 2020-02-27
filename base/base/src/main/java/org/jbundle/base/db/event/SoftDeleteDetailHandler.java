@@ -35,7 +35,7 @@ public class SoftDeleteDetailHandler extends SoftDeleteHandler
     }
     /**
      * Constructor.
-     * @param record The sub-record to check.
+     * @param recDetail The sub-record to check.
      */
     public SoftDeleteDetailHandler(BaseField fldDeleteFlag, Record recDetail)
     {
@@ -44,7 +44,7 @@ public class SoftDeleteDetailHandler extends SoftDeleteHandler
     }
     /**
      * Constructor.
-     * @param record My owner (usually passed as null, and set on addListener in setOwner()).
+     * @param recDetail My owner (usually passed as null, and set on addListener in setOwner()).
      */
     public void init(BaseField fldDeleteFlag, Record recDetail)
     {

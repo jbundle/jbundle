@@ -81,9 +81,9 @@ public class MoveOnEventHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param pfldDest tour.field.BaseField The destination field.
+     * @param fldDest tour.field.BaseField The destination field.
      * @param fldSource The source field.
-     * @param pCheckMark If is field if false, don't move the data.
+     * @param convCheckMark If is field if false, don't move the data.
      * @param bMoveOnNew If true, move on new also.
      * @param bMoveOnValid If true, move on valid also.
      */
@@ -94,9 +94,9 @@ public class MoveOnEventHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param pfldDest tour.field.BaseField The destination field.
+     * @param fldDest tour.field.BaseField The destination field.
      * @param fldSource The source field.
-     * @param pCheckMark If is field if false, don't move the data.
+     * @param convCheckMark If is field if false, don't move the data.
      * @param bMoveOnNew If true, move on new also.
      * @param bMoveOnValid If true, move on valid also.
      */

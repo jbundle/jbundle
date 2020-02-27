@@ -45,7 +45,6 @@ public class FreeOnFreeHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      * @param freeable A object to free when this record is freed.
      */
     public FreeOnFreeHandler(Freeable freeable)
@@ -55,9 +54,7 @@ public class FreeOnFreeHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      * @param recDependent The record to free when this record is freed.
-     * @param bCloseOnFree If true, the record freed (always set to true-some special overrides set this to non-true).
      */
     public FreeOnFreeHandler(Record recDependent)
     {
@@ -66,7 +63,6 @@ public class FreeOnFreeHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      * @param recDependent The record to free when this record is freed.
      * @param bCloseOnFree If true, the record freed (always set to true-some special overrides set this to non-true).
      */

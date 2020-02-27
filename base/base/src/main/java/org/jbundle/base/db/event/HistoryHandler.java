@@ -73,9 +73,8 @@ public class HistoryHandler extends FreeOnFreeHandler
     /**
      * Constructor.
      * @param recHistory The history record.
-     * @param iHistoryDate The last changed date in the history record.
+     * @param iHistoryDateField The last changed date in the history record.
      * @param fldSourceHistoryDate Where to get the date changed (if null, use current time).
-     * @param bConfirmOnChange If true, ask the user if the changes are okay before writing them.
      * @param bCloseOnFree Close the history file when this record is freed (default true).
      */
     public HistoryHandler(Record recHistory, String iHistoryDateField, BaseField fldSourceHistoryDate, boolean bCloseOnFree)
@@ -85,11 +84,9 @@ public class HistoryHandler extends FreeOnFreeHandler
     }
     /**
      * Constructor.
-     * @param recHistory The history record.
-     * @param iHistoryDate The last changed date in the history record.
-     * @param fldSourceHistoryDate Where to get the date changed (if null, use current time).
-     * @param bConfirmOnChange If true, ask the user if the changes are okay before writing them.
-     * @param bCloseOnFree Close the history file when this record is freed (default true).
+     * @param strRecHistoryClass The history record.
+     * @param iHistoryDateField The last changed date in the history record.
+     * @param iSourceHistoryDateSeq Where to get the date changed (if null, use current time).
      */
     public HistoryHandler(String strRecHistoryClass, String iHistoryDateField, String iSourceHistoryDateSeq)
     {
@@ -100,9 +97,8 @@ public class HistoryHandler extends FreeOnFreeHandler
      * Constructor.
      * @param record My owner (usually passed as null, and set on addListener in setOwner()).
      * @param recHistory The history record.
-     * @param iHistoryDate The last changed date in the history record.
+     * @param iSourceHistoryDateSeq The last changed date in the history record.
      * @param fldSourceHistoryDate Where to get the date changed (if null, use current time).
-     * @param bConfirmOnChange If true, ask the user if the changes are okay before writing them.
      * @param bCloseOnFree Close the history file when this record is freed (default true).
      */
     public void init(Record record, Record recHistory, String iHistoryDateSeq, BaseField fldSourceHistoryDate, boolean bCloseOnFree, String strRecHistoryClass, String iSourceHistoryDateSeq)

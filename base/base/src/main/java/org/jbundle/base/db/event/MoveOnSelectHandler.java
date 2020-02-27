@@ -32,9 +32,9 @@ public class MoveOnSelectHandler extends MoveOnEventHandler
     }
     /**
      * Constructor.
-     * @param destField Destination field.
-     * @param sourceField Source field.
-     * @param checkMark If not null, enable/disable to listener using this field's state.
+     * @param fldDest Destination field.
+     * @param fldSource Source field.
+     * @param convCheckMark If not null, enable/disable to listener using this field's state.
      */
     public MoveOnSelectHandler(BaseField fldDest, BaseField fldSource, Converter convCheckMark)
     {
@@ -43,9 +43,9 @@ public class MoveOnSelectHandler extends MoveOnEventHandler
     }
     /**
      * Constructor.
-     * @param pfldDest tour.field.BaseField The destination field.
+     * @param fldDest tour.field.BaseField The destination field.
      * @param fldSource The source field.
-     * @param pCheckMark If is field if false, don't move the data.
+     * @param convCheckMark If is field if false, don't move the data.
      * @param bMoveOnNew If true, move on new also.
      * @param bMoveOnValid If true, move on valid also.
      */

@@ -64,7 +64,7 @@ public class SelectOnUpdateHandler extends OnSelectHandler
     /**
      * Called when a change is the record status is about to happen/has happened.
      * @param field If this file change is due to a field, this is the field.
-     * @param changeType The type of change that occurred.
+     * @param iChangeType The type of change that occurred.
      * @param bDisplayOption If true, display any changes.
      * @return an error code.
      * Synchronize records after an update or add.

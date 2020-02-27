@@ -39,8 +39,8 @@ public class SetUserIDHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param iFieldSeq Sequence of the user id field.
-     * @param iFirstTimeOnly Set it on the an add (not on update) only?
+     * @param userIdFieldName Sequence of the user id field.
+     * @param bFirstTimeOnly Set it on the an add (not on update) only?
      */
     public SetUserIDHandler(String userIdFieldName, boolean bFirstTimeOnly)
     {
@@ -49,9 +49,9 @@ public class SetUserIDHandler extends FileListener
     }
     /**
      * Constructor.
-     * @param record My owner (usually passed as null, and set on addListener in setOwner()).
-     * @param iFieldSeq Sequence of the user id field.
-     * @param iFirstTimeOnly Set it on the first time only?
+     * @param thisFile My owner (usually passed as null, and set on addListener in setOwner()).
+     * @param userIdFieldName Sequence of the user id field.
+     * @param bFirstTimeOnly Set it on the first time only?
      */
     public void init(Record thisFile, String userIdFieldName, boolean bFirstTimeOnly)
     {
