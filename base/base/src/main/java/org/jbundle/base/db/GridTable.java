@@ -469,8 +469,8 @@ public class GridTable extends PassThruTable
      * Note: move is called from other methods in this class to get a relative record.
      * @param iRelPosition - Relative position positive or negative or FIRST_RECORD/LAST_RECORD.
      * @return The fieldlist as the new position or null if eof/bof.
-     * @exception FILE_NOT_OPEN.
-     * @exception INVALID_RECORD - Record position is not current or move past EOF or BOF.
+     * @exception DBException FILE_NOT_OPEN.
+     * @exception DBException INVALID_RECORD - Record position is not current or move past EOF or BOF.
      */
     public FieldList move(int iRelPosition) throws DBException
     {
@@ -505,7 +505,7 @@ public class GridTable extends PassThruTable
      * Move the position of the record to this record location.
      * Be careful, if a record at a row is deleted, this method will return a new
      * (empty) record, so you need to check the record status before updating it.
-     * @param iRelPosition - Absolute position of the record to retrieve.
+     * @param iPosition - Absolute position of the record to retrieve.
      * @return The record at this location (or null if not found).
      * @exception DBException File exception.
      */
@@ -563,9 +563,9 @@ public class GridTable extends PassThruTable
     }
     /**
      * Reposition to this record Using this bookmark.
-     * @param Object bookmark Bookmark.
-     * @param int iHandleType Type of handle (see getHandle).
-     * @exception FILE_NOT_OPEN.
+     * @param bookmark Bookmark.
+     * @param iHandleType Type of handle (see getHandle).
+     * @exception DBException FILE_NOT_OPEN.
      * @return record if found/null - record not found.
      */
     public FieldList setHandle(Object bookmark, int iHandleType) throws DBException
@@ -590,8 +590,8 @@ public class GridTable extends PassThruTable
      * Read the record that matches this record's current key.
      * For a GridTable, this method calls the inherited seek.
      * @return true if successful, false if not found.
-     * @exception FILE_NOT_OPEN.
-     * @exception KEY_NOT_FOUND - The key was not found on read.
+     * @exception DBException FILE_NOT_OPEN.
+     * @exception DBException KEY_NOT_FOUND - The key was not found on read.
      */
     public boolean seek(String strSeekSign) throws DBException
     {
@@ -650,7 +650,7 @@ public class GridTable extends PassThruTable
      * For a gridtable, I grab the bookmark and add it to the end of the buffer.
      * @param fieldList The record to add.
      * @exception DBException File exception.
-     * @see addNewBookmark.
+     * @see #addNewBookmark(Object, int) 
      */
     public void add(Rec fieldList) throws DBException
     {
