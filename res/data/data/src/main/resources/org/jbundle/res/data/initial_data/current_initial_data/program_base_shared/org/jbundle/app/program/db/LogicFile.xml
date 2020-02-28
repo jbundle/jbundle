@@ -1424,7 +1424,7 @@ return string;]]></LogicSource>
 @param vParamList The param list to add the raw data to (for prepared statements).
 @return True if you should not skip this record (does a check on the local data).]]></LogicDescription>
 		<MethodReturns>boolean</MethodReturns>
-		<MethodInterface>StringBuffer strbFilter, boolean bIncludeFileName, Vector vParamList</MethodInterface>
+		<MethodInterface>StringBuffer strbFilter, boolean bIncludeFileName, Vector vParamList, Document doc</MethodInterface>
 		<MethodClassName>FileListener</MethodClassName>
 		<LogicSource/>
 		<LogicThrows/>
@@ -1488,7 +1488,7 @@ SELECT_EOF_TYPE - EOF Hit.]]></LogicDescription>
 @param vParamList The param list to add the raw data to (for prepared statements).
 @return True if you should not skip this record (does a check on the local data).]]></LogicDescription>
 		<MethodReturns>boolean</MethodReturns>
-		<MethodInterface>StringBuffer strbFilter, boolean bIncludeFileName, Vector vParamList</MethodInterface>
+		<MethodInterface>StringBuffer strbFilter, boolean bIncludeFileName, Vector vParamList, Document doc</MethodInterface>
 		<MethodClassName>FileListener</MethodClassName>
 		<LogicSource/>
 		<LogicThrows/>
@@ -1527,7 +1527,7 @@ the params (if String given).
 @param vParamList The param list to add the raw data to (for prepared statements).
 @return true if the comparison is valid (For local Criteria or LTable).]]></LogicDescription>
 		<MethodReturns>boolean</MethodReturns>
-		<MethodInterface>BaseField recordField, BaseField compareField, String strSeekSign, String strFilter, boolean bIncludeFileName, Vector vParamList</MethodInterface>
+		<MethodInterface>BaseField recordField, BaseField compareField, String strSeekSign, String strFilter, boolean bIncludeFileName, Vector vParamList, Document doc</MethodInterface>
 		<MethodClassName>FileListener</MethodClassName>
 		<LogicSource/>
 		<LogicThrows/>

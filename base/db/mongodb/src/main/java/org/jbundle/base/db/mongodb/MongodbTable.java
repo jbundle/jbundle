@@ -17,7 +17,6 @@ import org.bson.Document;
 import java.util.*;
 
 import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
 import org.jbundle.base.db.*;
 import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.field.BaseField;
