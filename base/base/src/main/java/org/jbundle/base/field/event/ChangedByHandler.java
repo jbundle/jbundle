@@ -27,7 +27,7 @@ public class ChangedByHandler extends FieldListener
     /**
      * The field sequence of the "changed by" field.
      */
-    String m_iMainFilesFieldSeq = null;
+    String mainFilesField = null;
 
     /**
      * Constructor.
@@ -38,22 +38,22 @@ public class ChangedByHandler extends FieldListener
     }
     /**
      * Constructor.
-     * param iMainFilesField The field sequence of the "changed by" field in this field's record.
+     * param mainFilesField The field sequence of the "changed by" field in this field's record.
      */
-    public ChangedByHandler(String iMainFilesField)
+    public ChangedByHandler(String mainFilesField)
     {
         this();
-        this.init(null, iMainFilesField);
+        this.init(null, mainFilesField);
     }
     /**
      * Constructor.
      * @param field The basefield owner of this listener (usually null and set on setOwner()).
-     * param iMainFilesField The field sequence of the "changed by" field in this field's record.
+     * param mainFilesField The field sequence of the "changed by" field in this field's record.
      */
-    public void init(BaseField field, String iMainFilesField)
+    public void init(BaseField field, String mainFilesField)
     {
         super.init(field);
-        m_iMainFilesFieldSeq = iMainFilesField;
+        this.mainFilesField = mainFilesField;
         m_bReadMove = false;  // Don't move on read!
     }
     /**
@@ -64,7 +64,7 @@ public class ChangedByHandler extends FieldListener
     {
         super.setOwner(owner);
         if (this.getOwner() != null)
-            this.syncBehaviorToRecord(this.getOwner().getRecord().getField(m_iMainFilesFieldSeq));  // Init now
+            this.syncBehaviorToRecord(this.getOwner().getRecord().getField(mainFilesField));  // Init now
     }
     /**
      * Set this cloned listener to the same state at this listener.
@@ -76,7 +76,7 @@ public class ChangedByHandler extends FieldListener
     public boolean syncClonedListener(BaseField field, FieldListener listener, boolean bInitCalled)
     {
         bInitCalled = super.syncClonedListener(field, listener, bInitCalled);
-        ((ChangedByHandler)listener).setMainFilesFieldSeq(m_iMainFilesFieldSeq);
+        ((ChangedByHandler)listener).setMainFilesFieldSeq(mainFilesField);
         return bInitCalled;
     }
     /**
@@ -85,7 +85,7 @@ public class ChangedByHandler extends FieldListener
      */
     public void setMainFilesFieldSeq(String iMainFilesFieldSeq )
     {
-        m_iMainFilesFieldSeq = iMainFilesFieldSeq;
+        mainFilesField = iMainFilesFieldSeq;
     }
     /**
      * The Field has Changed.
@@ -98,18 +98,18 @@ public class ChangedByHandler extends FieldListener
     { // Read a valid record
         if (this.getOwner() != null)
         {
-            IntegerField thisField = ((IntegerField)this.getOwner().getRecord().getField(m_iMainFilesFieldSeq));
+            BaseField thisField = this.getOwner().getRecord().getField(mainFilesField);
             if (this.getOwner().getRecord().getRecordOwner() != null)
                 if (this.getOwner().getRecord().getRecordOwner().getTask() != null)
                     if (this.getOwner().getRecord().getRecordOwner().getTask().getApplication() != null)
             {
-                int iUserID = -1;
+                String userId = "-1";
                 if (this.getOwner().getRecord().getRecordOwner() != null)
                     if (((BaseApplication)this.getOwner().getRecord().getRecordOwner().getTask().getApplication()) != null)
                     if (((BaseApplication)this.getOwner().getRecord().getRecordOwner().getTask().getApplication()).getUserID() != null)
                     if (((BaseApplication)this.getOwner().getRecord().getRecordOwner().getTask().getApplication()).getUserID().length() > 0)
-                        iUserID = Integer.parseInt(((BaseApplication)this.getOwner().getRecord().getRecordOwner().getTask().getApplication()).getUserID());     // File written or updated, set the user name
-                int iErrorCode = thisField.setValue(iUserID, bDisplayOption, DBConstants.SCREEN_MOVE);
+                        userId = ((BaseApplication)this.getOwner().getRecord().getRecordOwner().getTask().getApplication()).getUserID();     // File written or updated, set the user name
+                int iErrorCode = thisField.setString(userId, bDisplayOption, DBConstants.SCREEN_MOVE);
                 if (iMoveMode == DBConstants.INIT_MOVE)
                     thisField.setModified(false);   // Don't make this record modified just because I set this field.
                 return iErrorCode;
