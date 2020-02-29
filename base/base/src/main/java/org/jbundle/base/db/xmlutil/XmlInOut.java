@@ -280,7 +280,6 @@ public class XmlInOut extends BaseProcess
     }
     /**
      * Import this archive file.
-     * @param strDatabaseName The name of the database this file is in.
      * @param file The XML file to import.
      */
     public void importThisArchive(File file)
@@ -358,7 +357,7 @@ public class XmlInOut extends BaseProcess
     }
     /**
      * Parses this XML text and place it in new records.
-     * @param record The record to place this parsed XML into (If this is null, the file name is supplied in the XML).
+     * @param table The record to place this parsed XML into (If this is null, the file name is supplied in the XML).
      * @param filename The XML file to parse.
      */
     public boolean importXML(BaseTable table, String filename, InputStream inStream)
@@ -430,8 +429,8 @@ public class XmlInOut extends BaseProcess
      * @param elParent The (file) parent element to read thru.
      * @param strTagName The tag name of this (file) element (ie., the file name).
      * @param strDatabase The name of the current database.
-     * @param record The record to add these record elements to (if null, I will create this record).
-     * @param recMain The main record if I am parsing a sub-file referencing another file's field element.
+     * @param table The record to add these record elements to (if null, I will create this record).
+     * @param tableMain The main record if I am parsing a sub-file referencing another file's field element.
      * @param bIsMainHasReferenceField The main record doesn't have a reference to my main field.
      * @return This new record.
      */
@@ -540,7 +539,7 @@ public class XmlInOut extends BaseProcess
     /**
      * Update this record.
      * Note: This is complicated.
-     * @param record The record to update.
+     * @param table The record to update.
      * @param bIsMainHasReferenceField The main record doesn't have a reference to my main field.
      * @return The updated record (re-reads the record).
      */
