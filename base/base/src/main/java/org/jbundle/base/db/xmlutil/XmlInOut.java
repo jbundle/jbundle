@@ -30,12 +30,7 @@ import org.jbundle.base.db.BaseTable;
 import org.jbundle.base.db.KeyArea;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.db.SQLParams;
-import org.jbundle.base.field.BaseField;
-import org.jbundle.base.field.CounterField;
-import org.jbundle.base.field.DateTimeField;
-import org.jbundle.base.field.ObjectField;
-import org.jbundle.base.field.ReferenceField;
-import org.jbundle.base.field.StringField;
+import org.jbundle.base.field.*;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.base.model.DBParams;
 import org.jbundle.base.model.Debug;
@@ -523,7 +518,7 @@ public class XmlInOut extends BaseProcess
             }
             if (field != null)
             {   // Set the data
-                if ((field instanceof ObjectField) && (field.getDataClass() == Object.class))
+                if ((field instanceof ObjectField) && (!(field instanceof CounterField)) && (!(field instanceof RecordReferenceField)))
                 {
                     try {
 						XmlUtilities.decodeFieldData(field, strValue);
