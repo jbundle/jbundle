@@ -3,7 +3,7 @@
 		<LastChanged>2012-01-13T10:53:20</LastChanged>
 		<Deleted>N</Deleted>
 		<ProjectName>jbundle-test</ProjectName>
-		<BaseDirectory>/home/don/workspace</BaseDirectory>
+		<BaseDirectory>/home/dcorley/workspace</BaseDirectory>
 		<SourceDirectory>src/main/java/</SourceDirectory>
 		<ResourcesDirectory>src/main/resources/</ResourcesDirectory>
 		<ClassDirectory>target/classes/</ClassDirectory>

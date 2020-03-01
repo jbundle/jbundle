@@ -2199,7 +2199,7 @@
 		<Params type="XML"><properties>
 <comment>Field properties</comment>
 <entry key="loadInitialData">true</entry>
-<entry key="userArchiveFolder">/home/don/.tourgeek/fred/current_test_data</entry>
+<entry key="userArchiveFolder">/home/dcorley/.tourgeek/fred/current_test_data</entry>
 <entry key="dbPrefix">fred_</entry>
 <entry key="mainUser">fred@tourgeek.com</entry>
 <entry key="xslTemplate">org/jbundle/res/docs/styles/xsl/program/fixdemotemplate.xsl</entry>

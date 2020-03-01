@@ -33,7 +33,7 @@
 <xsl:template name="newdate">
 	<xsl:param name="href"></xsl:param>	<!-- data -->
 	<!-- Can't figure out how to get a relative (to the target document) uri -->
-<xsl:variable name="imported" select="document(concat('/home/don/workspace/jdance/WebContent/docs/styles/xsl/ajax/base/', $href))/xsl:stylesheet/*"/>
+<xsl:variable name="imported" select="document(concat('/home/dcorley/workspace/jdance/WebContent/docs/styles/xsl/ajax/base/', $href))/xsl:stylesheet/*"/>
 		<xsl:apply-templates select="$imported"/>
 </xsl:template>
 

@@ -12,7 +12,7 @@
 programSharedDBName=program_test
 mainUserDBName=main
 systemname=_test
-archiveFolder=/home/don/temp/archive/test
+archiveFolder=/home/dcorley/temp/archive/test
 process=.program.util.ExportRecordsToXmlProcess
 transferMode=export
 project=Test
@@ -35,7 +35,7 @@ programSharedDBName=program_test
 locale=es
 mainUserDBName=main
 systemname=_test
-archiveFolder=/home/don/temp/archive/test_es
+archiveFolder=/home/dcorley/temp/archive/test_es
 process=.program.util.ExportRecordsToXmlProcess
 transferMode=export
 project=Test

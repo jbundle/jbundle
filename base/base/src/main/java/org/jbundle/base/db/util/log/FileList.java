@@ -225,7 +225,7 @@ public class FileList extends Object
      * @param args
      */
     public static void main(String[] args) {
-//        FileList pgm = new FileList("/home/don/", "trxlog.*txt");
+//        FileList pgm = new FileList("/home/dcorley/", "trxlog.*txt");
         FileList pgm = new FileList("ftp://download:donwpp@www.donandann.com/backup/", "trxlog.*txt");
         String[] files = pgm.getFileNames();
         for (int i = 0; i < files.length; i++)
