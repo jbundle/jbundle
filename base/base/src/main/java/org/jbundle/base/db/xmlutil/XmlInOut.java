@@ -121,10 +121,13 @@ public class XmlInOut extends BaseProcess
         boolean bAllFiles = false;
         if (DBConstants.TRUE.equalsIgnoreCase((String)properties.get("allFiles")))
             bAllFiles = true;
-        if (bAllFiles)
+        if (properties.get("export") != null) {
+            test.setProperties(properties);
+            Record.makeRecordFromClassName(recordClass, test);
+            test.run();
+        } else if (bAllFiles) {
             test.importArchives(archiveRoot, null);    // Import the entire archive
-        else
-        {
+        } else {
             Record record = Record.makeRecordFromClassName(recordClass, test);
             String archiveFile = "/main_user/org/jbundle/main/user/db/UserGroup.xml";
             if (properties.get("archiveFile") != null)
