@@ -12,10 +12,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.transform.Transformer;
@@ -39,6 +36,7 @@ import org.jbundle.base.thread.BaseProcess;
 import org.jbundle.base.util.BaseApplication;
 import org.jbundle.base.util.Environment;
 import org.jbundle.base.util.MainApplication;
+import org.jbundle.model.db.Database;
 import org.jbundle.model.main.db.DatabaseInfoModel;
 import org.jbundle.model.DBException;
 import org.jbundle.model.RecordOwnerParent;
@@ -315,12 +313,17 @@ public class XmlInOut extends BaseProcess
             else if (databaseName.endsWith(BaseDatabase.SHARED_SUFFIX))
                 databaseName = databaseName.substring(0, databaseName.length() - BaseDatabase.SHARED_SUFFIX.length());
         }
+        this.getTask().getApplication().setProperty(DBConstants.SYSTEM_NAME, DBConstants.BLANK);
         if (!DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(strRecordClassName))
         {
         	BaseDatabase database = null;
             if ((databaseName != null) && (databaseName.length() > 0))
-            	if (databaseName.contains("_"))	// Alternate database name
-            		database = (BaseDatabase)((BaseApplication)this.getTask().getApplication()).getDatabase(databaseName, iDatabaseType, null);
+                if (databaseName.contains("_")) {    // Alternate database name
+                    String systemName = databaseName.substring(databaseName.indexOf("_") + 1);
+                    databaseName = databaseName.substring(0, databaseName.indexOf("_"));
+                    this.getTask().getApplication().setProperty(DBConstants.SYSTEM_NAME, systemName);
+                    database = (BaseDatabase) ((BaseApplication) this.getTask().getApplication()).getDatabase(databaseName, iDatabaseType, null);
+            }
             if (database == null)
             	record = Record.makeRecordFromClassName(className, this);
             else
@@ -336,7 +339,7 @@ public class XmlInOut extends BaseProcess
             record = Record.makeRecordFromClassName(className, this, false, true);
             ((DatabaseInfoModel)record).setDatabaseName(databaseName);
             record.init(this);
-        } 
+        }
         if (record == null)
         {
         	if (Boolean.TRUE.toString().equalsIgnoreCase(this.getProperty("SkipIfNoRecord")))
@@ -350,13 +353,16 @@ public class XmlInOut extends BaseProcess
             ((XmlRecord)record).setDatabaseType(DBConstants.REMOTE);
             record.init(this);
         }
+        this.getTask().getApplication().setProperty(DBConstants.SYSTEM_NAME, null);
 //if (record.getDatabaseType() != DBConstants.TABLE)
 //    return;
         databaseName = record.getDatabaseName();
         Utility.getLogger().info("Record: " + filename + "  Database: " + databaseName);// + "  Path: " + fileDir.getPath());
         if (!this.importXML(record.getTable(), file.getPath(), null))
             System.exit(1);
+        Database database = record.getTable().getDatabase();
         record.free();
+        database.free();
     }
     /**
      * Parses this XML text and place it in new records.
