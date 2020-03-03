@@ -31,6 +31,11 @@
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
+      <artifactId>org.jbundle.base.db.mongodb</artifactId>
+      <version>1.0.11-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.mapped</artifactId>
       <version>1.0.11-SNAPSHOT</version>
     </dependency>

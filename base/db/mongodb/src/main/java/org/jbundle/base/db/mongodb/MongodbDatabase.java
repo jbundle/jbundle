@@ -15,7 +15,6 @@ import com.mongodb.client.*;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.ListResourceBundle;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -38,7 +37,6 @@ import org.jbundle.main.db.DatabaseInfo;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.DatabaseOwner;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
 /**
  * MongodbDatabase - Implement the JDBC database.

@@ -50,7 +50,7 @@ public class DatabaseCollection extends Object
     /**
      * Constructor.
      * Constructs a new Environment (The one and only).
-     * @param args The initial arguments. local=the Local Database prefix.
+     * @param databaseOwner The initial arguments. local=the Local Database prefix.
      * remote=the Remote Database prefix.
      */
     public DatabaseCollection(DatabaseOwner databaseOwner)
@@ -60,7 +60,7 @@ public class DatabaseCollection extends Object
     }
     /**
      * Initialize this object.
-     * @param args The initial arguments. local=the Local Database prefix.
+     * @param databaseOwner The initial arguments. local=the Local Database prefix.
      * remote=the Remote Database prefix.
      */
     public void init(DatabaseOwner databaseOwner)
@@ -174,7 +174,7 @@ public class DatabaseCollection extends Object
     /**
      * Instantiate a new Database object.<br />
      * Warning - Remember to call the init(name) method on the returned database object.
-     * @param iDBType The DB Type.
+     * @param iDatabaseType The DB Type.
      * @return The database.
      */
     public BaseDatabase makeDatabase(int iDatabaseType)
@@ -191,7 +191,7 @@ public class DatabaseCollection extends Object
     }
     /**
      * Get Database prefix.
-     * @param iDBType The DB Type.
+     * @param iDatabaseType The DB Type.
      * @return The database.
      */
     public String getDatabasePrefix(int iDatabaseType)
