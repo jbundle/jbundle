@@ -60,7 +60,7 @@ public class DBProperties_mongodb extends ListResourceBundle
 //      {SQLParams.CREATE_INDEX, ""}, // Blank = Not supported
 //      {SQLParams.ALT_SECONDARY_INDEX, "INDEX_BLIST"}, // Alt method supported (This will speed things up a little).
       {SQLParams.CREATE_DATABASE_SUPPORTED, DBConstants.TRUE},  // Can create databases.
-      {SQLParams.RENAME_TABLE_SUPPORT, DBConstants.TRUE},  // Can rename tables.
+//?      {SQLParams.RENAME_TABLE_SUPPORT, DBConstants.TRUE},  // Can rename tables.
       {SQLParams.AUTO_COMMIT_PARAM, DBConstants.TRUE},
       {DBConstants.LOAD_INITIAL_DATA, DBConstants.TRUE},  // Load the initial data
 

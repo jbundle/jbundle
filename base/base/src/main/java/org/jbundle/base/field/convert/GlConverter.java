@@ -61,7 +61,7 @@ public class GlConverter extends FieldConverter
      */
     public String getString() 
     { // By default, get the data as-is
-        String string = this.stripNonNumeric(super.getString());
+        String string = this.stripNonNumber(super.getString());
         int dataLength = string.length();
         if (dataLength > 4)
             string = string.substring(0, 4) + "-" + string.substring(4);

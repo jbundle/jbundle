@@ -414,7 +414,7 @@ public class ReferenceField extends RecordReferenceField
         if (this.isNull())
             return null;
         try {
-            return new ObjectId(this.getString());
+            return new ObjectId(padLeft(stripNonNumber(this.getString(), true), 24, '0'));
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());

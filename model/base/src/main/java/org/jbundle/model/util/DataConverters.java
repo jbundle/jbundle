@@ -102,15 +102,23 @@ public abstract class DataConverters extends Object
      */
     public static String stripNonNumber(String string)
     {
+        return stripNonNumber(string, false);
+    }
+    /**
+     * Utility to strip all the non-numeric characters from this string.
+     * @param string input string.
+     * @return The result string.
+     */
+    public static String stripNonNumber(String string, boolean hex)
+    {
     	if (string == null)
     		return null;
         for (int i = 0; i < string.length(); i++)
         {
             char ch = string.charAt(i);
             if (!(Character.isDigit(ch)))
-                if (ch != gchDot)
-                if (ch != gchMinus)
-                {
+                if ((!hex && (ch != gchDot) && (ch != gchMinus))
+                        || (hex && (ch < '0' || ch > '9') && (ch < 'a' || ch > 'f') && (ch < 'A' || ch > 'F'))) {
                     string = string.substring(0, i) + string.substring(i + 1);
                     i--;
                 }
@@ -531,5 +539,22 @@ public abstract class DataConverters extends Object
         if (except != null)
             throw except;
         return null;
+    }
+
+    /**
+     * Left pad string with this character.
+     * @param string
+     * @param length
+     * @param pad
+     * @return
+     */
+    public static final String padLeft(String string, int length, char pad) {
+        if ((string == null) || (string.length() >= length))
+            return string;
+        StringBuilder sb = new StringBuilder(string);
+        while (sb.length() < length) {
+            sb.insert(0, pad);
+        }
+        return sb.toString();
     }
 }

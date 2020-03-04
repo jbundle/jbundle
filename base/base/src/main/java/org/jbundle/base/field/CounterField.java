@@ -18,11 +18,7 @@ import org.jbundle.base.model.DBSQLTypes;
 import org.jbundle.model.DBException;
 import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.db.Converter;
-import org.jbundle.util.osgi.BundleConstants;
-import org.jbundle.util.osgi.finder.ClassServiceUtility;
 
-import java.io.*;
-import java.sql.*;
 import java.util.Map;
 
 /**
@@ -127,7 +123,7 @@ public class CounterField extends ObjectField
         if (this.isNull())
             return null;
             try {
-                return new ObjectId(this.getString());
+                return new ObjectId(padLeft(stripNonNumber(this.getString(), true), 24, '0'));
             } catch (Exception ex) {
                 ex.printStackTrace();
                 System.out.println(ex.getMessage());

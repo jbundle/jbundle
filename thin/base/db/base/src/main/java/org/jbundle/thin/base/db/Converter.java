@@ -365,13 +365,4 @@ public abstract class Converter extends DataConverters
     {
         return null;
     }
-    /**
-     * String all the non-numeric characters from this string.
-     * @param string input string.
-     * @return The result string.
-     */
-    public String stripNonNumeric(String string)
-    {
-        return Converter.stripNonNumber(string);
-    }
 }

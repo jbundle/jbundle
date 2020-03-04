@@ -215,7 +215,7 @@ public abstract class NumberField extends BaseField
      */
     public String getSQLString()
     {
-        return this.stripNonNumeric(super.getSQLString());      // By Default
+        return this.stripNonNumber(super.getSQLString());      // By Default
     }
     /**
      * Convert this string to this field's binary data format.

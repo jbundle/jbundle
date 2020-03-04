@@ -1341,7 +1341,7 @@ public class WriteRecordClass extends WriteSharedClass
         if ((fieldStuff.strFieldLength.length() == 0) || (fieldStuff.strFieldLength.equalsIgnoreCase("0")))
             fieldStuff.strFieldLength = "Constants.DEFAULT_FIELD_LENGTH";
         else
-            fieldStuff.strFieldLength = recFieldData.getField(FieldData.MAXIMUM_LENGTH).stripNonNumeric(fieldStuff.strFieldLength);
+            fieldStuff.strFieldLength = recFieldData.getField(FieldData.MAXIMUM_LENGTH).stripNonNumber(fieldStuff.strFieldLength);
         fieldStuff.strFileFieldName = recFieldData.getField(FieldData.FIELD_NAME).getString();
         if (fieldStuff.strFileFieldName.length() == 0)
             fieldStuff.strFileFieldName = fieldStuff.strFieldName;

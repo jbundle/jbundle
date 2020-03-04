@@ -21,6 +21,7 @@ import org.jbundle.base.db.*;
 import org.jbundle.base.db.event.FileListener;
 import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.CounterField;
+import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Field;
@@ -170,8 +171,32 @@ public class MongodbTable extends BaseTable
         String tableName = this.getRecord().makeTableNames(false);
         // Seems like a lame way to see if the collection exists
         if (collection == null) {
-            if (!((MongodbDatabase) this.getDatabase()).doesTableExist(tableName))
-                this.create();
+            if (!((MongodbDatabase) this.getDatabase()).doesTableExist(tableName)) {
+                boolean loadInitialData = false;
+                boolean useTemporaryFilename = false;
+                if (this.getDatabase() != null)
+                {
+                    if (DBConstants.TRUE.equalsIgnoreCase(this.getDatabase().getProperty(DBConstants.LOAD_INITIAL_DATA)))
+                        if ((this.getDatabase().getDatabaseOwner() == null) || (!DBConstants.FALSE.equalsIgnoreCase(this.getDatabase().getDatabaseOwner().getProperty(DBConstants.LOAD_INITIAL_DATA))))   // Global switch
+                            loadInitialData = true;
+                    if (DBConstants.TRUE.equalsIgnoreCase(this.getDatabase().getProperty(SQLParams.RENAME_TABLE_SUPPORT)))
+                        useTemporaryFilename = true;
+                }
+                if (useTemporaryFilename)
+                    if (loadInitialData)
+                    {
+                        tableName = this.getRecord().getTableNames(false);
+                        this.getRecord().setTableNames(tableName + TEMP_SUFFIX);
+                    }
+                boolean bSuccess = this.create();
+                if (bSuccess)
+                    if (loadInitialData)
+                    {
+                        this.loadInitialData();
+                        if (useTemporaryFilename)
+                            this.renameTable(tableName + TEMP_SUFFIX, tableName);
+                    }
+            }
             collection = ((MongodbDatabase) this.getDatabase()).getMongoDatabase().getCollection(tableName);
         }
 
@@ -205,7 +230,7 @@ public class MongodbTable extends BaseTable
             Document properties = new Document();
             for (int iIndex = DBConstants.MAIN_FIELD; iIndex < record.getFieldCount(); iIndex++) {
                 BaseField field = record.getField(iIndex);
-                if ((!field.isVirtual()) && (field != record.getCounterField())) {
+                if ((!field.isVirtual()) && (field != record.getCounterField()) && (!(field instanceof ReferenceField))) {
                     Document fieldProperties = new Document();
                     fieldProperties.append("bsonType", field.getSQLType(false, this.getDatabase().getProperties()));    // Note - My properties file translates to the correct type
                     properties.append(field.getFieldName(), fieldProperties);
@@ -236,7 +261,8 @@ public class MongodbTable extends BaseTable
                 IndexModel indexModel = new IndexModel(keys, indexOptions);
                 list.add(indexModel);
             }
-            collection.createIndexes(list);
+            if (list.size() > 0)
+                collection.createIndexes(list);
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -397,9 +423,11 @@ public class MongodbTable extends BaseTable
      */
     public boolean doSeek(String strSeekSign) throws DBException
     {
-        Document find = this.addSelectParams(strSeekSign, DBConstants.FILE_KEY_AREA, true, true, false, null);
+        Document find = this.addSelectParams(strSeekSign, DBConstants.FILE_KEY_AREA, false, false, false, null);
         if ((find == null) || (find.isEmpty()))
             return false;
+        if (collection == null)
+            this.doOpen();
         FindIterable<Document>docs = collection.find(find);
         if (docs == null)
             return false;
@@ -503,6 +531,11 @@ public class MongodbTable extends BaseTable
      */
     public void doAdd(Record record) throws DBException
     {
+        if (collection == null) {
+            Document doc = document;
+            this.doOpen();
+            document = doc;
+        }
 //        this.executeUpdate(strRecordset, iType);
         try {
             collection.insertOne(document);
