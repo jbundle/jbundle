@@ -68,7 +68,7 @@ public class JdbcDatabaseTest extends DatabaseTest
             Application app = new MainApplication(env, properties, null);
             Task task = new AutoTask(app, null, null);
             RecordOwner recordOwner = new BaseProcess(task, null, null);
-            testTable = new TestTable(recordOwner);
+            testTable = new TestTableNoAuto(recordOwner);
         }
         this.addTestTableRecords(testTable);
     }
