@@ -10,8 +10,10 @@ package org.jbundle.base.db.mongodb;
  *      don@tourgeek.com
  */
 
+import com.mongodb.MongoException;
 import com.mongodb.client.*;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -169,7 +171,6 @@ public class MongodbDatabase extends BaseDatabase
     protected String m_strFileNotFoundErrorCode = null;
     protected String m_strDBNotFoundErrorText = null;
     protected String m_strDBNotFoundErrorCode = null;
-    protected String m_strDNotFoundErrorCode = null;
     protected String m_strDuplicateKeyErrorText = null;
     protected String m_strDuplicateKeyErrorCode = null;
     protected String m_strKeyNotFoundErrorText = null;
@@ -190,55 +191,55 @@ public class MongodbDatabase extends BaseDatabase
         String strMessage = "Error!";
         if (ex != null)
             strMessage = ex.getMessage();
-//        if (ex instanceof SQLException)
-//        {
-//            SQLException sqlex = (SQLException)ex;
-//            String strState = sqlex.getSQLState();
-//            strMessage += strState;
-//            if (!m_bFirstErrorCheck)
-//            {
-//                m_bFirstErrorCheck = true;
-//                m_strFileNotFoundErrorText = (String)this.getProperties().get(SQLParams.TABLE_NOT_FOUND_ERROR_TEXT);
-//                if (m_strFileNotFoundErrorText != null)
-//                    m_strFileNotFoundErrorText = m_strFileNotFoundErrorText.toLowerCase();
-//                m_strFileNotFoundErrorCode = (String)this.getProperties().get(SQLParams.TABLE_NOT_FOUND_ERROR_CODE);
-//                m_strDBNotFoundErrorText = (String)this.getProperties().get(SQLParams.DB_NOT_FOUND_ERROR_TEXT);
-//                if (m_strDBNotFoundErrorText != null)
-//                    m_strDBNotFoundErrorText = m_strDBNotFoundErrorText.toLowerCase();
-//                m_strDBNotFoundErrorCode = (String)this.getProperties().get(SQLParams.DB_NOT_FOUND_ERROR_CODE);
-//                m_strDuplicateKeyErrorText = (String)this.getProperties().get(SQLParams.DUPLICATE_KEY_ERROR_TEXT);
-//                if (m_strDuplicateKeyErrorText != null)
-//                    m_strDuplicateKeyErrorText = m_strDuplicateKeyErrorText.toLowerCase();
-//                m_strDuplicateKeyErrorCode = (String)this.getProperties().get(SQLParams.DUPLICATE_KEY_ERROR_CODE);
-//                m_strKeyNotFoundErrorText = (String)this.getProperties().get(SQLParams.KEY_NOT_FOUND_ERROR_TEXT);
-//                if (m_strKeyNotFoundErrorText != null)
-//                    m_strKeyNotFoundErrorText = m_strDuplicateKeyErrorText.toLowerCase();
-//                m_strKeyNotFoundErrorCode = (String)this.getProperties().get(SQLParams.KEY_NOT_FOUND_ERROR_CODE);
-//                m_strRecordLockedErrorText = (String)this.getProperties().get(SQLParams.RECORD_LOCKED_ERROR_TEXT);
-//                if (m_strRecordLockedErrorText != null)
-//                    m_strRecordLockedErrorText = m_strRecordLockedErrorText.toLowerCase();
-//                m_strRecordLockedErrorCode = (String)this.getProperties().get(SQLParams.RECORD_LOCKED_ERROR_CODE);
-//                m_strBrokenPipeErrorText = (String)this.getProperties().get(SQLParams.BROKEN_PIPE_ERROR_TEXT);
-//                if (m_strBrokenPipeErrorText != null)
-//                    m_strBrokenPipeErrorText = m_strBrokenPipeErrorText.toLowerCase();
-//                m_strBrokenPipeErrorCode = (String)this.getProperties().get(SQLParams.BROKEN_PIPE_ERROR_CODE);
-//            }
-//                // Yeah, I know this is slow, but exceptions are not that common.
-//            if (this.checkForError(ex, DBConstants.FILE_NOT_FOUND, m_strFileNotFoundErrorText, m_strFileNotFoundErrorCode))
-//                iError = DBConstants.FILE_NOT_FOUND;
-//            if (this.checkForError(ex, DBConstants.DB_NOT_FOUND, m_strDBNotFoundErrorText, m_strDBNotFoundErrorCode))
-//                iError = DBConstants.DB_NOT_FOUND;
-//            if (this.checkForError(ex, DBConstants.DUPLICATE_KEY, m_strDuplicateKeyErrorText, m_strDuplicateKeyErrorCode))
-//                iError = DBConstants.DUPLICATE_KEY;
-//            if (this.checkForError(ex, DBConstants.DUPLICATE_COUNTER, m_strDuplicateKeyErrorText, m_strDuplicateKeyErrorCode))
-//                iError = DBConstants.DUPLICATE_COUNTER;
-//            if (this.checkForError(ex, DBConstants.KEY_NOT_FOUND, m_strKeyNotFoundErrorText, m_strKeyNotFoundErrorCode))
-//                iError = DBConstants.KEY_NOT_FOUND;
-//            if (this.checkForError(ex, DBConstants.RECORD_LOCKED, m_strRecordLockedErrorText, m_strRecordLockedErrorCode))
-//                iError = DBConstants.RECORD_LOCKED;
-//            if (this.checkForError(ex, DBConstants.BROKEN_PIPE, m_strBrokenPipeErrorText, m_strBrokenPipeErrorCode))
-//                iError = DBConstants.BROKEN_PIPE;
-//        }
+        if (ex instanceof MongoException)
+        {
+            MongoException sqlex = (MongoException)ex;
+            int strState = sqlex.getCode();
+            strMessage += strState;
+            if (!m_bFirstErrorCheck)
+            {
+                m_bFirstErrorCheck = true;
+                m_strFileNotFoundErrorText = (String)this.getProperties().get(SQLParams.TABLE_NOT_FOUND_ERROR_TEXT);
+                if (m_strFileNotFoundErrorText != null)
+                    m_strFileNotFoundErrorText = m_strFileNotFoundErrorText.toLowerCase();
+                m_strFileNotFoundErrorCode = (String)this.getProperties().get(SQLParams.TABLE_NOT_FOUND_ERROR_CODE);
+                m_strDBNotFoundErrorText = (String)this.getProperties().get(SQLParams.DB_NOT_FOUND_ERROR_TEXT);
+                if (m_strDBNotFoundErrorText != null)
+                    m_strDBNotFoundErrorText = m_strDBNotFoundErrorText.toLowerCase();
+                m_strDBNotFoundErrorCode = (String)this.getProperties().get(SQLParams.DB_NOT_FOUND_ERROR_CODE);
+                m_strDuplicateKeyErrorText = (String)this.getProperties().get(SQLParams.DUPLICATE_KEY_ERROR_TEXT);
+                if (m_strDuplicateKeyErrorText != null)
+                    m_strDuplicateKeyErrorText = m_strDuplicateKeyErrorText.toLowerCase();
+                m_strDuplicateKeyErrorCode = (String)this.getProperties().get(SQLParams.DUPLICATE_KEY_ERROR_CODE);
+                m_strKeyNotFoundErrorText = (String)this.getProperties().get(SQLParams.KEY_NOT_FOUND_ERROR_TEXT);
+                if (m_strKeyNotFoundErrorText != null)
+                    m_strKeyNotFoundErrorText = m_strDuplicateKeyErrorText.toLowerCase();
+                m_strKeyNotFoundErrorCode = (String)this.getProperties().get(SQLParams.KEY_NOT_FOUND_ERROR_CODE);
+                m_strRecordLockedErrorText = (String)this.getProperties().get(SQLParams.RECORD_LOCKED_ERROR_TEXT);
+                if (m_strRecordLockedErrorText != null)
+                    m_strRecordLockedErrorText = m_strRecordLockedErrorText.toLowerCase();
+                m_strRecordLockedErrorCode = (String)this.getProperties().get(SQLParams.RECORD_LOCKED_ERROR_CODE);
+                m_strBrokenPipeErrorText = (String)this.getProperties().get(SQLParams.BROKEN_PIPE_ERROR_TEXT);
+                if (m_strBrokenPipeErrorText != null)
+                    m_strBrokenPipeErrorText = m_strBrokenPipeErrorText.toLowerCase();
+                m_strBrokenPipeErrorCode = (String)this.getProperties().get(SQLParams.BROKEN_PIPE_ERROR_CODE);
+            }
+                // Yeah, I know this is slow, but exceptions are not that common.
+            if (this.checkForError(ex, DBConstants.FILE_NOT_FOUND, m_strFileNotFoundErrorText, m_strFileNotFoundErrorCode))
+                iError = DBConstants.FILE_NOT_FOUND;
+            if (this.checkForError(ex, DBConstants.DB_NOT_FOUND, m_strDBNotFoundErrorText, m_strDBNotFoundErrorCode))
+                iError = DBConstants.DB_NOT_FOUND;
+            if (this.checkForError(ex, DBConstants.DUPLICATE_KEY, m_strDuplicateKeyErrorText, m_strDuplicateKeyErrorCode))
+                iError = DBConstants.DUPLICATE_KEY;
+            if (this.checkForError(ex, DBConstants.DUPLICATE_COUNTER, m_strDuplicateKeyErrorText, m_strDuplicateKeyErrorCode))
+                iError = DBConstants.DUPLICATE_COUNTER;
+            if (this.checkForError(ex, DBConstants.KEY_NOT_FOUND, m_strKeyNotFoundErrorText, m_strKeyNotFoundErrorCode))
+                iError = DBConstants.KEY_NOT_FOUND;
+            if (this.checkForError(ex, DBConstants.RECORD_LOCKED, m_strRecordLockedErrorText, m_strRecordLockedErrorCode))
+                iError = DBConstants.RECORD_LOCKED;
+            if (this.checkForError(ex, DBConstants.BROKEN_PIPE, m_strBrokenPipeErrorText, m_strBrokenPipeErrorCode))
+                iError = DBConstants.BROKEN_PIPE;
+        }
         if (iError == DBConstants.ERROR_RETURN)
         {
             Utility.getLogger().info("Unknown sql exception: " + strMessage);
@@ -309,9 +310,9 @@ public class MongodbDatabase extends BaseDatabase
             if ((strErrorCode != null) && (strErrorCode.length() > 0))
             {
                 int iErrorCode = Integer.parseInt(strErrorCode);
-//                if (ex instanceof SQLException)
-//                    if (((SQLException)ex).getErrorCode() == iErrorCode)
-//                        bFound = true;
+                if (ex instanceof MongoException)
+                    if (((MongoException)ex).getCode() == iErrorCode)
+                        bFound = true;
             }
         return bFound;
     }

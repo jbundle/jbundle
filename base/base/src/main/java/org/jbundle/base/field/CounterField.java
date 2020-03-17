@@ -123,7 +123,7 @@ public class CounterField extends ObjectField
         if (this.isNull())
             return null;
             try {
-                return new ObjectId(padLeft(stripNonNumber(this.getString(), true), 24, '0'));
+                return new ObjectId(padLeft(stripNonNumber(this.getString().indexOf('.')==-1 ? this.getString() : this.getString().substring(0, this.getString().indexOf('.')), true), 24, '0'));
             } catch (Exception ex) {
                 ex.printStackTrace();
                 System.out.println(ex.getMessage());

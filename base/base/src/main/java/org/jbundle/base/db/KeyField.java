@@ -101,7 +101,7 @@ public class KeyField extends Object
     }
     /**
      * Get the field that this KeyField points to.
-     * @param areaDesc KeyArea type File/Temp/Start/End.
+     * @param iAreaDesc KeyArea type File/Temp/Start/End.
      * @return The field.
      */
     public BaseField getField(int iAreaDesc)

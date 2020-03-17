@@ -14,6 +14,8 @@ import com.mongodb.client.*;
 import com.mongodb.client.model.*;
 import org.bson.Document;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 import org.bson.conversions.Bson;
@@ -23,6 +25,7 @@ import org.jbundle.base.field.BaseField;
 import org.jbundle.base.field.CounterField;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.model.DBConstants;
+import org.jbundle.base.model.Utility;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Field;
 import org.jbundle.model.db.Rec;
@@ -469,7 +472,7 @@ public class MongodbTable extends BaseTable
         Document bson = new Document();
         for (int i = DBConstants.MAIN_KEY_FIELD ; i < this.getRecord().getKeyArea().getKeyFields() + DBConstants.MAIN_KEY_FIELD; i++) {
             int order = normalOrder ? ASCENDING : DESCENDING;
-            if (!this.getRecord().getKeyArea().getKeyField(i).getKeyOrder())
+            if (this.getRecord().getKeyArea().getKeyField(i).getKeyOrder() == DBConstants.DESCENDING)
                 order = normalOrder ? DESCENDING : ASCENDING;
             bson.append(this.getRecord().getKeyArea().getKeyField(i).getField(keyArea).getFieldName(false, false, true), order);    // Opposite
         }
@@ -536,7 +539,19 @@ public class MongodbTable extends BaseTable
             this.doOpen();
             document = doc;
         }
-//        this.executeUpdate(strRecordset, iType);
+        CounterField fldID = (CounterField)record.getCounterField();
+        if (fldID != null)
+            if (!fldID.isNull())
+                if (DBConstants.FALSE.equalsIgnoreCase(this.getProperty(SQLParams.AUTO_SEQUENCE_ENABLED)))
+                    fldID = null;   // Special case - autosequence is disabled, so write the field.
+        if (fldID != null)
+            fldID.setModified(false); // Never set a counter field
+        if (fldID != null)
+            if (!this.getDatabase().isAutosequenceSupport())
+            { // If the db does not support identity, you must get the next larger key by doing a select desc on the primary key
+                this.doAddAutoSequence(record);     // Special code to get next sequence
+                return;
+            }
         try {
             collection.insertOne(document);
             this.dataToField(this.getRecord().getCounterField());   // Grab the id
@@ -546,6 +561,107 @@ public class MongodbTable extends BaseTable
             System.out.println(ex.getMessage());
         }
         document = null;
+    }
+    /**
+     * Add this record.
+     * This is the special logic to add a record without db autosequence.
+     * <br />Read the largest key.
+     * <br />Write the next largest (and loop until you get one)
+     * <br />Save the counter for possible get last modified call.
+     * @exception DBException File exception.
+     */
+    public void doAddAutoSequence(Record record) throws DBException
+    {
+        record = record.getBaseRecord();    // Must operate on the raw table
+
+        m_objLastModHint = null;
+        CounterField fldID = (CounterField)record.getCounterField();
+        // First step - get the largest current key
+        // Save current order and ascending/descending and selection
+        int iOrigOrder = record.getDefaultOrder();
+//        boolean bOrigDirection = record.getKeyArea(DBConstants.MAIN_KEY_AREA).getKeyField(DBConstants.MAIN_KEY_FIELD).getKeyOrder();
+        boolean bCounterSelected = fldID.isSelected();
+        boolean brgSelected[] = new boolean[record.getFieldCount()];
+        for (int iFieldSeq = DBConstants.MAIN_FIELD; iFieldSeq <= record.getFieldCount() + DBConstants.MAIN_FIELD - 1; iFieldSeq++)
+        {
+            brgSelected[iFieldSeq] = record.getField(iFieldSeq).isSelected();
+            record.getField(iFieldSeq).setSelected(false);  // De-select all fields
+        }
+        fldID.setSelected(true);    // Only select the counter field
+        // Set reverse order, descending
+        record.setKeyArea(DBConstants.MAIN_KEY_AREA);
+//        record.getKeyArea(DBConstants.MAIN_KEY_AREA).getKeyField(DBConstants.MAIN_KEY_FIELD).setKeyOrder(DBConstants.DESCENDING);
+        boolean[] rgbEnabled = record.setEnableListeners(false);    // Temporarily disable behaviors
+
+        mongoCursor = null;
+//        m_iColumn = 1;
+        try {
+            if (this.doHasPrevious()) {
+                int iRecordStatus = this.doMove(DBConstants.PREVIOUS_RECORD);
+                this.dataToField(fldID);    // Move the high value to the ID
+            } else {
+                int iStartingID = record.getStartingID();
+                fldID.setValue(iStartingID - 1, DBConstants.DONT_DISPLAY, DBConstants.READ_MOVE);
+            }
+        fldID.setModified(true);        // Just to be sure
+        } catch (Exception ex) {
+            record.setEnableListeners(rgbEnabled); // Re-enable behaviors
+            throw this.getDatabase().convertError(ex);
+        } finally {
+            for (int iFieldSeq = DBConstants.MAIN_FIELD; iFieldSeq <= record.getFieldCount() + DBConstants.MAIN_FIELD - 1; iFieldSeq++)
+            {
+                record.getField(iFieldSeq).setSelected(brgSelected[iFieldSeq]);
+            }
+            fldID.setSelected(bCounterSelected);
+        }
+        mongoCursor = null;
+        if (!bCounterSelected)
+            fldID.setSelected(true);    // Counter must be selected to write this record
+        // Set back, before I forget.
+        record.setKeyArea(iOrigOrder);
+//        record.getKeyArea(DBConstants.MAIN_KEY_AREA).getKeyField(DBConstants.MAIN_KEY_FIELD).setKeyOrder(bOrigDirection);
+
+        // Second step - bump the key and write until successful.
+        int iCount = 0;
+        while (iCount++ < MAX_DUPLICATE_ATTEMPTS)
+        {
+            fldID.setValue(fldID.getValue() + 1, DBConstants.DONT_DISPLAY, DBConstants.READ_MOVE);  // Bump counter
+            int statementType = DBConstants.SQL_INSERT_TABLE_TYPE;
+            int iRowsUpdated = 0;
+            try   {
+                this.fieldsToData(record);
+                this.setLastModHint(record);
+                collection.insertOne(document);
+                this.dataToField(this.getRecord().getCounterField());   // Grab the id
+                m_objLastModHint = this.getRecord().getCounterField().getData();
+                iRowsUpdated = 1;   // Success
+            } catch (Exception ex2)    {
+                DBException ex = this.getDatabase().convertError(ex2);
+                if (ex.getErrorCode() == DBConstants.DUPLICATE_COUNTER)   // Duplicate key
+                {
+                    Utility.getLogger().info("Duplicate key, bumping value");
+                    iRowsUpdated = 0;
+                }
+                else
+                {
+                    if (!bCounterSelected)      // Set back to orig value
+                        fldID.setSelected(bCounterSelected);
+                    record.setEnableListeners(rgbEnabled); // Re-enable behaviors
+                    throw ex;
+                }
+            }
+            if (iRowsUpdated == 1)
+                break;      // Success!!!
+        }
+
+        if (!bCounterSelected)      // Set back to orig value
+            fldID.setSelected(bCounterSelected);
+        record.setEnableListeners(rgbEnabled); // Re-enable behaviors
+
+        if (iCount > MAX_DUPLICATE_ATTEMPTS)
+            throw new DBException(DBConstants.DUPLICATE_KEY);  // Highly unlikely
+        // Third step - Save the counter for possible getLastModified call
+        m_objLastModHint = record.getHandle(DBConstants.BOOKMARK_HANDLE);
     }
     /**
      * Optionally set a hint to be used to find the last modified record.

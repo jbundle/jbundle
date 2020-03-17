@@ -355,7 +355,6 @@ public class JdbcDatabase extends BaseDatabase
     protected String m_strFileNotFoundErrorCode = null;
     protected String m_strDBNotFoundErrorText = null;
     protected String m_strDBNotFoundErrorCode = null;
-    protected String m_strDNotFoundErrorCode = null;
     protected String m_strDuplicateKeyErrorText = null;
     protected String m_strDuplicateKeyErrorCode = null;
     protected String m_strKeyNotFoundErrorText = null;

@@ -846,7 +846,6 @@ public class JdbcTable extends BaseTable
         // Third step - Save the counter for possible getLastModified call
         m_LastModifiedBookmark = record.getHandle(DBConstants.BOOKMARK_HANDLE);
     }
-    public static final int MAX_DUPLICATE_ATTEMPTS = 50;
     /**
      * Update this record (Always called from the record class).
      * @param record The record to update.

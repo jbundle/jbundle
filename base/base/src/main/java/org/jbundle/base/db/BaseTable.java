@@ -101,6 +101,8 @@ public abstract class BaseTable extends FieldTable
      */
     protected Map<String,Object> m_properties = null;
 
+    public static final int MAX_DUPLICATE_ATTEMPTS = 50;
+
     /**
      * Constructor.
      */

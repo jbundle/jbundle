@@ -29,7 +29,7 @@ public class DBProperties_mongodb extends ListResourceBundle
   // LOCALIZE THIS
       {SQLParams.ALTERNATE_COUNTER_NAME, "_id"},
       {SQLParams.TABLE_NOT_FOUND_ERROR_TEXT, " does not exist"},    // Table not found 42X05"42Y07},
-      {SQLParams.AUTO_SEQUENCE_ENABLED, DBConstants.TRUE},
+      {SQLParams.AUTO_SEQUENCE_ENABLED, DBConstants.FALSE},
       {SQLParams.COUNTER_OBJECT_CLASS, java.lang.String.class.getName()},  //, java.lang.Integer.class.getName()},  // Default
       {DBSQLTypes.COUNTER, "string"}, // Object
       {SQLParams.NO_NULL_UNIQUE_KEYS, DBConstants.TRUE},	// A null is considered a indexable value and will produce a dup error

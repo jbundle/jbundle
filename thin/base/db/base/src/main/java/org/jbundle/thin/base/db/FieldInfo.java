@@ -618,10 +618,10 @@ public class FieldInfo extends Converter
                     return ((Date)objData).getTime();
                 else if (classData == Boolean.class)
                     return (((Boolean)objData).booleanValue() ? 1 : 0);
-                else if (classData != String.class)
+                else //if (classData != String.class)
                 {
                     try   {
-                        return this.stringToDouble((String)objData).doubleValue();
+                        return this.stringToDouble(objData.toString()).doubleValue();
                     } catch (Exception ex)  { // Ignore the exception
                     }
                 }
