@@ -700,7 +700,8 @@ public class MongodbTable extends BaseTable
 //        int iType = DBConstants.SQL_UPDATE_TYPE;
 //            if (strRecordset != null)
 //                /*iRowsUpdated =*/ this.executeUpdate(strRecordset, iType);
-        if (mongoCursor == null)
+//        if (mongoCursor == null)
+        if ((document == null) || (fldID.isNull()))
             throw new DBException(DBConstants.INVALID_RECORD);
         try {
             Object key = this.getDataField(this.getRecord().getCounterField(), false);
