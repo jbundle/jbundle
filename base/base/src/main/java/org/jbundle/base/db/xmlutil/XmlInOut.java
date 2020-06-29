@@ -313,6 +313,7 @@ public class XmlInOut extends BaseProcess
             else if (databaseName.endsWith(BaseDatabase.SHARED_SUFFIX))
                 databaseName = databaseName.substring(0, databaseName.length() - BaseDatabase.SHARED_SUFFIX.length());
         }
+        String oldSystem = this.getTask().getApplication().getProperty(DBConstants.SYSTEM_NAME);
         this.getTask().getApplication().setProperty(DBConstants.SYSTEM_NAME, DBConstants.BLANK);
         if (!DatabaseInfo.DATABASE_INFO_FILE.equalsIgnoreCase(strRecordClassName))
         {
@@ -345,7 +346,8 @@ public class XmlInOut extends BaseProcess
         	if (Boolean.TRUE.toString().equalsIgnoreCase(this.getProperty("SkipIfNoRecord")))
         	{
         		System.out.println("Skipping record " + filename);
-        		return;
+                this.getTask().getApplication().setProperty(DBConstants.SYSTEM_NAME, oldSystem);
+                return;
         	}
             record = new XmlRecord();
             ((XmlRecord)record).setTableName(filename);
@@ -353,7 +355,6 @@ public class XmlInOut extends BaseProcess
             ((XmlRecord)record).setDatabaseType(DBConstants.REMOTE);
             record.init(this);
         }
-        this.getTask().getApplication().setProperty(DBConstants.SYSTEM_NAME, null);
 //if (record.getDatabaseType() != DBConstants.TABLE)
 //    return;
         databaseName = record.getDatabaseName();
@@ -363,6 +364,7 @@ public class XmlInOut extends BaseProcess
         Database database = record.getTable().getDatabase();
         record.free();
         database.free();
+        this.getTask().getApplication().setProperty(DBConstants.SYSTEM_NAME, oldSystem);
     }
     /**
      * Parses this XML text and place it in new records.
