@@ -554,8 +554,10 @@ public class MongodbTable extends BaseTable
             }
         try {
             collection.insertOne(document);
-            this.dataToField(this.getRecord().getCounterField());   // Grab the id
-            m_objLastModHint = this.getRecord().getCounterField().getData();
+            if (this.getRecord().getCounterField() != null) {
+                this.dataToField(this.getRecord().getCounterField());   // Grab the id
+                m_objLastModHint = this.getRecord().getCounterField().getData();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
