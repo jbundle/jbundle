@@ -10,10 +10,7 @@ import java.util.Map;
 import org.jbundle.base.db.Record;
 import org.jbundle.base.field.convert.BitConverter;
 import org.jbundle.base.field.convert.FieldDescConverter;
-import org.jbundle.base.model.DBConstants;
-import org.jbundle.base.model.RecordOwner;
-import org.jbundle.base.model.ScreenConstants;
-import org.jbundle.base.model.ScreenModel;
+import org.jbundle.base.model.*;
 import org.jbundle.model.DBException;
 import org.jbundle.model.db.Convert;
 import org.jbundle.model.screen.ComponentParent;
@@ -60,6 +57,7 @@ public class BitReferenceField extends RecordReferenceField
         if (strDefault == null)
             strDefault = ALL_TABLES;
         super.init(record, strName, iDataLength, strDesc, strDefault);
+        m_classData = Integer.class;
     }
     /**
      * Get (or make) the current record for this reference.
@@ -67,6 +65,20 @@ public class BitReferenceField extends RecordReferenceField
     public Record makeReferenceRecord(RecordOwner screen)
     {
         return null;    // Override this
+    }
+    /**
+     * Get the SQL type of this field.
+     * Typically OBJECT or LONGBINARY.
+     * Note: Counter and Reference fields will override this with native type
+     * @param bIncludeLength Include the field length in this description.
+     * @param properties Database properties to determine the SQL type.
+     */
+    public String getSQLType(boolean bIncludeLength, Map<String, Object> properties)
+    {
+        String strType = (String)properties.get(DBSQLTypes.INTEGER);
+        if (strType == null)
+            strType = DBSQLTypes.INTEGER;   // The default SQL Type (4 Bytes)
+        return  strType;        // The default SQL Type
     }
     /**
      * Set up the default screen control for this field.
