@@ -11832,13 +11832,13 @@ this.getMainRecord().getField(MessageProcessInfo.MESSAGE_INFO_ID).addListener(ne
 		<MethodReturns/>
 		<MethodInterface/>
 		<MethodClassName>CalendarEntry</MethodClassName>
-		<LogicSource><![CDATA[if (objKey instanceof Integer)
-{
-    int iCalendarType = ((Integer)objKey).intValue();
+		<LogicSource><![CDATA[try {
+    int iCalendarType = (Integer) Converter.convertObjectToDatatype(objKey, Integer.class, 1);
     if (iCalendarType == CalendarEntry.APPOINTMENT_ID)
         return new Appointment(recordOwner);
     if (iCalendarType == CalendarEntry.ANNIVERSARY_ID)
         return new Anniversary(recordOwner);
+} catch (Exception ex) {
 }
 return null;]]></LogicSource>
 		<LogicThrows/>

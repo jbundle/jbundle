@@ -803,12 +803,13 @@ public class Record extends FieldList
      */
     public Record createSharedRecord(Object objKey, RecordOwner recordOwner)
     {
-        if (objKey instanceof Integer)
-        {
+        try {
+            int iRecordType = (Integer) BaseField.convertObjectToDatatype(objKey, Integer.class, 1);
 //            int iRecordType = ((Integer)objKey).intValue();
             // Add code here (in overidden code)
             // if (iRecordType == ReptileTypeField.LIZARD)
             //    return new Lizard(recordOwner);
+        } catch (Exception ex) {
         }
         return null;
     }
