@@ -196,7 +196,7 @@ public class Reptile extends VirtualRecord
     public Record createSharedRecord(Object objKey, RecordOwner recordOwner)
     {
         try {
-            int iReptileType = (Integer) Converter.convertObjectToDatatype(objKey, Integer.class, 1);
+            int iReptileType = (Integer) Converter.convertObjectToDatatype(objKey, Integer.class, 0);
             if (iReptileType == ReptileTypeField.LIZARD)
                 return new Lizard(recordOwner);
             if (iReptileType == ReptileTypeField.SNAKE)

@@ -256,7 +256,7 @@ public class CalendarEntry extends VirtualRecord
     public Record createSharedRecord(Object objKey, RecordOwner recordOwner)
     {
         try {
-            int iCalendarType = (Integer) Converter.convertObjectToDatatype(objKey, Integer.class, 1);
+            int iCalendarType = (Integer) Converter.convertObjectToDatatype(objKey, Integer.class, 0);
             if (iCalendarType == CalendarEntry.APPOINTMENT_ID)
                 return new Appointment(recordOwner);
             if (iCalendarType == CalendarEntry.ANNIVERSARY_ID)
