@@ -23,6 +23,9 @@ import org.jbundle.model.db.*;
 import org.jbundle.model.screen.*;
 import org.jbundle.app.test.vet.db.*;
 import org.jbundle.model.app.test.vet.shared.db.*;
+import org.jbundle.thin.main.calendar.db.Anniversary;
+import org.jbundle.thin.main.calendar.db.Appointment;
+import org.jbundle.thin.main.calendar.db.CalendarEntry;
 
 /**
  *  Reptile - .
@@ -192,13 +195,13 @@ public class Reptile extends VirtualRecord
      */
     public Record createSharedRecord(Object objKey, RecordOwner recordOwner)
     {
-        if (objKey instanceof Integer)
-        {
-            int iReptileType = ((Integer)objKey).intValue();
+        try {
+            int iReptileType = (Integer) Converter.convertObjectToDatatype(objKey, Integer.class, 1);
             if (iReptileType == ReptileTypeField.LIZARD)
                 return new Lizard(recordOwner);
             if (iReptileType == ReptileTypeField.SNAKE)
                 return new Snake(recordOwner);
+        } catch (Exception ex) {
         }
         return null;
     }

@@ -255,13 +255,13 @@ public class CalendarEntry extends VirtualRecord
      */
     public Record createSharedRecord(Object objKey, RecordOwner recordOwner)
     {
-        if (objKey instanceof Integer)
-        {
-            int iCalendarType = ((Integer)objKey).intValue();
+        try {
+            int iCalendarType = (Integer) Converter.convertObjectToDatatype(objKey, Integer.class, 1);
             if (iCalendarType == CalendarEntry.APPOINTMENT_ID)
                 return new Appointment(recordOwner);
             if (iCalendarType == CalendarEntry.ANNIVERSARY_ID)
                 return new Anniversary(recordOwner);
+        } catch (Exception ex) {
         }
         return null;
     }
