@@ -14,6 +14,7 @@ import org.jbundle.base.db.Record;
 import org.jbundle.base.db.event.FileRemoveBOnCloseHandler;
 import org.jbundle.base.db.event.MoveOnValidHandler;
 import org.jbundle.base.field.BaseField;
+import org.jbundle.base.field.IntegerField;
 import org.jbundle.base.field.ListenerOwner;
 import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.model.DBConstants;
@@ -340,7 +341,7 @@ public class ReadSecondaryHandler extends FieldListener
             {
                 Object handle = this.getOwner().getData();
                 if ((handle == null)
-                    || ((this.getOwner() instanceof ReferenceField) && (((Integer)handle).intValue() == 0)))
+                    || ((this.getOwner() instanceof ReferenceField) && (this.getOwner().getValue() == 0)))
                 {
                     if ((m_bAllowNull) || (iMoveMode != DBConstants.SCREEN_MOVE))
                         m_record.handleNewRecord(DBConstants.DISPLAY);      //? Display Fields (Should leave record in an indeterminate state!)
@@ -361,6 +362,8 @@ public class ReadSecondaryHandler extends FieldListener
                 }
             } catch (DBException ex)    {
                 iErrorCode = ex.getErrorCode();
+            } catch (Exception ex)    {
+                iErrorCode = Constants.ERROR_RETURN;    // Data Conversion Error
             }
         }
         else
