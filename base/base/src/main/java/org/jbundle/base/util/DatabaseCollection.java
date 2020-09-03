@@ -165,6 +165,7 @@ public class DatabaseCollection extends Object
     public boolean isConcreteDBClass(String strDbPrefix)
     {
         if ((DBParams.JDBC.equalsIgnoreCase(strDbPrefix))
+                || (DBParams.MONGO.equalsIgnoreCase(strDbPrefix))
                 || ("Serial".equalsIgnoreCase(strDbPrefix))
                 || ("Soap".equalsIgnoreCase(strDbPrefix))
                 || ("Xml".equalsIgnoreCase(strDbPrefix)))

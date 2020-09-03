@@ -39,6 +39,10 @@ public interface DBParams extends Params
      */
     public static final String JDBC = "Jdbc";
     /**
+     * JDBC Source type.
+     */
+    public static final String MONGO = "Mongodb";
+    /**
      * Client db type.
      */
     public static final String CLIENT = "Client";
