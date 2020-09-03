@@ -80,6 +80,19 @@ public class ReferenceField extends RecordReferenceField
         super.init(record, strName, iDataLength, strDesc, strDefault);
     }
     /**
+     * Creates a new object of the same class as this object.
+     * @return     a clone of this instance.
+     * @exception  CloneNotSupportedException  if the object's class does not support the <code>Cloneable</code> interface.
+     * @see        java.lang.Cloneable
+     */
+    public Object clone() throws CloneNotSupportedException
+    {
+        BaseField field = new ReferenceField(null, m_strFieldName, m_iMaxLength, m_strFieldDesc, null);
+        field.setRecord(m_record);     // Set table without adding to table field list
+        field.setDataClass(this.getDataClass());
+        return field;   // Note: Didn't add the record reference
+    }
+    /**
      * Move data to this field from another field.
      * If these isn't a reference record yet, figures out the reference record.
      * @param field The source field.
