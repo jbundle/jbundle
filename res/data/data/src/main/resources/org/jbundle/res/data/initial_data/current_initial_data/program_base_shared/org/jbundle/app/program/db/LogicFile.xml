@@ -4769,7 +4769,8 @@ if (m_recHeader != null)
             if (m_recHeader.getCounterField() != null)
                 if (m_recHeader.getCounterField().getDefault() == null)
             {
-                m_recHeader.getCounterField().setDefault(new Integer(0)); // This will guarantee that the sub record's parent field is non-null
+                m_recHeader.getCounterField().setValue(0);
+                m_recHeader.getCounterField().setDefault(m_recHeader.getCounterField().getData()); // This will guarantee that the sub record's parent field is non-null
                 try {
                     m_recHeader.addNew();
                 } catch (DBException ex) {
