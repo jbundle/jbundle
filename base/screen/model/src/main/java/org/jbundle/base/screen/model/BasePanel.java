@@ -365,7 +365,7 @@ public class BasePanel extends ScreenField
     /**
      * Display a dialog/status box with this error.
      * @param strError The error text.
-     * @param The level of the error (debug/warning/error/etc).
+     * @param iWarningLevel The level of the error (debug/warning/error/etc).
      */
     public void displayError(String strError, int iWarningLevel)
     {
@@ -606,8 +606,8 @@ public class BasePanel extends ScreenField
     }
     /**
      * Lookup this record in this screen.
-     * @param The file name of the record to find.
-     * @param The record (or null if not found).
+     * @param strFileName The file name of the record to find.
+     * @return The record (or null if not found).
      */
     public Record getRecord(String strFileName)
     {
@@ -769,7 +769,7 @@ public class BasePanel extends ScreenField
     }
     /**
      * Process the "Help" toolbar command.
-     * @param bUseSameWindow Use the same window?
+     * @param iOptions Use the same window?
      * @retrun true if successful.
      */
     public boolean onHelp(int iOptions)
@@ -802,7 +802,7 @@ public class BasePanel extends ScreenField
      * @param recordMain The main record for the new form.
      * @param iDocMode The document type of the new form.
      * @param bReadCurrentRecord Sync the new screen with my current record?
-     * @param bUseSameWindow Use the same window?
+     * @param properties Use the same window?
      * @return true if successful.
      */
     public BasePanel onForm(Record recordMain, int iDocMode, boolean bReadCurrentRecord, int iCommandOptions, Map<String,Object> properties)
@@ -955,7 +955,7 @@ public class BasePanel extends ScreenField
      * @param strParam The new param.
      * @param strData The new data for this param.
      * @return The new URL.
-     * @see Utility.addURLParam.
+     * @see Utility addURLParam.
      */
     public String addURLParam(String strOldURL, String strParam, String strData)
     {
@@ -1313,7 +1313,7 @@ public class BasePanel extends ScreenField
     }
     /**
      * Set the default button for this basepanel.
-     * @param The button to default to on return.
+     * @param button The button to default to on return.
      */
     public void setDefaultButton(SBaseButton button)
     {
@@ -1328,7 +1328,7 @@ public class BasePanel extends ScreenField
     }
    /**
      * Set the properties.
-     * @param strProperties The properties to set.
+     * @param properties The properties to set.
      */
     public void setProperties(Map<String, Object> properties)
     {
@@ -1348,7 +1348,7 @@ public class BasePanel extends ScreenField
     /**
      * Get this property.
      * @param strProperty The property key to find.
-     * @param The property.
+     * @param strProperty The property.
      */
     public String getProperty(String strProperty)
     {
@@ -1368,7 +1368,7 @@ public class BasePanel extends ScreenField
     }
     /**
      * Retrieve/Create a user properties record with this lookup key.
-     * @param strPropertyCode The key I'm looking up.
+     * @param strRegistrationKey The key I'm looking up.
      * @return The UserProperties for this registration key.
      */
     public PropertyOwner retrieveUserProperties(String strRegistrationKey)
@@ -1601,7 +1601,7 @@ public class BasePanel extends ScreenField
     }
     /**
      * Display this screen's hidden params.
-     * @param out The html out stream.
+     * @return The html out stream.
      * @exception DBException File exception.
      */
     public Map<String, Object> getHiddenParams()
@@ -1640,8 +1640,9 @@ public class BasePanel extends ScreenField
     }
     /**
      * Make sure I am allowed access to this screen.
-     * @param strClassResource
-     * @return
+     * @param screen Screen
+     * @param parentScreen Parent Screen
+     * @return screen
      */
     public ScreenModel checkSecurity(ScreenModel screen, ScreenModel parentScreen)
     {
