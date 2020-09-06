@@ -422,12 +422,12 @@ public class ReferenceField extends RecordReferenceField
      * Get the data from this field in the native mongo format
      * @return The data from this field in raw format.
      */
-    public Object getBsonData() throws DBException
+    public Object getBsonData(Object data) throws DBException
     {
-        if (this.isNull())
+        if (data == null)
             return null;
         try {
-            return new ObjectId(padLeft(stripNonNumber(this.getString(), true), 24, '0'));
+            return new ObjectId(padLeft(stripNonNumber(data.toString(), true), 24, '0'));
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());

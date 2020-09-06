@@ -300,7 +300,7 @@ public class FileListener extends BaseListener
             return true;
         } else if (doc != null) { // Set up the SQL search string
             try {
-                FileListener.addComparisonToDoc(doc, FileListener.getJSONOperator(strSeekSign), recordField.getFieldName(true, bIncludeFileName, true), strCompare);
+                FileListener.addComparisonToDoc(doc, FileListener.getJSONOperator(strSeekSign), recordField.getFieldName(true, bIncludeFileName, true), recordField.getBsonData(strCompare));
             } catch (DBException ex) {
                 ex.printStackTrace();
                 System.out.println(ex.getMessage());

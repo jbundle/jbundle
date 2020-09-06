@@ -118,12 +118,13 @@ public class CounterField extends ObjectField
      * Get the data from this field in the native mongo format
      * @return The data from this field in raw format.
      */
-    public Object getBsonData() throws DBException
+    public Object getBsonData(Object data) throws DBException
     {
-        if (this.isNull())
+        if (data == null)
             return null;
             try {
-                return new ObjectId(padLeft(stripNonNumber(this.getString().indexOf('.')==-1 ? this.getString() : this.getString().substring(0, this.getString().indexOf('.')), true), 24, '0'));
+                String string = data.toString();
+                return new ObjectId(padLeft(stripNonNumber(string.indexOf('.')==-1 ? string : string.substring(0, string.indexOf('.')), true), 24, '0'));
             } catch (Exception ex) {
                 ex.printStackTrace();
                 System.out.println(ex.getMessage());

@@ -338,25 +338,28 @@ public class MongodbTable extends BaseTable
      * @return false if file position is at last record.
      */
     public boolean doHasNext() throws DBException {
-//        if ((m_iRecordStatus & DBConstants.RECORD_AT_EOF) != 0)
-//            return false; // Already at EOF, can't be one after
+        if ((m_iRecordStatus & DBConstants.RECORD_AT_EOF) != 0)
+            return false; // Already at EOF, can't be one after
         if (!this.isOpen())
             this.open();    // Make sure any listeners are called before disabling.
         if (mongoCursor == null)
-//                if (isBOF())
-//                    if ((m_iRecordStatus & DBConstants.RECORD_INVALID) != 0)
-            {
-                try {
-                    Bson search = this.getSearchParams(true);
-                    Bson sort = this.getSortParams(true, DBConstants.FILE_KEY_AREA);
-                    mongoCursor = collection.find(search).sort(sort).iterator();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    System.out.println(ex.getMessage());
-                }
+            if (isBOF())
+                if ((m_iRecordStatus & DBConstants.RECORD_INVALID) != 0)
+        {
+            try {
+                Bson search = this.getSearchParams(true);
+                Bson sort = this.getSortParams(true, DBConstants.FILE_KEY_AREA);
+                mongoCursor = collection.find(search).sort(sort).iterator();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println(ex.getMessage());
             }
+        }
 //        m_iRecordStatus |= DBConstants.RECORD_NEXT_PENDING;     // If next call is a moveNext(), return unchanged!
-        return mongoCursor == null ? false : mongoCursor.hasNext();
+        boolean hasNext = mongoCursor == null ? false : mongoCursor.hasNext();
+        if (!hasNext)
+            m_iRecordStatus |= DBConstants.RECORD_AT_EOF;
+        return hasNext;
     }
     /**
      * Is the first record in the file?
@@ -364,13 +367,13 @@ public class MongodbTable extends BaseTable
      */
     public boolean doHasPrevious() throws DBException
     {
-//        if ((m_iRecordStatus & DBConstants.RECORD_AT_BOF) != 0)
-//            return false; // Already at BOF (can't be one before)
+        if ((m_iRecordStatus & DBConstants.RECORD_AT_BOF) != 0)
+            return false; // Already at BOF (can't be one before)
         if (!this.isOpen())
             this.open();    // Make sure any listeners are called before disabling.
         if (mongoCursor == null)
-//                if (isBOF())
-//                    if ((m_iRecordStatus & DBConstants.RECORD_INVALID) != 0)
+                if (isBOF())
+                    if ((m_iRecordStatus & DBConstants.RECORD_INVALID) != 0)
             {
                 try {
                     Bson search = this.getSearchParams(true);
@@ -382,7 +385,10 @@ public class MongodbTable extends BaseTable
                 }
             }
 //        m_iRecordStatus |= DBConstants.RECORD_NEXT_PENDING;     // If next call is a moveNext(), return unchanged!
-        return mongoCursor == null ? false : mongoCursor.hasNext();
+        boolean hasNext = mongoCursor == null ? false : mongoCursor.hasNext();
+        if (!hasNext)
+            m_iRecordStatus |= DBConstants.RECORD_AT_BOF;
+        return hasNext;
     }
     /**
      * Move the position of the record.
@@ -456,7 +462,7 @@ public class MongodbTable extends BaseTable
             iKeyFieldCount = this.getRecord().getKeyArea().lastModified(iAreaDesc, bForceUniqueKey) + 1;
         for (int iKeyFieldSeq = DBConstants.MAIN_KEY_FIELD; iKeyFieldSeq < iKeyFieldCount; iKeyFieldSeq++) {
             BaseField field = this.getRecord().getKeyArea().getKeyField(iKeyFieldSeq).getField(iAreaDesc);
-            if (field.isNull())
+            if (field.getData() == null)    // Note: Space is legal, null is not
                 continue;
             doc = FileListener.addComparisonToDoc(doc, FileListener.getJSONOperator(seekSign), this.getRecord().getKeyArea().getKeyField(iKeyFieldSeq).getField(DBConstants.FILE_KEY_AREA).getFieldName(false, false, true), field.getBsonData());
         }

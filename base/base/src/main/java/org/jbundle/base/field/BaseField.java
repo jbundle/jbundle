@@ -880,7 +880,15 @@ public class BaseField extends FieldInfo
     {
         if (this.isNull())
             return null;
-        return this.getData();
+        return getBsonData(this.getData());
+    }
+    /**
+     * Get the data from this field in the native mongo format
+     * @return The data from this field in raw format.
+     */
+    public Object getBsonData(Object data) throws DBException
+    {
+        return data;
     }
     /**
      * For binary fields, set the current state.
