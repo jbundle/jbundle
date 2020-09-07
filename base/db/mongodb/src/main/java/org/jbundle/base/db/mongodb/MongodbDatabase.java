@@ -552,7 +552,9 @@ public class MongodbDatabase extends BaseDatabase
         recDatabaseInfo.setDatabaseName(dbName);
 
         int iOldOpenMode = recDatabaseInfo.getOpenMode();
-        //x recDatabaseInfo.setOpenMode(recDatabaseInfo.getOpenMode() | DBConstants.OPEN_DONT_CREATE); // Removed 
+        if ((DBConstants.FALSE.equalsIgnoreCase(this.getProperty(DBConstants.LOAD_INITIAL_DATA)))
+            || ((this.getDatabaseOwner() != null) && (DBConstants.FALSE.equalsIgnoreCase(this.getDatabaseOwner().getProperty(DBConstants.LOAD_INITIAL_DATA)))))   // Global switch
+                recDatabaseInfo.setOpenMode(recDatabaseInfo.getOpenMode() | DBConstants.OPEN_DONT_CREATE); // Don't create dbinfo automatically
 
         recDatabaseInfo.init(recordOwner);
 

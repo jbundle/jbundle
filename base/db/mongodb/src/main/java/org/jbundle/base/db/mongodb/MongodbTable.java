@@ -191,7 +191,9 @@ public class MongodbTable extends BaseTable
                         tableName = this.getRecord().getTableNames(false);
                         this.getRecord().setTableNames(tableName + TEMP_SUFFIX);
                     }
-                boolean bSuccess = this.create();
+                boolean bSuccess = false;
+                if ((this.getRecord().getOpenMode() & DBConstants.OPEN_DONT_CREATE) == 0)
+                    bSuccess = this.create();
                 if (bSuccess)
                     if (loadInitialData)
                     {
