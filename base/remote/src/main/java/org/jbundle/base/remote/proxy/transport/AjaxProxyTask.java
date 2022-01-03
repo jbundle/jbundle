@@ -26,6 +26,7 @@ import org.jbundle.base.model.XMLTags;
 import org.jbundle.base.screen.control.servlet.BasicServlet;
 import org.jbundle.model.RemoteException;
 import org.jbundle.model.util.Util;
+import org.jbundle.thin.base.db.Constants;
 import org.jbundle.thin.base.message.BaseMessage;
 import org.jbundle.thin.base.message.BaseMessageFilter;
 import org.jbundle.thin.base.message.BaseMessageHeader;
@@ -91,7 +92,7 @@ public class AjaxProxyTask extends ProxyTask
     }
     /**
      * Utility to convert a map to a JSON object.
-     * @param mapDBParentProperties
+     * @param jsonObj
      * @return
      */
     public static Map<String, Object> jsonObjectToMap(JSONObject jsonObj)
@@ -103,7 +104,13 @@ public class AjaxProxyTask extends ProxyTask
         {
             try {
                 String key = (String)iterator.next();
-                String value = jsonObj.getString(key);  // TODO what if this is a JSONObject?
+                Object value = jsonObj.get(key);  // TODO what if this is a JSONObject?
+                if (value instanceof JSONObject) {
+                    if (((JSONObject)value).isEmpty())
+                        value = Constants.BLANK;
+                    else
+                        value = value.toString();
+                }
                 map.put(key, value);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -140,7 +147,7 @@ public class AjaxProxyTask extends ProxyTask
     /**
      * Sent/send this return string.
      * @param out The return output stream.
-     * @param strReturn The string to return.
+     * @param ex The exception.
      */
     public void setErrorReturn(PrintWriter out, RemoteException ex)
         throws RemoteException
@@ -167,7 +174,7 @@ public class AjaxProxyTask extends ProxyTask
     /**
      * Sent/send this return string.
      * @param out The return output stream.
-     * @param strReturn The string to return.
+     * @param objReturn The string to return.
      */
     public void setReturnObject(PrintWriter out, Object objReturn)
     {

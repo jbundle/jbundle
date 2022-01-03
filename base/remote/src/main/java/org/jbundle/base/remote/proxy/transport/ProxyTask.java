@@ -181,7 +181,7 @@ public class ProxyTask extends BaseHttpTask
     /**
      * Sent/send this return string.
      * @param out The return output stream.
-     * @param strReturn The string to return.
+     * @param ex The exception.
      */
     public void setErrorReturn(PrintWriter out, RemoteException ex)
         throws RemoteException
@@ -200,7 +200,7 @@ public class ProxyTask extends BaseHttpTask
     /**
      * Sent/send this return string.
      * @param out The return output stream.
-     * @param strReturn The string to return.
+     * @param objReturn The string to return.
      */
     public void setReturnObject(PrintWriter out, Object objReturn)
     {
@@ -300,7 +300,7 @@ public class ProxyTask extends BaseHttpTask
     /**
      * Get a remote session from the pool and initialize it.
      * If the pool is empty, create a new remote session.
-     * @param strUserID The user name/ID of the user, or null if unknown.
+     * @param properties The user name/ID of the user, or null if unknown.
      * @return The remote Task.
      */
     public RemoteTask getNewRemoteTask(Application app, Map<String,Object> properties)
