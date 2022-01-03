@@ -106,7 +106,7 @@ public class AjaxProxyTask extends ProxyTask
                 String key = (String)iterator.next();
                 Object value = jsonObj.get(key);  // TODO what if this is a JSONObject?
                 if (value instanceof JSONObject) {
-                    if (((JSONObject)value).isEmpty())
+                    if (((JSONObject)value).isEmpty() || (JSONObject.NULL.equals(value)) )
                         value = Constants.BLANK;
                     else
                         value = value.toString();
