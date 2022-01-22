@@ -6,7 +6,6 @@ package org.jbundle.test.manual.test.db.thick;
 //******************************************************************************
 // Test the basic table functions (add, remove, move, etc.)
 //******************************************************************************
-import com.sun.corba.se.spi.ior.ObjectId;
 import org.apache.log4j.Category;
 import org.jbundle.app.test.test.db.TestTable;
 import org.jbundle.app.test.test.db.TestTableNoAuto;
@@ -21,7 +20,6 @@ import org.jbundle.base.field.ReferenceField;
 import org.jbundle.base.field.StringField;
 import org.jbundle.base.model.DBConstants;
 import org.jbundle.model.DBException;
-import org.omg.CORBA_2_3.portable.OutputStream;
 
 
 /**

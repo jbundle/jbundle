@@ -42,6 +42,17 @@
         <groupId>javax.mail</groupId>
         <artifactId>mail</artifactId>
     </dependency>
+    <dependency>
+      <groupId>jakarta.xml.ws</groupId>
+      <artifactId>jakarta.xml.ws-api</artifactId>
+      <version>${jakarta.xml.bind-version}</version>
+    </dependency>
+    <!--dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>jaxws-rt</artifactId>
+      <version>${jakarta.xml.bind-version}</version>
+      <scope>runtime</scope>
+    </dependency-->
   </dependencies>
 
 </project>
