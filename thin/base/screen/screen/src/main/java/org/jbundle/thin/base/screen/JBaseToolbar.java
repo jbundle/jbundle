@@ -63,8 +63,8 @@ public class JBaseToolbar extends JBaseScreen
     /**
      * Add a button to this window.
      * Convert this param to the local string and call addButton.
-     * @param The key for this button.
-     * @return TODO
+     * @param strParam The key for this button.
+     * @return This button
      */
     public JButton addButton(String strParam)
     {

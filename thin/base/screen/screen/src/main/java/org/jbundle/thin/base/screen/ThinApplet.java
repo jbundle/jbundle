@@ -8,7 +8,7 @@ import java.awt.Container;
 import org.jbundle.thin.base.db.Params;
 
 
-/**
+/*
  * Thin Applet is a concrete implemention of BaseApplet.
  * You can start ThinApplet from the command line and it
  * will run using the initial arguments screen=xxx.

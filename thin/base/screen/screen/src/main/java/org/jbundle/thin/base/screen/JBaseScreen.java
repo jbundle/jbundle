@@ -303,7 +303,7 @@ public class JBaseScreen extends JBasePanel
     /**
      * Get this field (or return null if this field doesn't belong on the screen).
      * This is the method to use to filter the items to display on the screen.
-     * @param The index of this field in the record.
+     * @param iIndex The index of this field in the record.
      * @return The fieldinfo object.
      */
     public Converter getFieldForScreen(int iIndex)

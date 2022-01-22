@@ -102,7 +102,7 @@ public abstract class AbstractThinTableModel extends AbstractTableModel
     /**
      * Returns the field at columnIndex.
      * This should be overidden if don't want to just return the corresponding field in the record.
-     * @param iColumn The column to get the field from.
+     * @param iColumnIndex The column to get the field from.
      * @return The field in this column.
      */
     public Convert getFieldInfo(int iColumnIndex)
@@ -135,7 +135,7 @@ public abstract class AbstractThinTableModel extends AbstractTableModel
      * Note: This is generally called after the panel is added to its parent, so I can correct
      * column widths, etc.
      * @param gridScreen The gridscreen.
-     * @param bSetupTable If true, set up the JTable from this model.
+     * @param bSetupJTable If true, set up the JTable from this model.
      */
     public abstract void setGridScreen(JComponent gridScreen, boolean bSetupJTable);
     /**
@@ -163,7 +163,7 @@ public abstract class AbstractThinTableModel extends AbstractTableModel
     /**
      * The underlying table has increased in size, change the model to access these extra record(s).
      * Note: This is not implemented correctly.
-     * @param iNewSize The new table size.
+     * @param iBumpIncrement The new table size.
      */
     public abstract void bumpTableSize(int iBumpIncrement, boolean bInsertRowsInModel);
     /**
@@ -214,13 +214,13 @@ public abstract class AbstractThinTableModel extends AbstractTableModel
      * Sort this table by this column.
      * Override this to sort by column.
      * @param iColumn The column to sort by.
-     * @param bAscending True if ascending.
+     * @param bOrder True if ascending.
      * @return true if successful.
      */
     public abstract boolean sortByColumn(int iColumn, boolean bOrder);
     /**
      * Returns the name of the column at columnIndex.
-     * @param The column to get the name of.
+     * @param iColumnIndex The column to get the name of.
      * @return The column's field description.
      */
     public String getColumnName(int iColumnIndex)
@@ -232,7 +232,7 @@ public abstract class AbstractThinTableModel extends AbstractTableModel
     }
     /**
      * Get the column class.
-     * @param The column to get the class of.
+     * @param iColumnIndex The column to get the class of.
      * @return String by default, override to supply a different class.
      */
     public Class<?> getColumnClass(int iColumnIndex)
@@ -241,7 +241,7 @@ public abstract class AbstractThinTableModel extends AbstractTableModel
     }
     /**
      * Get the cell editor for this column.
-     * @param The column to get the cell editor for.
+     * @param iColumnIndex The column to get the cell editor for.
      * @return The cell editor or null to use the default.
      */
     public TableCellEditor createColumnCellEditor(int iColumnIndex)
@@ -250,7 +250,7 @@ public abstract class AbstractThinTableModel extends AbstractTableModel
     }
     /**
      * Get the cell renderer for this column.
-     * @param The column to get the cell renderer for.
+     * @param iColumnIndex The column to get the cell renderer for.
      * @return The cell renderer or null to use the default.
      */
     public TableCellRenderer createColumnCellRenderer(int iColumnIndex)

@@ -21,7 +21,7 @@ public class JBaseFrameAdapter extends WindowAdapter
     protected JBaseFrame m_dialog = null;
     /**
      * Constructor.
-     * @param frame The frame to close.
+     * @param dialog The frame to close.
      */
     public JBaseFrameAdapter(JBaseFrame dialog)
     {

@@ -214,8 +214,6 @@ public class JScreen extends JBaseScreen
     /**
      * Add the description labels to the first column of the grid.
      * @param parent The container to add the control(s) to.
-     * @param gridbag The screen layout.
-     * @param c The constraint to use.
      */
     public void addScreenLabels(Container parent)
     {
@@ -238,8 +236,6 @@ public class JScreen extends JBaseScreen
      * Add this label to the first column of the grid.
      * @param parent The container to add the control(s) to.
      * @param fieldInfo The field to add a label to.
-     * @param gridbag The screen layout.
-     * @param c The constraint to use.
      */
     public JComponent addScreenLabel(Container parent, Converter fieldInfo)
     {
@@ -252,8 +248,6 @@ public class JScreen extends JBaseScreen
     /**
      * Add the screen controls to the second column of the grid.
      * @param parent The container to add the control(s) to.
-     * @param gridbag The screen layout.
-     * @param c The constraint to use.
      */
     public void addScreenControls(Container parent)
     {
@@ -277,8 +271,6 @@ public class JScreen extends JBaseScreen
      * Add the screen controls to the second column of the grid.
      * @param parent The container to add the control(s) to.
      * @param fieldInfo the field to add a control for.
-     * @param gridbag The screen layout.
-     * @param c The constraint to use.
      */
     public JComponent addScreenControl(Container parent, Converter fieldInfo)
     {
@@ -328,8 +320,6 @@ public class JScreen extends JBaseScreen
      * @param parent The container to add the control(s) to.
      * @param fieldInfo the field to add a control for.
      * @param component The component to add.
-     * @param gridbag The screen layout.
-     * @param c The constraint to use.
      */
     public void addScreenComponent(Container parent, Converter fieldInfo, JComponent component)
     {
@@ -344,8 +334,7 @@ public class JScreen extends JBaseScreen
     }
     /**
      * Add a submit and reset buttons to the bottom of the grid.
-     * @param gridbag The screen layout.
-     * @param c The constraint to use.
+     * @param parent The container parent
      */
     public void addScreenButtons(Container parent)
     {

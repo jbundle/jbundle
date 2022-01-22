@@ -31,7 +31,7 @@ public class JBaseFrame extends JFrame
      * Constructor - For any applet.
      * Note: For regular java applets (not BaseApplets) fakes the init() and start() calls.
      * @param str The frame's title.
-     * @param The java applet to add to this frame.
+     * @param applet The java applet to add to this frame.
      */
     public JBaseFrame(String str, java.applet.Applet applet)
     {
@@ -42,7 +42,7 @@ public class JBaseFrame extends JFrame
      * Constructor - For any applet.
      * Note: For regular java applets (not BaseApplets) fakes the init() and start() calls.
      * @param str The frame's title.
-     * @param The java applet to add to this frame.
+     * @param applet The java applet to add to this frame.
      */
     public void init(String str, java.applet.Applet applet)
     {

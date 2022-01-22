@@ -215,7 +215,6 @@ public class JBasePanel extends JPanel
      * @param strAction The command to pass to all the sub-JBasePanels.
      * @param source The source component
      * @param iOptions action options
-     * @param parent The parent to start the sub-search from (non-inclusive).
      * @return true If handled.
      */
     public boolean handleAction(String strAction, Component source, int iOptions)
@@ -384,7 +383,7 @@ public class JBasePanel extends JPanel
     }
     /**
      * Climb down through the panel hierarchy until you find a component of this class.
-     * @param component The (non-inclusive) component to start climbing down to find this class.
+     * @param container The (non-inclusive) component to start climbing down to find this class.
      * @param targetClass The class type to find (or inherited).
      * @return The first parent down the tree to match this class (or null).
      */
@@ -522,7 +521,7 @@ public class JBasePanel extends JPanel
     }
     /**
      * 
-     * @param screen
+     * @param toolbarParentScreen
      * @param toolbar
      */
     public void switchToolbar(JBasePanel toolbarParentScreen, JComponent toolbar)

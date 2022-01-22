@@ -22,8 +22,7 @@ public class ThinApplication extends Application {
      * Constructor.
      * Pass in the possible initial parameters.
      * @param env Environment is ignored in the thin context.
-     * @param strURL The application parameters as a URL.
-     * @param args The application parameters as an initial arg list.
+     * @param properties Application properties.
      * @param applet The application parameters coming from an applet.
      */
     public ThinApplication(Object env, Map<String,Object> properties, Object applet)
@@ -34,8 +33,7 @@ public class ThinApplication extends Application {
     /**
      * Initialize the Application.
      * @param env Environment is ignored in the thin context.
-     * @param strURL The application parameters as a URL.
-     * @param args The application parameters as an initial arg list.
+     * @param properties Application properties.
      * @param applet The application parameters coming from an applet.
      */
     public void init(Object env, Map<String,Object> properties, Object applet)

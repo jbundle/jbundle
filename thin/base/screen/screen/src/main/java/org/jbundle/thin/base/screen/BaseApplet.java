@@ -345,9 +345,7 @@ public class BaseApplet extends JApplet
      * This is just for convenience. A simple way to change or set the screen for this applet.
      * The old screen is removed and the new screen is added.
      * This method is also used to switch a sub-screen to a new sub-screen.
-     * @param parent The (optional) parent to add this screen to (BaseApplet keeps track of the parent).
      * @param baseScreen The new top screen to add.
-     * @param strCommandToPush Optional command to push on the stack to re-display this screen.
      */
     public boolean checkSecurity(JBasePanel baseScreen)
     {
@@ -1034,7 +1032,6 @@ public class BaseApplet extends JApplet
     /**
      * Link this record to the remote Ejb Table.
      * Used ONLY for thin tables.
-     * @param database (optional) remote database that this table is in.
      * @param record The fieldlist to create a remote peer for.
      * @return The new fieldtable for this fieldlist.
      */
@@ -1047,7 +1044,6 @@ public class BaseApplet extends JApplet
      * This method, gets the remote database and makes a remote table, the creates a
      * RemoteFieldTable for this record and (optionally) wraps a CacheRemoteFieldTable.
      * Used ONLY for thin tables.
-     * @param database (optional) remote database that this table is in.
      * @param record The fieldlist to create a remote peer for.
      * @param bUseCache Add a CacheRemoteFieldTable to this table?
      * @return The new fieldtable for this fieldlist.
@@ -1103,7 +1099,6 @@ public class BaseApplet extends JApplet
      * Note: If you don't pass a record, this method will create one for you of the main
      * record of this session.
      * @param session Optional parent or database session.
-     * @param strTableSessionClass Optional class for the table session. Null defaults to TableSessionObject.
      * @param record Thin record or null if you want the main record is this session.
      * @param bUseCache Use cache table
      * @return The new fieldtable for this fieldlist.
@@ -1414,7 +1409,7 @@ public class BaseApplet extends JApplet
     }
     /**
      * Set the properties.
-     * @param strProperties The properties to set.
+     * @param properties The properties to set.
      */
     public void setProperties(Map<String, Object> properties)
     {
@@ -1458,7 +1453,7 @@ public class BaseApplet extends JApplet
     }
     /**
      * Retrieve/Create a user properties record with this lookup key.
-     * @param strPropertyCode The key I'm looking up.
+     * @param strRegistrationKey The key I'm looking up.
      * @return The UserProperties for this registration key.
      */
     public PropertyOwner retrieveUserProperties(String strRegistrationKey)
@@ -1536,7 +1531,7 @@ public class BaseApplet extends JApplet
     }
     /**
      * Display the status text.
-     * @param strMessage The message to display.
+     * @param iStatus The message to display.
      */
     public Object setStatus(int iStatus, Object comp, Object cursor)
     {
@@ -1764,7 +1759,6 @@ public class BaseApplet extends JApplet
      * it will never be changed back to false again.
      *
      * @see #paint
-     * @see #splash
      */
     private boolean paintCalled = true;
     /**
@@ -1812,7 +1806,7 @@ public class BaseApplet extends JApplet
      * Uses the applet or jnlp context.
      * @param strURL The local URL to display (not fully qualified).
      * @param iOptions ThinMenuConstants.HELP_WINDOW_CHANGE If help pane is already displayed, change to this content.
-     * @param The applet (optional).
+     * @param app The applet (optional).
      * @return True if successfully displayed.
      */
     public boolean showTheDocument(App app, String strURL, int iOptions)
