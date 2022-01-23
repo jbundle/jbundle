@@ -19,7 +19,7 @@
   <security>
   </security>
   <resources>
-    <java version="1.6+" initial-heap-size="128m" max-heap-size="512m"/>
+    <java version="1.8+" initial-heap-size="128m" max-heap-size="512m"/>
 	<property name="jnlp.packEnabled" value="true"/>
         <xsl:apply-templates select="full-screen/content-area/data/detail/file"/>
   </resources>

@@ -154,7 +154,7 @@ public class DJnlpAccessScreen extends DDataAccessScreen
             strIcon = "images/tour/icons/Tour.gif";
         String strVersion = (String)properties.get("version");
         if (strVersion == null)
-            strVersion = "1.6+";
+            strVersion = "1.8+";
 
         Utility.replace(sbJnlp, "{codebase}", strServer);
         Utility.replace(sbJnlp, "{title}", strTitle);
