@@ -17,7 +17,7 @@ import java.util.ListResourceBundle;
 /**
  * AccessProperties - SQL specficics for the MS Access database.
  * @author  don
- * @version mysql-connector-java 5.1.48
+ * @version mysql-connector-j 5.1.48
  */
 public class DBProperties_mysql5 extends ListResourceBundle
 {
