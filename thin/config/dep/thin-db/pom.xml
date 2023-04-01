@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-thin-config-dep-reactor</artifactId>
     <groupId>org.jbundle.config.dep</groupId>
-    <version>1.0.11-SNAPSHOT</version>
+    <version>1.0.11</version>
   </parent>
 
   <artifactId>jbundle-config-dep-thin-db</artifactId>
@@ -15,37 +15,37 @@
     <dependency>
       <groupId>org.jbundle.thin.base.db</groupId>
       <artifactId>org.jbundle.thin.base.db</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.db</groupId>
       <artifactId>org.jbundle.thin.base.db.misc</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.message</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.remote</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.thread</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.util</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.util.base64</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
   </dependencies>
 

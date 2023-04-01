@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-thin-config-dep-reactor</artifactId>
     <groupId>org.jbundle.config.dep</groupId>
-    <version>1.0.11-SNAPSHOT</version>
+    <version>1.0.11</version>
   </parent>
 
   <artifactId>jbundle-config-dep-thin-base</artifactId>
@@ -15,29 +15,29 @@
     <dependency>
       <groupId>org.jbundle.config.dep</groupId>
       <artifactId>jbundle-config-dep-thin-db</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
       <type>pom</type>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.grid</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.util</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.util.misc</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.util</groupId>

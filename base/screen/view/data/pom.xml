@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.base.screen</groupId>
     <artifactId>jbundle-base-screen-view-reactor</artifactId>
-    <version>1.0.11-SNAPSHOT</version>
+    <version>1.0.11</version>
   </parent>
 
   <artifactId>org.jbundle.base.screen.view.data</artifactId>
@@ -35,12 +35,12 @@
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.model</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.screen</groupId>
       <artifactId>org.jbundle.base.screen.control.servlet</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>

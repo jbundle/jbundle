@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-main-reactor</artifactId>
     <groupId>org.jbundle.main</groupId>
-    <version>1.0.11-SNAPSHOT</version>
+    <version>1.0.11</version>
   </parent>
 
   <artifactId>org.jbundle.main.db</artifactId>
@@ -39,26 +39,26 @@
   <dependencies>
     <dependency>
       <groupId>org.jbundle.model</groupId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
       <artifactId>org.jbundle.model.main</artifactId>
     </dependency>
    
     <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.base</artifactId>
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
     <dependency>
         <groupId>org.jbundle.config.dep</groupId>
         <artifactId>jbundle-config-dep-thin-base</artifactId>
-        <version>1.0.11-SNAPSHOT</version>
+        <version>1.0.11</version>
         <type>pom</type>
     </dependency>
    
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res</artifactId> <!-- I should be able to eventually change this to jbundle-thinbase -->
-      <version>1.0.11-SNAPSHOT</version>
+      <version>1.0.11</version>
     </dependency>
 
     <dependency>

@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.config.dep</groupId>
     <artifactId>jbundle-thin-config-reactor</artifactId>
-    <version>1.0.11-SNAPSHOT</version>
+    <version>1.0.11</version>
   </parent>
   
   <artifactId>jbundle-thin-config-dep-reactor</artifactId>
