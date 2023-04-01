@@ -10,19 +10,19 @@
   <parent>
     <groupId>org.jbundle.base.db</groupId>
     <artifactId>jbundle-base-db-reactor</artifactId>
-    <version>1.0.11</version>
+    <version>1.0.12-SNAPSHOT</version>
   </parent>
 
   <dependencies>
     <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.base</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
       <artifactId>org.jbundle.base.db.memory</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

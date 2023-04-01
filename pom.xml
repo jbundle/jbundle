@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>jbundle-project</artifactId>
-  <version>1.0.11</version>
+  <version>1.0.12-SNAPSHOT</version>
   
   <packaging>pom</packaging>
   <name>jbundle-project - Project parent</name>
@@ -25,7 +25,7 @@
     <url>https://github.com/jbundle/jbundle</url>
     <connection>scm:git:https://github.com/jbundle/jbundle</connection>
     <developerConnection>scm:git:https://github.com/jbundle/jbundle</developerConnection>
-    <tag>jbundle-project-1.0.11-1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <modules>

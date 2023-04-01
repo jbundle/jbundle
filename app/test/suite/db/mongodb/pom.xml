@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jbundle.app.test</groupId>
     <artifactId>jbundle-app-test-suite-db-reactor</artifactId>
-    <version>1.0.11</version>
+    <version>1.0.12-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.jbundle.app.test.mongodb</artifactId>
@@ -23,12 +23,12 @@
     <dependency>
       <groupId>org.jbundle.app.test</groupId>
       <artifactId>org.jbundle.app.test.base</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.db</groupId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
       <artifactId>org.jbundle.base.db.mongodb</artifactId>
     </dependency>
   </dependencies>

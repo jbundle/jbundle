@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-base-screen-control-reactor</artifactId>
     <groupId>org.jbundle.base.screen</groupId>
-    <version>1.0.11</version>
+    <version>1.0.12-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.jbundle.base.screen.control.servlet</artifactId>
@@ -23,18 +23,18 @@
     <dependency>
       <groupId>org.jbundle.base</groupId>
       <artifactId>org.jbundle.base</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jbundle.base.message</groupId>
       <artifactId>org.jbundle.base.message.trx</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
     </dependency>
     <dependency>
 	    <groupId>org.jbundle.config.dep</groupId>
 	    <artifactId>jbundle-config-dep-thin-base</artifactId>
-	    <version>1.0.11</version>
+	    <version>1.0.12-SNAPSHOT</version>
 	    <type>pom</type>
     </dependency>
     <dependency>

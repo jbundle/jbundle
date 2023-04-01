@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbundle-thin-base-util-reactor</artifactId>
     <groupId>org.jbundle.thin.base</groupId>
-    <version>1.0.11</version>
+    <version>1.0.12-SNAPSHOT</version>
   </parent>
 
   <!-- NOTE: This project is only used for packaging since this bundle contains circular dependencies -->
@@ -45,7 +45,7 @@
     <dependency>
       <groupId>org.jbundle</groupId>
       <artifactId>org.jbundle.model</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -56,7 +56,7 @@
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.remote</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
     </dependency>
     
     <dependency>

@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jbundle.config.dep</groupId>
     <artifactId>jbundle-thin-config-dep-reactor</artifactId>
-    <version>1.0.11</version>
+    <version>1.0.12-SNAPSHOT</version>
   </parent>
 
   <artifactId>jbundle-config-dep-thin</artifactId>
@@ -15,24 +15,24 @@
     <dependency>
       <groupId>org.jbundle.thin.base.db</groupId>
       <artifactId>org.jbundle.thin.base.db</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.res</groupId>
       <artifactId>org.jbundle.res</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
     </dependency>
     <dependency>
 	    <groupId>org.jbundle.config.dep</groupId>
 	    <artifactId>jbundle-config-dep-thin-base</artifactId>
-	    <version>1.0.11</version>
+	    <version>1.0.12-SNAPSHOT</version>
 	    <type>pom</type>
     </dependency>
 
     <dependency>
       <groupId>org.jbundle.thin.main</groupId>
       <artifactId>org.jbundle.thin.main</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.util.calendarpanel</groupId>
@@ -41,17 +41,17 @@
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.cal.other</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base.screen</groupId>
       <artifactId>org.jbundle.thin.base.screen.cal.grid</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.jbundle.thin.base</groupId>
       <artifactId>org.jbundle.thin.base.message</artifactId>
-      <version>1.0.11</version>
+      <version>1.0.12-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

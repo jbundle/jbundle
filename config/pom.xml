@@ -5,7 +5,7 @@
   <parent>
     <artifactId>jbundle-project</artifactId>
     <groupId>org.jbundle.config</groupId>
-    <version>1.0.11</version>
+    <version>1.0.12-SNAPSHOT</version>
   </parent>
   
   <groupId>org.jbundle.config</groupId>
